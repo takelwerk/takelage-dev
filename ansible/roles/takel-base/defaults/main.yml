@@ -1,0 +1,14 @@
+---
+takel_base_deb_install_packages:
+  - apt-listchanges
+  - apt-transport-https
+  - aptitude
+  - gpg
+  - git
+  - jq
+  - molly-guard
+  - python-apt
+  - tmux
+  - tree
+  - unattended-upgrades
+  - vim

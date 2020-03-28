@@ -1,0 +1,56 @@
+{
+  "variables": {
+    "ansible_connection": "docker",
+    "ansible_environment": "{{ ansible_environment }}",
+    "ansible_host": "{{ user `image_name` }}",
+    "ansible_playbook": "{{ ansible_playbook }}",
+    "base_image": "{{ base_image }}",
+    "base_tag": "{{ base_tag }}",
+    "image_tag": "{{ image_tag }}",
+    "image_name": "{{ image_name }}",
+    "repo_local": "{{ repo_local }}"
+  },
+  "builders":[
+    {
+      "type": "docker",
+      "image": "{{ user `repo_local` }}/{{ user `base_image` }}:{{ user `base_tag` }}",
+      "pull": false,
+      "export_path": "images/{{ user `image_name` }}-{{ user `image_tag` }}.tar",
+      "run_command": [ "-d", "-i", "-t", "--privileged", "--name", "{{user `image_name`}}", "{{.Image}}", "/lib/systemd/systemd" ]
+    }
+  ],
+  "provisioners":
+  [
+    {
+      "type": "ansible",
+      "user": "root",
+      "playbook_file": "../ansible/{{ user `ansible_playbook` }}",
+      "groups": [ "all", "private", "users", "{{ user `ansible_environment` }}"],
+      "ansible_env_vars" : [
+        "ANSIBLE_HOST_KEY_CHECKING=False",
+        "ANSIBLE_SSH_ARGS='-v -o ControlMaster=auto -o ControlPersist=15m'"
+      ],
+      "extra_arguments": [
+        "-vvv",
+        "--extra-vars",
+        "ansible_host={{ user `image_name` }} ansible_connection={{ user `ansible_connection` }}"
+        ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-import",
+        "repository": "{{ user `repo_local` }}/{{ user `image_name` }}",
+        "tag": "{{ user `image_tag` }}",
+        "changes": [
+          "CMD [\"/lib/systemd/systemd\"]",
+          "ENV DEBIAN_FRONTEND=noninteractive",
+          "ENV LANG=en_US.UTF-8",
+          "ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "WORKDIR /root"
+        ]
+      }
+    ]
+  ]
+}

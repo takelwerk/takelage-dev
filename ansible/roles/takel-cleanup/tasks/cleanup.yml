@@ -1,0 +1,11 @@
+---
+- name: (cleanup) clean apt cache
+  apt:
+    autoclean: true
+    autoremove: true
+
+- name: (cleanup) remove apt lists
+  file:
+    path: /var/lib/apt/lists
+    state: absent
+  changed_when: False
