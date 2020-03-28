@@ -1,0 +1,7 @@
+---
+base_image: debian-buster
+project: takelage-dev
+repo_dockerhub: takelage
+repo_local: packer_local
+username_dockerhub: takelage
+version: 0.1.0
