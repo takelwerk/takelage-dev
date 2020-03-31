@@ -3,7 +3,6 @@
 apt-get -y update
 apt-get install -y --no-install-recommends python3 python3-apt systemd
 apt-get clean
-rm -fr /var/lib/apt/lists/*
 rm -fr /sbin/initctl
 cat > /sbin/initctl <<sbin_initctl
 #!/bin/sh

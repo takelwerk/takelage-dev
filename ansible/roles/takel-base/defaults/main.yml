@@ -7,7 +7,7 @@ takel_base_deb_install_packages:
   - git
   - jq
   - molly-guard
-  - python-apt
+  - rsyslog
   - tmux
   - tree
   - unattended-upgrades

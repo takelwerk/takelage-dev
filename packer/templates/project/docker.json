@@ -2,21 +2,22 @@
   "variables": {
     "ansible_connection": "docker",
     "ansible_environment": "{{ ansible_environment }}",
-    "ansible_host": "{{ user `image_name` }}",
+    "ansible_host": "{{ user `target_repo` }}",
     "ansible_playbook": "{{ ansible_playbook }}",
-    "base_image": "{{ base_image }}",
+    "base_repo": "{{ base_repo }}",
     "base_tag": "{{ base_tag }}",
-    "image_tag": "{{ image_tag }}",
-    "image_name": "{{ image_name }}",
-    "repo_local": "{{ repo_local }}"
+    "base_user": "{{ base_user }}",
+    "target_repo": "{{ target_repo }}",
+    "target_tag": "{{ target_tag }}",
+    "local_user": "{{ local_user }}"
   },
   "builders":[
     {
       "type": "docker",
-      "image": "{{ user `repo_local` }}/{{ user `base_image` }}:{{ user `base_tag` }}",
+      "image": "{{ user `base_user` }}/{{ user `base_repo` }}:{{ user `base_tag` }}",
       "pull": false,
-      "export_path": "images/{{ user `image_name` }}-{{ user `image_tag` }}.tar",
-      "run_command": [ "-d", "-i", "-t", "--privileged", "--name", "{{user `image_name`}}", "{{.Image}}", "/lib/systemd/systemd" ]
+      "export_path": "images/{{ user `target_repo` }}-{{ user `target_tag` }}.tar",
+      "run_command": [ "-d", "-i", "-t", "--privileged", "--name", "{{user `target_repo`}}", "{{.Image}}", "/lib/systemd/systemd" ]
     }
   ],
   "provisioners":
@@ -33,7 +34,7 @@
       "extra_arguments": [
         "-vvv",
         "--extra-vars",
-        "ansible_host={{ user `image_name` }} ansible_connection={{ user `ansible_connection` }}"
+        "ansible_host={{ user `target_repo` }} ansible_connection={{ user `ansible_connection` }}"
         ]
     }
   ],
@@ -41,8 +42,8 @@
     [
       {
         "type": "docker-import",
-        "repository": "{{ user `repo_local` }}/{{ user `image_name` }}",
-        "tag": "{{ user `image_tag` }}",
+        "repository": "{{ user `local_user` }}/{{ user `target_repo` }}",
+        "tag": "{{ user `target_tag` }}",
         "changes": [
           "CMD [\"/lib/systemd/systemd\"]",
           "ENV DEBIAN_FRONTEND=noninteractive",

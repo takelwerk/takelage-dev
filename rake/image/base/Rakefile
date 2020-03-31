@@ -1,9 +1,10 @@
 cmd_img_build_debian_10_systemd = "mkdir -p packer/images/debian/buster && " +
     "cd packer && packer build " +
-    "--var 'image_name=debian-buster' " +
-    "--var 'image_version=latest' " +
-    "--var 'base_image=debian:buster-slim' " +
-    "--var 'target_repo=#{$project['repo_local']}' " +
+    "--var 'base_repo=debian' " +
+    "--var 'base_tag=buster-slim' " +
+    "--var 'target_user=#{$project['local_user']}' " +
+    "--var 'target_repo=#{$project['dockerhub_base_tag']}' " +
+    "--var 'target_tag=latest' " +
     "templates/base/debian_10_systemd/docker.json"
 
 namespace :image do

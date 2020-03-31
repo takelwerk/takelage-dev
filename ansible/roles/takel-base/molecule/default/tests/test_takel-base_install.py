@@ -1,6 +1,6 @@
-import testaid
+import takeltest
 
-testinfra_hosts = testaid.hosts()
+testinfra_hosts = takeltest.hosts()
 
 
 def test_takel_base_install_deb_packages_installed(host, testvars):

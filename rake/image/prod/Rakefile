@@ -3,14 +3,15 @@ require 'rake'
 cmd_image_prod_build = "cd packer && packer build " +
     "--var 'ansible_environment=prod' " +
     "--var 'ansible_playbook=playbook-project-prod.yml' " +
-    "--var 'base_image=#{$project['base_image']}' " +
+    "--var 'base_repo=#{$project['dockerhub_base_repo']}' " +
+    "--var 'base_user=#{$project['dockerhub_base_user']}' " +
     "--var 'base_tag=latest' " +
-    "--var 'repo_local=#{$project['repo_local']}' " +
-    "--var 'image_name=#{$project['project']}' " +
-    "--var 'image_tag=prod' " +
+    "--var 'local_user=#{$project['local_user']}' " +
+    "--var 'target_repo=#{$project['project']}' " +
+    "--var 'target_tag=prod' " +
     "templates/project/docker.json"
 
-cmd_image_prod_test = 'cd ansible && molecule test --scenario-name img_prod'
+cmd_image_prod_test = 'cd ansible && molecule test --scenario-name image_prod'
 
 namespace :image do
   namespace :prod do

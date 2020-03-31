@@ -9,7 +9,7 @@ lint:
         line-length: disable
 platforms:
   - name: molecule-takel-base
-    image: packer_local/debian-buster
+    image: takelage/takelbase
     command: /lib/systemd/systemd
     privileged: true
     pre_build_image: true
