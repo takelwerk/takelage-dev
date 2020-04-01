@@ -1,0 +1,39 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: molecule-takelage-dev-packer
+    image: packer_local/takelage-dev:prod
+    privileged: false
+    pre_build_image: true
+provisioner:
+  name: ansible
+  log: true
+  playbooks:
+    converge: ../../playbook-project-prod.yml
+verifier:
+  name: testinfra
+  options:
+    disable-pytest-warnings: true
+    # m: debug
+    s: true
+    testvars-no-gather-facts: true
+    v: true
+scenario:
+  name: image_prod
+  create_sequence:
+    - create
+  converge_sequence:
+    - create
+  check_sequence:
+    - destroy
+    - create
+    - check
+    - destroy
+  destroy_sequence:
+    - destroy
+  test_sequence:
+    - destroy
+    - create
+    - verify
+    - destroy

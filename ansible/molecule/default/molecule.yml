@@ -1,0 +1,66 @@
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: molecule-takelage-dev
+    image: takelage/takelbase
+    command: /lib/systemd/systemd
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+  inventory:
+    links:
+      group_vars: ../../group_vars
+  playbooks:
+    converge: ../../playbook-project-prod.yml
+  lint:
+    name: ansible-lint
+verifier:
+  name: testinfra
+  options:
+    disable-pytest-warnings: true
+    # m: debug
+    s: true
+    testvars-no-gather-facts: true
+    v: true
+  lint:
+    name: flake8
+  additional_files_or_dirs:
+    # integration
+    - ../../../roles/*/molecule/default/tests/test_*.py
+    # system
+    - ../../../roles/*/molecule/default/system/test_*.py
+scenario:
+  name: default
+  create_sequence:
+    - create
+    - prepare
+  check_sequence:
+    - destroy
+    - create
+    - prepare
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - create
+    - prepare
+    - converge
+  destroy_sequence:
+    - destroy
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - verify
+    - destroy
