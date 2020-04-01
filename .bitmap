@@ -59,7 +59,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-anarchism"
     },
-    "takelage.ansible/ansible/roles/takel-base@0.0.3": {
+    "takelage.ansible/ansible/roles/takel-base@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
