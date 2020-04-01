@@ -1,0 +1,12 @@
+require 'rake'
+
+cmd_git_tag = "git tag -s -m '#{$project['version']}' #{$project['version']} && git push --tags"
+
+namespace :git do
+
+  desc 'Create and push git tag'
+  task :tag do
+    $commands << cmd_git_tag
+  end
+
+end
