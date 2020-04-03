@@ -160,6 +160,84 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-cleanup"
     },
+    "takelage.ansible/ansible/roles/takel-docker@0.0.1": {
+        "files": [
+            {
+                "relativePath": "ansible/roles/takel-docker/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/defaults/main.yml",
+                "test": false,
+                "name": "main.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/molecule.yml",
+                "test": false,
+                "name": "molecule.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/playbook.yml",
+                "test": false,
+                "name": "playbook.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/system/test_takel-docker_system.py",
+                "test": false,
+                "name": "test_takel-docker_system.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_configure.py",
+                "test": false,
+                "name": "test_takel-docker_configure.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_install.py",
+                "test": false,
+                "name": "test_takel-docker_install.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_preinstall.py",
+                "test": false,
+                "name": "test_takel-docker_preinstall.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_repo.py",
+                "test": false,
+                "name": "test_takel-docker_repo.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/tasks/configure.yml",
+                "test": false,
+                "name": "configure.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/tasks/install.yml",
+                "test": false,
+                "name": "install.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/tasks/main.yml",
+                "test": false,
+                "name": "main.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/tasks/preinstall.yml",
+                "test": false,
+                "name": "preinstall.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-docker/tasks/repo.yml",
+                "test": false,
+                "name": "repo.yml"
+            }
+        ],
+        "mainFile": "ansible/roles/takel-docker/README.bit",
+        "trackDir": "ansible/roles/takel-docker",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.packer/packer/templates/base@0.0.3": {
         "files": [
             {
