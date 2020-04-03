@@ -10,7 +10,7 @@ cmd_git_tag = 'git rev-parse ' +
 
 cmd_git_warn = 'git rev-parse ' +
     "#{$project['version']} " +
-    '>/dev/null 2>&1 && ' +
+    '>/dev/null 2>&1 || ' +
     'echo [WARN] ' +
     "git tag #{$project['version']} already exists!"
 
