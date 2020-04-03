@@ -1,0 +1,6 @@
+---
+- name: default
+  hosts: all
+  gather_facts: false
+  roles:
+    - takel-bit-client

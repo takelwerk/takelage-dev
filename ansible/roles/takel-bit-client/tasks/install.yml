@@ -1,0 +1,12 @@
+---
+- name: (install) install deb packages
+  package:
+    name: "{{ takel_bit_client_deb_install_packages }}"
+    state: present
+    update_cache: true
+
+- name: (install) download bit binary
+  get_url:
+    url: "{{ takel_bit_client_url }}"
+    dest: "{{ takel_bit_client_bin }}"
+    mode: u=rwx,g=rx,o=rx
