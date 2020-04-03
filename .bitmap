@@ -59,7 +59,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-anarchism"
     },
-    "takelage.ansible/ansible/roles/takel-base@0.0.4": {
+    "takelage.ansible/ansible/roles/takel-base@0.0.5": {
         "files": [
             {
                 "name": "README.bit",
@@ -224,7 +224,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/base"
     },
-    "takelage.rake/rake/dockerhub/prod@0.0.1": {
+    "takelage.rake/rake/dockerhub/prod@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -247,7 +247,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/prod"
     },
-    "takelage.rake/rake/git@0.0.1": {
+    "takelage.rake/rake/git@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
