@@ -1,0 +1,6 @@
+---
+- name: (install) install deb packages
+  package:
+    name: "{{ takel_docker_deb_install_packages }}"
+    state: present
+    update_cache: true

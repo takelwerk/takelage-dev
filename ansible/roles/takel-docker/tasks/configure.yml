@@ -1,0 +1,6 @@
+---
+- name: (repo) download docker bash completion
+  get_url:
+    url: "{{ takel_docker_ce_completion_url }}"
+    dest: "{{ takel_docker_ce_completion_path }}"
+    mode: '0644'

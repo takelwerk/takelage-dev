@@ -1,0 +1,28 @@
+---
+- name: (main) include preinstall
+  import_tasks: preinstall.yml
+  tags:
+    - takel
+    - takel_docker
+    - takel_docker_preinstall
+
+- name: (main) include docker repo
+  import_tasks: repo.yml
+  tags:
+    - takel
+    - takel_docker
+    - takel_docker_repo
+
+- name: (main) include install
+  import_tasks: install.yml
+  tags:
+    - takel
+    - takel_docker
+    - takel_docker_install
+
+- name: (main) include configure
+  import_tasks: configure.yml
+  tags:
+    - takel
+    - takel_docker
+    - takel_docker_configure
