@@ -2,7 +2,8 @@ require 'rake'
 
 namespace :dockerhub do
   desc 'Create and deploy prod image to dockerhub'
-  task :prod => %w(test
+  task :prod => %w(git:warn
+                   test
                    local:container:stop
                    image:prod:build
                    image:prod:test
