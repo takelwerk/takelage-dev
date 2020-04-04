@@ -1,0 +1,28 @@
+---
+- name: (main) include install
+  import_tasks: install.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_install
+
+- name: (main) include pyscripts
+  import_tasks: pyscripts.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_pyscripts
+
+- name: (main) include gnupg
+  import_tasks: gnupg.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_gnupg
+
+- name: (main) include bash
+  import_tasks: bash.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_bash

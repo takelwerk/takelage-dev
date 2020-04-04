@@ -1,0 +1,17 @@
+---
+takel_takelage_deb_install_packages:
+  - git
+  - gnupg
+  - expect
+  - mmv
+  - socat
+  - tree
+  - vim
+  - vim-scripts
+
+takel_takelage_gpg_config_files:
+  - gpg-agent.conf
+  - gpg.conf
+  - dirmngr.conf
+
+takel_takelage_entrypoint_path: /

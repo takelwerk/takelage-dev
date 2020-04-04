@@ -4,6 +4,7 @@
   roles:
     - takel-base
     - takel-anarchism
+    - takel-takelage-dev
     - takel-docker
     - takel-bit-client
     - takel-cleanup

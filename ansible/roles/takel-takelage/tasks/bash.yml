@@ -1,0 +1,18 @@
+---
+- name: (bash) add bash_prompt.sh to profile.d
+  copy:
+    src: bash/bash_prompt.sh
+    dest: /etc/profile.d/bash_prompt.sh
+    mode: 0644
+
+- name: (bash) add bash_aliases.sh to profile.d
+  copy:
+    src: bash/bash_aliases.sh
+    dest: /etc/profile.d/bash_aliases.sh
+    mode: 0644
+
+- name: (bash) add make_completion.sh to profile.d
+  copy:
+    src: bash/make_completion.sh
+    dest: /etc/profile.d/make_completion.sh
+    mode: 0644

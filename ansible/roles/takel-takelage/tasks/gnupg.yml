@@ -1,0 +1,11 @@
+---
+- name: (gnupg) create config dir for gnupg
+  file:
+    path: /srv/.gnupg
+    state: directory
+
+- name: (gnupg) copy gnupg config files for docker
+  copy:
+    src: "gnupg/{{ item }}"
+    dest: "/srv/.gnupg/{{ item }}"
+  loop: "{{ takel_takelage_gpg_config_files }}"
