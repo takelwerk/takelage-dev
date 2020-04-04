@@ -1,0 +1,8 @@
+---
+- name: (repository) add docker ce key
+  apt_key:
+    url: "{{ takel_docker_ce_repository_key }}"
+
+- name: (repository) add docker ce repo
+  apt_repository:
+    repo: "{{ takel_docker_ce_repository }}"

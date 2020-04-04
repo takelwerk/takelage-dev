@@ -6,12 +6,12 @@
     - takel_docker
     - takel_docker_preinstall
 
-- name: (main) include docker repo
-  import_tasks: repo.yml
+- name: (main) include docker repository
+  import_tasks: repository.yml
   tags:
     - takel
     - takel_docker
-    - takel_docker_repo
+    - takel_docker_repository
 
 - name: (main) include install
   import_tasks: install.yml
