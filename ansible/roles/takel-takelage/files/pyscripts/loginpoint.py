@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import pwd
 import subprocess
 from time import sleep
 
@@ -14,6 +15,7 @@ class LoginPoint(object):
         self.args = self._get_args()
         self._debug = self.args.debug
         self._username = self.args.username
+        self._waitfor = self.args.waitfor
 
     def get_logincommand(self):
         command = [self._su_bin]
@@ -33,15 +35,20 @@ class LoginPoint(object):
     def _get_args(self):
         parser = argparse.ArgumentParser()
         parser.add_argument(
-            "--username",
-            type=str,
-            help="su to this username")
-        parser.add_argument(
             "--debug",
             dest="debug",
             action="store_true",
             default=False,
             help="Set debug flag")
+        parser.add_argument(
+            "--username",
+            type=str,
+            help="su to this username")
+        parser.add_argument(
+            "--waitfor",
+            type=str,
+            default="tail -f /debug/takelage.log",
+            help="Wait for this command")
         return parser.parse_args()
 
 
@@ -55,13 +62,19 @@ def main():
                                 stderr=subprocess.PIPE)
 
     # wait until the entrypoint.py script has finished
-    while 'tail -f /debug/takelage.log' not in ps_command.stdout.decode('utf-8'):
+    while loginpoint._waitfor not in ps_command.stdout.decode('utf-8'):
         ps_command = subprocess.run(['ps', 'a'],
                                     stdout=subprocess.PIPE,
                                     stderr=subprocess.PIPE)
         if loginpoint._debug:
             print('Container not ready. Waiting...')
         sleep(0.5)
+
+    try:
+        pwd.getpwnam(loginpoint._username)
+    except KeyError:
+        print('User ' + loginpoint._username + ' does not exist.')
+        exit(1)
 
     subprocess.run(loginpoint.get_statuscommand())
     subprocess.run(loginpoint.get_logincommand())

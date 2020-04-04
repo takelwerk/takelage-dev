@@ -3,3 +3,10 @@
   hosts: all
   roles:
     - takel-takelage
+  tasks:
+    - name: (playbook) install deb prerequisites
+      package:
+        name: "{{ item }}"
+      loop:
+        - procps
+        - python3-yaml

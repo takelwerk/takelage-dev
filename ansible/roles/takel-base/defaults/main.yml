@@ -7,6 +7,7 @@ takel_base_deb_install_packages:
   - git
   - jq
   - molly-guard
+  - procps
   - rsyslog
   - tmux
   - tree

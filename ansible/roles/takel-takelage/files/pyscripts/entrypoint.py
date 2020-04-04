@@ -117,7 +117,7 @@ class EntryPoint(object):
         try:
             gopass_config = yaml.load(gopass_config_path.read_text(encoding='utf-8'))
         except FileNotFoundError:
-            self._logger.WARNING('No gopass config file found: gopass is unavailable.')
+            self._logger.warning('No gopass config file found: gopass is unavailable.')
             self._gopass = False
             return False
 
@@ -216,8 +216,8 @@ class EntryPoint(object):
             stderr=subprocess.PIPE)
 
         if useradd_result.returncode:
-            self._logger.ERROR(useradd_result.stdout)
-            self._logger.ERROR(useradd_result.stderr)
+            self._logger.error(useradd_result.stdout)
+            self._logger.error(useradd_result.stderr)
             return False
         self._logger.info('User added.')
 
@@ -266,8 +266,8 @@ class EntryPoint(object):
             stderr=subprocess.PIPE)
 
         if groupadd_result.returncode:
-            self._logger.ERROR(groupadd_result.stdout)
-            self._logger.ERROR(groupadd_result.stderr)
+            self._logger.error(groupadd_result.stdout)
+            self._logger.error(groupadd_result.stderr)
             return False
 
         return True

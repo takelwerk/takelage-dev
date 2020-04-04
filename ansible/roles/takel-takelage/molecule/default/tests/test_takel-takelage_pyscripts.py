@@ -28,10 +28,7 @@ def test_takel_takelage_pyscripts_loginpoint_script(host, testvars):
 
 
 def test_takel_takelage_pyscripts_statust_script(host, testvars):
-    takel_takelage_status_script = \
-        testvars['takel_takelage_entrypoint_path'] + 'status'
-
-    file = host.file(takel_takelage_status_script)
+    file = host.file('/usr/local/bin/status')
     assert file.exists
     assert file.is_file
     assert file.user == 'root'
