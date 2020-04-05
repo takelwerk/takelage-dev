@@ -14,11 +14,6 @@ def test_takel_packer_install_packages_installed(host, testvars):
 
 
 def test_takel_packer_install_packer_installed(host, testvars):
-    packer_bin = testvars['takel_packer_bin_path'] + '/packer'
-    file = host.file(packer_bin)
+    takel_packer_bin_path = testvars['takel_packer_bin_path'] + '/packer'
 
-    assert file.exists
-    assert file.is_file
-    assert file.user == 'root'
-    assert file.group == 'root'
-    assert file.mode == 0o755
+    assert host.file(takel_packer_bin_path).is_file
