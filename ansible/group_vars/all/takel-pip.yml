@@ -12,6 +12,9 @@ takel_pip_packages:
   - name: pytest
     version: 5.4.1
     description: python testing framework
+  - name: ruamel.yaml
+    version: 0.16.10
+    description: yaml parser
   - name: takeltest
     version: 0.1.1
     description: molecule pytest fixtures
