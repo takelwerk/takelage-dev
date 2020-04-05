@@ -1,0 +1,13 @@
+---
+- name: (install) install packages
+  package:
+    name: "{{ takel_pip_deb_install_packages }}"
+    state: present
+    update_cache: true
+
+- name: (install) install packages
+  pip:
+    name: "{{ item.name }}"
+    state: present
+    version: "{{ item.version }}"
+  loop: "{{ takel_pip_packages }}"

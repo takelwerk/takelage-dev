@@ -1,0 +1,6 @@
+---
+- name: (configure) add autocompletion
+  lineinfile:
+    path: /root/.bashrc
+    line: "{{ takel_gopass_autocompletion }}"
+    insertafter: EOF

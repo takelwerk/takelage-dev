@@ -3,4 +3,4 @@
   lineinfile:
     path: /root/.bashrc
     line: "PATH={{ takel_gem_rvm_wrappers_path }}:$PATH"
-    insertbefore: '# Add autocompletion'
+    insertafter: EOF

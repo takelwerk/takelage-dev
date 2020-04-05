@@ -1,0 +1,26 @@
+---
+takel_pip_packages:
+  - name: argcomplete
+    version: 1.11.1
+    description: autocompletion for argparse
+  - name: ansible
+    version: 2.9.6
+    description: it automation platform
+  - name: molecule
+    version: 3.0.2
+    description: ansible testing framework
+  - name: pytest
+    version: 5.4.1
+    description: python testing framework
+  - name: takeltest
+    version: 0.1.1
+    description: molecule pytest fixtures
+  - name: testinfra
+    version: 5.0.0
+    description: molecule python verifier
+  - name: twine
+    version: 3.1.1
+    description: utilities for pypi
+  - name: wheel
+    version: 0.34.2
+    description: utilities for python packaging

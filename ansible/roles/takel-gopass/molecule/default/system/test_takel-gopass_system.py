@@ -1,5 +1,5 @@
-import re
 from packaging import version
+import re
 import takeltest
 
 testinfra_hosts = takeltest.hosts()

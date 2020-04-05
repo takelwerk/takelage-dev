@@ -26,3 +26,10 @@
     - takel
     - takel_takelage
     - takel_takelage_bash
+
+- name: (main) include configure
+  import_tasks: configure.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_configure

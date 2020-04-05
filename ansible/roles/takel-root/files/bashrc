@@ -10,7 +10,3 @@ fi
 
 # Add /usr/local/bin to PATH
 PATH=$PATH:/usr/local/bin
-
-# Add autocompletion
-source <(gopass completion bash)
-source <(tau completion bash)

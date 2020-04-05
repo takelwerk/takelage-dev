@@ -3,8 +3,8 @@
   import_tasks: preinstall.yml
   tags:
     - takel
-    - takel_gem
-    - takel_gem_preinstall
+    - takel_gopas
+    - takel_gopass_preinstall
 
 - name: (main) include install
   import_tasks: install.yml
@@ -12,3 +12,10 @@
     - takel
     - takel_gopass
     - takel_gopass_install
+
+- name: (main) include configure
+  import_tasks: configure.yml
+  tags:
+    - takel
+    - takel_gopass
+    - takel_gopass_configure

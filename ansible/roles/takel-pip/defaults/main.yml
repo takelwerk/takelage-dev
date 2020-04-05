@@ -1,0 +1,5 @@
+---
+takel_pip_deb_install_packages:
+  - python3-pip
+
+takel_pip_packages: []

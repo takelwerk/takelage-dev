@@ -15,3 +15,5 @@ takel_takelage_gpg_config_files:
   - dirmngr.conf
 
 takel_takelage_entrypoint_path: /
+
+takel_takelage_autocompletion: source <(tau completion bash)
