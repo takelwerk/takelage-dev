@@ -1,0 +1,13 @@
+---
+# ruby version
+rvm1_rubies:
+  - 'ruby-2.6.3'
+
+# system wide install | set to system location
+rvm1_install_path: /usr/local/rvm
+
+# system wide install | remove: --user-install
+rvm1_install_flags: '--auto-dotfiles'
+
+# system wide install | set to root user
+rvm1_user: 'root'
