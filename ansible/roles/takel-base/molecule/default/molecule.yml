@@ -28,7 +28,6 @@ verifier:
   options:
     # p: cacheprovider
     s: true
-    v: true
   lint:
     name: flake8
 scenario:

@@ -1,0 +1,7 @@
+---
+- name: (configure) add rvm wrappers path
+  lineinfile:
+    path:
+    path: /root/.bashrc
+    line: PATH=/usr/local/rvm/wrappers/default:$PATH
+    insertbefore: '# Add autocompletion'

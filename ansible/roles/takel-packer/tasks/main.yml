@@ -3,12 +3,12 @@
   import_tasks: install.yml
   tags:
     - takel
-    - takel_gem
-    - takel_gem_install
+    - takel_packer
+    - takel_packer_install
 
 - name: (main) include configure
   import_tasks: configure.yml
   tags:
     - takel
-    - takel_gem
-    - takel_gem_configure
+    - takel_packer
+    - takel_packer_configure

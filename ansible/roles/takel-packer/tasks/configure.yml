@@ -1,0 +1,5 @@
+---
+- name: (configure) add bash completion
+  get_url:
+    url: "{{ takel_packer_bash_completion_url }}"
+    dest: "{{ takel_packer_bash_completion_path }}"

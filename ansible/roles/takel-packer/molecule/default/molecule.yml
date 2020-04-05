@@ -3,12 +3,8 @@ driver:
   name: docker
 lint:
   name: yamllint
-  options:
-    config-data:
-      rules:
-        line-length: disable
 platforms:
-  - name: molecule-takel-bit-client
+  - name: molecule-takel-packer
     image: takelage/takelbase
     command: /lib/systemd/systemd
     privileged: true

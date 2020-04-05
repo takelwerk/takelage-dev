@@ -10,7 +10,7 @@
       - 'ruby-2.3.1'
   roles:
     - role: rvm1-ansible
-      become: yes
+      become: true
 
 # Asserts tasks
 - hosts: all

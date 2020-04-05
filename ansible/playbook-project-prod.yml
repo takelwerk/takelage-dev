@@ -3,6 +3,7 @@
   hosts: all
   roles:
     - takel-base
+    - takel-root
     - takel-anarchism
     - takel-takelage
     - takel-docker
@@ -17,4 +18,5 @@
       become: true
     - takel-gem
     - takel-rake
+    - takel-packer
     - takel-cleanup

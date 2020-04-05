@@ -1,10 +1,10 @@
 ---
 - name: (configure) copy .bashrc template
   copy:
-    src: .bashrc
+    src: bashrc
     dest: /root/.bashrc
 
 - name: (configure) copy .vimrc template
   copy:
-    src: .vimrc
+    src: vimrc
     dest: /root/.vimrc

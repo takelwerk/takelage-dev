@@ -20,6 +20,7 @@ def test_takel_docker_repository_apt_repository_key(host, testvars):
 def test_takel_docker_repository_apt_repository(host, testvars):
     repository_url = testvars['takel_docker_ce_repository_url']
     codename = testvars['takel_docker_ce_repository_codename']
+    host.run('apt-get update')
     command = 'apt-cache policy'
     apt_policy = host.check_output(command)
     regex_pattern = \

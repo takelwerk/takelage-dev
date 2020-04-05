@@ -8,7 +8,7 @@ def test_geospin_root_configure_bashrc(host):
     assert file.exists
     assert file.user == 'root'
     assert file.group == 'root'
-    assert oct(file.mode) == 0o644
+    assert file.mode == 0o644
 
 
 def test_geospin_root_configure_vimrc(host):

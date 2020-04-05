@@ -1,5 +1,5 @@
 ---
-geospin_gem_gems:
+takel_gem_gems:
   - name: aruba
     version: 1.0.0
     description: cli test framework
