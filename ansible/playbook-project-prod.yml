@@ -6,6 +6,8 @@
     - takel-anarchism
     - takel-takelage
     - takel-docker
-    - takel-gopass
+    - role: takel-gopass
+      tags:
+        - molecule-idempotence-notest
     - takel-bit-client
     - takel-cleanup

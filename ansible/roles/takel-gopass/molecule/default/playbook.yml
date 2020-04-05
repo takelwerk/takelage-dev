@@ -3,4 +3,6 @@
   hosts: all
   gather_facts: false
   roles:
-    - takel-gopass
+    - role: takel-gopass
+      tags:
+        - molecule-idempotence-notest
