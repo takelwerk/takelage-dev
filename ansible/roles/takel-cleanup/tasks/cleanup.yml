@@ -4,8 +4,9 @@
     autoclean: true
     autoremove: true
 
-- name: (cleanup) remove apt lists
+- name: (cleanup) remove files
   file:
-    path: /var/lib/apt/lists
+    path: "{{ item }}"
     state: absent
-  changed_when: False
+  changed_when: false
+  loop: "{{ takel_cleanup_absent_files }}"
