@@ -1,4 +1,8 @@
 ---
+takel_gopass_deb_preinstall_packages:
+  - apt-transport-https
+  - ca-certificates
+
 takel_gopass_deb_install_packages:
   - gopass
 
