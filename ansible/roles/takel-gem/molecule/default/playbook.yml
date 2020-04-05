@@ -1,0 +1,19 @@
+---
+- name: default
+  hosts: all
+  pre_tasks:
+    - name: (playbook) install prerequisites
+      package:
+        name: "{{ item }}"
+      loop:
+        - ca-certificates
+        - curl
+        - gnupg
+        - procps
+        - sudo
+  roles:
+    - role: github-rvm_rvm1-ansible
+      tags:
+        - molecule-idempotence-notest
+      become: true
+    - takel-gem

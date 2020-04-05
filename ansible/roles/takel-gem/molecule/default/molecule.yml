@@ -1,0 +1,72 @@
+---
+driver:
+  name: docker
+lint:
+  name: yamllint
+  options:
+    config-data:
+      rules:
+        line-length: disable
+platforms:
+  - name: molecule-takel-gem
+    image: takelage/takelbase
+    command: /lib/systemd/systemd
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+  inventory:
+    group_vars:
+      all:
+        takel_gem_gems:
+          - name: thor
+            version: 1.0.1
+            description: cli framework
+        rvm1_rubies:
+          - 'ruby-2.6.3'
+        rvm1_install_path: /usr/local/rvm
+        rvm1_install_flags: '--auto-dotfiles'
+        rvm1_user: 'root'
+  lint:
+    name: ansible-lint
+    options:
+      exclude:
+        - ../github-rvm_rvm1-ansible
+verifier:
+  name: testinfra
+  options:
+    # p: cacheprovider  # enable cache
+    s: true  # capture output
+  lint:
+    name: flake8
+  additional_files_or_dirs:
+    - ../system/test_*.py
+  env:
+    TESTVARS_ROLES_WHITELIST: takel-gem
+scenario:
+  name: default
+  create_sequence:
+    - create
+  check_sequence:
+    - destroy
+    - create
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - create
+    - converge
+  destroy_sequence:
+    - destroy
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - destroy

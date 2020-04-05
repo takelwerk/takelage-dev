@@ -1,0 +1,8 @@
+---
+- name: (install) install gems
+  gem:
+    name: "{{ item.name }}"
+    state: present
+    version: "{{ item.version }}"
+    user_install: false
+  loop: "{{ takel_gem_gems }}"
