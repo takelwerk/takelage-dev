@@ -13,6 +13,7 @@ takel_docker_deb_install_packages:
   - docker-ce-cli
 
 takel_docker_ce_repository_key: https://download.docker.com/linux/debian/gpg
+takel_docker_ce_repository_filename: docker-ce
 takel_docker_ce_repository_codename: buster
 takel_docker_ce_repository_url: https://download.docker.com/linux/debian
 takel_docker_ce_repository: "deb {{ takel_docker_ce_repository_url }} {{ takel_docker_ce_repository_codename }} stable"

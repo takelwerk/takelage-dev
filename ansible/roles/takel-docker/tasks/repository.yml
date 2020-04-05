@@ -6,3 +6,4 @@
 - name: (repository) add docker ce repo
   apt_repository:
     repo: "{{ takel_docker_ce_repository }}"
+    filename: "{{ takel_docker_ce_repository_filename }}"

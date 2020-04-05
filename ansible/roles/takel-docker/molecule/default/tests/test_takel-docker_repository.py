@@ -19,6 +19,8 @@ def test_takel_docker_repository_apt_repository_key(host, testvars):
 
 def test_takel_docker_repository_apt_repository(host, testvars):
     docker_ce_repository = testvars['takel_docker_ce_repository']
-    sources_list = host.file('sources.list.d/download_docker_com_linux_debian.list')
+    repository_filename = testvars['takel_docker_ce_repository_filename']
+    file = '/etc/apt/sources.list.d/' + repository_filename + '.list'
+    sources_list = host.file(file)
 
     assert docker_ce_repository == sources_list.content_string
