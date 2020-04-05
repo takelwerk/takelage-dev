@@ -21,4 +21,5 @@
     - takel-gem
     - takel-rake
     - takel-packer
+    - takel-terra
     - takel-cleanup

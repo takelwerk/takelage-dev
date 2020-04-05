@@ -3,12 +3,12 @@
   import_tasks: install.yml
   tags:
     - takel
-    - takel_packer
-    - takel_packer_install
+    - takel_terra
+    - takel_terra_install
 
 - name: (main) include configure
   import_tasks: configure.yml
   tags:
     - takel
-    - takel_packer
-    - takel_packer_configure
+    - takel_terra
+    - takel_terra_configure

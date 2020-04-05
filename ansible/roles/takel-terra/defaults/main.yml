@@ -1,11 +1,15 @@
 ---
-takel_packer_deb_install_packages:
+takel_terra_deb_install_packages:
   - ca-certificates
   - unzip
 
-takel_packer_version: 1.5.5
-takel_packer_bin_path: /usr/local/bin/
-takel_packer_url: "https://releases.hashicorp.com/packer/{{ takel_packer_version }}/packer_{{ takel_packer_version }}_linux_amd64.zip"
+takel_terra_terraform_version: 0.12.24
+takel_terra_terraform_url: "https://releases.hashicorp.com/terraform/{{ takel_terra_terraform_version }}/terraform_{{ takel_terra_terraform_version }}_linux_amd64.zip"
 
-takel_packer_bash_completion_url: https://raw.githubusercontent.com/mrolli/packer-bash-completion/master/packer
-takel_packer_bash_completion_path: /etc/profile.d/packer_bash_complete.sh
+takel_terra_terragrunt_version: 0.23.5
+takel_terra_terragrunt_url: https://github.com/gruntwork-io/terragrunt/releases/download/v{{ takel_terra_terragrunt_version }}/terragrunt_linux_amd64
+takel_terra_terragrunt_binary: terragrunt
+
+takel_terra_bin_path: /usr/local/bin/
+
+takel_terra_terraform_bash_completion_path: /etc/profile.d/terraform_completion.sh

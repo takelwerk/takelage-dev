@@ -3,9 +3,9 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_takel_packer_install_packages_installed(host, testvars):
+def test_takel_terra_install_packages_installed(host, testvars):
     takel_gpg_install_packages = \
-        testvars['takel_packer_deb_install_packages']
+        testvars['takel_terra_deb_install_packages']
 
     for package in takel_gpg_install_packages:
         rpm = host.package(package)
@@ -13,7 +13,23 @@ def test_takel_packer_install_packages_installed(host, testvars):
         assert rpm.is_installed
 
 
-def test_takel_packer_install_packer_installed(host, testvars):
-    takel_packer_bin_path = testvars['takel_packer_bin_path'] + '/packer'
+def test_takel_terra_install_terraform_installed(host, testvars):
+    terraform_bin = testvars['takel_terra_bin_path'] + '/terraform'
+    file = host.file(terraform_bin)
 
-    assert host.file(takel_packer_bin_path).is_file
+    assert file.exists
+    assert file.is_file
+    assert file.user == 'root'
+    assert file.group == 'root'
+    assert file.mode == 0o755
+
+
+def test_takel_terra_install_terragrunt_installed(host, testvars):
+    terragrunt_bin = testvars['takel_terra_bin_path'] + '/terragrunt'
+    file = host.file(terragrunt_bin)
+
+    assert file.exists
+    assert file.is_file
+    assert file.user == 'root'
+    assert file.group == 'root'
+    assert file.mode == 0o755

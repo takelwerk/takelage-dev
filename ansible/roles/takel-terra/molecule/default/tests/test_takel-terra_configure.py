@@ -3,8 +3,9 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_takel_packer_configure_bash_completion(host, testvars):
-    bash_completion_path = testvars['takel_packer_bash_completion_path']
+def test_takel_terra_configure_terraform_bash_completion(host, testvars):
+    bash_completion_path = \
+        testvars['takel_terra_terraform_bash_completion_path']
     file = host.file(bash_completion_path)
 
     assert file.exists
