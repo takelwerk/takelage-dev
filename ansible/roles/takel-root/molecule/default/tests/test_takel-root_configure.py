@@ -3,7 +3,7 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_geospin_root_configure_bashrc(host):
+def test_takel_root_configure_bashrc(host):
     file = host.file('/root/.bashrc')
     assert file.exists
     assert file.user == 'root'
@@ -11,6 +11,6 @@ def test_geospin_root_configure_bashrc(host):
     assert file.mode == 0o644
 
 
-def test_geospin_root_configure_vimrc(host):
+def test_takel_root_configure_vimrc(host):
     assert 'syntax on' in host.file('/root/.vimrc').content_string
     assert 'set number' in host.file('/root/.vimrc').content_string
