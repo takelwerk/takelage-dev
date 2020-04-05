@@ -6,8 +6,16 @@
     - takel-anarchism
     - takel-takelage
     - takel-docker
+    - takel-bit-client
     - role: takel-gopass
       tags:
         - molecule-idempotence-notest
-    - takel-bit-client
+    - role: github-rvm_rvm1-ansible
+      tags:
+        - github-rvm_rvm1-ansible
+        - molecule-idempotence-notest
+      become: true
+    - role: takel-gem
+      tags:
+        - molecule-idempotence-notest
     - takel-cleanup
