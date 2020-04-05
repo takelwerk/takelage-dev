@@ -1,0 +1,7 @@
+---
+- name: (main) include configure
+  import_tasks: configure.yml
+  tags:
+    - takel
+    - takel_root
+    - takel_root_configure
