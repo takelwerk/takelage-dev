@@ -1,7 +1,6 @@
 ---
 - name: (configure) add rvm wrappers path
   lineinfile:
-    path:
     path: /root/.bashrc
-    line: PATH=/usr/local/rvm/wrappers/default:$PATH
+    line: "PATH={{ takel_gem_rvm_wrappers_path }}:$PATH"
     insertbefore: '# Add autocompletion'

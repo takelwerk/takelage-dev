@@ -1,2 +1,4 @@
 ---
 takel_gem_gems: []
+
+takel_gem_rvm_wrappers_path: /usr/local/rvm/wrappers/default

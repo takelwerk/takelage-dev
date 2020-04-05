@@ -3,7 +3,9 @@
   hosts: all
   roles:
     - takel-base
-    - takel-root
+    - role: takel-root
+      tags:
+        - molecule-idempotence-notest
     - takel-anarchism
     - takel-takelage
     - takel-docker
