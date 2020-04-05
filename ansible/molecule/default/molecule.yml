@@ -3,6 +3,10 @@ driver:
   name: docker
 lint:
   name: yamllint
+  options:
+    config-data:
+      rules:
+        line-length: disable
 platforms:
   - name: molecule-takelage-dev
     image: takelage/takelbase
@@ -21,6 +25,9 @@ provisioner:
     converge: ../../playbook-project-prod.yml
   lint:
     name: ansible-lint
+    options:
+      exclude:
+        - roles/github-rvm_rvm1-ansible
 verifier:
   name: testinfra
   options:
@@ -36,6 +43,9 @@ verifier:
     - ../../../roles/*/molecule/default/tests/test_*.py
     # system
     - ../../../roles/*/molecule/default/system/test_*.py
+  env:
+    # exclude external role which takeltest can't handle
+    TESTVARS_ROLES_BLACKLIST: github-rvm_rvm1-ansible
 scenario:
   name: default
   create_sequence:
