@@ -15,7 +15,6 @@
         - github-rvm_rvm1-ansible
         - molecule-idempotence-notest
       become: true
-    - role: takel-gem
-      tags:
-        - molecule-idempotence-notest
+    - takel-gem
+    - takel-rake
     - takel-cleanup

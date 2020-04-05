@@ -1,0 +1,6 @@
+---
+- name: (configure) add rake-completion.sh to profile.d
+  copy:
+    src: rake-completion.sh
+    dest: /etc/profile.d/rake-completion.sh
+    mode: 0644
