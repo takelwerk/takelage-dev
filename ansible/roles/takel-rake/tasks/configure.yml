@@ -1,6 +1,8 @@
 ---
-- name: (configure) add bash completion
+- name: (profile) copy system-wide profile files
   copy:
-    src: rake-completion.sh
-    dest: "{{ takel_rake_bash_completion_path }}"
+    src: rake
+    dest: "{{ takel_rake_completion_path }}"
+    owner: root
+    group: root
     mode: 0644

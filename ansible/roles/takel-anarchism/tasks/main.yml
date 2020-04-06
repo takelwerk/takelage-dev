@@ -6,9 +6,10 @@
     - takel_anarchism
     - takel_anarchism_install
 
-- name: (main) include configure tasks
-  import_tasks: configure.yml
+- name: (main) include bashrc tasks
+  import_tasks: bashrc.yml
   tags:
     - takel
     - takel_anarchism
-    - takel_anarchism_configure
+    - takel_anarchism_bashrc
+  when: "'fortune-anarchism' in takel_anarchism_deb_install_packages"

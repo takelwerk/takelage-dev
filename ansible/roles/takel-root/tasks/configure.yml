@@ -1,10 +1,8 @@
 ---
-- name: (configure) copy .bashrc template
-  copy:
-    src: bashrc
-    dest: /root/.bashrc
-
 - name: (configure) copy .vimrc template
   copy:
     src: vimrc
     dest: /root/.vimrc
+    owner: root
+    group: root
+    mode: 0644

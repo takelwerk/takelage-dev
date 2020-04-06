@@ -3,9 +3,7 @@
   hosts: all
   roles:
     - takel-base
-    - role: takel-root
-      tags:
-        - molecule-idempotence-notest
+    - takel-root
     - takel-anarchism
     - takel-pip
     - role: github-rvm_rvm1-ansible
@@ -19,8 +17,6 @@
     - takel-docker
     - takel-packer
     - takel-terra
-    - role: takel-gopass
-      tags:
-        - molecule-idempotence-notest
+    - takel-gopass
     - takel-takelage
     - takel-cleanup

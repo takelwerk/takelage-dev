@@ -16,4 +16,12 @@ takel_takelage_gpg_config_files:
 
 takel_takelage_entrypoint_path: /
 
-takel_takelage_autocompletion: source <(tau completion bash)
+takel_takelage_profile:
+  - file: aliases.sh
+    order: 50
+  - file: make.sh
+    order: 50
+  - file: prompt.sh
+    order: 50
+  - file: tau.sh
+    order: 50

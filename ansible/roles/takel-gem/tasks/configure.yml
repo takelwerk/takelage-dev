@@ -1,6 +1,0 @@
----
-- name: (configure) add rvm wrappers path
-  lineinfile:
-    path: /root/.bashrc
-    line: "PATH={{ takel_gem_rvm_wrappers_path }}:$PATH"
-    insertafter: EOF

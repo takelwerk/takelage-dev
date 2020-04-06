@@ -6,9 +6,9 @@
     - takel_gem
     - takel_gem_install
 
-- name: (main) include configure
-  import_tasks: configure.yml
+- name: (main) include profile
+  import_tasks: profile.yml
   tags:
     - takel
     - takel_gem
-    - takel_gem_configure
+    - takel_gem_profile

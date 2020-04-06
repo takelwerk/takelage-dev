@@ -1,0 +1,9 @@
+---
+- name: (profile) copy system-wide profile files
+  copy:
+    src: "{{ item.file }}"
+    dest: "/etc/profile.d/{{ item.order }}{{ item.file }}"
+    owner: root
+    group: root
+    mode: 0644
+  loop: "{{ takel_gem_profile }}"

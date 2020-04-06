@@ -20,16 +20,9 @@
     - takel_takelage
     - takel_takelage_gnupg
 
-- name: (main) include bash
-  import_tasks: bash.yml
+- name: (main) include profile
+  import_tasks: profile.yml
   tags:
     - takel
     - takel_takelage
-    - takel_takelage_bash
-
-- name: (main) include configure
-  import_tasks: configure.yml
-  tags:
-    - takel
-    - takel_takelage
-    - takel_takelage_configure
+    - takel_takelage_profile

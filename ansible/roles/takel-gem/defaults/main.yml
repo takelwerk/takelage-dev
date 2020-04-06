@@ -1,4 +1,6 @@
 ---
 takel_gem_gems: []
 
-takel_gem_rvm_wrappers_path: /usr/local/rvm/wrappers/default
+takel_gem_profile:
+  - file: gem.sh
+    order: 20

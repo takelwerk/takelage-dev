@@ -1,2 +1,2 @@
 ---
-takel_rake_bash_completion_path: /etc/profile.d/rake-completion.sh
+takel_rake_completion_path: /etc/bash_completion.d/rake

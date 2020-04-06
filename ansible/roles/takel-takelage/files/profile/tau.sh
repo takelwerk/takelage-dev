@@ -1,0 +1,1 @@
+source <(tau completion bash)
