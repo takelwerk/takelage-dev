@@ -1,0 +1,8 @@
+---
+takel_gcloud_deb_install_packages:
+  - bash-completion
+  - curl
+
+takel_gcloud_installation_root: /opt
+
+takel_gcloud_completion_path: /etc/bash_completion.d/gcloud

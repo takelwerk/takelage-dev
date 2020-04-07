@@ -1,0 +1,20 @@
+---
+- name: (configure) create completion dir
+  file:
+    path: /etc/bash_completion.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (configure) copy completion file
+  copy:
+    src: gcloud-completion.sh
+    dest: "{{ takel_gcloud_completion_path }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: (configure) install gcloud components
+  command: "{{ takel_gcloud_installation_root }}/google-cloud-sdk/bin/gcloud --quiet components install alpha beta"
+  changed_when: false
