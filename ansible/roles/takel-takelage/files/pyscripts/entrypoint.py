@@ -316,10 +316,6 @@ class EntryPoint(object):
             type=int,
             help="Group ID of the username used in the host system")
         parser.add_argument(
-            "--hostsystem",
-            type=str,
-            help="Deprecated")
-        parser.add_argument(
             "--home",
             type=str,
             help="Home directory used in the host system")

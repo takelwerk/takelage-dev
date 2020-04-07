@@ -10,7 +10,7 @@ takel_gem_gems:
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.7.2
+    version: 0.8.0
     description: takelage cli
   - name: thor
     version: 1.0.1
