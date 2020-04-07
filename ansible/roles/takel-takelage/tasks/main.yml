@@ -6,6 +6,13 @@
     - takel_takelage
     - takel_takelage_install
 
+- name: (main) include sudo
+  import_tasks: sudo.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_sudo
+
 - name: (main) include pyscripts
   import_tasks: pyscripts.yml
   tags:

@@ -26,13 +26,8 @@ class EntryPoint(object):
         self._groupid = args.gid
         self._userid = args.uid
         self._host_homedir = Path('/homedir')
-        self._homedir = None
-        hostsystem = args.hostsystem
-        if hostsystem == 'macos':
-            Path('/Users').mkdir(exist_ok=True)
-            self._homedir = Path('/Users') / self._username
-        elif hostsystem == 'linux':
-            self._homedir = Path('/home') / self._username
+        self._homedir = Path(args.home)
+        self._homedir.parents[0].mkdir(exist_ok=True, parents=True)
         self._mapping_directories = {}
         self._agent_forwards = {'gpg-agent': {'path': None,
                                               'port': 20000},
@@ -49,7 +44,6 @@ class EntryPoint(object):
         self._logger.info('username: ' + self._username)
         self._logger.info('userid: ' + str(self._userid))
         self._logger.info('groupid: ' + str(self._groupid))
-        self._logger.info('hostsystem: ' + hostsystem)
         self._logger.info('homedir: ' + str(self._homedir))
         self._logger.info('debug: ' + str(self._debug))
         self._logger.info('ssh: ' + str(self._ssh))
@@ -115,7 +109,7 @@ class EntryPoint(object):
         gopass_config_path = self._host_homedir / '.config/gopass/config.yml'
 
         try:
-            gopass_config = yaml.load(gopass_config_path.read_text(encoding='utf-8'))
+            gopass_config = yaml.safe_load(gopass_config_path.read_text(encoding='utf-8'))
         except FileNotFoundError:
             self._logger.warning('No gopass config file found: gopass is unavailable.')
             self._gopass = False
@@ -195,18 +189,20 @@ class EntryPoint(object):
     def add_user(self):
         self._logger.info('Create user %s' % self._username)
         if self._docker:
-            groups = 'docker,wheel,tty'
+            groups = 'docker,sudo,tty'
         else:
-            groups = 'wheel,tty'
+            groups = 'sudo,tty'
 
         self._add_group()
 
         useradd_command = [
             'useradd',
-            '--home', str(self._homedir),
+            '--create-home',
+            '--home-dir', str(self._homedir),
             '--gid', str(self._groupid),
             '--uid', str(self._userid),
             '--groups', groups,
+            '--shell', '/bin/bash',
             '--non-unique',
             self._username]
 
@@ -322,8 +318,11 @@ class EntryPoint(object):
         parser.add_argument(
             "--hostsystem",
             type=str,
-            choices=['linux', 'macos'],
-            help="OS type of the host system (macos or linux)")
+            help="Deprecated")
+        parser.add_argument(
+            "--home",
+            type=str,
+            help="Home directory used in the host system")
         parser.add_argument(
             "--no-gopass",
             dest="gopass",

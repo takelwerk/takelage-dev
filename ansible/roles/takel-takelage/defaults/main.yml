@@ -5,6 +5,7 @@ takel_takelage_deb_install_packages:
   - expect
   - mmv
   - socat
+  - sudo
   - tree
   - vim
   - vim-scripts

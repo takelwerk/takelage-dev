@@ -20,6 +20,7 @@ class LoginPoint(object):
     def get_logincommand(self):
         command = [self._su_bin]
         command.append(self._username)
+        command.append('--login')
         return command
 
     def get_statuscommand(self):

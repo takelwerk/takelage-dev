@@ -1,37 +1,36 @@
-import pytest
 import takeltest
 
 testinfra_hosts = takeltest.hosts()
 
+def test_takel_takelage_system_entrypoint(host):
 
-@pytest.mark.parametrize("host_os", ['macos', 'linux'],
-                         ids=lambda os: 'OS: ' + str(os))
-@pytest.mark.parametrize("groupid", [20, 21, 1000],
-                         ids=lambda gid: 'gid: ' + str(gid))
-@pytest.mark.parametrize("userid", [500, 99, 1000],
-                         ids=lambda uid: 'uid: ' + str(uid))
-def test_takel_takelage_system_entrypoint(host,
-                                                 host_os,
-                                                 userid,
-                                                 groupid):
-    username = 'testuser'
-
-    host.run('userdel ' + username)
-    host.run('rm -rf /Users /home/*')
+    host.run('userdel testuser')
+    host.run('rm -rf /testhome')
 
     command = '/entrypoint.py ' \
-              '--username ' + username + ' ' \
-              '--gid ' + str(groupid) + ' ' \
-              '--uid ' + str(userid) + ' ' \
-              '--hostsystem ' + host_os + ' ' \
+              '--username testuser ' \
+              '--gid 1500 ' \
+              '--uid 1600 ' \
+              '--home /testhome ' \
               '--no-gpg ' \
               '--no-ssh ' \
               '--no-git ' \
               '--no-docker'
+
     assert host.run_test(command)
 
-    if host_os is 'macos':
-        assert host.file('/Users').is_directory
-        assert host.file('/Users/' + username).is_directory
-    if host_os is 'linux':
-        assert host.file('/home/' + username).is_directory
+    home = host.file('/testhome')
+    assert home.exists
+    assert home.is_directory
+    assert home.user == 'testuser'
+    assert home.group == 'testuser'
+    assert home.uid == 1500
+    assert home.gid == 1600
+    assert home.mode == 0o755
+
+    user = host.user('testuser')
+    assert user.uid == 1500
+    assert user.gid == 1600
+    assert user.home == '/testhome'
+    assert user.shell == '/bin/bash'
+    assert 'sudo' in user.groups
