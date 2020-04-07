@@ -9,7 +9,7 @@ cmd_test_roles = 'for dir in `find ansible/roles -name molecule | sort`; do ' +
 
 desc 'Run molecule tests'
 task :test  => %w(test:roles
-                  test:projects)
+                  test:project)
 
 namespace :test do
 
