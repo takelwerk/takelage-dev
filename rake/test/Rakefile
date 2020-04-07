@@ -1,7 +1,7 @@
 require 'rake'
 
 cmd_test_project = 'cd ansible && molecule test'
-cmd_test_roles = 'for dir in `find ansible/roles -name molecule`; do ' +
+cmd_test_roles = 'for dir in `find ansible/roles -name molecule | sort`; do ' +
     'cd `dirname $dir`; ' +
     'molecule test; ' +
     'cd ../../../; ' + '
