@@ -3,20 +3,15 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_takel_root_bashrc_source(host, testvars):
+def test_takel_root_bashrc_file(host, testvars):
     with host.sudo():
         file = host.file('/root/.bashrc')
-        expected = '''\
-if [ -d .bashrc.d ]; then
-  for i in .bashrc.d/*.sh; do
-    if [ -r $i ]; then
-      . $i
-    fi
-  done
-  unset i
-fi
-'''
-        assert expected in file.content_string
+
+        assert file.exists
+        assert file.is_file
+        assert file.user == 'root'
+        assert file.group == 'root'
+        assert file.mode == 0o644
 
 
 def test_takel_root_bashrc_directory(host, testvars):
