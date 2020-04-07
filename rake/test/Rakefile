@@ -4,8 +4,8 @@ cmd_test_project = 'cd ansible && molecule test'
 cmd_test_roles = 'for dir in `find ansible/roles -name molecule | sort`; do ' +
     'cd `dirname $dir`; ' +
     'molecule test; ' +
-    'cd ../../../; ' + '
-    done'
+    'cd ../../../; ' +
+    'done'
 
 desc 'Run molecule tests'
 task :test  => %w(test:roles
