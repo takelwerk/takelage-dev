@@ -10,6 +10,7 @@ __pycache__/
 .pytest_cache
 pytestdebug.log
 *.retry
+takelage.log
 .vagrant
 vault-password-file
 *.vdi
