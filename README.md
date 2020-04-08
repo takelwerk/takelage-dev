@@ -5,10 +5,12 @@ of the takelage devops workflow.
 The takelage devops workflow helps devops engineers
 build, test and deploy os images.
 
-The *takelage-dev* 
-[Docker](https://www.docker.com) image is based
-on the official [Debian](https://www.debian.org) docker image
-[buster-slim](https://hub.docker.com/_/debian).
+*takelage-dev* is a
+[Docker](https://www.docker.com) image 
+[takelage/takelage](http://hub.docker.com/r/takelage/takelage)
+which based on the official [Debian](https://www.debian.org) docker image
+[buster-slim](https://hub.docker.com/_/debian). 
+It builds itself.
 
 ## Framework
 
