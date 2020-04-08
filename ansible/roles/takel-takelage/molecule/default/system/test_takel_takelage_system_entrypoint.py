@@ -30,8 +30,6 @@ def test_takel_takelage_system_entrypoint(
     home = host.file('/testhome/testuser')
     assert home.exists
     assert home.is_directory
-    assert home.user == 'testuser'
-    assert home.group == 'testuser'
     assert home.uid == userid
     assert home.gid == groupid
     assert home.mode == 0o755
