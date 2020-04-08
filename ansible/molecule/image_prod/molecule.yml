@@ -26,7 +26,7 @@ verifier:
     # exclude external role which takeltest can't handle
     TESTVARS_ROLES_BLACKLIST: github-rvm_rvm1-ansible
 scenario:
-  name: packer
+  name: image_prod
   create_sequence:
     - create
   converge_sequence:
