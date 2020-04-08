@@ -19,3 +19,6 @@ function _rakecomplete() {
 }
 
 complete -o default -o nospace -F _rakecomplete rake
+
+GEM_HOME=/usr/local/rvm/gems/default
+GEM_PATH=/usr/local/rvm/gems/default
