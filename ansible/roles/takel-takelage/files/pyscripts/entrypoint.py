@@ -225,7 +225,7 @@ class EntryPoint(object):
 
         # set HOSTNAME
         hostname_sh = self._homedir / '.bashrc.d/50hostname.sh'
-        hostname_sh.write_test('export HOSTNAME=$(hostname)')
+        hostname_sh.write_text('export HOSTNAME=$(hostname)')
 
         # cd /project
         cd_sh = self._homedir / '.bashrc.d/ZZZ98cd.sh'
