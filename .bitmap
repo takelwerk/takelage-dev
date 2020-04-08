@@ -485,7 +485,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/meta"
     },
-    "takelage.rake/rake/test@0.0.1": {
+    "takelage.rake/rake/test@0.0.2": {
         "files": [
             {
                 "relativePath": "rake/test/README.bit",
