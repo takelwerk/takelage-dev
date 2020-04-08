@@ -15,14 +15,10 @@
     - takel-rake
     - takel-bit-client
     - takel-docker
-    - role: takel-gcloud
-      tags:
-        - molecule-idempotence-notest
+    - takel-gcloud
     - takel-molecule
     - takel-packer
     - takel-terra
-    - role: takel-gopass
-      tags:
-        - molecule-idempotence-notest
+    - takel-gopass
     - takel-takelage
     - takel-cleanup

@@ -4,5 +4,3 @@
   gather_facts: false
   roles:
     - role: takel-gopass
-      tags:
-        - molecule-idempotence-notest
