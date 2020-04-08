@@ -18,15 +18,17 @@ class LoginPoint(object):
         self._waitfor = self.args.waitfor
 
     def get_logincommand(self):
-        command = [self._su_bin]
-        command.append(self._username)
-        command.append('--login')
+        command = [
+            self._su_bin,
+            self._username,
+            '--login']
         return command
 
     def get_statuscommand(self):
-        command = [self._su_bin]
-        command.append(self._username)
-        command.append('--command')
+        command = [
+            self._su_bin,
+            self._username,
+            '--command']
         if self._debug:
             command.append('/usr/bin/python3 /debug/status.py')
         else:
@@ -58,15 +60,17 @@ def main():
 
     # find the last command from entrypoint.py
     # which keeps the docker container running
-    ps_command = subprocess.run(['ps', 'a'],
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE)
+    ps_command = subprocess.run(
+        ['ps', 'a'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
 
     # wait until the entrypoint.py script has finished
     while loginpoint._waitfor not in ps_command.stdout.decode('utf-8'):
-        ps_command = subprocess.run(['ps', 'a'],
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE)
+        ps_command = subprocess.run(
+            ['ps', 'a'],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         if loginpoint._debug:
             print('Container not ready. Waiting...')
         sleep(0.5)

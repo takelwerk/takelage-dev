@@ -12,8 +12,9 @@ prompt_reset='\[\e[0m\]'
 # dereference git symbolic reference HEAD to get branch name or sha1 of commit
 # object and amend by information about current status of staging area
 dereference_git_HEAD() {
-    local sha1=$(git rev-parse --short HEAD 2>&1)
+    $(git -C . rev-parse >/dev/null 2>&1)
     if [ $? -eq 0 ]; then
+        local sha1=$(git rev-parse --short HEAD 2>&1)
         local color_symref=$color_green
         local color_ref=$color_blue
         local dirty=$(git status --porcelain 2>&1)
