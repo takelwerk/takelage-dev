@@ -20,10 +20,12 @@ def test_takel_takelage_system_entrypoint(
               '--uid ' + str(userid) + ' ' + \
               '--gid ' + str(groupid) + ' ' + \
               '--home /testhome/testuser ' + \
-              '--no-gpg ' + \
-              '--no-ssh ' + \
+              '--no-bit ' + \
+              '--no-docker ' + \
               '--no-git ' + \
-              '--no-docker'
+              '--no-gopass ' + \
+              '--no-gpg ' + \
+              '--no-ssh'
 
     assert host.run_test(command)
 

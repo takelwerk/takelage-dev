@@ -10,7 +10,7 @@ def test_image_meta_env_exists(image_meta_data):
 
 
 def test_image_meta_cmd(image_meta_data):
-    assert image_meta_data['Config']['Cmd'] == ["/usr/bin/bash"]
+    assert image_meta_data['Config']['Cmd'] == ['/lib/systemd/systemd']
 
 
 def test_image_meta_user(image_meta_data):
@@ -18,17 +18,17 @@ def test_image_meta_user(image_meta_data):
 
 
 @pytest.mark.parametrize('process, expected_args', [
-    ('python3', 'python3 /debug/entrypoint.py '
-                '--debug '
+    ('python3', 'python3 /entrypoint.py '
                 '--username testuser '
                 '--uid 1010 '
                 '--gid 1010 '
                 '--home /testhome/testuser '
-                '--no-gopass '
-                '--no-ssh '
-                '--no-gpg '
+                '--no-bit '
+                '--no-docker '
                 '--no-git '
-                '--no-docker'),
+                '--no-gopass '
+                '--no-gpg '
+                '--no-ssh'),
     ('tail',    'tail -f /debug/takelage.log')])
 def test_container_process(host, process, expected_args):
     procs_present = False
@@ -44,7 +44,7 @@ def test_container_process(host, process, expected_args):
 def test_container_process_tail(host):
     successfully_login = False
     command = '/usr/bin/docker exec --tty molecule-takelage-dev-packer ' \
-              '/debug/loginpoint.py --username testuser'.split(' ')
+              '/loginpoint.py --username testuser'.split(' ')
     try:
         subprocess.run(command,
                        stdout=subprocess.PIPE,
@@ -52,7 +52,7 @@ def test_container_process_tail(host):
     except subprocess.TimeoutExpired:
         process_result = host.process.filter(user='root', comm='python3')
         for proc in process_result:
-            if proc.args == 'python3 /debug/loginpoint.py --username testuser':
+            if proc.args == 'python3 /loginpoint.py --username testuser':
                 successfully_login = True
                 host.run('kill %s' % proc.pid)
 

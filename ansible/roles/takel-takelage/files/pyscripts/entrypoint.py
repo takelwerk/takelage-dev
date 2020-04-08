@@ -17,11 +17,12 @@ class EntryPoint(object):
         self._get_bin()
         args = self._get_args()
         self._debug = args.debug
+        self._bit = args.bit
+        self._docker = args.docker
+        self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
         self._ssh = args.ssh
-        self._git = args.git
-        self._docker = args.docker
         self._username = args.username
         self._groupid = args.gid
         self._userid = args.uid
@@ -46,13 +47,16 @@ class EntryPoint(object):
         self._logger.info('userid: ' + str(self._userid))
         self._logger.info('groupid: ' + str(self._groupid))
         self._logger.info('homedir: ' + str(self._homedir))
+        self._logger.info('bit: ' + str(self._bit))
         self._logger.info('debug: ' + str(self._debug))
-        self._logger.info('ssh: ' + str(self._ssh))
-        self._logger.info('gpg: ' + str(self._gpg))
-        self._logger.info('gopass: ' + str(self._gopass))
         self._logger.info('git: ' + str(self._git))
+        self._logger.info('gopass: ' + str(self._gopass))
+        self._logger.info('gpg: ' + str(self._gpg))
+        self._logger.info('ssh: ' + str(self._ssh))
 
     def add_bit(self):
+        if not self._bit:
+            return False
         self._mkdir_user('Library/Caches/Bit/logs')
         self._mkdir_user('Library/Caches/Bit/config')
         bit_config_template = """
@@ -317,6 +321,24 @@ class EntryPoint(object):
             type=str,
             help="Home directory used in the host system")
         parser.add_argument(
+            "--no-bit",
+            dest="bit",
+            action="store_false",
+            default=True,
+            help="Disable docker-socket passthrough ")
+        parser.add_argument(
+            "--no-docker",
+            dest="docker",
+            action="store_false",
+            default=True,
+            help="Disable docker-socket passthrough ")
+        parser.add_argument(
+            "--no-git",
+            dest="git",
+            action="store_false",
+            default=True,
+            help="Disable git config passthrough ")
+        parser.add_argument(
             "--no-gopass",
             dest="gopass",
             action="store_false",
@@ -334,18 +356,6 @@ class EntryPoint(object):
             action="store_false",
             default=True,
             help="Disable ssh config passthrough ")
-        parser.add_argument(
-            "--no-git",
-            dest="git",
-            action="store_false",
-            default=True,
-            help="Disable git config passthrough ")
-        parser.add_argument(
-            "--no-docker",
-            dest="docker",
-            action="store_false",
-            default=True,
-            help="Disable docker-socket passthrough ")
         return parser.parse_args()
 
     def _get_bin(self):
