@@ -6,6 +6,9 @@ takel_gem_gems:
   - name: fylla
     version: 0.5.1
     description: thor autocompletion
+  - name: rubocop
+    version: 0.81.0
+    description: ruby linter
   - name: rspec
     version: 3.9.0
     description: test framework

@@ -1,11 +1,17 @@
 ---
 takel_pip_packages:
-  - name: argcomplete
-    version: 1.11.1
-    description: autocompletion for argparse
   - name: ansible
     version: 2.9.6
     description: it automation platform
+  - name: ansible-lint
+    version: 4.2.0
+    description: ansible linter
+  - name: argcomplete
+    version: 1.11.1
+    description: autocompletion for argparse
+  - name: flake8
+    version: 3.7.9
+    description: python linter
   - name: molecule
     version: 3.0.2
     description: ansible testing framework
