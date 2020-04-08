@@ -8,7 +8,7 @@ platforms:
     command: /debug/entrypoint.py --debug --username testuser --uid 1010 --gid 1010 --host /testhome/testuser --no-gopass --no-ssh --no-gpg --no-git --no-docker
     tty: true
     volumes:
-      - ${TAKELAGE_PROJECT_BASE_DIR}/ansible/roles/takel-takelage-dev/files/pyscripts:/debug
+      - ${TAKELAGE_PROJECT_BASE_DIR}/ansible/roles/takel-takelage/files/pyscripts:/debug
     privileged: false
     pre_build_image: true
 provisioner:
