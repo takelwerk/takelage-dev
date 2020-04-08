@@ -1,8 +1,11 @@
 ---
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: molecule-takel-pip
     image: takelage/takelbase
@@ -21,15 +24,11 @@ provisioner:
           - name: pytest
             version: 5.4.1
             description: python testing framework
-  lint:
-    name: ansible-lint
 verifier:
   name: testinfra
   options:
     # p: cacheprovider  # enable cache
     s: true  # capture output
-  lint:
-    name: flake8
   additional_files_or_dirs:
     - ../system/test_*.py
 scenario:

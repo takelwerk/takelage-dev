@@ -22,11 +22,6 @@ provisioner:
       group_vars: ../../group_vars
   playbooks:
     converge: ../../playbook-project-prod.yml
-  lint:
-    name: ansible-lint
-    options:
-      exclude:
-        - roles/github-rvm_rvm1-ansible
 verifier:
   name: testinfra
   options:
@@ -35,8 +30,6 @@ verifier:
     s: true
     testvars-no-gather-facts: true
     v: true
-  lint:
-    name: flake8
   additional_files_or_dirs:
     # integration
     - ../../../roles/*/molecule/default/tests/test_*.py
