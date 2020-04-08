@@ -2,15 +2,18 @@
 driver:
   name: docker
 platforms:
-  - name: molecule-takelage-dev-packer
-    image: packer_local/takelage-dev:prod
+  - name: "molecule-takelage-dev-packer"
+    image: "packer_local/takelage-dev:molecule"
+    override_command: true
+    command: /debug/entrypoint.py --debug --username testuser --uid 1010 --gid 1010 --host /testhome/testuser --no-gopass --no-ssh --no-gpg --no-git --no-docker
+    tty: true
+    volumes:
+      - ${TAKELAGE_PROJECT_BASE_DIR}/ansible/roles/takelage-dev/files/pyscripts:/debug
     privileged: false
     pre_build_image: true
 provisioner:
   name: ansible
   log: true
-  playbooks:
-    converge: ../../playbook-project-prod.yml
 verifier:
   name: testinfra
   options:
@@ -19,8 +22,11 @@ verifier:
     s: true
     testvars-no-gather-facts: true
     v: true
+  env:
+    # exclude external role which takeltest can't handle
+    TESTVARS_ROLES_BLACKLIST: github-rvm_rvm1-ansible
 scenario:
-  name: image_prod
+  name: packer
   create_sequence:
     - create
   converge_sequence:
