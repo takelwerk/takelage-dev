@@ -1,8 +1,11 @@
 ---
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: molecule-takel-molecule
     image: takelage/takelbase
@@ -14,8 +17,6 @@ provisioner:
   config_options:
     defaults:
       interpreter_python: auto_silent
-  lint:
-    name: ansible-lint
 verifier:
   name: testinfra
   additional_files_or_dirs:
@@ -23,8 +24,6 @@ verifier:
   options:
     # p: cacheprovider
     s: true
-  lint:
-    name: flake8
 scenario:
   name: default
   create_sequence:

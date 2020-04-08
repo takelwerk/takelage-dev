@@ -1,12 +1,11 @@
 ---
 driver:
   name: docker
-lint:
-  name: yamllint
-  options:
-    config-data:
-      rules:
-        line-length: disable
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
   - name: molecule-takel-gem
     image: takelage/takelbase
@@ -30,18 +29,11 @@ provisioner:
         rvm1_install_path: /usr/local/rvm
         rvm1_install_flags: --auto-dotfiles
         rvm1_user: root
-  lint:
-    name: ansible-lint
-    options:
-      exclude:
-        - ../github-rvm_rvm1-ansible
 verifier:
   name: testinfra
   options:
     # p: cacheprovider  # enable cache
     s: true  # capture output
-  lint:
-    name: flake8
   additional_files_or_dirs:
     - ../system/test_*.py
   env:
