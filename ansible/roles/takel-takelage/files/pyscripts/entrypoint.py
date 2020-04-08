@@ -216,8 +216,14 @@ class EntryPoint(object):
         dest = self._homedir / '.bashrc'
         dest.write_text(src.read_text())
 
-        # log in then cd /project
+        # mkdir ~/.bashrc.d
         self._mkdir_user('.bashrc.d')
+
+        # set HOSTNAME
+        hostname_sh = self._homedir / '.bashrc.d/50hostname.sh'
+        hostname_sh.write_test('export HOSTNAME=$(hostname)')
+
+        # cd /project
         cd_sh = self._homedir / '.bashrc.d/ZZZ98cd.sh'
         cd_sh.write_text('cd /project')
 
