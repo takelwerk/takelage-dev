@@ -13,10 +13,14 @@
   register: gcloud_script_copied
   changed_when: false
 
+- name: (install) detect installation
+  stat:
+    path: /opt/google-cloud-sdk
+  register: google_cloud_sdk
+
 - name: (install) run installation script  # noqa 503 == acknowledge to ansible-lint that we should use a handler
   command: "/tmp/install_google_cloud_sdk.bash --disable-prompts --install-dir={{ takel_gcloud_installation_root }}"
-  when: gcloud_script_copied.changed
-  changed_when: false
+  when: not google_cloud_sdk.stat.exists
 
 - name: (install) remove installation script
   file:
