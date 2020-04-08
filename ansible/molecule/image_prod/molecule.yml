@@ -3,7 +3,7 @@ driver:
   name: docker
 platforms:
   - name: "molecule-takelage-dev-packer"
-    image: "packer_local/takelage-dev:molecule"
+    image: "packer_local/takelage-dev:prod"
     override_command: true
     command: /debug/entrypoint.py --debug --username testuser --uid 1010 --gid 1010 --host /testhome/testuser --no-gopass --no-ssh --no-gpg --no-git --no-docker
     tty: true
