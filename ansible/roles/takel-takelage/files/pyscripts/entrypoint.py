@@ -62,7 +62,8 @@ class EntryPoint(object):
         bit_config_template = """
 {"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
 """
-        bit_config_file = self._host_homedir / 'Library/Caches/Bit/config/config.json'
+        bit_config_file = \
+            self._host_homedir / 'Library/Caches/Bit/config/config.json'
         bit_config_file.write_text(bit_config_template)
         self._mapping_directories['.takelage.yml'] = self._host_homedir
         self._logger.info('bit config added.')
@@ -106,9 +107,11 @@ class EntryPoint(object):
         gopass_config_path = self._host_homedir / '.config/gopass/config.yml'
 
         try:
-            gopass_config = yaml.safe_load(gopass_config_path.read_text(encoding='utf-8'))
+            gopass_config = yaml.safe_load(
+                gopass_config_path.read_text(encoding='utf-8'))
         except FileNotFoundError:
-            self._logger.warning('No gopass config file found: gopass is unavailable.')
+            self._logger.warning(
+                'No gopass config file found: gopass is unavailable.')
             self._gopass = False
             return False
 
@@ -121,7 +124,8 @@ class EntryPoint(object):
             gopass_config_root_path = gopass_config['root']['path']
             root_path = Path(gopass_config_root_path.split(':', 1)[1])
             passwordstore_relpath = root_path.relative_to(self._homedir)
-            self._mapping_directories[passwordstore_relpath] = self._host_homedir
+            self._mapping_directories[passwordstore_relpath] = \
+                self._host_homedir
 
         # add paths for mountet passwordstores
         for mount in gopass_config['mounts']:
@@ -239,10 +243,13 @@ class EntryPoint(object):
             if self._agent_forwards[agent]['path'] is None:
                 continue
             if 'root' in self._agent_forwards[agent]['path']:
-                root_socket_path = Path(self._agent_forwards[agent]['path'])
-                user_socket_path = self._homedir / root_socket_path.relative_to('/root/')
+                root_socket_path = \
+                    Path(self._agent_forwards[agent]['path'])
+                user_socket_path = \
+                    self._homedir / root_socket_path.relative_to('/root/')
             else:
-                user_socket_path = self._agent_forwards[agent]['path']
+                user_socket_path = \
+                    self._agent_forwards[agent]['path']
 
             command = [
                 self._socat_bin,
@@ -382,7 +389,9 @@ class EntryPoint(object):
             self._logger.setLevel(logging.DEBUG)
         Path('/debug').mkdir(exist_ok=True)
         fh = logging.FileHandler('/debug/takelage.log')
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', "%Y-%m-%d %H:%M:%S")
+        formatter = logging.Formatter(
+            '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            "%Y-%m-%d %H:%M:%S")
         fh.setFormatter(formatter)
         self._logger.addHandler(fh)
 

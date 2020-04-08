@@ -148,7 +148,10 @@ class Status(object):
 
             if keys:
                 key_id = keys[0][1].strip()
-                command = ['bash -c "set -o pipefail && echo "test" | gpg --sign --local-user ' + key_id + '"']
+                command = [
+                    'bash -c "set -o pipefail && echo "test" | ' +
+                    'gpg --sign --local-user ' +
+                    key_id + '"']
                 gpg_encrypt_result = subprocess.run(
                     command,
                     stdout=subprocess.PIPE,
@@ -189,24 +192,29 @@ class Status(object):
             'mail': None,
             'gpg-key': None}
         command = ['git', 'config', '--list']
-        git_result = subprocess.run(command,
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.PIPE)
+        git_result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
         if git_result.returncode == 0:
             result = git_result.stdout.decode('UTF-8')
             git_name_search = re.search(r'user\.name=(.*)', result)
             git_mail_search = re.search(r'user\.email=(.*)', result)
             git_gpg_search = re.search(r'user\.signingkey=(.*)', result)
-            if git_mail_search is not None and git_mail_search.group(1) is not None:
+            if git_mail_search is not None and \
+                    git_mail_search.group(1) is not None:
                 _git_status['mail'] = git_mail_search.group(1)
-            if git_name_search is not None and git_name_search.group(1) is not None:
+            if git_name_search is not None and \
+                    git_name_search.group(1) is not None:
                 _git_status['name'] = git_name_search.group(1)
-            if git_gpg_search is not None and git_gpg_search.group(1) is not None:
+            if git_gpg_search is not None and \
+                    git_gpg_search.group(1) is not None:
                 gpg_fingerprint = git_gpg_search.group(1)
                 for key in self._gpg_status['keys']:
                     if gpg_fingerprint in key:
                         _git_status['gpg-key'] = key
-            if _git_status['name'] is not None and _git_status['mail'] is not None:
+            if _git_status['name'] is not None and \
+                    _git_status['mail'] is not None:
                 _git_status['returncode'] = 0
             return _git_status
 
