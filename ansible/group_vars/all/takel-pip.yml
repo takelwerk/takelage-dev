@@ -15,6 +15,9 @@ takel_pip_packages:
   - name: molecule
     version: 3.0.2
     description: ansible testing framework
+  - name: molecule[docker]
+    version: 3.0.2
+    description: molecule docker driver
   - name: pytest
     version: 5.4.1
     description: python testing framework
