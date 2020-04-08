@@ -15,6 +15,9 @@ takel_gem_gems:
   - name: thor
     version: 1.0.1
     description: cli framework
+  - name: version_sorter
+    version: 2.2.4
+    description: sort version numbers
   - name: yard
     version: 0.9.24
     description: documentation
