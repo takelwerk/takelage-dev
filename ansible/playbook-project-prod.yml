@@ -18,6 +18,7 @@
     - role: takel-gcloud
       tags:
         - molecule-idempotence-notest
+    - takel-molecule
     - takel-packer
     - takel-terra
     - role: takel-gopass
