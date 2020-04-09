@@ -1,9 +1,8 @@
 ---
 - name: (version) create /etc/takelage_version file
   copy:
-    content: "{{ project['version'] }}"
+    content: "{{ takelage_project['version'] }}"
     dest: /etc/takelage_version
-    user: root
+    owner: root
     group: root
     mode: 0644
-
