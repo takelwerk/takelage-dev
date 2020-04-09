@@ -454,7 +454,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/base"
     },
-    "takelage.rake/rake/image/prod@0.0.2": {
+    "takelage.rake/rake/image/prod@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
