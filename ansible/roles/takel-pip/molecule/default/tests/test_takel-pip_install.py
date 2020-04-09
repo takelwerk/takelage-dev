@@ -21,11 +21,15 @@ def get_packages(host, testvars):
 
 def test_takel_pip_install_pip_packages_installed(packages, testvars):
     for package in testvars['takel_pip_packages']:
-        assert package['name'] in packages
+        if not '[' in package['name']:
+            assert package['name'] in packages
 
 
 def test_takel_pip_install_pip_packages_version(packages, testvars):
     for package in testvars['takel_pip_packages']:
-        search = \
-            re.search(package['name'] + '.*?' + package['version'], packages)
-        assert search is not None
+        if not '[' in package['name']:
+            search = re.search(package['name'] +
+                               '.*?' +
+                               package['version'],
+                               packages)
+            assert search is not None

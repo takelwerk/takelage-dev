@@ -3,27 +3,21 @@ takel_pip_packages:
   - name: ansible
     version: 2.9.6
     description: it automation platform
-  - name: ansible-lint
-    version: 4.2.0
-    description: ansible linter
   - name: argcomplete
     version: 1.11.1
     description: autocompletion for argparse
-  - name: flake8
-    version: 3.7.9
-    description: python linter
   - name: molecule
     version: 3.0.2
     description: ansible testing framework
   - name: molecule[docker]
     version: 3.0.2
     description: molecule docker driver
+  - name: molecule[lint]
+    version: 3.0.2
+    description: molecule linters
   - name: pytest
     version: 5.4.1
     description: python testing framework
-  - name: ruamel.yaml
-    version: 0.16.10
-    description: yaml parser
   - name: takeltest
     version: 0.2.0
     description: molecule pytest fixtures
