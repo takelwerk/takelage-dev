@@ -1,2 +1,3 @@
 ---
 takel_base_autoupgrade: false
+takel_base_version: "{{ takelage_project['version'] }}"

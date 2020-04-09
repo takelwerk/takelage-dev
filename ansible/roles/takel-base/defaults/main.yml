@@ -19,3 +19,5 @@ takel_base_autoupgrade: true
 
 takel_base_locales:
   - en_US.UTF-8
+
+takel_base_version: none
