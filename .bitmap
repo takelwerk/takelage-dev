@@ -24,13 +24,13 @@
                 "name": "bashrc"
             },
             {
-                "name": "molecule.yml",
-                "relativePath": "molecule/default/molecule.yml",
-                "test": false
+                "relativePath": "molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
             },
             {
-                "name": "playbook.yml",
-                "relativePath": "molecule/default/playbook.yml",
+                "name": "molecule.yml",
+                "relativePath": "molecule/default/molecule.yml",
                 "test": false
             },
             {
@@ -69,7 +69,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-anarchism"
     },
-    "takelage.ansible/ansible/roles/takel-base@0.0.7": {
+    "takelage.ansible/ansible/roles/takel-base@0.0.8": {
         "files": [
             {
                 "name": "README.bit",
@@ -87,19 +87,19 @@
                 "test": false
             },
             {
+                "relativePath": "molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
+            },
+            {
                 "name": "molecule.yml",
                 "relativePath": "molecule/default/molecule.yml",
                 "test": false
             },
             {
-                "name": "playbook.yml",
-                "relativePath": "molecule/default/playbook.yml",
-                "test": false
-            },
-            {
+                "name": "test_takel-base_autoupgrade.py",
                 "relativePath": "molecule/default/tests/test_takel-base_autoupgrade.py",
-                "test": false,
-                "name": "test_takel-base_autoupgrade.py"
+                "test": false
             },
             {
                 "name": "test_takel-base_configure.py",
@@ -112,9 +112,9 @@
                 "test": false
             },
             {
+                "name": "autoupgrade.yml",
                 "relativePath": "tasks/autoupgrade.yml",
-                "test": false,
-                "name": "autoupgrade.yml"
+                "test": false
             },
             {
                 "name": "configure.yml",
@@ -157,7 +157,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-base"
     },
-    "takelage.ansible/ansible/roles/takel-bit-client@0.0.3": {
+    "takelage.ansible/ansible/roles/takel-bit-client@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
@@ -170,13 +170,13 @@
                 "test": false
             },
             {
-                "name": "molecule.yml",
-                "relativePath": "molecule/default/molecule.yml",
-                "test": false
+                "relativePath": "molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
             },
             {
-                "name": "playbook.yml",
-                "relativePath": "molecule/default/playbook.yml",
+                "name": "molecule.yml",
+                "relativePath": "molecule/default/molecule.yml",
                 "test": false
             },
             {
@@ -205,7 +205,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-bit-client"
     },
-    "takelage.ansible/ansible/roles/takel-cleanup@0.0.3": {
+    "takelage.ansible/ansible/roles/takel-cleanup@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
@@ -213,24 +213,29 @@
                 "test": false
             },
             {
+                "name": "converge.yml",
+                "relativePath": "ansible/roles/takel-cleanup/molecule/default/converge.yml",
+                "test": false
+            },
+            {
+                "name": "main.yml",
                 "relativePath": "defaults/main.yml",
-                "test": false,
-                "name": "main.yml"
+                "test": false
             },
             {
+                "name": "molecule.yml",
                 "relativePath": "molecule/default/molecule.yml",
-                "test": false,
-                "name": "molecule.yml"
+                "test": false
             },
             {
+                "name": "playbook.yml",
                 "relativePath": "molecule/default/playbook.yml",
-                "test": false,
-                "name": "playbook.yml"
+                "test": false
             },
             {
+                "name": "test_takel-cleanup_cleanup.py",
                 "relativePath": "molecule/default/tests/test_takel-cleanup_cleanup.py",
-                "test": false,
-                "name": "test_takel-cleanup_cleanup.py"
+                "test": false
             },
             {
                 "name": "cleanup.yml",
@@ -261,14 +266,14 @@
                 "name": "main.yml"
             },
             {
+                "relativePath": "ansible/roles/takel-docker/molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
+            },
+            {
                 "relativePath": "ansible/roles/takel-docker/molecule/default/molecule.yml",
                 "test": false,
                 "name": "molecule.yml"
-            },
-            {
-                "relativePath": "ansible/roles/takel-docker/molecule/default/playbook.yml",
-                "test": false,
-                "name": "playbook.yml"
             },
             {
                 "relativePath": "ansible/roles/takel-docker/molecule/default/system/test_takel-docker_system.py",

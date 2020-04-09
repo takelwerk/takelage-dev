@@ -3,5 +3,5 @@
   import_tasks: cleanup.yml
   tags:
     - takel
-    - takel_gcsfuse
-    - takel_gcsfuse_cleanup
+    - takel_cleanup
+    - takel_cleanup_cleanup
