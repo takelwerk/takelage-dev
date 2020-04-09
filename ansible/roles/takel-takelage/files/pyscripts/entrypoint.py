@@ -56,16 +56,23 @@ class EntryPoint(object):
 
     def add_bit(self):
         if not self._bit:
-            return False
+            return
+
+        # bit directories
         self._mkdir_user('Library/Caches/Bit/logs')
         self._mkdir_user('Library/Caches/Bit/config')
+
+        # bit config
         bit_config_template = """
 {"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
 """
         bit_config_file = \
-            self._host_homedir / 'Library/Caches/Bit/config/config.json'
+            self._homedir / 'Library/Caches/Bit/config/config.json'
         bit_config_file.write_text(bit_config_template)
+
+        # ~/takelage.yml
         self._mapping_directories['.takelage.yml'] = self._host_homedir
+
         self._logger.info('bit config added.')
 
     def add_docker(self):
@@ -85,7 +92,7 @@ class EntryPoint(object):
         docker_config_file = self._homedir / '.docker/config.json'
         docker_config_file.write_text(docker_config_template)
         chown(str(docker_config_file), self._userid, self._groupid)
-        self._logger.info('Docker credentials for google added.')
+        self._logger.info('docker config added.')
 
     def add_gcloud(self):
         gcloud_system_path = Path('/srv/gcloud')
@@ -93,17 +100,17 @@ class EntryPoint(object):
             self._mkdir_user('.config')
             gcloud_config_path = self._homedir / '.config/gcloud'
             gcloud_config_path.symlink_to(gcloud_system_path)
-            self._logger.info('gcloud added.')
+            self._logger.info('gcloud config added.')
 
     def add_git(self):
         if not self._git:
             return
         self._mapping_directories['.gitconfig'] = self._host_homedir
-        self._logger.info('Git added.')
+        self._logger.info('git config added.')
 
     def add_gopass(self):
         if not self._gopass:
-            return False
+            return
         gopass_config_path = self._host_homedir / '.config/gopass/config.yml'
 
         try:
@@ -136,7 +143,7 @@ class EntryPoint(object):
                 passwordstore_relpath = mount_path.relative_to(self._homedir)
                 self._mapping_directories[passwordstore_relpath] = \
                     self._host_homedir
-        self._logger.info('Gopass added.')
+        self._logger.info('gopass config added.')
         return True
 
     def add_gpg(self):
@@ -161,7 +168,7 @@ class EntryPoint(object):
         self._mapping_directories[Path('.gnupg/gpg-agent.conf')] = Path('/srv')
         self._mapping_directories[Path('.gnupg/gpg.conf')] = Path('/srv')
         self._mapping_directories[Path('.gnupg/dirmngr.conf')] = Path('/srv')
-        self._logger.info('GnuPG added.')
+        self._logger.info('gpg config added.')
 
     def add_mapping(self):
         for item, path in self._mapping_directories.items():
@@ -182,7 +189,7 @@ class EntryPoint(object):
         if not self._ssh:
             return
         self._mapping_directories['.ssh'] = self._host_homedir
-        self._logger.info('SSH added.')
+        self._logger.info('ssh config added.')
 
     def add_user(self):
         self._logger.info('Create user %s' % self._username)
@@ -338,37 +345,37 @@ class EntryPoint(object):
             dest="bit",
             action="store_false",
             default=True,
-            help="Disable docker-socket passthrough ")
+            help="Do not add bit configuration")
         parser.add_argument(
             "--no-docker",
             dest="docker",
             action="store_false",
             default=True,
-            help="Disable docker-socket passthrough ")
+            help="Disable docker-socket passthrough")
         parser.add_argument(
             "--no-git",
             dest="git",
             action="store_false",
             default=True,
-            help="Disable git config passthrough ")
+            help="Do not add git configuation")
         parser.add_argument(
             "--no-gopass",
             dest="gopass",
             action="store_false",
             default=True,
-            help="Disable gopass config passthrough ")
+            help="Do not add gopass configuration")
         parser.add_argument(
             "--no-gpg",
             dest="gpg",
             action="store_false",
             default=True,
-            help="Disable gpg config passthrough ")
+            help="Do not add gpg configuration")
         parser.add_argument(
             "--no-ssh",
             dest="ssh",
             action="store_false",
             default=True,
-            help="Disable ssh config passthrough ")
+            help="Do not add ssh configuration")
         return parser.parse_args()
 
     def _get_bin(self):
