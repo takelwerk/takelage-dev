@@ -6,3 +6,8 @@
     owner: root
     group: root
     mode: 0644
+
+- name: (configure) generate locales
+  locale_gen:
+    name: "{{ item }}"
+  loop: "{{ takel_base_locales }}"

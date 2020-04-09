@@ -7,6 +7,7 @@ takel_base_deb_install_packages:
   - gnupg
   - git
   - jq
+  - locales
   - molly-guard
   - procps
   - rsyslog
@@ -15,3 +16,6 @@ takel_base_deb_install_packages:
   - vim
 
 takel_base_autoupgrade: true
+
+takel_base_locales:
+  - en_US.UTF-8
