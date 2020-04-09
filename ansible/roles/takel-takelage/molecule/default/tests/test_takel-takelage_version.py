@@ -4,7 +4,7 @@ testinfra_hosts = takeltest.hosts()
 
 
 def test_takel_takelage_version_file(host, testvars):
-    version = testvars['project']['version']
+    version = testvars['takelage_project']['version']
 
     file = host.file('/etc/takelage_version')
 
