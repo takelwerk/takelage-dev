@@ -39,7 +39,6 @@ verifier:
   env:
     TESTVARS_ROLES_WHITELIST: takel-gem
 scenario:
-  name: default
   create_sequence:
     - create
   check_sequence:

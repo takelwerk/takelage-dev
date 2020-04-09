@@ -25,7 +25,6 @@ verifier:
     # p: cacheprovider
     s: true
 scenario:
-  name: default
   create_sequence:
     - create
   check_sequence:
