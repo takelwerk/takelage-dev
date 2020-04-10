@@ -289,7 +289,7 @@ class Status(object):
                        'version': 'none'}
 
         try:
-            command = ['tau', 'version']
+            command = ['/usr/local/rvm/wrappers/default/tau', 'version']
             tau_version_result = subprocess.run(
                 command,
                 stdout=subprocess.PIPE,
