@@ -4,7 +4,7 @@
   roles:
     - takel-takelage
   tasks:
-    - name: (playbook) install deb prerequisites
+    - name: (converge) install deb prerequisites
       package:
         name: "{{ item }}"
       loop:

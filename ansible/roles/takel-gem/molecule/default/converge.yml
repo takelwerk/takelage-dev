@@ -2,7 +2,7 @@
 - name: default
   hosts: all
   pre_tasks:
-    - name: (playbook) install prerequisites
+    - name: (converge) install prerequisites
       package:
         name: "{{ item }}"
       loop:
