@@ -27,8 +27,8 @@ def test_takel_takelage_pyscripts_loginpoint_script(host, testvars):
     assert file.mode == 0o755
 
 
-def test_takel_takelage_pyscripts_statust_script(host, testvars):
-    file = host.file('/usr/local/bin/status')
+def test_takel_takelage_pyscripts_takelage_script(host, testvars):
+    file = host.file('/usr/local/bin/takelage')
     assert file.exists
     assert file.is_file
     assert file.user == 'root'

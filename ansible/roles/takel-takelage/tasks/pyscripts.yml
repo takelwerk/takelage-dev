@@ -11,8 +11,8 @@
     dest: "{{ takel_takelage_entrypoint_path }}loginpoint.py"
     mode: 0755
 
-- name: (pyscripts) copy status script
+- name: (pyscripts) copy takelage script
   copy:
-    src: pyscripts/status.py
-    dest: /usr/local/bin/status
+    src: pyscripts/takelage.py
+    dest: /usr/local/bin/takelage
     mode: 0755

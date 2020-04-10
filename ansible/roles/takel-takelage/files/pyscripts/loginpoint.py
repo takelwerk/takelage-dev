@@ -30,9 +30,9 @@ class LoginPoint(object):
             self._username,
             '--command']
         if self._debug:
-            command.append('/usr/bin/python3 /debug/status.py')
+            command.append('/usr/bin/python3 /debug/takelage.py')
         else:
-            command.append('/usr/local/bin/status --short')
+            command.append('/usr/local/bin/takelage --short')
         return command
 
     def _get_args(self):
