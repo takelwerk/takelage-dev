@@ -14,3 +14,9 @@
     path: "{{ takel_gopass_tmp }}"
     state: absent
   changed_when: false
+
+- name: (install) create symlink for pass
+  file:
+    src: /usr/local/bin/gopass
+    dest: /usr/local/bin/pass
+    state: link
