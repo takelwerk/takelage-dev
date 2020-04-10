@@ -277,7 +277,9 @@ class Status(object):
             takelage_version_file = Path('/etc/takelage_version')
             _takelage_status['version'] = \
                 takelage_version_file.read_text().strip()
-        except:
+        except OSError:
+            import sys
+            print(sys.exc_info()[0])
             _takelage_status['returncode'] = 1
 
         return _takelage_status
@@ -294,7 +296,7 @@ class Status(object):
                 stderr=subprocess.PIPE)
             _tau_status['version'] = \
                 tau_version_result.stdout.decode('utf-8').strip()
-        except:
+        except OSError:
             _tau_status['returncode'] = 1
 
         return _tau_status
