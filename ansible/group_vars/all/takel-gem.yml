@@ -3,9 +3,6 @@ takel_gem_gems:
   - name: aruba
     version: 1.0.0
     description: cli test framework
-  - name: fylla
-    version: 0.5.1
-    description: thor autocompletion
   - name: rubocop
     version: 0.81.0
     description: ruby linter
@@ -13,14 +10,8 @@ takel_gem_gems:
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.9.0
+    version: 0.9.1
     description: takelage cli
-  - name: thor
-    version: 1.0.1
-    description: cli framework
-  - name: version_sorter
-    version: 2.2.4
-    description: sort version numbers
   - name: yard
     version: 0.9.24
     description: documentation
