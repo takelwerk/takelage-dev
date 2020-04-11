@@ -5,12 +5,23 @@ color_red=$'\001'$(tput setaf 1 2>/dev/null || echo $'\e[31m')$'\002'
 color_green=$'\001'$(tput setaf 2 2>/dev/null || echo $'\e[32m')$'\002'
 color_blue=$'\001'$(tput setaf 4 2>/dev/null || echo $'\e[34m')$'\002'
 color_reset=$'\001'$(tput sgr 0 2>/dev/null || echo $'\e[0m')$'\002'
-prompt_orange='\[\e[1;38;5;214m\]'
-prompt_white='\[\e[37;1m\]'
+prompt_white_night='\[\e[37;1m\]'
+prompt_orange_night='\[\e[1;38;5;173m\]'
+prompt_white_day='\[\e[37;0m\]'
+prompt_orange_day='\[\e[0;38;5;173m\]'
 prompt_reset='\[\e[0m\]'
+
+prompt_font=$prompt_white_night
+prompt_separator=$prompt_orange_night
+
+if [ "$TAKELAGE_DAYNIGHT" = "day" ]; then
+  prompt_font=$prompt_white_day
+  prompt_separator=$prompt_orange_day
+fi
 
 # dereference git symbolic reference HEAD to get branch name or sha1 of commit
 # object and amend by information about current status of staging area
+# see: http://www.daprose.de/article/minimal-git-bash-prompt
 dereference_git_HEAD() {
     $(git -C . rev-parse >/dev/null 2>&1)
     if [ $? -eq 0 ]; then
@@ -48,4 +59,4 @@ exit_status() {
 PROMPT_COMMAND="exit_status; dereference_git_HEAD; $PROMPT_COMMAND"
 
 # fancy prompt
-export PS1="\n${prompt_orange}\$EXIT_STATUS${prompt_orange}(${prompt_white}\u${prompt_orange})-(${prompt_white}${HOSTNAME#*_}${prompt_orange})-(${prompt_white}\w${prompt_orange})\$GIT_HEAD_PROMPT\n${prompt_orange}(\[${prompt_white}#\!${prompt_orange})-(\[${prompt_white}\t${prompt_orange})${prompt_reset} "'\$ '
+export PS1="\n${prompt_separator}\$EXIT_STATUS${prompt_separator}(${prompt_font}\u${prompt_separator})-(${prompt_font}${HOSTNAME#*_}${prompt_separator})-(${prompt_font}\w${prompt_separator})\$GIT_HEAD_PROMPT\n${prompt_separator}(\[${prompt_font}#\!${prompt_separator})-(\[${prompt_font}\t${prompt_separator})${prompt_reset} "'\$ '

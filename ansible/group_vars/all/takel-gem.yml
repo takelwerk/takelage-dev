@@ -10,7 +10,7 @@ takel_gem_gems:
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.9.1
+    version: 0.9.2
     description: takelage cli
   - name: yard
     version: 0.9.24
