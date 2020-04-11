@@ -7,9 +7,9 @@ import subprocess
 
 
 class Status(object):
-    _RED = '125'
-    _GREEN = '46'
-    _BLUE = '38'
+    _RED = '31'
+    _GREEN = '32'
+    _BLUE = '34'
 
     def __init__(self):
         self.args = self._parse_args_()
@@ -141,7 +141,7 @@ class Status(object):
                         self._BLUE, key))
 
     def _display_colored_text_(self, color, text):
-        colored_text = f'\033[38;5;{color}m{text}\033[00m'
+        colored_text = f'\033[{color}m{text}\033[00m'
         return colored_text
 
     def _get_header_error_(self, section):
@@ -229,8 +229,9 @@ class Status(object):
             keys = re.findall(r'sec(.*)\n(.*)\nuid(.*)', gpg_keys_string)
             for key in keys:
                 key_info = ''.join(
-                    key[0].strip() + ': ' +
-                    key[1].strip() + ' - ' + key[2].strip())
+                    key[1].strip() + "\n\t\t\t\t" +
+                    key[2].strip() + "\n\t\t\t\t" +
+                    key[0].strip())
                 gpg_status['keys'].append(key_info)
 
             if keys:
@@ -308,7 +309,7 @@ class Status(object):
             dest="short",
             action="store_true",
             default=False,
-            help="Display only the status.")
+            help="Show status summary.")
         return parser.parse_args()
 
 

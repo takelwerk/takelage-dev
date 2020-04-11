@@ -230,14 +230,6 @@ class EntryPoint(object):
         # mkdir ~/.bashrc.d
         self._mkdir_user('.bashrc.d')
 
-        # set HOSTNAME
-        hostname_sh = self._homedir / '.bashrc.d/50hostname.sh'
-        hostname_sh.write_text('export HOSTNAME=$(hostname)')
-
-        # cd /project
-        cd_sh = self._homedir / '.bashrc.d/ZZZ98cd.sh'
-        cd_sh.write_text('cd /project')
-
         return True
 
     def get_agent_sockets(self):
