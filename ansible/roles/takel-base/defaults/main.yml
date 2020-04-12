@@ -6,6 +6,7 @@ takel_base_deb_install_packages:
   - curl
   - gnupg
   - git
+  - iputils-ping
   - jq
   - locales
   - molly-guard
