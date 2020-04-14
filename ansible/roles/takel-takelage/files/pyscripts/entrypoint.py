@@ -283,8 +283,6 @@ class EntryPoint(object):
     def _get_agent_sockets_gpg(self):
         gpg_sockets = [
             r'agent-socket:(.*)',
-            r'agent-browser-socket:(.*)',
-            r'agent-extra-socket:(.*)',
             r'agent-ssh-socket:(.*)']
         command = [self._gpgconf_bin, '--list-dirs']
 
