@@ -6,6 +6,9 @@ takel_pip_packages:
   - name: argcomplete
     version: 1.11.1
     description: autocompletion for argparse
+  - name: behave
+    version: 1.2.6
+    description: bdd framework
   - name: molecule
     version: 3.0.2
     description: ansible testing framework
@@ -18,6 +21,9 @@ takel_pip_packages:
   - name: pytest
     version: 5.4.1
     description: python testing framework
+  - name: selenium
+    version: 3.141.0
+    description: web testing framework
   - name: takeltest
     version: 0.2.0
     description: molecule pytest fixtures
