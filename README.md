@@ -1,4 +1,4 @@
-x# takelage-dev
+# takelage-dev
 
 *takelage-dev* is the development environment 
 of the takelage devops workflow.
