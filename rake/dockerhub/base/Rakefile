@@ -1,0 +1,9 @@
+require 'rake'
+
+namespace :dockerhub do
+  desc 'Create and deploy base image to dockerhub'
+  task :base => %w(image:base:debian_10_systemd
+                   dockerhub:base:registry:tag
+                   dockerhub:base:registry:login
+                   dockerhub:base:registry:push)
+end
