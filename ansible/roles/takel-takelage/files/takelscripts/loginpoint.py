@@ -20,26 +20,10 @@ class LoginPoint(object):
     def check_username(self):
         try:
             pwd.getpwnam(self._username)
+            return True
         except KeyError:
             print('User ' + self._username + ' does not exist.')
-            exit(1)
-
-    def _get_cmd_login_(self):
-        command = [
-            self._su_bin,
-            self._username]
-        return command
-
-    def _get_cmd_status_(self):
-        command = [
-            self._su_bin,
-            self._username,
-            '--command']
-        if self._debug:
-            command.append('/usr/bin/python3 /debug/takelage.py')
-        else:
-            command.append('/usr/local/bin/takelage --short')
-        return command
+            return False
 
     def login_to_container(self):
         cmd_login = self._get_cmd_login_()
@@ -78,6 +62,23 @@ class LoginPoint(object):
             help="Wait for this command")
         return parser.parse_args()
 
+    def _get_cmd_login_(self):
+        command = [
+            self._su_bin,
+            self._username]
+        return command
+
+    def _get_cmd_status_(self):
+        command = [
+            self._su_bin,
+            self._username,
+            '--command']
+        if self._debug:
+            command.append('/usr/bin/python3 /debug/takelage.py')
+        else:
+            command.append('/usr/local/bin/takelage --short')
+        return command
+
     def _get_processes_(self):
         command = [
             'ps',
@@ -92,7 +93,8 @@ class LoginPoint(object):
 def main():
     loginpoint = LoginPoint()
     loginpoint.wait_until_container_ready()
-    loginpoint.check_username()
+    if not loginpoint.check_username():
+        exit(1)
     loginpoint.print_status()
     loginpoint.login_to_container()
 
