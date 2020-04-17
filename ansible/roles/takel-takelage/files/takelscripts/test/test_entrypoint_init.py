@@ -67,6 +67,7 @@ def test_takelscripts_entrypoint_init_debug(
 
     EntryPoint()
 
+    assert '*************************' in caplog.text
     assert 'Starting configuration...' in caplog.text
     assert 'username: testuser' in caplog.text
     assert 'userid: 1500' in caplog.text
