@@ -32,7 +32,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         '_logger_init_',
         mock_logger_init)
 
-    entrypoint = EntryPoint()
+    EntryPoint()
 
     assert '' == caplog.text
 
@@ -65,7 +65,7 @@ def test_takelscripts_entrypoint_init_debug(
         '_logger_init_',
         mock_logger_init)
 
-    entrypoint = EntryPoint()
+    EntryPoint()
 
     assert 'Starting configuration...' in caplog.text
     assert 'username: testuser' in caplog.text
@@ -78,7 +78,7 @@ def test_takelscripts_entrypoint_init_debug(
     assert 'gopass: False' in caplog.text
     assert 'gpg: False' in caplog.text
     assert 'ssh: False' in caplog.text
-    
+
 
 def mock_logger_init(x, debug):
     logger = logging.getLogger('')

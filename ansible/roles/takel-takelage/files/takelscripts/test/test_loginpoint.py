@@ -1,5 +1,4 @@
 from argparse import Namespace
-import pwd
 import takelscripts
 from takelscripts.loginpoint import LoginPoint
 
