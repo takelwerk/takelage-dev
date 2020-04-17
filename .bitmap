@@ -341,29 +341,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/base@0.0.3": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "install-debian.bash",
-                "relativePath": "debian_10_systemd/bin/install-debian.bash",
-                "test": false
-            },
-            {
-                "name": "docker.json",
-                "relativePath": "debian_10_systemd/docker.json",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "packer/templates/base",
-        "origin": "IMPORTED",
-        "originallySharedDir": "packer/templates/base"
-    },
     "takelage.packer/packer/templates/project@0.0.2": {
         "files": [
             {
@@ -404,29 +381,6 @@
         "rootDir": "rake/dockerhub/base",
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/base"
-    },
-    "takelage.rake/rake/dockerhub/prod@0.0.4": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "registry/Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/dockerhub/prod",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/dockerhub/prod"
     },
     "takelage.rake/rake/git@0.0.5": {
         "files": [
