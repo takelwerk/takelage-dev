@@ -34,11 +34,11 @@ class LoginPoint(object):
         subprocess.run(cmd_status)
 
     def wait_until_container_ready(self):
-        processes = self._get_processes_()
+        processes = self._get_processes_('start')
 
         # wait until the entrypoint.py script has finished
         while self._waitfor not in processes:
-            processes = self._get_processes_()
+            processes = self._get_processes_('loop')
             if self._debug:
                 print('Container not ready. Waiting...')
             sleep(0.5)
@@ -79,7 +79,7 @@ class LoginPoint(object):
             command.append('/usr/local/bin/takelage --short')
         return command
 
-    def _get_processes_(self):
+    def _get_processes_(self, when):
         command = [
             'ps',
             'a']
