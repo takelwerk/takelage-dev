@@ -378,9 +378,9 @@ def main():
     entrypoint.add_git()
     entrypoint.add_bit()
     entrypoint.add_mapping()
-    entrypoint.forward_agents()
     entrypoint.add_gcloud()
     entrypoint.add_docker()
+    entrypoint.forward_agents()
     subprocess.run(['tail', '-f', '/debug/takelage.log'])
 
 

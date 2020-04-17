@@ -25,7 +25,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_prepare_homedir_',
+        '_mkdir_homedir_parent_',
         lambda x, y: y)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -58,7 +58,7 @@ def test_takelscripts_entrypoint_init_debug(
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_prepare_homedir_',
+        '_mkdir_homedir_parent_',
         lambda x, y: y)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
