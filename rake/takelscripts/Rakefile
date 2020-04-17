@@ -1,13 +1,13 @@
 require 'rake'
 
-cmd_scripts_unit = 'cd ansible/roles/takel-takelage/files/takelscripts/test && ' +
+cmd_takelscripts_unit = 'cd ansible/roles/takel-takelage/files/takelscripts/test && ' +
         'pytest -v'
 
-namespace :scripts do
+namespace :takelscripts do
 
   desc 'Run unit tests'
   task :unit do
-    $commands << cmd_scripts_unit
+    $commands << cmd_takelscripts_unit
   end
 
 end
