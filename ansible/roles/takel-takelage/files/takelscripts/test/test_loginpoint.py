@@ -18,6 +18,7 @@ def test_takelscripts_loginpoint_check_username_exists(
         'pwd.getpwnam',
         lambda x: x)
     loginpoint = LoginPoint()
+
     assert loginpoint.check_username()
 
 

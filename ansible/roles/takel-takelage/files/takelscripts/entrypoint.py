@@ -14,38 +14,37 @@ import yaml
 class EntryPoint(object):
 
     def __init__(self):
-        self._get_bin()
-        args = self._get_args()
+        self._bin_gpgconf = '/usr/bin/gpgconf'
+        self._bin_socat = '/usr/bin/socat'
+        self._bin_su = '/bin/su'
+        args = self._get_args_()
         self._debug = args.debug
         self._bit = args.bit
         self._docker = args.docker
+        self._gid = args.gid
         self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
         self._ssh = args.ssh
         self._username = args.username
-        self._groupid = args.gid
-        self._userid = args.uid
-        self._host_homedir = Path('/homedir')
-        self._homedir = Path(args.home)
-        self._homedir.parents[0].mkdir(exist_ok=True, parents=True)
+        self._uid = args.uid
         self._mapping_directories = {}
         self._agent_forwards = {
-            'gpg-agent': {'path': None,
-                          'port': 20000},
-            'gpg-agent.ssh': {'path': None,
-                              'port': 20001},
-            'gpg-agent.extra': {'path': None,
-                                'port': 20002},
-            'gpg-agent.browser': {'path': None,
-                                  'port': 20003},
-            'ssh-agent': {'path': None,
-                          'port': 20100}}
-        self._logger_init()
+            'gpg-agent': {
+                'path': None,
+                'port': 20000},
+            'gpg-agent.ssh': {
+                'path': None,
+                'port': 20001}}
+        self._homedir = Path(args.home)
+        self._prepare_homedir_(self._homedir)
+        self._host_homedir = Path('/homedir')
+
+        self._logger = self._logger_init_(self._debug)
         self._logger.info('Starting configuration...')
         self._logger.info('username: ' + self._username)
-        self._logger.info('userid: ' + str(self._userid))
-        self._logger.info('groupid: ' + str(self._groupid))
+        self._logger.info('userid: ' + str(self._uid))
+        self._logger.info('groupid: ' + str(self._gid))
         self._logger.info('homedir: ' + str(self._homedir))
         self._logger.info('bit: ' + str(self._bit))
         self._logger.info('debug: ' + str(self._debug))
@@ -59,8 +58,8 @@ class EntryPoint(object):
             return
 
         # bit directories
-        self._mkdir_user('Library/Caches/Bit/logs')
-        self._mkdir_user('Library/Caches/Bit/config')
+        self._mkdir_user_('Library/Caches/Bit/logs')
+        self._mkdir_user_('Library/Caches/Bit/config')
 
         # bit config
         bit_config_template = """
@@ -88,16 +87,16 @@ class EntryPoint(object):
   }
 }
 """
-        self._mkdir_user('.docker')
+        self._mkdir_user_('.docker')
         docker_config_file = self._homedir / '.docker/config.json'
         docker_config_file.write_text(docker_config_template)
-        chown(str(docker_config_file), self._userid, self._groupid)
+        chown(str(docker_config_file), self._uid, self._gid)
         self._logger.info('docker config added.')
 
     def add_gcloud(self):
         gcloud_system_path = Path('/srv/gcloud')
         if gcloud_system_path.exists():
-            self._mkdir_user('.config')
+            self._mkdir_user_('.config')
             gcloud_config_path = self._homedir / '.config/gcloud'
             gcloud_config_path.symlink_to(gcloud_system_path)
             self._logger.info('gcloud config added.')
@@ -123,7 +122,7 @@ class EntryPoint(object):
             return False
 
         # add config
-        self._mkdir_user('.config')
+        self._mkdir_user_('.config')
         self._mapping_directories['.config/gopass'] = self._host_homedir
 
         # add path for the personal passwordstore
@@ -158,7 +157,7 @@ class EntryPoint(object):
             'openpgp-revocs.d',
             'crls.d']
 
-        self._mkdir_user('.gnupg')
+        self._mkdir_user_('.gnupg')
         (self._homedir / '.gnupg').chmod(0o700)
         for item in gpg_links:
             self._mapping_directories[Path('.gnupg') / item] = \
@@ -180,7 +179,7 @@ class EntryPoint(object):
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
 
-        chown(tty_device, self._userid, -1)
+        chown(tty_device, self._uid, -1)
         if self._docker:
             chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
         self._logger.info('Directory mappings added.')
@@ -198,14 +197,14 @@ class EntryPoint(object):
         else:
             groups = 'sudo,tty'
 
-        self._add_group()
+        self._add_group_()
 
         useradd_command = [
             'useradd',
             '--create-home',
             '--home-dir', str(self._homedir),
-            '--gid', str(self._groupid),
-            '--uid', str(self._userid),
+            '--gid', str(self._gid),
+            '--uid', str(self._uid),
             '--groups', groups,
             '--shell', '/bin/bash',
             '--non-unique',
@@ -228,14 +227,14 @@ class EntryPoint(object):
         dest.write_text(src.read_text())
 
         # mkdir ~/.bashrc.d
-        self._mkdir_user('.bashrc.d')
+        self._mkdir_user_('.bashrc.d')
 
         return True
 
     def get_agent_sockets(self):
         for agent in self._agent_forwards:
             if 'gpg-agent' in str(agent):
-                self._get_agent_sockets_gpg()
+                self._get_agent_sockets_gpg_()
 
     def forward_agents(self):
         for agent in self._agent_forwards:
@@ -251,10 +250,10 @@ class EntryPoint(object):
                     self._agent_forwards[agent]['path']
 
             command = [
-                self._socat_bin,
+                self._bin_socat,
                 'UNIX-LISTEN:' + str(user_socket_path) +
                 ',reuseaddr,fork,user=' + self._username +
-                ',gid=' + str(self._groupid),
+                ',gid=' + str(self._gid),
                 'TCP:host.docker.internal:' +
                 str(self._agent_forwards[agent]['port'])]
 
@@ -263,9 +262,9 @@ class EntryPoint(object):
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL)
 
-    def _add_group(self):
+    def _add_group_(self):
         groupadd_command = ['groupadd',
-                            '--gid', str(self._groupid),
+                            '--gid', str(self._gid),
                             '--non-unique',
                             self._username]
         groupadd_result = subprocess.run(
@@ -280,11 +279,11 @@ class EntryPoint(object):
 
         return True
 
-    def _get_agent_sockets_gpg(self):
+    def _get_agent_sockets_gpg_(self):
         gpg_sockets = [
             r'agent-socket:(.*)',
             r'agent-ssh-socket:(.*)']
-        command = [self._gpgconf_bin, '--list-dirs']
+        command = [self._bin_gpgconf, '--list-dirs']
 
         gpg_path_list = subprocess.run(
             command,
@@ -306,7 +305,7 @@ class EntryPoint(object):
                 self._agent_forwards[socket_name.split('S.')[1]]['path'] = \
                     str(socket_path)
 
-    def _get_args(self):
+    def _get_args_(self):
         parser = argparse.ArgumentParser()
         parser.add_argument(
             "--debug",
@@ -314,14 +313,6 @@ class EntryPoint(object):
             action="store_true",
             default=False,
             help="Set debug flag.")
-        parser.add_argument(
-            "--username",
-            type=str,
-            help="Username used in the host system")
-        parser.add_argument(
-            "--uid",
-            type=int,
-            help="User ID of the username used in the host system")
         parser.add_argument(
             "--gid",
             type=int,
@@ -366,36 +357,39 @@ class EntryPoint(object):
             action="store_false",
             default=True,
             help="Do not add ssh configuration")
+        parser.add_argument(
+            "--uid",
+            type=int,
+            help="User ID of the username used in the host system")
+        parser.add_argument(
+            "--username",
+            type=str,
+            help="Username used in the host system")
         return parser.parse_args()
 
-    def _get_bin(self):
-        self._gpgconf_bin = subprocess.run(
-            ['which', 'gpgconf'],
-            stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-        self._socat_bin = subprocess.run(
-            ['which', 'socat'],
-            stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-        self._su_bin = subprocess.run(
-            ['which', 'su'],
-            stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
-
-    def _logger_init(self):
-        self._logger = logging.getLogger(__file__)
-        self._logger.setLevel(logging.INFO)
-        if self._debug:
-            self._logger.setLevel(logging.DEBUG)
+    def _logger_init_(self, debug):
+        logger = logging.getLogger(__file__)
+        logger.setLevel(logging.INFO)
+        if debug:
+            logger.setLevel(logging.DEBUG)
         Path('/debug').mkdir(exist_ok=True)
         fh = logging.FileHandler('/debug/takelage.log')
         formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
             "%Y-%m-%d %H:%M:%S")
         fh.setFormatter(formatter)
-        self._logger.addHandler(fh)
+        logger.addHandler(fh)
+        return logger
 
-    def _mkdir_user(self, directory):
+    def _mkdir_user_(self, directory):
         dir = self._homedir / directory
         dir.mkdir(exist_ok=True, parents=True)
-        chown(str(dir), self._userid, self._groupid)
+        chown(str(dir), self._uid, self._gid)
+
+    def _prepare_homedir_(self, homedir):
+        homedir.parents[0].mkdir(
+            exist_ok=True,
+            parents=True)
 
 
 def main():
