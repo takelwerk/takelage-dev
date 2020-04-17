@@ -41,17 +41,17 @@ class EntryPoint(object):
         self._host_homedir = Path('/homedir')
 
         self._logger = self._logger_init_(self._debug)
-        self._logger.info('Starting configuration...')
-        self._logger.info('username: ' + self._username)
-        self._logger.info('userid: ' + str(self._uid))
-        self._logger.info('groupid: ' + str(self._gid))
-        self._logger.info('homedir: ' + str(self._homedir))
-        self._logger.info('bit: ' + str(self._bit))
-        self._logger.info('debug: ' + str(self._debug))
-        self._logger.info('git: ' + str(self._git))
-        self._logger.info('gopass: ' + str(self._gopass))
-        self._logger.info('gpg: ' + str(self._gpg))
-        self._logger.info('ssh: ' + str(self._ssh))
+        self._logger.debug('Starting configuration...')
+        self._logger.debug('username: ' + self._username)
+        self._logger.debug('userid: ' + str(self._uid))
+        self._logger.debug('groupid: ' + str(self._gid))
+        self._logger.debug('homedir: ' + str(self._homedir))
+        self._logger.debug('bit: ' + str(self._bit))
+        self._logger.debug('debug: ' + str(self._debug))
+        self._logger.debug('git: ' + str(self._git))
+        self._logger.debug('gopass: ' + str(self._gopass))
+        self._logger.debug('gpg: ' + str(self._gpg))
+        self._logger.debug('ssh: ' + str(self._ssh))
 
     def add_bit(self):
         if not self._bit:
@@ -72,7 +72,7 @@ class EntryPoint(object):
         # ~/takelage.yml
         self._mapping_directories['.takelage.yml'] = self._host_homedir
 
-        self._logger.info('bit config added.')
+        self._logger.debug('bit config added.')
 
     def add_docker(self):
         docker_config_template = """
@@ -91,7 +91,7 @@ class EntryPoint(object):
         docker_config_file = self._homedir / '.docker/config.json'
         docker_config_file.write_text(docker_config_template)
         chown(str(docker_config_file), self._uid, self._gid)
-        self._logger.info('docker config added.')
+        self._logger.debug('docker config added.')
 
     def add_gcloud(self):
         gcloud_system_path = Path('/srv/gcloud')
@@ -99,13 +99,13 @@ class EntryPoint(object):
             self._mkdir_user_('.config')
             gcloud_config_path = self._homedir / '.config/gcloud'
             gcloud_config_path.symlink_to(gcloud_system_path)
-            self._logger.info('gcloud config added.')
+            self._logger.debug('gcloud config added.')
 
     def add_git(self):
         if not self._git:
             return
         self._mapping_directories['.gitconfig'] = self._host_homedir
-        self._logger.info('git config added.')
+        self._logger.debug('git config added.')
 
     def add_gopass(self):
         if not self._gopass:
@@ -142,7 +142,7 @@ class EntryPoint(object):
                 passwordstore_relpath = mount_path.relative_to(self._homedir)
                 self._mapping_directories[passwordstore_relpath] = \
                     self._host_homedir
-        self._logger.info('gopass config added.')
+        self._logger.debug('gopass config added.')
         return True
 
     def add_gpg(self):
@@ -167,7 +167,7 @@ class EntryPoint(object):
         self._mapping_directories[Path('.gnupg/gpg-agent.conf')] = Path('/srv')
         self._mapping_directories[Path('.gnupg/gpg.conf')] = Path('/srv')
         self._mapping_directories[Path('.gnupg/dirmngr.conf')] = Path('/srv')
-        self._logger.info('gpg config added.')
+        self._logger.debug('gpg config added.')
 
     def add_mapping(self):
         for item, path in self._mapping_directories.items():
@@ -182,16 +182,16 @@ class EntryPoint(object):
         chown(tty_device, self._uid, -1)
         if self._docker:
             chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
-        self._logger.info('Directory mappings added.')
+        self._logger.debug('Directory mappings added.')
 
     def add_ssh(self):
         if not self._ssh:
             return
         self._mapping_directories['.ssh'] = self._host_homedir
-        self._logger.info('ssh config added.')
+        self._logger.debug('ssh config added.')
 
     def add_user(self):
-        self._logger.info('Create user %s' % self._username)
+        self._logger.debug('Create user %s' % self._username)
         if self._docker:
             groups = 'docker,sudo,tty'
         else:
@@ -219,7 +219,7 @@ class EntryPoint(object):
             self._logger.error(useradd_result.stdout)
             self._logger.error(useradd_result.stderr)
             return False
-        self._logger.info('User added.')
+        self._logger.debug('User added.')
 
         # cp /root/.bashrc ~/.bashrc
         src = Path('/root/.bashrc')

@@ -4,9 +4,9 @@ import takelscripts
 from takelscripts.entrypoint import EntryPoint
 
 
-def test_takelscripts_entrypoint_init(
+def test_takelscripts_entrypoint_init_nodebug(
         monkeypatch,
-        capsys):
+        caplog):
     args = Namespace(
         debug=False,
         gid=1600,
@@ -34,21 +34,55 @@ def test_takelscripts_entrypoint_init(
 
     entrypoint = EntryPoint()
 
-    expected = ""
-    captured = capsys.readouterr()
+    assert '' == caplog.text
 
-    assert expected == captured.out
 
+def test_takelscripts_entrypoint_init_debug(
+        monkeypatch,
+        caplog):
+    args = Namespace(
+        debug=True,
+        gid=1600,
+        home='/testuser',
+        bit=True,
+        docker=True,
+        git=True,
+        gopass=True,
+        gpg=True,
+        ssh=True,
+        uid=1500,
+        username='testuser')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_args_',
+        lambda x: args)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_prepare_homedir_',
+        lambda x, y: y)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+
+    entrypoint = EntryPoint()
+
+    assert 'Starting configuration...' in caplog.text
+    assert 'username: testuser' in caplog.text
+    assert 'userid: 1500' in caplog.text
+    assert 'groupid: 1600' in caplog.text
+    assert 'homedir: /testuser' in caplog.text
+    assert 'bit: True' in caplog.text
+    assert 'debug: True' in caplog.text
+    assert 'git: True' in caplog.text
+    assert 'gopass: True' in caplog.text
+    assert 'gpg: True' in caplog.text
+    assert 'ssh: True' in caplog.text
+    
 
 def mock_logger_init(x, debug):
-    logger = logging.getLogger()
+    logger = logging.getLogger('')
     logger.setLevel(logging.INFO)
     if debug:
         logger.setLevel(logging.DEBUG)
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter(
-        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        "%Y-%m-%d %H:%M:%S")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
     return logger
