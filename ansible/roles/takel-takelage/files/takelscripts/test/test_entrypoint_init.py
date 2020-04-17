@@ -10,13 +10,13 @@ def test_takelscripts_entrypoint_init_nodebug(
     args = Namespace(
         debug=False,
         gid=1600,
-        home='/testuser',
-        bit=True,
-        docker=True,
-        git=True,
-        gopass=True,
-        gpg=True,
-        ssh=True,
+        home='/home/testuser',
+        bit=False,
+        docker=False,
+        git=False,
+        gopass=False,
+        gpg=False,
+        ssh=False,
         uid=1500,
         username='testuser')
     monkeypatch.setattr(
@@ -43,13 +43,13 @@ def test_takelscripts_entrypoint_init_debug(
     args = Namespace(
         debug=True,
         gid=1600,
-        home='/testuser',
-        bit=True,
-        docker=True,
-        git=True,
-        gopass=True,
-        gpg=True,
-        ssh=True,
+        home='/home/testuser',
+        bit=False,
+        docker=False,
+        git=False,
+        gopass=False,
+        gpg=False,
+        ssh=False,
         uid=1500,
         username='testuser')
     monkeypatch.setattr(
@@ -71,13 +71,13 @@ def test_takelscripts_entrypoint_init_debug(
     assert 'username: testuser' in caplog.text
     assert 'userid: 1500' in caplog.text
     assert 'groupid: 1600' in caplog.text
-    assert 'homedir: /testuser' in caplog.text
-    assert 'bit: True' in caplog.text
+    assert 'homedir: /home/testuser' in caplog.text
+    assert 'bit: False' in caplog.text
     assert 'debug: True' in caplog.text
-    assert 'git: True' in caplog.text
-    assert 'gopass: True' in caplog.text
-    assert 'gpg: True' in caplog.text
-    assert 'ssh: True' in caplog.text
+    assert 'git: False' in caplog.text
+    assert 'gopass: False' in caplog.text
+    assert 'gpg: False' in caplog.text
+    assert 'ssh: False' in caplog.text
     
 
 def mock_logger_init(x, debug):

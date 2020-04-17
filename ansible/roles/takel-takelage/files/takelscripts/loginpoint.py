@@ -9,9 +9,6 @@ from time import sleep
 class LoginPoint(object):
 
     def __init__(self):
-        self._su_bin = subprocess.run(
-            ['which', 'su'],
-            stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
         self.args = self._get_args_()
         self._debug = self.args.debug
         self._username = self.args.username
@@ -64,13 +61,13 @@ class LoginPoint(object):
 
     def _get_cmd_login_(self):
         command = [
-            self._su_bin,
+            '/bin/su',
             self._username]
         return command
 
     def _get_cmd_status_(self):
         command = [
-            self._su_bin,
+            '/bin/su',
             self._username,
             '--command']
         if self._debug:

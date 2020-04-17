@@ -24,5 +24,7 @@ takel_takelage_profile:
     order: 50
   - file: prompt.sh
     order: 50
+  - file: sshagent.sh
+    order: 50
   - file: tau.sh
     order: 50
