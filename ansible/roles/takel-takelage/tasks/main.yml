@@ -13,12 +13,12 @@
     - takel_takelage
     - takel_takelage_sudo
 
-- name: (main) include pyscripts
-  import_tasks: pyscripts.yml
+- name: (main) include takelscripts
+  import_tasks: takelscripts.yml
   tags:
     - takel
     - takel_takelage
-    - takel_takelage_pyscripts
+    - takel_takelage_takelscripts
 
 - name: (main) include gnupg
   import_tasks: gnupg.yml
