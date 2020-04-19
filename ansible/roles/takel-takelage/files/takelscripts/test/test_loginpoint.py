@@ -11,7 +11,7 @@ def test_takelscripts_loginpoint_check_username_exists(
         waitfor='tail -f /debug/takelage.log')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         'pwd.getpwnam',
@@ -32,7 +32,7 @@ def test_takelscripts_loginpoint_check_username_notexists(
         waitfor='tail -f /debug/takelage.log')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         'pwd.getpwnam',
@@ -60,7 +60,7 @@ def test_takelscripts_loginpoint_wait_until_container_ready_nodebug(
         waitfor='my_process')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
@@ -87,7 +87,7 @@ def test_takelscripts_loginpoint_wait_until_container_ready_debug(
         waitfor='my_process')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
@@ -109,7 +109,7 @@ def test_takelscripts_loginpoint_get_cmd_login(
         waitfor='tail -f /debug/takelage.log')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     loginpoint = LoginPoint()
     cmd_login = loginpoint._get_cmd_login_()
@@ -128,7 +128,7 @@ def test_takelscripts_loginpoint_get_cmd_status_nodebug(
         waitfor='tail -f /debug/takelage.log')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     loginpoint = LoginPoint()
     cmd_status = loginpoint._get_cmd_status_()
@@ -149,7 +149,7 @@ def test_takelscripts_loginpoint_get_cmd_status_debug(
         waitfor='tail -f /debug/takelage.log')
     monkeypatch.setattr(
         takelscripts.loginpoint.LoginPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     loginpoint = LoginPoint()
     cmd_status = loginpoint._get_cmd_status_()

@@ -9,7 +9,7 @@ def test_takelscripts_takelage_init(
         short=True)
     monkeypatch.setattr(
         takelscripts.takelage.Takelage,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.takelage.Takelage,

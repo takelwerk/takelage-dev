@@ -1,2 +1,2 @@
 alias l='ls -laF'
-alias takel='takelage --short'
+alias takel='takelage --summary'

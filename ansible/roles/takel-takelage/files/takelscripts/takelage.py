@@ -12,7 +12,8 @@ class Takelage(object):
     _BLUE = '34'
 
     def __init__(self):
-        self.args = self._get_args_()
+        args = self._parse_args_()
+        self._summary = args.summary
         self._status_takelage = self._get_status_takelage_()
         self._status_tau = self._get_status_tau_()
         self._status_gpg = self._get_status_gpg_()
@@ -90,7 +91,7 @@ class Takelage(object):
             print('git config status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
-            if not self.args.short:
+            if not self.summary():
                 print('git config:')
                 print('\tname: \t\t' +
                       self._display_colored_text_(
@@ -112,7 +113,7 @@ class Takelage(object):
             print('gopass cfg status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
-            if not self.args.short:
+            if not self.summary():
                 print('used gpg-keys:')
                 for key in used_gpg_keys:
                     print('\t\t\t' + self._display_colored_text_(
@@ -123,7 +124,7 @@ class Takelage(object):
             print('gpg agent status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
-            if not self.args.short:
+            if not self.summary():
                 print('available gpg keys:')
                 for key in self._status_gpg['keys']:
                     print('\t\t\t' + self._display_colored_text_(
@@ -134,25 +135,18 @@ class Takelage(object):
             print('ssh agent status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
-            if not self.args.short:
+            if not self.summary():
                 print('available ssh keys:')
                 for key in self._status_ssh['keys']:
                     print('\t\t\t' + self._display_colored_text_(
                         self._BLUE, key))
 
+    def summary(self):
+        return self._summary
+
     def _display_colored_text_(self, color, text):
         colored_text = f'\033[{color}m{text}\033[00m'
         return colored_text
-
-    def _get_args_(self):
-        parser = ArgumentParser()
-        parser.add_argument(
-            "--short",
-            dest="short",
-            action="store_true",
-            default=False,
-            help="Show status summary.")
-        return parser.parse_args()
 
     def _get_header_error_(self, section):
         header_error = section + '\t'
@@ -312,11 +306,21 @@ class Takelage(object):
 
         return _tau_status
 
+    def _parse_args_(self):
+        parser = ArgumentParser()
+        parser.add_argument(
+            "--summary",
+            dest="summary",
+            action="store_true",
+            default=False,
+            help="Show status summary.")
+        return parser.parse_args()
+
 
 def main():
     takelage = Takelage()
     takelage.print_header()
-    if not takelage.args.short:
+    if not takelage.summary():
         takelage.print_status_git()
         takelage.print_status_gopass()
         takelage.print_status_gpg()

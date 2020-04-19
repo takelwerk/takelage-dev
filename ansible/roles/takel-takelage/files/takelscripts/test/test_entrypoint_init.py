@@ -13,6 +13,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         home='/home/testuser',
         bit=False,
         docker=False,
+        extra='',
         gcloud=False,
         git=False,
         gopass=False,
@@ -24,7 +25,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -50,7 +51,7 @@ def test_takelscripts_entrypoint_init_debug(
         home='/home/testuser',
         bit=False,
         docker=False,
-        gcloud=False,
+        extra='.config/first:.config/second',
         git=False,
         gopass=False,
         gpg=False,
@@ -61,7 +62,7 @@ def test_takelscripts_entrypoint_init_debug(
         username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_get_args_',
+        '_parse_args_',
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -81,7 +82,7 @@ def test_takelscripts_entrypoint_init_debug(
            "bit=False, " + \
            "debug=True, " + \
            "docker=False, " + \
-           "gcloud=False, " + \
+           "extra='.config/first:.config/second', " + \
            "gid=1600, " + \
            "git=False, " + \
            "gopass=False, " + \

@@ -15,7 +15,7 @@ import yaml
 class EntryPoint(object):
 
     def __init__(self):
-        args = self._get_args_()
+        args = self._parse_args_()
         self._debug = args.debug
         now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         self._logger = self._logger_init_(self._debug)
@@ -26,8 +26,9 @@ class EntryPoint(object):
                 now=now))
         self._bit = args.bit
         self._docker = args.docker
+        self._extra = args.extra
         self._gid = args.gid
-        self._gcloud = args.gcloud
+        self._extra = args.extra
         self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
@@ -126,16 +127,17 @@ class EntryPoint(object):
         self._logger.info('added config: docker')
         return True
 
-    def add_gcloud(self):
-        if not self._gcloud:
+    def add_extra(self):
+        if not self._extra:
             return False
         self._logger.debug(
-            'adding config: gcloud')
+            'adding config: extra')
 
-        self._symlink_('.config/gcloud')
+        for item in self._extra.split(':'):
+            self._symlink_(item)
 
         self._logger.info(
-            'added config: gcloud')
+            'added config: extra')
         return True
 
     def add_git(self):
@@ -306,6 +308,27 @@ class EntryPoint(object):
                 user=self._username))
         return True
 
+    def chown_home(self):
+        self._logger.debug(
+            'changing ownership: {home}'.format(
+                home=self._homedir))
+
+        command = [
+            '/bin/chown',
+            '--recursive',
+            '{user}.{group}'.format(
+                user=self._username,
+                group=self._username),
+            str(self._homedir)]
+        result = self._run_(command)
+        if result.returncode:
+            return False
+
+        self._logger.info(
+            'changed ownership: {home}'.format(
+                home=self._homedir))
+        return True
+
     def forward_agents(self):
         self._logger.debug(
             'forwarding agents')
@@ -333,82 +356,6 @@ class EntryPoint(object):
             'copying file: {copy}'.format(
                 copy=copy))
         copyfile(src, dest)
-
-    def _get_args_(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument(
-            "--debug",
-            dest="debug",
-            action="store_true",
-            default=False,
-            help="Set debug flag.")
-        parser.add_argument(
-            "--gid",
-            type=int,
-            help="Group ID of the username used in the host system")
-        parser.add_argument(
-            "--gpg_agent_port",
-            type=int,
-            help="Port of gpg agent socket")
-        parser.add_argument(
-            "--gpg_ssh_agent_port",
-            type=int,
-            help="Port of gpg ssh agent socket")
-        parser.add_argument(
-            "--home",
-            type=str,
-            help="Home directory used in the host system")
-        parser.add_argument(
-            "--no-bit",
-            dest="bit",
-            action="store_false",
-            default=True,
-            help="Do not add bit configuration")
-        parser.add_argument(
-            "--no-docker",
-            dest="docker",
-            action="store_false",
-            default=True,
-            help="Disable docker-socket passthrough")
-        parser.add_argument(
-            "--no-git",
-            dest="git",
-            action="store_false",
-            default=True,
-            help="Do not add git configuation")
-        parser.add_argument(
-            "--no-gcloud",
-            dest="gcloud",
-            action="store_false",
-            default=True,
-            help="Do not add gcloud configuation")
-        parser.add_argument(
-            "--no-gopass",
-            dest="gopass",
-            action="store_false",
-            default=True,
-            help="Do not add gopass configuration")
-        parser.add_argument(
-            "--no-gpg",
-            dest="gpg",
-            action="store_false",
-            default=True,
-            help="Do not add gpg configuration")
-        parser.add_argument(
-            "--no-ssh",
-            dest="ssh",
-            action="store_false",
-            default=True,
-            help="Do not add ssh configuration")
-        parser.add_argument(
-            "--uid",
-            type=int,
-            help="User ID of the username used in the host system")
-        parser.add_argument(
-            "--username",
-            type=str,
-            help="Username used in the host system")
-        return parser.parse_args()
 
     def _get_hostdir_(self):
         return Path('/hostdir')
@@ -443,6 +390,87 @@ class EntryPoint(object):
                 'creating parent directory: {parentdir}'.format(
                     parentdir=parentdir))
             parentdir.mkdir(parents=True)
+
+    def _parse_args_(self):
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "--debug",
+            dest="debug",
+            action="store_true",
+            default=False,
+            help="Set debug flag")
+        parser.add_argument(
+            "--gid",
+            type=int,
+            help="Group ID of the username used in the host system")
+        parser.add_argument(
+            "--gpg_agent_port",
+            type=int,
+            help="Port of gpg agent socket")
+        parser.add_argument(
+            "--gpg_ssh_agent_port",
+            type=int,
+            help="Port of gpg ssh agent socket")
+        parser.add_argument(
+            "--extra",
+            type=str,
+            default="",
+            help="Colon-separated config files that should be symlinked")
+        parser.add_argument(
+            "--home",
+            type=str,
+            help="Home directory used in the host system")
+        parser.add_argument(
+            "--no-bit",
+            dest="bit",
+            action="store_false",
+            default=True,
+            help="Do not add bit configuration")
+        parser.add_argument(
+            "--no-docker",
+            dest="docker",
+            action="store_false",
+            default=True,
+            help="Disable docker-socket passthrough")
+        parser.add_argument(
+            "--no-extra",
+            dest="extra",
+            action="store_false",
+            default=True,
+            help="Do not add extra configuation")
+        parser.add_argument(
+            "--no-git",
+            dest="git",
+            action="store_false",
+            default=True,
+            help="Do not add git configuation")
+        parser.add_argument(
+            "--no-gopass",
+            dest="gopass",
+            action="store_false",
+            default=True,
+            help="Do not add gopass configuration")
+        parser.add_argument(
+            "--no-gpg",
+            dest="gpg",
+            action="store_false",
+            default=True,
+            help="Do not add gpg configuration")
+        parser.add_argument(
+            "--no-ssh",
+            dest="ssh",
+            action="store_false",
+            default=True,
+            help="Do not add ssh configuration")
+        parser.add_argument(
+            "--uid",
+            type=int,
+            help="User ID of the username used in the host system")
+        parser.add_argument(
+            "--username",
+            type=str,
+            help="Username used in the host system")
+        return parser.parse_args()
 
     def _run_(self, command):
         self._logger.debug(
@@ -494,8 +522,9 @@ def main():
     entrypoint.add_ssh()
     entrypoint.add_git()
     entrypoint.add_bit()
-    entrypoint.add_gcloud()
+    entrypoint.add_extra()
     entrypoint.add_docker()
+    entrypoint.chown_home()
     entrypoint.forward_agents()
     subprocess.run(['tail', '-f', '/debug/takelage.log'])
 

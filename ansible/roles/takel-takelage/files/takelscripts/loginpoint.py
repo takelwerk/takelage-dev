@@ -9,10 +9,10 @@ from time import sleep
 class LoginPoint(object):
 
     def __init__(self):
-        self.args = self._get_args_()
-        self._debug = self.args.debug
-        self._username = self.args.username
-        self._waitfor = self.args.waitfor
+        args = self._parse_args_()
+        self._debug = args.debug
+        self._username = args.username
+        self._waitfor = args.waitfor
 
     def check_username(self):
         try:
@@ -40,7 +40,34 @@ class LoginPoint(object):
                 print('Container not ready. Waiting...')
             sleep(0.5)
 
-    def _get_args_(self):
+    def _get_cmd_login_(self):
+        command = [
+            '/bin/su',
+            self._username]
+        return command
+
+    def _get_cmd_status_(self):
+        command = [
+            '/bin/su',
+            self._username,
+            '--command']
+        if self._debug:
+            command.append('/usr/bin/python3 /debug/takelage.py')
+        else:
+            command.append('/usr/local/bin/takelage --summary')
+        return command
+
+    def _get_processes_(self, when):
+        command = [
+            'ps',
+            'a']
+        processes = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE).stdout.decode('utf-8')
+        return processes
+
+    def _parse_args_(self):
         parser = argparse.ArgumentParser()
         parser.add_argument(
             "--debug",
@@ -58,33 +85,6 @@ class LoginPoint(object):
             default="tail -f /debug/takelage.log",
             help="Wait for this command")
         return parser.parse_args()
-
-    def _get_cmd_login_(self):
-        command = [
-            '/bin/su',
-            self._username]
-        return command
-
-    def _get_cmd_status_(self):
-        command = [
-            '/bin/su',
-            self._username,
-            '--command']
-        if self._debug:
-            command.append('/usr/bin/python3 /debug/takelage.py')
-        else:
-            command.append('/usr/local/bin/takelage --short')
-        return command
-
-    def _get_processes_(self, when):
-        command = [
-            'ps',
-            'a']
-        processes = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode('utf-8')
-        return processes
 
 
 def main():

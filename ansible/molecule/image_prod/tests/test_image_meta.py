@@ -25,7 +25,7 @@ def test_image_meta_user(image_meta_data):
                 '--home /testhome/testuser '
                 '--no-bit '
                 '--no-docker '
-                '--no-gcloud '
+                '--no-extra '
                 '--no-git '
                 '--no-gopass '
                 '--no-gpg '
