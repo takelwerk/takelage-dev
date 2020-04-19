@@ -6,7 +6,7 @@ from takelscripts.takelage import Takelage
 def test_takelscripts_takelage_init(
         monkeypatch):
     args = Namespace(
-        short=True)
+        summary=True)
     monkeypatch.setattr(
         takelscripts.takelage.Takelage,
         '_parse_args_',
