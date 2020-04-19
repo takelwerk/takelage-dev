@@ -12,6 +12,7 @@ takel_base_deb_install_packages:
   - locales
   - molly-guard
   - procps
+  - rsync
   - rsyslog
   - tmux
   - tree
