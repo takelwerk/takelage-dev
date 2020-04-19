@@ -69,7 +69,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-anarchism"
     },
-    "takelage.ansible/ansible/roles/takel-base@0.0.11": {
+    "takelage.ansible/ansible/roles/takel-base@0.0.12": {
         "files": [
             {
                 "name": "README.bit",
@@ -220,7 +220,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-bit-client"
     },
-    "takelage.ansible/ansible/roles/takel-cleanup@0.0.6": {
+    "takelage.ansible/ansible/roles/takel-cleanup@0.0.7": {
         "files": [
             {
                 "name": "README.bit",
