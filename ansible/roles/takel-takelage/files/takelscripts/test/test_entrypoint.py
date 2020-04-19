@@ -1,5 +1,6 @@
 from argparse import Namespace
 import logging
+from pathlib import Path
 import subprocess
 import takelscripts
 from takelscripts.entrypoint import EntryPoint
@@ -66,7 +67,9 @@ def test_takelscripts_entrypoint_init_debug(
         '_logger_init_',
         mock_logger_init)
 
-    EntryPoint()
+    entrypoint = EntryPoint()
+
+    assert entrypoint._hostdir == Path('/hostdir')
 
     assert '*******************************************' in caplog.text
     assert 'starting configuration:' in caplog.text
@@ -94,6 +97,56 @@ def test_takelscripts_entrypoint_init_debug(
            "'gpg-agent.ssh': " + \
            "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
            "'port': 17875}}" in caplog.text
+
+
+def test_takelscripts_entrypoint_copy_file(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    args = Namespace(
+        debug=True,
+        gid=1600,
+        home=str(tmp_path / 'home/testuser'),
+        bit=False,
+        docker=False,
+        extra='',
+        gcloud=False,
+        git=False,
+        gopass=False,
+        gpg=False,
+        gpg_agent_port=17874,
+        gpg_ssh_agent_port=17875,
+        ssh=False,
+        uid=1500,
+        username='testuser')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+
+    entrypoint = EntryPoint()
+    src = (tmp_path / 'src')
+    src.touch()
+    dest = (tmp_path / 'dest')
+    entrypoint._copy_file_(src, dest)
+
+    expected_log_begin = "copying file: {'source': '/"
+    expected_log_middle = "/src', 'destination': '/"
+    expected_log_end = "/dest'}"
+
+    assert (tmp_path / 'dest').is_file()
+
+    assert expected_log_begin in caplog.text
+    assert expected_log_middle in caplog.text
+    assert expected_log_end in caplog.text
 
 
 def test_takelscripts_entrypoint_mkdir_homedir_child(
@@ -223,6 +276,47 @@ def test_takelscripts_entrypoint_run(
     assert 'running command: echo "banana"' in caplog.text
 
 
+def test_takelscripts_entrypoint_run_and_fork(
+        monkeypatch,
+        tmp_path,
+        caplog):
+    args = Namespace(
+        debug=True,
+        gid=1600,
+        home='/home/testuser',
+        bit=False,
+        docker=False,
+        extra='',
+        gcloud=False,
+        git=False,
+        gopass=False,
+        gpg=False,
+        gpg_agent_port=17874,
+        gpg_ssh_agent_port=17875,
+        ssh=False,
+        uid=1500,
+        username='testuser')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+
+    entrypoint = EntryPoint()
+    entrypoint._run_and_fork_(['touch', str(tmp_path / 'test.txt')])
+
+    expected_log_begin = "running command in background: touch /"
+    expected_log_end = "/test.txt"
+
+    assert (tmp_path / 'test.txt').exists
+
+    assert expected_log_begin in caplog.text
+    assert expected_log_end in caplog.text
+
+
 def test_takelscripts_entrypoint_symlink(
         monkeypatch,
         caplog,
@@ -261,8 +355,8 @@ def test_takelscripts_entrypoint_symlink(
     (tmp_path / 'hostdir/.testconfig').touch()
     entrypoint._symlink_('.testconfig')
 
-    expected_log_begin = "creating symlink: {'source': '"
-    expected_log_middle = "/hostdir/.testconfig', 'destination': '"
+    expected_log_begin = "creating symlink: {'source': '/"
+    expected_log_middle = "/hostdir/.testconfig', 'destination': '/"
     expected_log_end = "/home/testuser/.testconfig'}"
 
     assert (tmp_path / 'home/testuser/.testconfig').is_symlink()
