@@ -247,7 +247,7 @@ class EntryPoint(object):
             'creating user: {user}'.format(
                 user=self._username))
 
-        self._mkdir_parent_(self._homedir)
+        self._mkdir_parents_(self._homedir)
 
         group = {'name': self._username, 'gid': self._gid}
         self._logger.debug(
@@ -384,7 +384,7 @@ class EntryPoint(object):
             directory.mkdir(parents=True)
             chown(str(directory), self._uid, self._gid)
 
-    def _mkdir_parent_(self, dir):
+    def _mkdir_parents_(self, dir):
         parentdir = dir.parents[0]
         if not parentdir.exists():
             self._logger.debug(
@@ -509,7 +509,7 @@ class EntryPoint(object):
     def _symlink_(self, item):
         src = self._hostdir / item
         dest = self._homedir / item
-        self._mkdir_parent_(dest)
+        self._mkdir_parents_(dest)
         symlink = {'source': str(src), 'destination': str(dest)}
         self._logger.debug(
             'creating symlink: {symlink}'.format(
