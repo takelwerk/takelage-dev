@@ -13,9 +13,12 @@ def test_takelscripts_entrypoint_init_nodebug(
         home='/home/testuser',
         bit=False,
         docker=False,
+        gcloud=False,
         git=False,
         gopass=False,
         gpg=False,
+        gpg_agent_port=17874,
+        gpg_ssh_agent_port=17875,
         ssh=False,
         uid=1500,
         username='testuser')
@@ -25,7 +28,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_mkdir_homedir_parent_',
+        '_mkdir_parent_',
         lambda x, y: y)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -34,7 +37,8 @@ def test_takelscripts_entrypoint_init_nodebug(
 
     EntryPoint()
 
-    assert '' == caplog.text
+    assert '*******************************************' in caplog.text
+    assert 'starting configuration:' in caplog.text
 
 
 def test_takelscripts_entrypoint_init_debug(
@@ -46,9 +50,12 @@ def test_takelscripts_entrypoint_init_debug(
         home='/home/testuser',
         bit=False,
         docker=False,
+        gcloud=False,
         git=False,
         gopass=False,
         gpg=False,
+        gpg_agent_port=17874,
+        gpg_ssh_agent_port=17875,
         ssh=False,
         uid=1500,
         username='testuser')
@@ -58,7 +65,7 @@ def test_takelscripts_entrypoint_init_debug(
         lambda x: args)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
-        '_mkdir_homedir_parent_',
+        '_mkdir_parent_',
         lambda x, y: y)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -67,18 +74,32 @@ def test_takelscripts_entrypoint_init_debug(
 
     EntryPoint()
 
-    assert '*************************' in caplog.text
-    assert 'Starting configuration...' in caplog.text
-    assert 'username: testuser' in caplog.text
-    assert 'userid: 1500' in caplog.text
-    assert 'groupid: 1600' in caplog.text
-    assert 'homedir: /home/testuser' in caplog.text
-    assert 'bit: False' in caplog.text
-    assert 'debug: True' in caplog.text
-    assert 'git: False' in caplog.text
-    assert 'gopass: False' in caplog.text
-    assert 'gpg: False' in caplog.text
-    assert 'ssh: False' in caplog.text
+    assert '*******************************************' in caplog.text
+    assert 'starting configuration:' in caplog.text
+    assert "command line arguments: " + \
+           "Namespace(" + \
+           "bit=False, " + \
+           "debug=True, " + \
+           "docker=False, " + \
+           "gcloud=False, " + \
+           "gid=1600, " + \
+           "git=False, " + \
+           "gopass=False, " + \
+           "gpg=False, " + \
+           "gpg_agent_port=17874, " + \
+           "gpg_ssh_agent_port=17875, " + \
+           "home='/home/testuser', " + \
+           "ssh=False, " + \
+           "uid=1500, " + \
+           "username='testuser')" in caplog.text
+    assert "hostdir: /hostdir" in caplog.text
+    assert "agent_forwards: " + \
+           "{'gpg-agent': " + \
+           "{'path': '/home/testuser/.gnupg/S.gpg-agent', " + \
+           "'port': 17874}, " + \
+           "'gpg-agent.ssh': " + \
+           "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
+           "'port': 17875}}" in caplog.text
 
 
 def mock_logger_init(x, debug):

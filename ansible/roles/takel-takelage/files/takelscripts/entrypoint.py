@@ -2,10 +2,12 @@
 
 import argparse
 from builtins import FileNotFoundError
+from datetime import datetime
 from grp import getgrnam
 import logging
 from os import chown
 from pathlib import Path
+from shutil import copyfile
 import subprocess
 import yaml
 
@@ -13,82 +15,95 @@ import yaml
 class EntryPoint(object):
 
     def __init__(self):
-        self._init_args_()
-        self._init_vars_()
-        self._init_logger_()
-
-    def _init_args_(self):
         args = self._get_args_()
         self._debug = args.debug
+        now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+        self._logger = self._logger_init_(self._debug)
+        self._logger.info(
+            '*******************************************')
+        self._logger.info(
+            'starting configuration: {now}'.format(
+                now=now))
         self._bit = args.bit
         self._docker = args.docker
         self._gid = args.gid
+        self._gcloud = args.gcloud
         self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
         self._ssh = args.ssh
         self._username = args.username
         self._uid = args.uid
-        self._homedir = Path(args.home)
-
-    def _init_vars_(self):
+        self._logger.debug(
+            'command line arguments: {args}'.format(
+                args=args))
 
         # hostdir: host home directory mapped do docker container
-        self._hostdir = Path('/hostdir')
+        self._hostdir = self._get_hostdir_()
+        self._logger.debug(
+            'hostdir: {hostdir}'.format(
+                hostdir=self._hostdir))
 
         # homedir: home directory in docker container (/home/my_user)
-        self._mkdir_homedir_parent_(self._homedir)
-
-        self._mapping_directories = {}
+        self._homedir = Path(args.home)
+        self._mkdir_parent_(self._homedir)
 
         # gpg agent and gpg ssh agent which are tunneled
         # via socat from host to docker container
         self._agent_forwards = {
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
-                'port': 20000},
+                'port': args.gpg_agent_port},
             'gpg-agent.ssh': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
-                'port': 20001}}
-
-    def _init_logger_(self):
-        # logger
-        self._logger = self._logger_init_(self._debug)
-        self._logger.debug('*************************')
-        self._logger.debug('Starting configuration...')
-        self._logger.debug('username: ' + self._username)
-        self._logger.debug('userid: ' + str(self._uid))
-        self._logger.debug('groupid: ' + str(self._gid))
-        self._logger.debug('homedir: ' + str(self._homedir))
-        self._logger.debug('bit: ' + str(self._bit))
-        self._logger.debug('debug: ' + str(self._debug))
-        self._logger.debug('git: ' + str(self._git))
-        self._logger.debug('gopass: ' + str(self._gopass))
-        self._logger.debug('gpg: ' + str(self._gpg))
-        self._logger.debug('ssh: ' + str(self._ssh))
+                'port': args.gpg_ssh_agent_port}}
+        self._logger.debug(
+            'agent_forwards: {agent_forwards}'.format(
+                agent_forwards=self._agent_forwards))
 
     def add_bit(self):
         if not self._bit:
             return
+        self._logger.debug(
+            'adding bit config')
 
         # bit directories
         self._mkdir_homedir_child_('Library/Caches/Bit/logs')
         self._mkdir_homedir_child_('Library/Caches/Bit/config')
 
-        # bit config
-        bit_config_template = """
+        bit_config_file_hostdir = \
+            self._hostdir / 'Library/Caches/Bit/config/config.json'
+        bit_config_file_homedir = \
+            self._homedir / 'Library/Caches/Bit/config/config.json'
+
+        if bit_config_file_hostdir.exists():
+            self._copy_file_(
+                bit_config_file_hostdir,
+                bit_config_file_homedir)
+        else:
+            self._logger.debug(
+                'creating bit config.json: {file}'.format(
+                    file=bit_config_file_homedir))
+            bit_config_template = """
 {"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
 """
-        bit_config_file = \
-            self._homedir / 'Library/Caches/Bit/config/config.json'
-        bit_config_file.write_text(bit_config_template)
+            bit_config_file_homedir.write_text(bit_config_template)
 
-        # ~/takelage.yml
-        self._mapping_directories['.takelage.yml'] = self._hostdir
-
-        self._logger.debug('bit config added')
+        self._logger.info('added bit config')
+        return True
 
     def add_docker(self):
+        if not self._docker:
+            return
+        self._logger.debug(
+            'adding docker config')
+
+        self._mkdir_homedir_child_('.docker')
+
+        docker_config_file = self._homedir / '.docker/config.json'
+        self._logger.debug(
+            'creating docker config file: {file}'.format(
+                file=str(docker_config_file)))
         docker_config_template = """
 {
   "credHelpers": {
@@ -101,69 +116,93 @@ class EntryPoint(object):
   }
 }
 """
-        self._mkdir_homedir_child_('.docker')
-        docker_config_file = self._homedir / '.docker/config.json'
         docker_config_file.write_text(docker_config_template)
         chown(str(docker_config_file), self._uid, self._gid)
-        self._logger.debug('docker config added.')
+
+        self._logger.debug('make docker.sock readable and writable for docker group')
+        chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
+
+        self._logger.info('added docker config')
+        return True
 
     def add_gcloud(self):
-        gcloud_system_path = Path('/srv/gcloud')
-        if gcloud_system_path.exists():
-            self._mkdir_homedir_child_('.config')
-            gcloud_config_path = self._homedir / '.config/gcloud'
-            gcloud_config_path.symlink_to(gcloud_system_path)
-            self._logger.debug('gcloud config added')
+        if not self._gcloud:
+            return False
+        self._logger.debug(
+            'adding gcloud config')
+
+        self._symlink_('.config/gcloud')
+
+        self._logger.info(
+            'added gcloud config')
+        return True
 
     def add_git(self):
         if not self._git:
             return
-        self._mapping_directories['.gitconfig'] = self._hostdir
-        self._logger.debug('git config added')
+        self._logger.debug(
+            'adding git config')
+
+        self._copy_file_(
+            self._hostdir / '.gitconfig',
+            self._homedir / '.gitconfig')
+
+        self._logger.info('added git config')
+        return True
 
     def add_gopass(self):
         if not self._gopass:
             return
-        gopass_config_path = self._hostdir / '.config/gopass/config.yml'
+        self._logger.debug(
+            'adding gopass config')
+
+        gopass_config_file = self._hostdir / '.config/gopass/config.yml'
 
         try:
             gopass_config = yaml.safe_load(
-                gopass_config_path.read_text(encoding='utf-8'))
+                gopass_config_file.read_text(encoding='utf-8'))
         except FileNotFoundError:
             self._logger.warning(
-                'No gopass config file found: gopass is unavailable.')
+                'no valid gopass config file found: {file}'.format(
+                    file=str(gopass_config_file)))
             self._gopass = False
             return False
 
-        # add config
-        self._mkdir_homedir_child_('.config')
-        self._mapping_directories['.config/gopass'] = self._hostdir
+        self._symlink_('.config/gopass')
 
         # add path for the personal passwordstore
         if 'path' in gopass_config['root']:
             gopass_config_root_path = gopass_config['root']['path']
             root_path = Path(gopass_config_root_path.split(':', 1)[1])
             passwordstore_relpath = root_path.relative_to(self._homedir)
-            self._mapping_directories[passwordstore_relpath] = \
-                self._hostdir
+            self._symlink_(passwordstore_relpath)
 
-        # add paths for mountet passwordstores
+        # add paths for mounted passwordstores
         for mount in gopass_config['mounts']:
             gopass_config_mount = gopass_config['mounts'][mount]
             if 'path' in gopass_config_mount:
                 gopass_config_mount_path = gopass_config_mount['path']
                 mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
                 passwordstore_relpath = mount_path.relative_to(self._homedir)
-                self._mapping_directories[passwordstore_relpath] = \
-                    self._hostdir
-        self._logger.debug('gopass config added')
+                self._symlink_(passwordstore_relpath)
+
+        self._logger.info(
+            'added gopass config')
         return True
 
     def add_gpg(self):
         if not self._gpg:
             return
+        self._logger.debug(
+            'adding gpg config')
 
-        # files should used from the host system
+        self._logger.debug(
+            'create gnupg directory: {gpgdir}'.format(
+                gpgdir=str(self._homedir / '.gnupg')))
+        self._mkdir_homedir_child_('.gnupg')
+        (self._homedir / '.gnupg').chmod(0o700)
+
+        # files used from the host system
         gpg_links = [
             'pubring.kbx',
             'trustdb.gpg',
@@ -171,50 +210,61 @@ class EntryPoint(object):
             'openpgp-revocs.d',
             'crls.d']
 
-        self._mkdir_homedir_child_('.gnupg')
-        (self._homedir / '.gnupg').chmod(0o700)
         for item in gpg_links:
-            self._mapping_directories[Path('.gnupg') / item] = \
-                self._hostdir
+            self._symlink_(Path('.gnupg') / item)
 
-        # files should ignored from the host system
-        self._mapping_directories[Path('.gnupg/gpg-agent.conf')] = Path('/srv')
-        self._mapping_directories[Path('.gnupg/gpg.conf')] = Path('/srv')
-        self._mapping_directories[Path('.gnupg/dirmngr.conf')] = Path('/srv')
-        self._logger.debug('gpg config added')
+        # files ignored from the host system
+        gpg_copy = [
+            'dirmngr.conf',
+            'gpg-agent.conf',
+            'gpg.conf']
 
-    def add_mapping(self):
-        for item, path in self._mapping_directories.items():
-            (self._homedir / item).symlink_to(path / item)
+        for item in gpg_copy:
+            self._copy_file_(
+                Path('/srv') / '.gnupg' / item,
+                self._homedir / '.gnupg' / item)
 
-        # make tty read/writeable for user
-        tty_device = subprocess.run(
-            'tty',
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode('utf-8').strip('\n')
-
-        chown(tty_device, self._uid, -1)
-        if self._docker:
-            chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
-        self._logger.debug('Directory mappings added')
+        self._logger.info(
+            'added gpg config')
+        return True
 
     def add_ssh(self):
         if not self._ssh:
             return
-        self._mapping_directories['.ssh'] = self._hostdir
-        self._logger.debug('ssh config added')
+        self._logger.debug(
+            'adding ssh config')
+
+        self._symlink_('.ssh')
+
+        self._logger.info(
+            'added ssh config')
+        return True
 
     def add_user(self):
-        self._logger.debug('Create user %s' % self._username)
+        self._logger.debug(
+            'creating user: {user}'.format(
+                user=self._username))
+
+        group = {'name': self._username, 'gid': self._gid}
+        self._logger.debug(
+            'creating group: {group}'.format(
+                group=group))
+        command = ['groupadd',
+                   '--gid', str(self._gid),
+                   '--non-unique',
+                   self._username]
+        result = self._run_(command)
+        if result.returncode:
+            return False
 
         groups = 'sudo,tty'
-
         if self._docker:
             groups += ',docker'
+        self._logger.debug(
+            'adding user to groups: {groups}'.format(
+                groups=groups))
 
-        self._add_group_()
-
-        useradd_command = [
+        command = [
             'useradd',
             '--create-home',
             '--home-dir', str(self._homedir),
@@ -224,30 +274,41 @@ class EntryPoint(object):
             '--shell', '/bin/bash',
             '--non-unique',
             self._username]
-
-        useradd_result = subprocess.run(
-            useradd_command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
-
-        if useradd_result.returncode:
-            self._logger.error(useradd_result.stdout)
-            self._logger.error(useradd_result.stderr)
+        result = self._run_(command)
+        if result.returncode:
             return False
-        self._logger.debug('User added')
+
+        # cp /hostdir/.takelage.yml ~/.takelage.yml
+        takelage_yml_hostdir = self._hostdir / '.takelage.yml'
+        if takelage_yml_hostdir.exists():
+            takelage_yml_homedir = self._homedir / '.takelage.yml'
+            self._copy_file_(
+                takelage_yml_hostdir,
+                takelage_yml_homedir)
 
         # cp /root/.bashrc ~/.bashrc
-        src = Path('/root/.bashrc')
-        dest = self._homedir / '.bashrc'
-        dest.write_text(src.read_text())
+        self._copy_file_(
+            Path('/root/.bashrc'),
+            self._homedir / '.bashrc')
 
         # mkdir ~/.bashrc.d
         self._mkdir_homedir_child_('.bashrc.d')
 
+        # tty
+        command = ['tty']
+        tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
+        self._logger.debug('making tty readable and writeable for user')
+        chown(tty_device, self._uid, -1)
+
+        self._logger.info(
+            'created user: {user}'.format(
+                user=self._username))
         return True
 
     def forward_agents(self):
-        self._logger.debug('Forwarding agents')
+        self._logger.debug(
+            'forwarding agents')
+
         for agent in self._agent_forwards:
             path = self._agent_forwards[agent]['path']
             port = self._agent_forwards[agent]['port']
@@ -259,30 +320,18 @@ class EntryPoint(object):
                 ',gid=' + str(self._gid),
                 'TCP:host.docker.internal:' +
                 str(port)]
+            self._run_and_fork_(command)
 
-            self._logger.debug('Running command: ' + ' '.join(command))
-
-            subprocess.Popen(
-                command,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL)
-
-    def _add_group_(self):
-        groupadd_command = ['groupadd',
-                            '--gid', str(self._gid),
-                            '--non-unique',
-                            self._username]
-        groupadd_result = subprocess.run(
-            groupadd_command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
-
-        if groupadd_result.returncode:
-            self._logger.error(groupadd_result.stdout)
-            self._logger.error(groupadd_result.stderr)
-            return False
-
+        self._logger.info(
+            'forwarded agents')
         return True
+
+    def _copy_file_(self, src, dest):
+        copy = {'source': str(src), 'destination': str(dest)}
+        self._logger.debug(
+            'copying file: {copy}'.format(
+                copy=copy))
+        copyfile(src, dest)
 
     def _get_args_(self):
         parser = argparse.ArgumentParser()
@@ -296,6 +345,14 @@ class EntryPoint(object):
             "--gid",
             type=int,
             help="Group ID of the username used in the host system")
+        parser.add_argument(
+            "--gpg_agent_port",
+            type=int,
+            help="Port of gpg agent socket")
+        parser.add_argument(
+            "--gpg_ssh_agent_port",
+            type=int,
+            help="Port of gpg ssh agent socket")
         parser.add_argument(
             "--home",
             type=str,
@@ -318,6 +375,12 @@ class EntryPoint(object):
             action="store_false",
             default=True,
             help="Do not add git configuation")
+        parser.add_argument(
+            "--no-gcloud",
+            dest="gcloud",
+            action="store_false",
+            default=True,
+            help="Do not add gcloud configuation")
         parser.add_argument(
             "--no-gopass",
             dest="gopass",
@@ -346,6 +409,9 @@ class EntryPoint(object):
             help="Username used in the host system")
         return parser.parse_args()
 
+    def _get_hostdir_(self):
+        return Path('/hostdir')
+
     def _logger_init_(self, debug):
         logger = logging.getLogger(__file__)
         logger.setLevel(logging.INFO)
@@ -361,14 +427,62 @@ class EntryPoint(object):
         return logger
 
     def _mkdir_homedir_child_(self, directory):
-        dir = self._homedir / directory
-        dir.mkdir(exist_ok=True, parents=True)
-        chown(str(dir), self._uid, self._gid)
+        directory = self._homedir / directory
+        if not directory.exists():
+            self._logger.debug(
+                'creating homedir child directory: {directory}'.format(
+                    directory=directory))
+            directory.mkdir(parents=True)
+            chown(str(directory), self._uid, self._gid)
 
-    def _mkdir_homedir_parent_(self, homedir):
-        homedir.parents[0].mkdir(
-            exist_ok=True,
-            parents=True)
+    def _mkdir_parent_(self, dir):
+        parentdir = dir.parents[0]
+        if not parentdir.exists():
+            self._logger.debug(
+                'creating parent directory: {parentdir}'.format(
+                    parentdir=parentdir))
+            parentdir.mkdir(parents=True)
+
+    def _run_(self, command):
+        self._logger.debug(
+            'running command: {command}'.format(
+                command=' '.join(command)))
+        result = subprocess.run(
+            command,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
+        if result.returncode:
+            'command failed: {command}'.format(
+                command=' '.join(command))
+            self._logger.debug(
+                '  returncode: {returncode}'.format(
+                    returncode=result.returncode))
+            self._logger.debug(
+                '  stdout: {stdout}'.format(
+                    stdout=result.stdout))
+            self._logger.debug(
+                '  stderr: {stderr}'.format(
+                    stderr=result.stderr))
+        return result
+
+    def _run_and_fork_(self, command):
+        self._logger.debug(
+            'running command in background: {command}'.format(
+                command=' '.join(command)))
+        subprocess.Popen(
+            command,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL)
+
+    def _symlink_(self, item):
+        src = self._hostdir / item
+        dest = self._homedir / item
+        self._mkdir_parent_(dest)
+        symlink = {'source': str(src), 'destination': str(dest)}
+        self._logger.debug(
+            'creating symlink: {symlink}'.format(
+                symlink=symlink))
+        dest.symlink_to(src)
 
 
 def main():
@@ -379,7 +493,6 @@ def main():
     entrypoint.add_ssh()
     entrypoint.add_git()
     entrypoint.add_bit()
-    entrypoint.add_mapping()
     entrypoint.add_gcloud()
     entrypoint.add_docker()
     entrypoint.forward_agents()
