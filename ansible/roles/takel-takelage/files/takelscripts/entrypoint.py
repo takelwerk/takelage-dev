@@ -39,15 +39,14 @@ class EntryPoint(object):
             'command line arguments: {args}'.format(
                 args=args))
 
-        # hostdir: host home directory mapped do docker container
+        # homedir: home directory in docker container (/home/my_user)
+        self._homedir = Path(args.home)
+
+        # hostdir: host home directory mapped do docker container (/hostdir)
         self._hostdir = self._get_hostdir_()
         self._logger.debug(
             'hostdir: {hostdir}'.format(
                 hostdir=self._hostdir))
-
-        # homedir: home directory in docker container (/home/my_user)
-        self._homedir = Path(args.home)
-        self._mkdir_parent_(self._homedir)
 
         # gpg agent and gpg ssh agent which are tunneled
         # via socat from host to docker container
@@ -247,6 +246,8 @@ class EntryPoint(object):
         self._logger.debug(
             'creating user: {user}'.format(
                 user=self._username))
+
+        self._mkdir_parent_(self._homedir)
 
         group = {'name': self._username, 'gid': self._gid}
         self._logger.debug(
