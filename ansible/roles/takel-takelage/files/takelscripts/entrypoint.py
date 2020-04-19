@@ -406,10 +406,12 @@ class EntryPoint(object):
         parser.add_argument(
             "--gpg_agent_port",
             type=int,
+            default=17874,
             help="Port of gpg agent socket")
         parser.add_argument(
             "--gpg_ssh_agent_port",
             type=int,
+            default=17875,
             help="Port of gpg ssh agent socket")
         parser.add_argument(
             "--extra",
