@@ -119,7 +119,8 @@ class EntryPoint(object):
         docker_config_file.write_text(docker_config_template)
         chown(str(docker_config_file), self._uid, self._gid)
 
-        self._logger.debug('make docker.sock readable and writable for docker group')
+        self._logger.debug(
+            'make docker.sock readable and writable for docker group')
         chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
 
         self._logger.info('added docker config')
