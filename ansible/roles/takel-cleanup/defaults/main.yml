@@ -1,4 +1,3 @@
 ---
 takel_cleanup_absent_files:
-  - /var/lib/apt/lists
   - /tmp/rvm-installer.sh
