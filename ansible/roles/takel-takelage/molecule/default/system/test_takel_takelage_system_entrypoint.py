@@ -22,10 +22,13 @@ def test_takel_takelage_system_entrypoint(
               '--home /testhome/testuser ' + \
               '--no-bit ' + \
               '--no-docker ' + \
+              '--no-gcloud ' + \
               '--no-git ' + \
               '--no-gopass ' + \
               '--no-gpg ' + \
-              '--no-ssh'
+              '--no-ssh ' + \
+              '--gpg_agent_port 17874 ' + \
+              '--gpg_ssh_agent_port 17875'
 
     assert host.run_test(command)
 

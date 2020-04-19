@@ -17,4 +17,4 @@ def test_takel_takelage_gnupg_gpg_config_gpg_agent(host):
     gpg_agent_conf = '/srv/.gnupg/gpg-agent.conf'
 
     assert host.file(gpg_agent_conf).contains(
-        'pinentry-program /usr/local/bin/pinentry-curses')
+        'pinentry-program /usr/bin/pinentry-curses')
