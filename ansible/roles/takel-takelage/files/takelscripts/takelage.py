@@ -6,19 +6,19 @@ import re
 import subprocess
 
 
-class Status(object):
+class Takelage(object):
     _RED = '31'
     _GREEN = '32'
     _BLUE = '34'
 
     def __init__(self):
-        self.args = self._parse_args_()
-        self._takelage_status = self._get_status_takelage_()
-        self._tau_status = self._get_status_tau_()
-        self._gpg_status = self._get_status_gpg_()
-        self._ssh_status = self._get_status_ssh_()
-        self._gopass_status = self._get_status_gopass_()
-        self._git_status = self._get_status_git_()
+        self.args = self._get_args_()
+        self._status_takelage = self._get_status_takelage_()
+        self._status_tau = self._get_status_tau_()
+        self._status_gpg = self._get_status_gpg_()
+        self._status_ssh = self._get_status_ssh_()
+        self._status_gopass = self._get_status_gopass_()
+        self._status_git = self._get_status_git_()
 
     def print_header(self):
         header_ver = []
@@ -26,25 +26,25 @@ class Status(object):
         header_error = []
 
         # takelage version
-        if self._takelage_status['returncode'] == 0:
+        if self._status_takelage['returncode'] == 0:
             header_ver.append(
                 self._get_header_success_('takelage',
-                                          self._takelage_status['version']))
+                                          self._status_takelage['version']))
         else:
             header_error.append(
                 self._get_header_error_('takelage version: '))
 
         # tau version
-        if self._tau_status['returncode'] == 0:
+        if self._status_tau['returncode'] == 0:
             header_ver.append(
                 self._get_header_success_('tau',
-                                          self._tau_status['version']))
+                                          self._status_tau['version']))
         else:
             header_error.append(
                 self._get_header_error_('tau version:      '))
 
         # git config
-        if self._git_status['returncode'] == 0:
+        if self._status_git['returncode'] == 0:
             header_ok.append(
                 self._get_header_success_('git', 'ok'))
         else:
@@ -52,7 +52,7 @@ class Status(object):
                 self._get_header_error_('git config status:'))
 
         # gopass config
-        if self._gopass_status['returncode'] == 0:
+        if self._status_gopass['returncode'] == 0:
             header_ok.append(
                 self._get_header_success_('gopass', 'ok'))
         else:
@@ -60,7 +60,7 @@ class Status(object):
                 self._get_header_error_('gopass status:    '))
 
         # gpg agent
-        if self._gpg_status['returncode'] == 0:
+        if self._status_gpg['returncode'] == 0:
             header_ok.append(
                 self._get_header_success_('gpg', 'ok'))
         else:
@@ -68,7 +68,7 @@ class Status(object):
                 self._get_header_error_('gpg agent status: '))
 
         # ssh agent
-        if self._ssh_status['returncode'] == 0:
+        if self._status_ssh['returncode'] == 0:
             header_ok.append(
                 self._get_header_success_('ssh', 'ok'))
         else:
@@ -86,7 +86,7 @@ class Status(object):
             print("\n".join(header_error).strip())
 
     def print_status_git(self):
-        if self._git_status['returncode'] == 0:
+        if self._status_git['returncode'] == 0:
             print('git config status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
@@ -94,21 +94,21 @@ class Status(object):
                 print('git config:')
                 print('\tname: \t\t' +
                       self._display_colored_text_(
-                          self._BLUE, self._git_status['name']))
+                          self._BLUE, self._status_git['name']))
                 print('\te-mail: \t' +
                       self._display_colored_text_(
-                          self._BLUE, self._git_status['mail']))
+                          self._BLUE, self._status_git['mail']))
                 print('\tgpg signingkey: ' +
                       self._display_colored_text_(
-                          self._BLUE, self._git_status['gpg-key']))
+                          self._BLUE, self._status_git['gpg-key']))
 
     def print_status_gopass(self):
         used_gpg_keys = []
-        for key in self._gopass_status['keys']:
-            for own_key in self._gpg_status['keys']:
+        for key in self._status_gopass['keys']:
+            for own_key in self._status_gpg['keys']:
                 if key in own_key and own_key not in used_gpg_keys:
                     used_gpg_keys.append(own_key)
-        if self._gopass_status['returncode'] == 0 and len(used_gpg_keys) > 0:
+        if self._status_gopass['returncode'] == 0 and len(used_gpg_keys) > 0:
             print('gopass cfg status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
@@ -119,30 +119,40 @@ class Status(object):
                         self._BLUE, key))
 
     def print_status_gpg(self):
-        if self._gpg_status['returncode'] == 0:
+        if self._status_gpg['returncode'] == 0:
             print('gpg agent status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
             if not self.args.short:
                 print('available gpg keys:')
-                for key in self._gpg_status['keys']:
+                for key in self._status_gpg['keys']:
                     print('\t\t\t' + self._display_colored_text_(
                         self._BLUE, key))
 
     def print_status_ssh(self):
-        if self._ssh_status['returncode'] == 0:
+        if self._status_ssh['returncode'] == 0:
             print('ssh agent status: \t' +
                   self._display_colored_text_(
                       self._GREEN, 'available'))
             if not self.args.short:
                 print('available ssh keys:')
-                for key in self._ssh_status['keys']:
+                for key in self._status_ssh['keys']:
                     print('\t\t\t' + self._display_colored_text_(
                         self._BLUE, key))
 
     def _display_colored_text_(self, color, text):
         colored_text = f'\033[{color}m{text}\033[00m'
         return colored_text
+
+    def _get_args_(self):
+        parser = ArgumentParser()
+        parser.add_argument(
+            "--short",
+            dest="short",
+            action="store_true",
+            default=False,
+            help="Show status summary.")
+        return parser.parse_args()
 
     def _get_header_error_(self, section):
         header_error = section + '\t'
@@ -181,7 +191,7 @@ class Status(object):
             if git_gpg_search is not None and \
                     git_gpg_search.group(1) is not None:
                 gpg_fingerprint = git_gpg_search.group(1)
-                for key in self._gpg_status['keys']:
+                for key in self._status_gpg['keys']:
                     if gpg_fingerprint in key:
                         _git_status['gpg-key'] = key
             if _git_status['name'] is not None and \
@@ -302,25 +312,15 @@ class Status(object):
 
         return _tau_status
 
-    def _parse_args_(self):
-        parser = ArgumentParser()
-        parser.add_argument(
-            "--short",
-            dest="short",
-            action="store_true",
-            default=False,
-            help="Show status summary.")
-        return parser.parse_args()
-
 
 def main():
-    status = Status()
-    status.print_header()
-    if not status.args.short:
-        status.print_status_git()
-        status.print_status_gopass()
-        status.print_status_gpg()
-        status.print_status_ssh()
+    takelage = Takelage()
+    takelage.print_header()
+    if not takelage.args.short:
+        takelage.print_status_git()
+        takelage.print_status_gopass()
+        takelage.print_status_gpg()
+        takelage.print_status_ssh()
 
 
 if __name__ == "__main__":

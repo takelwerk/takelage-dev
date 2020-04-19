@@ -65,7 +65,7 @@ class EntryPoint(object):
         if not self._bit:
             return
         self._logger.debug(
-            'adding bit config')
+            'adding config: bit')
 
         # bit directories
         self._mkdir_homedir_child_('Library/Caches/Bit/logs')
@@ -89,14 +89,14 @@ class EntryPoint(object):
 """
             bit_config_file_homedir.write_text(bit_config_template)
 
-        self._logger.info('added bit config')
+        self._logger.info('added config: bit')
         return True
 
     def add_docker(self):
         if not self._docker:
             return
         self._logger.debug(
-            'adding docker config')
+            'adding config: docker')
 
         self._mkdir_homedir_child_('.docker')
 
@@ -123,39 +123,39 @@ class EntryPoint(object):
             'make docker.sock readable and writable for docker group')
         chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
 
-        self._logger.info('added docker config')
+        self._logger.info('added config: docker')
         return True
 
     def add_gcloud(self):
         if not self._gcloud:
             return False
         self._logger.debug(
-            'adding gcloud config')
+            'adding config: gcloud')
 
         self._symlink_('.config/gcloud')
 
         self._logger.info(
-            'added gcloud config')
+            'added config: gcloud')
         return True
 
     def add_git(self):
         if not self._git:
             return
         self._logger.debug(
-            'adding git config')
+            'adding config: git')
 
         self._copy_file_(
             self._hostdir / '.gitconfig',
             self._homedir / '.gitconfig')
 
-        self._logger.info('added git config')
+        self._logger.info('added config: git')
         return True
 
     def add_gopass(self):
         if not self._gopass:
             return
         self._logger.debug(
-            'adding gopass config')
+            'adding config: gopass')
 
         gopass_config_file = self._hostdir / '.config/gopass/config.yml'
 
@@ -188,14 +188,14 @@ class EntryPoint(object):
                 self._symlink_(passwordstore_relpath)
 
         self._logger.info(
-            'added gopass config')
+            'added config: gopass')
         return True
 
     def add_gpg(self):
         if not self._gpg:
             return
         self._logger.debug(
-            'adding gpg config')
+            'adding config: gpg')
 
         self._logger.debug(
             'create gnupg directory: {gpgdir}'.format(
@@ -226,19 +226,19 @@ class EntryPoint(object):
                 self._homedir / '.gnupg' / item)
 
         self._logger.info(
-            'added gpg config')
+            'added config: gpg')
         return True
 
     def add_ssh(self):
         if not self._ssh:
             return
         self._logger.debug(
-            'adding ssh config')
+            'adding config: ssh')
 
         self._symlink_('.ssh')
 
         self._logger.info(
-            'added ssh config')
+            'added config: ssh')
         return True
 
     def add_user(self):

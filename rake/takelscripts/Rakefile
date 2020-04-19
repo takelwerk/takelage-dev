@@ -6,7 +6,8 @@ cmd_takelscripts =
 
 desc 'Run takelscripts tests'
 task :takelscripts => %w(takelscripts:entrypoint
-                         takelscripts:loginpoint)
+                         takelscripts:loginpoint
+                         takelscripts:takelage)
 
 namespace :takelscripts do
 
@@ -18,6 +19,11 @@ namespace :takelscripts do
   desc 'Run unit tests for loginpoint.py'
   task :loginpoint do
     $commands << cmd_takelscripts % { files: 'test_loginpoint*' }
+  end
+
+  desc 'Run unit tests for takelage.py'
+  task :takelage do
+    $commands << cmd_takelscripts % { files: 'test_takelage*' }
   end
 
 end
