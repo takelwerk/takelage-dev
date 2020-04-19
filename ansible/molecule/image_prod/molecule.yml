@@ -5,7 +5,7 @@ platforms:
   - name: "molecule-takelage-dev-packer"
     image: "packer_local/takelage-dev:prod"
     override_command: true
-    command: /entrypoint.py --username testuser --uid 1010 --gid 1010 --home /testhome/testuser --no-bit --no-docker --no-git --no-gopass --no-gpg --no-ssh
+    command: /entrypoint.py --username testuser --uid 1010 --gid 1010 --home /testhome/testuser --no-bit --no-docker --no-gcloud --no-git --no-gopass --no-gpg --no-ssh  --gpg_agent_port 17874 --gpg_ssh_agent_port 17875
     tty: true
     privileged: true
     pre_build_image: true
