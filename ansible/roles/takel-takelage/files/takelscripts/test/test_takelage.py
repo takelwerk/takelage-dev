@@ -36,4 +36,4 @@ def test_takelscripts_takelage_init(
         '_get_status_git_',
         lambda x: x)
 
-    takelage = Takelage()
+    Takelage()
