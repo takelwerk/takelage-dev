@@ -4,7 +4,7 @@ takel_gem_gems:
     version: 1.0.0
     description: cli test framework
   - name: rubocop
-    version: 0.81.0
+    version: 0.82.0
     description: ruby linter
   - name: rspec
     version: 3.9.0
