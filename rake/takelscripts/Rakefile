@@ -1,29 +1,38 @@
+# frozen_string_literal: true
+
 require 'rake'
 
 cmd_takelscripts =
-    'cd ansible/roles/takel-takelage/files/takelscripts/test && ' +
-    'pytest -v %{files}'
+  'cd ansible/roles/takel-takelage/files/takelscripts/test && ' \
+    'pytest -v %<files>s'
 
 desc 'Run takelscripts tests'
-task :takelscripts => %w(takelscripts:entrypoint
-                         takelscripts:loginpoint
-                         takelscripts:takelage)
+task takelscripts: %w[takelscripts:entrypoint
+                      takelscripts:loginpoint
+                      takelscripts:takelage]
 
 namespace :takelscripts do
-
   desc 'Run unit tests for entrypoint.py'
   task :entrypoint do
-    $commands << cmd_takelscripts % { files: 'test_entrypoint*' }
+    @commands << format(
+      cmd_takelscripts,
+      files: 'test_entrypoint*'
+    )
   end
 
   desc 'Run unit tests for loginpoint.py'
   task :loginpoint do
-    $commands << cmd_takelscripts % { files: 'test_loginpoint*' }
+    @commands << format(
+      cmd_takelscripts,
+      files: 'test_loginpoint*'
+    )
   end
 
   desc 'Run unit tests for takelage.py'
   task :takelage do
-    $commands << cmd_takelscripts % { files: 'test_takelage*' }
+    @commands << format(
+      cmd_takelscripts,
+      files: 'test_takelage*'
+    )
   end
-
 end
