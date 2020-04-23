@@ -382,7 +382,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "packer/templates/project"
     },
-    "takelage.rake/rake/dockerhub/base/registry@0.0.1": {
+    "takelage.rake/rake/dockerhub/base/registry@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -400,7 +400,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/base/registry"
     },
-    "takelage.rake/rake/dockerhub/prod/registry@0.0.1": {
+    "takelage.rake/rake/dockerhub/prod/registry@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -418,7 +418,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/prod/registry"
     },
-    "takelage.rake/rake/git@0.0.5": {
+    "takelage.rake/rake/git@0.0.6": {
         "files": [
             {
                 "name": "README.bit",
@@ -436,7 +436,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/image/base@0.0.2": {
+    "takelage.rake/rake/image/base@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
@@ -454,7 +454,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/base"
     },
-    "takelage.rake/rake/image/prod@0.0.5": {
+    "takelage.rake/rake/image/prod@0.0.6": {
         "files": [
             {
                 "name": "README.bit",
@@ -508,7 +508,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/rubylint"
     },
-    "takelage.rake/rake/test@0.0.4": {
+    "takelage.rake/rake/test@0.0.5": {
         "files": [
             {
                 "relativePath": "rake/test/README.bit",
