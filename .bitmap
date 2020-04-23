@@ -388,6 +388,11 @@
                 "name": "README.bit",
                 "relativePath": "README.bit",
                 "test": false
+            },
+            {
+                "relativePath": "Rakefile",
+                "test": false,
+                "name": "Rakefile"
             }
         ],
         "mainFile": "README.bit",
@@ -466,24 +471,6 @@
         "rootDir": "rake/image/prod",
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/prod"
-    },
-    "takelage.rake/rake/meta@0.0.1": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/meta",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/meta"
     },
     "takelage.rake/rake/rubylint@0.0.1": {
         "files": [
