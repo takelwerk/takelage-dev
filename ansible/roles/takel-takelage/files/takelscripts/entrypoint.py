@@ -98,15 +98,11 @@ class EntryPoint(object):
 
         self._mkdir_homedir_child_('.docker')
 
-        docker_config_hostdir = self._hostdir / '.docker/config.json'
-        if docker_config_hostdir.exists():
-            self._symlink_('.docker/config.json')
-        else:
-            docker_config_homedir = self._homedir / '.docker/config.json'
-            self._logger.debug(
-                'creating docker config file: {file}'.format(
-                    file=str(docker_config_homedir)))
-            docker_config_template = """
+        docker_config_homedir = self._homedir / '.docker/config.json'
+        self._logger.debug(
+            'creating docker config file: {file}'.format(
+                file=str(docker_config_homedir)))
+        docker_config_template = """
 {
   "credHelpers": {
     "gcr.io": "gcloud",
@@ -118,7 +114,7 @@ class EntryPoint(object):
   }
 }
 """
-            docker_config_homedir.write_text(docker_config_template)
+        docker_config_homedir.write_text(docker_config_template)
 
         self._logger.debug(
             'make docker.sock readable and writable for docker group')
