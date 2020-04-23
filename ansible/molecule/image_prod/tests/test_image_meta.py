@@ -25,13 +25,12 @@ def test_image_meta_user(image_meta_data):
                 '--home /testhome/testuser '
                 '--no-bit '
                 '--no-docker '
-                '--no-extra '
                 '--no-git '
                 '--no-gopass '
                 '--no-gpg '
                 '--no-ssh '
-                '--gpg_agent_port 17874 '
-                '--gpg_ssh_agent_port 17875'),
+                '--gpg_agent_port 18502 '
+                '--gpg_ssh_agent_port 18503'),
     ('tail',    'tail -f /debug/takelage.log')])
 def test_container_process(host, process, expected_args):
     procs_present = False
