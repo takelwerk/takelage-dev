@@ -77,9 +77,7 @@ class EntryPoint(object):
             self._homedir / 'Library/Caches/Bit/config/config.json'
 
         if bit_config_file_hostdir.exists():
-            self._copy_file_(
-                bit_config_file_hostdir,
-                bit_config_file_homedir)
+            self._symlink_('Library/Caches/Bit/config/config.json')
         else:
             self._logger.debug(
                 'creating bit config.json: {file}'.format(
@@ -100,11 +98,15 @@ class EntryPoint(object):
 
         self._mkdir_homedir_child_('.docker')
 
-        docker_config_file = self._homedir / '.docker/config.json'
-        self._logger.debug(
-            'creating docker config file: {file}'.format(
-                file=str(docker_config_file)))
-        docker_config_template = """
+        docker_config_hostdir = self._hostdir / '.docker/config.json'
+        if docker_config_hostdir.exists():
+            self._symlink_('.docker/config.json')
+        else:
+            docker_config_homedir = self._homedir / '.docker/config.json'
+            self._logger.debug(
+                'creating docker config file: {file}'.format(
+                    file=str(docker_config_homedir)))
+            docker_config_template = """
 {
   "credHelpers": {
     "gcr.io": "gcloud",
@@ -116,8 +118,7 @@ class EntryPoint(object):
   }
 }
 """
-        docker_config_file.write_text(docker_config_template)
-        chown(str(docker_config_file), self._uid, self._gid)
+            docker_config_homedir.write_text(docker_config_template)
 
         self._logger.debug(
             'make docker.sock readable and writable for docker group')
@@ -145,9 +146,9 @@ class EntryPoint(object):
         self._logger.debug(
             'adding config: git')
 
-        self._copy_file_(
-            self._hostdir / '.gitconfig',
-            self._homedir / '.gitconfig')
+        gitconfig_hostdir = self._hostdir / '.gitconfig'
+        if gitconfig_hostdir.exists():
+            self._symlink_('.gitconfig')
 
         self._logger.info('added config: git')
         return True
@@ -285,10 +286,7 @@ class EntryPoint(object):
         # cp /hostdir/.takelage.yml ~/.takelage.yml
         takelage_yml_hostdir = self._hostdir / '.takelage.yml'
         if takelage_yml_hostdir.exists():
-            takelage_yml_homedir = self._homedir / '.takelage.yml'
-            self._copy_file_(
-                takelage_yml_hostdir,
-                takelage_yml_homedir)
+            self._symlink_('.takelage.yml')
 
         # cp /root/.bashrc ~/.bashrc
         self._copy_file_(
@@ -296,7 +294,11 @@ class EntryPoint(object):
             self._homedir / '.bashrc')
 
         # mkdir ~/.bashrc.d
-        self._mkdir_homedir_child_('.bashrc.d')
+        bashrcd_hostdir = self._hostdir / '.bashrc.d'
+        if bashrcd_hostdir.exists():
+            self._symlink_('.bashrc.d')
+        else:
+            self._mkdir_homedir_child_('.bashrc.d')
 
         # tty
         command = ['tty']
@@ -382,7 +384,6 @@ class EntryPoint(object):
                 'creating homedir child directory: {directory}'.format(
                     directory=directory))
             directory.mkdir(parents=True)
-            chown(str(directory), self._uid, self._gid)
 
     def _mkdir_parents_(self, dir):
         parentdir = dir.parents[0]
@@ -435,12 +436,6 @@ class EntryPoint(object):
             action="store_false",
             default=True,
             help="Disable docker-socket passthrough")
-        parser.add_argument(
-            "--no-extra",
-            dest="extra",
-            action="store_false",
-            default=True,
-            help="Do not add extra configuation")
         parser.add_argument(
             "--no-git",
             dest="git",

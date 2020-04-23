@@ -6,4 +6,4 @@ dockerhub_base_tag: debian-buster
 dockerhub_prod_user: takelage
 dockerhub_prod_repo: takelage
 local_user: packer_local
-version: 0.5.2
+version: 0.6.0

@@ -1,5 +1,6 @@
 ---
 takel_takelage_deb_install_packages:
+  - cloc
   - git
   - gnupg
   - expect

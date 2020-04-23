@@ -91,6 +91,7 @@ from hub.docker.com:
 ```bash
 tau update
 ```
+**Warning: *tau update* will call *docker image prune* and remove all dangling images!**
 - Every project has its own local command line interface using the
 [rake](https://github.com/ruby/rake) build utility.
 The available commands can be inspected by running
