@@ -34,7 +34,7 @@ end
 # Final task
 
 # Detect run=dry command line parameter
-dry_run = ENV['run'] == 'dry'
+dry_run = ENV['run'] == "dry"
 
 # if Rakefile is invoked with run=dry
 # then print commands
