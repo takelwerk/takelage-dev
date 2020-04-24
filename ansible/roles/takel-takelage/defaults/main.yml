@@ -5,6 +5,7 @@ takel_takelage_deb_install_packages:
   - gnupg
   - expect
   - mmv
+  - python3-docker
   - socat
   - sudo
   - tree
