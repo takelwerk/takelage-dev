@@ -36,3 +36,6 @@ takel_pip_packages:
   - name: wheel
     version: 0.34.2
     description: utilities for python packaging
+  - name: pyOpenSSL
+    version: 19.1.0
+
