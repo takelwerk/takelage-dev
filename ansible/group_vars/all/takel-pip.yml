@@ -38,4 +38,3 @@ takel_pip_packages:
     description: utilities for python packaging
   - name: pyOpenSSL
     version: 19.1.0
-
