@@ -70,6 +70,35 @@ def test_takelscripts_entrypoint_init_debug(
            "'port': 17875}}" in caplog.text
 
 
+def test_takelscripts_entrypoint_chown_home(
+        monkeypatch,
+        caplog):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default())
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_run_',
+        log_argument)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.chown_home()
+
+    command = \
+        "['/bin/chown', " \
+        "'--recursive', " \
+        "'testuser.testuser', " \
+        "'/home/testuser']"
+
+    assert command in caplog.text
+
+
 def test_takelscripts_entrypoint_forward_agents(
         monkeypatch,
         caplog):
@@ -308,6 +337,7 @@ def args_default(
 
 def log_argument(x, y):
     x._logger.debug(y)
+    return Namespace(returncode=0)
 
 
 def mock_logger_init(x, debug):
