@@ -70,6 +70,41 @@ def test_takelscripts_entrypoint_init_debug(
            "'port': 17875}}" in caplog.text
 
 
+def test_takelscripts_entrypoint_forward_agents(
+        monkeypatch,
+        caplog):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default())
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_run_and_fork_',
+        log_argument)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.forward_agents()
+
+    first_forward_command = \
+        "['/usr/bin/socat', " \
+        "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent," \
+        "reuseaddr,fork,user=testuser,gid=1600', " \
+        "'TCP:host.docker.internal:17874']"
+    second_forward_command = \
+        "['/usr/bin/socat', " \
+        "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent.ssh," \
+        "reuseaddr,fork,user=testuser,gid=1600', " \
+        "'TCP:host.docker.internal:17875']"
+
+    assert first_forward_command in caplog.text
+    assert second_forward_command in caplog.text
+
+
 def test_takelscripts_entrypoint_copy_file(
         monkeypatch,
         caplog,
@@ -269,6 +304,10 @@ def args_default(
         uid=uid,
         username='testuser')
     return args
+
+
+def log_argument(x, y):
+    x._logger.debug(y)
 
 
 def mock_logger_init(x, debug):
