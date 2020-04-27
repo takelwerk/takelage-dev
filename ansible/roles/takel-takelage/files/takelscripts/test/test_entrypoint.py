@@ -9,26 +9,11 @@ from takelscripts.entrypoint import EntryPoint
 def test_takelscripts_entrypoint_init_nodebug(
         monkeypatch,
         caplog):
-    args = Namespace(
-        bit=False,
-        debug=False,
-        docker=False,
-        extra='',
-        gid=1600,
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        home='/home/testuser',
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            debug=False)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -43,21 +28,6 @@ def test_takelscripts_entrypoint_init_nodebug(
 def test_takelscripts_entrypoint_init_debug(
         monkeypatch,
         caplog):
-    args = Namespace(
-        bit=False,
-        debug=True,
-        docker=False,
-        extra='.config/first:.config/second',
-        gid=1600,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        home='/home/testuser',
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
@@ -278,13 +248,14 @@ def test_takelscripts_entrypoint_symlink(
 
 
 def args_default(
+        debug=True,
         extra='',
         gid=1600,
         home='/home/testuser',
         uid=1500):
     args = Namespace(
         bit=False,
-        debug=True,
+        debug=debug,
         docker=False,
         extra=extra,
         gid=gid,
