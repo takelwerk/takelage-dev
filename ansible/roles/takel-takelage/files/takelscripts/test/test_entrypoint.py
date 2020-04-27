@@ -10,18 +10,18 @@ def test_takelscripts_entrypoint_init_nodebug(
         monkeypatch,
         caplog):
     args = Namespace(
-        debug=False,
-        gid=1600,
-        home='/home/testuser',
         bit=False,
+        debug=False,
         docker=False,
         extra='',
+        gid=1600,
         gcloud=False,
         git=False,
         gopass=False,
         gpg=False,
         gpg_agent_port=17874,
         gpg_ssh_agent_port=17875,
+        home='/home/testuser',
         ssh=False,
         uid=1500,
         username='testuser')
@@ -44,24 +44,25 @@ def test_takelscripts_entrypoint_init_debug(
         monkeypatch,
         caplog):
     args = Namespace(
-        debug=True,
-        gid=1600,
-        home='/home/testuser',
         bit=False,
+        debug=True,
         docker=False,
         extra='.config/first:.config/second',
+        gid=1600,
         git=False,
         gopass=False,
         gpg=False,
         gpg_agent_port=17874,
         gpg_ssh_agent_port=17875,
+        home='/home/testuser',
         ssh=False,
         uid=1500,
         username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            extra='.config/first:.config/second'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -103,26 +104,11 @@ def test_takelscripts_entrypoint_copy_file(
         monkeypatch,
         caplog,
         tmp_path):
-    args = Namespace(
-        debug=True,
-        gid=1600,
-        home=str(tmp_path / 'home/testuser'),
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -161,26 +147,13 @@ def test_takelscripts_entrypoint_mkdir_homedir_child(
         ['id', '--group'],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE).stdout.decode('utf-8'))
-    args = Namespace(
-        debug=True,
-        gid=gid,
-        home=str(tmp_path / 'home/testuser'),
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=uid,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            gid=gid,
+            home=str(tmp_path / 'home/testuser'),
+            uid=uid))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -202,26 +175,11 @@ def test_takelscripts_entrypoint_mkdir_parent(
         monkeypatch,
         caplog,
         tmp_path):
-    args = Namespace(
-        debug=True,
-        gid=1600,
-        home=str(tmp_path / 'home/testuser'),
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -243,26 +201,10 @@ def test_takelscripts_entrypoint_mkdir_parent(
 def test_takelscripts_entrypoint_run(
         monkeypatch,
         caplog):
-    args = Namespace(
-        debug=True,
-        gid=1600,
-        home='/home/testuser',
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -280,26 +222,10 @@ def test_takelscripts_entrypoint_run_and_fork(
         monkeypatch,
         tmp_path,
         caplog):
-    args = Namespace(
-        debug=True,
-        gid=1600,
-        home='/home/testuser',
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -321,26 +247,11 @@ def test_takelscripts_entrypoint_symlink(
         monkeypatch,
         caplog,
         tmp_path):
-    args = Namespace(
-        debug=True,
-        gid=1600,
-        home=str(tmp_path / 'home/testuser'),
-        bit=False,
-        docker=False,
-        extra='',
-        gcloud=False,
-        git=False,
-        gopass=False,
-        gpg=False,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
-        ssh=False,
-        uid=1500,
-        username='testuser')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args)
+        lambda x: args_default(
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -364,6 +275,29 @@ def test_takelscripts_entrypoint_symlink(
     assert expected_log_begin in caplog.text
     assert expected_log_middle in caplog.text
     assert expected_log_end in caplog.text
+
+
+def args_default(
+        extra='',
+        gid=1600,
+        home='/home/testuser',
+        uid=1500):
+    args = Namespace(
+        bit=False,
+        debug=True,
+        docker=False,
+        extra=extra,
+        gid=gid,
+        git=False,
+        gopass=False,
+        gpg=False,
+        gpg_agent_port=17874,
+        gpg_ssh_agent_port=17875,
+        home=home,
+        ssh=False,
+        uid=uid,
+        username='testuser')
+    return args
 
 
 def mock_logger_init(x, debug):
