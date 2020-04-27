@@ -13,7 +13,7 @@ def test_takelscripts_entrypoint_init_nodebug(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
         lambda x: args_default(
-            debug=False)
+            debug=False))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
