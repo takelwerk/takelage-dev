@@ -71,6 +71,145 @@ def test_takelscripts_entrypoint_init_debug(
            "'port': 17875}}" in caplog.text
 
 
+def test_takelscripts_entrypoint_add_bit_config(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    homedir_config_path = tmp_path / 'hostdir/Library/Caches/Bit/config'
+    homedir_config_path.mkdir(parents=True)
+    homedir_config_file = homedir_config_path / 'config.json'
+    homedir_config_file.touch()
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            bit=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_bit()
+
+    bit_dir_logs = tmp_path / 'home/testuser/Library/Caches/Bit/logs'
+    bit_dir_config = tmp_path / 'home/testuser/Library/Caches/Bit/config'
+
+    expected_log_start = 'adding config: bit'
+    expected_log_end = 'added config: bit'
+    expected_log_dir_logs = 'creating homedir child directory: ' + \
+                            str(bit_dir_logs)
+    expected_log_dir_config = 'creating homedir child directory: ' + \
+                              str(bit_dir_config)
+
+    assert bit_dir_logs.is_dir()
+    assert bit_dir_config.is_dir()
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log_dir_logs in caplog.text
+    assert expected_log_dir_config in caplog.text
+
+
+def test_takelscripts_entrypoint_add_bit_no_config(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            bit=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_bit()
+
+    bit_dir_logs = tmp_path / 'home/testuser/Library/Caches/Bit/logs'
+    bit_dir_config = tmp_path / 'home/testuser/Library/Caches/Bit/config'
+    bit_file_config = bit_dir_config / 'config.json'
+
+    expected_log_start = 'adding config: bit'
+    expected_log_end = 'added config: bit'
+    expected_log_dir_logs = 'creating homedir child directory: ' + \
+                            str(bit_dir_logs)
+    expected_log_dir_config = 'creating homedir child directory: ' + \
+                              str(bit_dir_config)
+    expected_log_file_config = 'creating bit config.json: ' + \
+                               str(bit_dir_config) + '/config.json'
+
+    assert bit_dir_logs.is_dir()
+    assert bit_dir_config.is_dir()
+    assert bit_file_config.is_file()
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log_dir_logs in caplog.text
+    assert expected_log_dir_config in caplog.text
+    assert expected_log_file_config in caplog.text
+
+
+def test_takelscripts_entrypoint_add_docker(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            docker=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_chown_docker_sock_',
+        lambda x: True)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_docker()
+
+    docker_config_path = tmp_path / 'home/testuser/.docker'
+    docker_config_file = docker_config_path / 'config.json'
+
+    expected_log_start = 'adding config: docker'
+    expected_log_end = 'added config: docker'
+    expected_log_path = 'creating homedir child directory: ' + \
+                        str(docker_config_path)
+    expected_log_file = 'creating docker config file: ' + \
+                        str(docker_config_file)
+
+    assert docker_config_path.is_dir()
+    assert docker_config_file.is_file()
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log_path in caplog.text
+    assert expected_log_file in caplog.text
+
+
 def test_takelscripts_entrypoint_add_extra(
         monkeypatch,
         caplog):

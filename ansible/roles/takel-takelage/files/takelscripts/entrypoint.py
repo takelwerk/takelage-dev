@@ -118,7 +118,7 @@ class EntryPoint(object):
             """
         docker_config_homedir.write_text(docker_config_template)
 
-        self._chown_socker_sock_()
+        self._chown_docker_sock_()
 
         self._logger.info('added config: docker')
         return True
@@ -337,6 +337,11 @@ class EntryPoint(object):
                 mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
                 passwordstore_relpath = mount_path.relative_to(self._homedir)
                 self._symlink_(passwordstore_relpath)
+
+    def _chown_docker_sock_(self):
+        self._logger.debug(
+            'make docker.sock readable and writable for docker group')
+        chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
 
     def _copy_takelage_yml_(self):
         # cp /hostdir/.takelage.yml ~/.takelage.yml
