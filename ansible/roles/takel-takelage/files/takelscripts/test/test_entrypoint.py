@@ -1,6 +1,7 @@
 from argparse import Namespace
 import logging
 from pathlib import Path
+import os
 import subprocess
 import takelscripts
 from takelscripts.entrypoint import EntryPoint
@@ -70,6 +71,256 @@ def test_takelscripts_entrypoint_init_debug(
            "'port': 17875}}" in caplog.text
 
 
+def test_takelscripts_entrypoint_add_extra(
+        monkeypatch,
+        caplog):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            extra='.config/first:.config/second'))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_extra()
+
+    expected_log_start = 'adding config: extra'
+    expected_log_end = 'added config: extra'
+
+    expected_log_symlink1 = 'symlink: .config/first'
+    expected_log_symlink2 = 'symlink: .config/second'
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log_symlink1 in caplog.text
+    assert expected_log_symlink2 in caplog.text
+
+
+def test_takelscripts_entrypoint_add_gopass_config(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            gopass=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+
+    config = \
+        """
+        root:
+          askformore: false
+          autoclip: true
+          autoprint: false
+          autoimport: true
+          autosync: false
+          check_recipient_hash: false
+          cliptimeout: 45
+          concurrency: 1
+          editrecipients: false
+          nocolor: false
+          noconfirm: true
+          nopager: false
+          notifications: true
+          path: gpgcli-gitcli-fs+file://""" + str(tmp_path) + """/home/testuser/.password-store
+          recipient_hash:
+            .gpg-id: 1234567890
+          safecontent: false
+          usesymbols: false
+        mounts:
+          my-passwords:
+            askformore: false
+            autoclip: true
+            autoprint: false
+            autoimport: true
+            autosync: true
+            check_recipient_hash: false
+            cliptimeout: 45
+            concurrency: 1
+            editrecipients: false
+            nocolor: false
+            noconfirm: true
+            nopager: false
+            notifications: true
+            path: gpgcli-gitcli-fs+file://""" + str(tmp_path) + """/home/testuser/.password-store-my-passwords
+            recipient_hash:
+              .gpg-id: 5678901234
+            safecontent: false
+            usesymbols: false
+        """
+
+    hostdir_config_path = tmp_path / 'hostdir/.config/gopass'
+    hostdir_config_path.mkdir(parents=True)
+
+    hostdir_config_file = hostdir_config_path / 'config.yml'
+    hostdir_config_file.write_text(config)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_gopass()
+
+    expected_log_start = 'adding config: gopass'
+    expected_log_end = 'added config: gopass'
+
+    expected_log_symlink1 = 'symlink: .config/gopass'
+    expected_log_symlink2 = 'symlink: .password-store'
+    expected_log_symlink3 = 'symlink: .password-store-my-passwords'
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+
+    assert expected_log_symlink1 in caplog.text
+    assert expected_log_symlink2 in caplog.text
+    assert expected_log_symlink3 in caplog.text
+
+
+def test_takelscripts_entrypoint_add_gopass_noconfig(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            gopass=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_gopass()
+
+    expected_log_start = 'adding config: gopass'
+    expected_log_error = 'no valid gopass config file found: /'
+
+    assert expected_log_start in caplog.text
+    assert expected_log_error in caplog.text
+
+
+def test_takelscripts_entrypoint_add_gpg(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            gpg=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_copy_file_',
+        log_arguments_copy_file)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_gpg()
+
+    expected_log_start = 'adding config: gpg'
+    expected_log_end = 'added config: gpg'
+    expected_log_chmod_gnupg = 'chmod 700 gnupg directory:'
+
+    expected_log_symlink_file1 = 'symlink: .gnupg/pubring.kbx'
+    expected_log_symlink_file2 = 'symlink: .gnupg/trustdb.gpg'
+    expected_log_symlink_file3 = 'symlink: .gnupg/private-keys-v1.d'
+    expected_log_symlink_file4 = 'symlink: .gnupg/openpgp-revocs.d'
+    expected_log_symlink_file5 = 'symlink: .gnupg/crls.d'
+
+    expected_log_copy_file1 = "{'source': '/srv/.gnupg/dirmngr.conf', 'destination': '"
+    expected_log_copy_file2 = "{'source': '/srv/.gnupg/gpg-agent.conf', 'destination': '"
+    expected_log_copy_file3 = "{'source': '/srv/.gnupg/gpg.conf', 'destination': '"
+
+    gnupg_dir = tmp_path / 'home/testuser/.gnupg'
+    gnupg_dir_mode = os.stat(gnupg_dir).st_mode
+
+    assert gnupg_dir.is_dir()
+    assert gnupg_dir_mode == 16832
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log_chmod_gnupg in caplog.text
+
+    assert expected_log_symlink_file1 in caplog.text
+    assert expected_log_symlink_file2 in caplog.text
+    assert expected_log_symlink_file3 in caplog.text
+    assert expected_log_symlink_file4 in caplog.text
+    assert expected_log_symlink_file5 in caplog.text
+
+    assert expected_log_copy_file1 in caplog.text
+    assert expected_log_copy_file2 in caplog.text
+    assert expected_log_copy_file3 in caplog.text
+
+
+def test_takelscripts_entrypoint_add_ssh(
+        monkeypatch,
+        caplog):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            ssh=True))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_symlink_',
+        log_argument_symlink)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_ssh()
+
+    expected_log_start = 'adding config: ssh'
+    expected_log_end = 'added config: ssh'
+    expected_log = 'symlink: .ssh'
+
+    assert expected_log_start in caplog.text
+    assert expected_log_end in caplog.text
+    assert expected_log in caplog.text
+
+
 def test_takelscripts_entrypoint_add_user(
         monkeypatch,
         caplog,
@@ -100,19 +351,50 @@ def test_takelscripts_entrypoint_add_user(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_copy_file_',
-        log_arguments)
+        log_arguments_copy_file)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_create_group_',
+        lambda x: True)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_copy_takelage_yml_',
+        lambda x: True)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_copy_bashrc_',
+        lambda x: True)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_mkdir_bashrc_d_',
         lambda x: True)
 
     entrypoint = EntryPoint()
 
     entrypoint.add_user()
 
-    assert (tmp_path / 'home/testuser').is_dir()
+    expected_log_user = 'creating user: testuser'
+    expected_log_grouos = 'adding user to groups: sudo,tty'
+    expected_command_begin = \
+        "['useradd', " \
+        "'--create-home', " \
+        "'--home-dir', "
+    expected_command_end = \
+        "'--groups', " \
+        "'sudo,tty', " \
+        "'--shell', " \
+        "'/bin/bash', " \
+        "'--non-unique', " \
+        "'testuser']"
+    expected_log_done = 'created user: testuser'
 
-    #assert 'xxx' in caplog.text
+    assert (tmp_path / 'home').is_dir()
+
+    assert expected_log_user in caplog.text
+    assert expected_log_grouos in caplog.text
+    assert expected_command_begin in caplog.text
+    assert expected_command_end in caplog.text
+    assert expected_log_done in caplog.text
 
 
 def test_takelscripts_entrypoint_chown_home(
@@ -234,13 +516,13 @@ def test_takelscripts_entrypoint_copy_takelage_yml_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
-        log_argument)
+        log_argument_symlink)
 
     entrypoint = EntryPoint()
 
     entrypoint._copy_takelage_yml_()
 
-    symlink = '.takelage.yml'
+    symlink = 'symlink: .takelage.yml'
 
     assert symlink in caplog.text
 
@@ -264,15 +546,15 @@ def test_takelscripts_entrypoint_copy_takelage_yml_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
-        log_argument)
+        log_argument_symlink)
 
     entrypoint = EntryPoint()
 
     entrypoint._copy_takelage_yml_()
 
-    symlink = '.takelage.yml'
+    filename = '.takelage.yml'
 
-    assert symlink not in caplog.text
+    assert filename not in caplog.text
 
 
 def test_takelscripts_entrypoint_copy_bashrc(
@@ -289,17 +571,15 @@ def test_takelscripts_entrypoint_copy_bashrc(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_copy_file_',
-        log_arguments)
+        log_arguments_copy_file)
 
     entrypoint = EntryPoint()
 
     entrypoint._copy_bashrc_()
 
-    expected_src = '/root/.bashrc'
-    expected_dest = '/home/testuser/.bashrc'
+    expected_log = "{'source': '/root/.bashrc', 'destination': '/home/testuser/.bashrc'}"
 
-    assert expected_src in caplog.text
-    assert expected_dest in caplog.text
+    assert expected_log in caplog.text
 
 
 def test_takelscripts_entrypoint_copy_file(
@@ -386,7 +666,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
-        log_argument)
+        log_argument_symlink)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
@@ -574,24 +854,30 @@ def test_takelscripts_entrypoint_symlink(
 
 
 def args_default(
+        bit=False,
         debug=True,
+        docker=False,
         extra='',
         gid=1600,
-        home='/home/testuser',
-        uid=1500):
-    args = Namespace(
-        bit=False,
-        debug=debug,
-        docker=False,
-        extra=extra,
-        gid=gid,
         git=False,
         gopass=False,
         gpg=False,
+        home='/home/testuser',
+        ssh=False,
+        uid=1500):
+    args = Namespace(
+        bit=bit,
+        debug=debug,
+        docker=docker,
+        extra=extra,
+        gid=gid,
+        git=git,
+        gopass=gopass,
+        gpg=gpg,
         gpg_agent_port=17874,
         gpg_ssh_agent_port=17875,
         home=home,
-        ssh=False,
+        ssh=ssh,
         uid=uid,
         username='testuser')
     return args
@@ -602,9 +888,14 @@ def log_argument(x, y):
     return Namespace(returncode=0)
 
 
-def log_arguments(x, y, z):
-    x._logger.debug(y)
-    x._logger.debug(z)
+def log_argument_symlink(x, y):
+    x._logger.debug('symlink: ' + str(y))
+    return Namespace(returncode=0)
+
+
+def log_arguments_copy_file(x, src, dest):
+    copy = {'source': str(src), 'destination': str(dest)}
+    x._logger.debug(copy)
 
 
 def mock_logger_init(x, debug):

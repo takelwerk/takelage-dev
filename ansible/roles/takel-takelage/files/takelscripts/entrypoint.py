@@ -82,9 +82,10 @@ class EntryPoint(object):
             self._logger.debug(
                 'creating bit config.json: {file}'.format(
                     file=bit_config_file_homedir))
-            bit_config_template = """
-{"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
-"""
+            bit_config_template = \
+                """
+                {"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
+                """
             bit_config_file_homedir.write_text(bit_config_template)
 
         self._logger.info('added config: bit')
@@ -102,23 +103,22 @@ class EntryPoint(object):
         self._logger.debug(
             'creating docker config file: {file}'.format(
                 file=str(docker_config_homedir)))
-        docker_config_template = """
-{
-  "credHelpers": {
-    "gcr.io": "gcloud",
-    "us.gcr.io": "gcloud",
-    "eu.gcr.io": "gcloud",
-    "asia.gcr.io": "gcloud",
-    "staging-k8s.gcr.io": "gcloud",
-    "marketplace.gcr.io": "gcloud"
-  }
-}
-"""
+        docker_config_template = \
+            """
+            {
+              "credHelpers": {
+                "gcr.io": "gcloud",
+                "us.gcr.io": "gcloud",
+                "eu.gcr.io": "gcloud",
+                "asia.gcr.io": "gcloud",
+                "staging-k8s.gcr.io": "gcloud",
+                "marketplace.gcr.io": "gcloud"
+              }
+            }
+            """
         docker_config_homedir.write_text(docker_config_template)
 
-        self._logger.debug(
-            'make docker.sock readable and writable for docker group')
-        chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
+        self._chown_socker_sock_()
 
         self._logger.info('added config: docker')
         return True
@@ -169,21 +169,9 @@ class EntryPoint(object):
 
         self._symlink_('.config/gopass')
 
-        # add path for the personal passwordstore
-        if 'path' in gopass_config['root']:
-            gopass_config_root_path = gopass_config['root']['path']
-            root_path = Path(gopass_config_root_path.split(':', 1)[1])
-            passwordstore_relpath = root_path.relative_to(self._homedir)
-            self._symlink_(passwordstore_relpath)
+        self._add_gopass_root_path_(gopass_config)
 
-        # add paths for mounted passwordstores
-        for mount in gopass_config['mounts']:
-            gopass_config_mount = gopass_config['mounts'][mount]
-            if 'path' in gopass_config_mount:
-                gopass_config_mount_path = gopass_config_mount['path']
-                mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
-                passwordstore_relpath = mount_path.relative_to(self._homedir)
-                self._symlink_(passwordstore_relpath)
+        self._add_gopass_mount_paths_(gopass_config)
 
         self._logger.info(
             'added config: gopass')
@@ -195,10 +183,10 @@ class EntryPoint(object):
         self._logger.debug(
             'adding config: gpg')
 
-        self._logger.debug(
-            'create gnupg directory: {gpgdir}'.format(
-                gpgdir=str(self._homedir / '.gnupg')))
         self._mkdir_homedir_child_('.gnupg')
+        self._logger.debug(
+            'chmod 700 gnupg directory: {gpgdir}'.format(
+                gpgdir=str(self._homedir / '.gnupg')))
         (self._homedir / '.gnupg').chmod(0o700)
 
         # files used from the host system
@@ -333,6 +321,22 @@ class EntryPoint(object):
         self._logger.info(
             'forwarded agents')
         return True
+
+    def _add_gopass_root_path_(self, gopass_config):
+        if 'path' in gopass_config['root']:
+            gopass_config_root_path = gopass_config['root']['path']
+            root_path = Path(gopass_config_root_path.split(':', 1)[1])
+            passwordstore_relpath = root_path.relative_to(self._homedir)
+            self._symlink_(passwordstore_relpath)
+
+    def _add_gopass_mount_paths_(self, gopass_config):
+        for mount in gopass_config['mounts']:
+            gopass_config_mount = gopass_config['mounts'][mount]
+            if 'path' in gopass_config_mount:
+                gopass_config_mount_path = gopass_config_mount['path']
+                mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
+                passwordstore_relpath = mount_path.relative_to(self._homedir)
+                self._symlink_(passwordstore_relpath)
 
     def _copy_takelage_yml_(self):
         # cp /hostdir/.takelage.yml ~/.takelage.yml
