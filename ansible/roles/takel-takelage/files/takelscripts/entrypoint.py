@@ -246,16 +246,7 @@ class EntryPoint(object):
 
         self._mkdir_parents_(self._homedir)
 
-        group = {'name': self._username, 'gid': self._gid}
-        self._logger.debug(
-            'creating group: {group}'.format(
-                group=group))
-        command = ['groupadd',
-                   '--gid', str(self._gid),
-                   '--non-unique',
-                   self._username]
-        result = self._run_(command)
-        if result.returncode:
+        if not self._create_group_():
             return False
 
         groups = 'sudo,tty'
@@ -279,33 +270,27 @@ class EntryPoint(object):
         if result.returncode:
             return False
 
-        # cp /hostdir/.takelage.yml ~/.takelage.yml
-        takelage_yml_hostdir = self._hostdir / '.takelage.yml'
-        if takelage_yml_hostdir.exists():
-            self._symlink_('.takelage.yml')
+        self._copy_takelage_yml_()
 
-        # cp /root/.bashrc ~/.bashrc
-        self._copy_file_(
-            Path('/root/.bashrc'),
-            self._homedir / '.bashrc')
+        self._copy_bashrc_()
 
-        # mkdir ~/.bashrc.d
-        bashrcd_hostdir = self._hostdir / '.bashrc.d'
-        if bashrcd_hostdir.exists():
-            self._symlink_('.bashrc.d')
-        else:
-            self._mkdir_homedir_child_('.bashrc.d')
-
-        # tty
-        command = ['tty']
-        tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
-        self._logger.debug('making tty readable and writeable for user')
-        chown(tty_device, self._uid, -1)
+        self._mkdir_bashrc_d_()
 
         self._logger.info(
             'created user: {user}'.format(
                 user=self._username))
         return True
+
+    def chown_tty(self):
+        self._logger.debug(
+            'changing ownership: tty')
+        command = ['tty']
+        print(self._run_(command))
+        tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
+        self._logger.debug('making tty readable and writeable for user')
+        chown(tty_device, self._uid, -1)
+        self._logger.info(
+            'changed ownership: tty')
 
     def chown_home(self):
         self._logger.debug(
@@ -349,12 +334,37 @@ class EntryPoint(object):
             'forwarded agents')
         return True
 
+    def _copy_takelage_yml_(self):
+        # cp /hostdir/.takelage.yml ~/.takelage.yml
+        takelage_yml_hostdir = self._hostdir / '.takelage.yml'
+        if takelage_yml_hostdir.exists():
+            self._symlink_('.takelage.yml')
+
+    def _copy_bashrc_(self):
+        # cp /root/.bashrc ~/.bashrc
+        self._copy_file_(
+            Path('/root/.bashrc'),
+            self._homedir / '.bashrc')
+
     def _copy_file_(self, src, dest):
         copy = {'source': str(src), 'destination': str(dest)}
         self._logger.debug(
             'copying file: {copy}'.format(
                 copy=copy))
         copyfile(src, dest)
+
+    def _create_group_(self):
+        group = {'name': self._username, 'gid': self._gid}
+        self._logger.debug(
+            'creating group: {group}'.format(
+                group=group))
+        command = ['groupadd',
+                   '--gid', str(self._gid),
+                   '--non-unique',
+                   self._username]
+        result = self._run_(command)
+        if result.returncode:
+            return False
 
     def _get_hostdir_(self):
         return Path('/hostdir')
@@ -372,6 +382,13 @@ class EntryPoint(object):
         fh.setFormatter(formatter)
         logger.addHandler(fh)
         return logger
+
+    def _mkdir_bashrc_d_(self):
+        bashrcd_hostdir = self._hostdir / '.bashrc.d'
+        if bashrcd_hostdir.exists():
+            self._symlink_('.bashrc.d')
+        else:
+            self._mkdir_homedir_child_('.bashrc.d')
 
     def _mkdir_homedir_child_(self, directory):
         directory = self._homedir / directory
@@ -518,6 +535,7 @@ def main():
     entrypoint.add_bit()
     entrypoint.add_extra()
     entrypoint.add_docker()
+    entrypoint.chown_tty()
     entrypoint.chown_home()
     entrypoint.forward_agents()
     subprocess.run(['tail', '-f', '/debug/takelage.log'])
