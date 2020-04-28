@@ -198,10 +198,15 @@ class Takelage(object):
                           'keys': []}
 
         command = ['gopass', 'recipients']
-        gopass_add_result = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
+
+        try:
+            gopass_add_result = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE)
+        except FileNotFoundError:
+            _gopass_status['returncode'] = 255
+            return _gopass_status
 
         _gopass_status['returncode'] = gopass_add_result.returncode
 
@@ -283,8 +288,6 @@ class Takelage(object):
             _takelage_status['version'] = \
                 takelage_version_file.read_text().strip()
         except OSError:
-            import sys
-            print(sys.exc_info()[0])
             _takelage_status['returncode'] = 1
 
         return _takelage_status
