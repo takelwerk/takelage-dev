@@ -234,7 +234,8 @@ class EntryPoint(object):
 
         self._mkdir_parents_(self._homedir)
 
-        if not self._create_group_():
+        result = self._create_group_()
+        if result.returncode:
             return False
 
         groups = 'sudo,tty'
@@ -273,7 +274,6 @@ class EntryPoint(object):
         self._logger.debug(
             'changing ownership: tty')
         command = ['tty']
-        print(self._run_(command))
         tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
         self._logger.debug('making tty readable and writeable for user')
         chown(tty_device, self._uid, -1)
@@ -371,9 +371,7 @@ class EntryPoint(object):
                    '--gid', str(self._gid),
                    '--non-unique',
                    self._username]
-        result = self._run_(command)
-        if result.returncode:
-            return False
+        return self._run_(command)
 
     def _get_hostdir_(self):
         return Path('/hostdir')

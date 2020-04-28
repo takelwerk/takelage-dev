@@ -497,7 +497,7 @@ def test_takelscripts_entrypoint_add_user(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_create_group_',
-        lambda x: True)
+        lambda x: Namespace(returncode=0))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_copy_takelage_yml_',
