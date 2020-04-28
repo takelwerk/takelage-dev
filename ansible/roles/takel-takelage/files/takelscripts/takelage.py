@@ -203,7 +203,7 @@ class Takelage(object):
             gopass_add_result = subprocess.run(
                 command,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
+                stderr=subprocess.DEVNULL)
         except FileNotFoundError:
             _gopass_status['returncode'] = 255
             return _gopass_status
@@ -214,9 +214,6 @@ class Takelage(object):
             gopass_keys_string = gopass_add_result.stdout.decode('utf-8')
             keys = re.findall(r'0x(.*?) -', gopass_keys_string)
             _gopass_status['keys'] = keys
-        else:
-            print('stderr:')
-            print(gopass_add_result.stderr)
 
         return _gopass_status
 
