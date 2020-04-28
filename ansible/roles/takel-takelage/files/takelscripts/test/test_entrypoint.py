@@ -405,9 +405,12 @@ def test_takelscripts_entrypoint_add_gpg(
     expected_log_symlink_file4 = 'symlink: .gnupg/openpgp-revocs.d'
     expected_log_symlink_file5 = 'symlink: .gnupg/crls.d'
 
-    expected_log_copy_file1 = "{'source': '/srv/.gnupg/dirmngr.conf', 'destination': '"
-    expected_log_copy_file2 = "{'source': '/srv/.gnupg/gpg-agent.conf', 'destination': '"
-    expected_log_copy_file3 = "{'source': '/srv/.gnupg/gpg.conf', 'destination': '"
+    expected_log_copy_file1 = \
+        "{'source': '/srv/.gnupg/dirmngr.conf', 'destination': '"
+    expected_log_copy_file2 = \
+        "{'source': '/srv/.gnupg/gpg-agent.conf', 'destination': '"
+    expected_log_copy_file3 = \
+        "{'source': '/srv/.gnupg/gpg.conf', 'destination': '"
 
     gnupg_dir = tmp_path / 'home/testuser/.gnupg'
     gnupg_dir_mode = os.stat(gnupg_dir).st_mode
@@ -716,7 +719,8 @@ def test_takelscripts_entrypoint_copy_bashrc(
 
     entrypoint._copy_bashrc_()
 
-    expected_log = "{'source': '/root/.bashrc', 'destination': '/home/testuser/.bashrc'}"
+    expected_log = \
+        "{'source': '/root/.bashrc', 'destination': '/home/testuser/.bashrc'}"
 
     assert expected_log in caplog.text
 
