@@ -27,6 +27,9 @@ takel_gem_gems:
   - name: watir
     version: 6.16.5
     description: web test framework
+  - name: webdrivers
+    version: 4.3.0
+    description: headless browser drivers
   - name: yard
     version: 0.9.24
     description: documentation

@@ -1,16 +1,13 @@
 ---
 takel_takelage_deb_install_packages:
+  - chromium
   - cloc
   - git
   - gnupg
   - expect
-  - mmv
   - python3-docker
   - socat
   - sudo
-  - tree
-  - vim
-  - vim-scripts
 
 takel_takelage_gpg_config_files:
   - gpg-agent.conf
