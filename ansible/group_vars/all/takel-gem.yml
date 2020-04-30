@@ -3,9 +3,21 @@ takel_gem_gems:
   - name: aruba
     version: 1.0.0
     description: cli test framework
+  - name: data_magic
+    version: 1.2
+    description: configuration handler
+  - name: faker
+    version: 2.11.0
+    description: randam data generator
+  - name: fig_newton
+    version: 1.0
+    description: configuration handler
   - name: page-object
     version: 2.2.6
     description: page object dsl
+  - name: require_all
+    version: 3.0.0
+    description: code loader
   - name: rubocop
     version: 0.82.0
     description: ruby linter
@@ -25,7 +37,7 @@ takel_gem_gems:
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.14.3
+    version: 0.14.4
     description: takelage cli
   - name: watir
     version: 6.16.5
