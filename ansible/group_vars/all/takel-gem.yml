@@ -3,6 +3,9 @@ takel_gem_gems:
   - name: aruba
     version: 1.0.0
     description: cli test framework
+  - name: page-object
+    version: 2.2.6
+    description: page object dsl
   - name: rubocop
     version: 0.82.0
     description: ruby linter
