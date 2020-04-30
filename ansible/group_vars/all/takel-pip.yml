@@ -10,14 +10,17 @@ takel_pip_packages:
     version: 1.2.6
     description: bdd framework
   - name: molecule
-    version: 3.0.3
+    version: 3.0.4
     description: ansible testing framework
   - name: molecule[docker]
-    version: 3.0.3
+    version: 3.0.4
     description: molecule docker driver
   - name: molecule[lint]
-    version: 3.0.3
+    version: 3.0.4
     description: molecule linters
+  - name: pyOpenSSL
+    version: 19.1.0
+    description: ssl library
   - name: pytest
     version: 5.4.1
     description: python testing framework
@@ -36,5 +39,3 @@ takel_pip_packages:
   - name: wheel
     version: 0.34.2
     description: utilities for python packaging
-  - name: pyOpenSSL
-    version: 19.1.0

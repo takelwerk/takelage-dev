@@ -6,21 +6,27 @@ takel_gem_gems:
   - name: rubocop
     version: 0.82.0
     description: ruby linter
-  - name: rubocop-rails
-    version: 2.5.2
-    description: rails linter
   - name: rubocop-minitest
     version: 0.9.0
     description: minitest linter
+  - name: rubocop-rails
+    version: 2.5.2
+    description: rails linter
   - name: rubocop-rake
     version: 0.5.1
     description: rake linter
+  - name: rubocop-rspec
+    version: 1.38.1
+    description: rspec linter
   - name: rspec
     version: 3.9.0
     description: test framework
   - name: takelage
     version: 0.14.3
     description: takelage cli
+  - name: watir
+    version: 6.16.5
+    description: web test framework
   - name: yard
     version: 0.9.24
     description: documentation
