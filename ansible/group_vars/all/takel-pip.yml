@@ -9,6 +9,9 @@ takel_pip_packages:
   - name: behave
     version: 1.2.6
     description: bdd framework
+  _ name: diceware
+    version: 40.8.0
+    description: password generator
   - name: molecule
     version: 3.0.4
     description: ansible testing framework
