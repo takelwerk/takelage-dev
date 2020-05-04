@@ -9,7 +9,7 @@ takel_pip_packages:
   - name: behave
     version: 1.2.6
     description: bdd framework
-  _ name: diceware
+  - name: diceware
     version: 40.8.0
     description: password generator
   - name: molecule
