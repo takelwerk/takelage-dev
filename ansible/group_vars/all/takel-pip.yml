@@ -10,7 +10,7 @@ takel_pip_packages:
     version: 1.2.6
     description: bdd framework
   - name: diceware
-    version: 40.8.0
+    version: 0.9.6
     description: password generator
   - name: molecule
     version: 3.0.4
