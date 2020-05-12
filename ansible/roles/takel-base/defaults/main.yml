@@ -10,7 +10,6 @@ takel_base_deb_install_packages:
   - iputils-ping
   - jq
   - locales
-  - mmv
   - molly-guard
   - procps
   - rsync
@@ -18,8 +17,6 @@ takel_base_deb_install_packages:
   - tmux
   - tree
   - vim
-  - vim-scripts
-  - wget
 
 takel_base_autoupgrade: true
 
