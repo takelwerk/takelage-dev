@@ -13,7 +13,7 @@ cmd_image_prod_build = 'cd packer && packer build ' \
     "--var 'target_tag=prod' " \
     'templates/project/docker.json'
 
-cmd_image_prod_test = 'cd ansible && molecule test --scenario-name image_prod'
+cmd_image_prod_test = 'cd ansible && molecule test --scenario-name prod'
 
 namespace :image do
   namespace :prod do

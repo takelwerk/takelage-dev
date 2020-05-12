@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-cmd_img_build_debian_10_systemd = 'mkdir -p packer/images/debian/buster && ' \
+cmd_img_build_debian_10_systemd = 'docker pull debian:buster-slim ' \
+    'mkdir -p packer/images/debian/buster && ' \
     'cd packer && packer build ' \
     "--var 'base_repo=debian' " \
     "--var 'base_tag=buster-slim' " \

@@ -20,14 +20,6 @@
     - takel_base
     - takel_base_configure
 
-- name: (main) include autoupgrade
-  import_tasks: autoupgrade.yml
-  when: takel_base_autoupgrade
-  tags:
-    - takel
-    - takel_base
-    - takel_base_autoupgrade
-
 - name: (main) include version
   import_tasks: version.yml
   tags:
