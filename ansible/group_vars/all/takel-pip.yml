@@ -1,7 +1,7 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 2.9.7
+    version: 2.9.8
     description: it automation platform
   - name: argcomplete
     version: 1.11.1
@@ -25,7 +25,7 @@ takel_pip_packages:
     version: 19.1.0
     description: ssl library
   - name: pytest
-    version: 5.4.1
+    version: 5.4.2
     description: python testing framework
   - name: takeltest
     version: 0.2.0
