@@ -15,8 +15,10 @@
     state: absent
   changed_when: false
 
-- name: (install) create symlink for pass
-  file:
-    src: /usr/local/bin/gopass
+- name: (install) copy pass template
+  template:
+    src: pass.j2
     dest: /usr/local/bin/pass
-    state: link
+    owner: root
+    group: root
+    mode: 0755
