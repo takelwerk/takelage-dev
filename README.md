@@ -40,7 +40,7 @@ So you have one container for each project,
 but you can have many shells per project.
 
 takelage has been tested under macOS Catalina and Debian Buster hosts.
-The [takelage](https://hub.docker.com/r/takelage/takelage).
+The [takelage](https://hub.docker.com/r/takelage/takelage)
 docker image is based on the Debian 
 [buster-slim](https://hub.docker.com/_/debian)
 docker image.
