@@ -155,23 +155,49 @@ class EntryPoint(object):
         self._logger.debug(
             'adding config: gopass')
 
-        gopass_config_file = self._hostdir / '.config/gopass/config.yml'
+        gopass_config_file_macos = \
+            self._hostdir / 'Library/Application Support/gopass/config.yml'
+        gopass_config_file_linux = \
+            self._hostdir / '.config/gopass/config.yml'
+
+        if gopass_config_file_macos.exists():
+            gopass_config_file = gopass_config_file_macos
+        elif gopass_config_file_linux.exists():
+            gopass_config_file = gopass_config_file_linux
+        else:
+            self._logger.warning(
+                'no gopass config file found')
+            self._gopass = False
+            return False
+
+        self._logger.debug(
+            'using gopass config file: {config_file}'.format(
+                config_file=gopass_config_file))
 
         try:
             gopass_config = yaml.safe_load(
                 gopass_config_file.read_text(encoding='utf-8'))
         except FileNotFoundError:
             self._logger.warning(
-                'no valid gopass config file found: {file}'.format(
-                    file=str(gopass_config_file)))
+                'no valid gopass config: {config_file}'.format(
+                    config_file=gopass_config_file))
             self._gopass = False
             return False
 
-        self._symlink_('.config/gopass')
+        relpath = gopass_config_file.relative_to(*gopass_config_file.parts[:2])
+        self._symlink_(relpath.parents[0])
 
         self._add_gopass_root_path_(gopass_config)
 
-        self._add_gopass_mount_paths_(gopass_config)
+        if gopass_config_file != gopass_config_file_macos:
+            # linux: create symlinks to mount dirs
+            self._add_gopass_mount_paths_(gopass_config)
+        else:
+            # macos: create symlink from linux to macos config dir
+            self._mkdir_homedir_child_('.config')
+            linux_config_dir = \
+                self._homedir / '.config/gopass'
+            linux_config_dir.symlink_to(gopass_config_file_macos.parents[0])
 
         self._logger.info(
             'added config: gopass')
