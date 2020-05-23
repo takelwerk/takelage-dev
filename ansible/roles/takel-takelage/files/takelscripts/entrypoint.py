@@ -184,7 +184,7 @@ class EntryPoint(object):
             self._gopass = False
             return False
 
-        relpath = gopass_config_file.relative_to(*gopass_config_file.parts[:2])
+        relpath = gopass_config_file.relative_to(self._hostdir)
         self._symlink_(relpath.parents[0])
 
         self._add_gopass_root_path_(gopass_config)
