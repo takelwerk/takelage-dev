@@ -309,7 +309,8 @@ def test_takelscripts_entrypoint_add_gopass_config_macos(
             usesymbols: false
         """
 
-    hostdir_config_path = tmp_path / 'hostdir/Library/Application Support/gopass'
+    hostdir_config_path = \
+        tmp_path / 'hostdir/Library/Application Support/gopass'
     hostdir_config_path.mkdir(parents=True)
 
     hostdir_config_file = hostdir_config_path / 'config.yml'
@@ -322,9 +323,10 @@ def test_takelscripts_entrypoint_add_gopass_config_macos(
     expected_log_start = 'adding config: gopass'
     expected_log_end = 'added config: gopass'
 
-    expected_config_file = 'using gopass config file: ' + \
-                           str(tmp_path) + \
-                           '/hostdir/Library/Application Support/gopass/config.yml'
+    expected_config_file = \
+        'using gopass config file: ' + \
+        str(tmp_path) + \
+        '/hostdir/Library/Application Support/gopass/config.yml'
 
     expected_log_symlink1 = 'symlink: Library/Application Support/gopass'
     expected_log_symlink2 = 'symlink: .password-store'
