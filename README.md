@@ -29,7 +29,7 @@ The takelage devops framework consists of these projects:
 This project is an example of the takelage devops workflow as
 it builds a docker image called 
 [takelage](https://hub.docker.com/r/takelage/takelage).
-This docker image is the development environment you cand use
+This docker image is the development environment you can use
 to create your own projects based on the takelage devops workflow.
 
 Every time you start the takelage environment in a new directory
@@ -40,7 +40,7 @@ So you have one container for each project,
 but you can have many shells per project.
 
 takelage has been tested under macOS Catalina and Debian Buster hosts.
-The [takelage](https://hub.docker.com/r/takelage/takelage).
+The [takelage](https://hub.docker.com/r/takelage/takelage)
 docker image is based on the Debian 
 [buster-slim](https://hub.docker.com/_/debian)
 docker image.
