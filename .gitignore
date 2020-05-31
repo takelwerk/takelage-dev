@@ -11,6 +11,7 @@ __pycache__/
 pytestdebug.log
 *.retry
 takelage.log
+takelage.yml
 .vagrant
 vault-password-file
 *.vdi
