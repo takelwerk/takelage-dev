@@ -1,7 +1,7 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 2.9.8
+    version: 2.9.9
     description: it automation platform
   - name: argcomplete
     version: 1.11.1
@@ -25,13 +25,13 @@ takel_pip_packages:
     version: 19.1.0
     description: ssl library
   - name: pytest
-    version: 5.4.2
+    version: 5.4.3
     description: python testing framework
   - name: takeltest
     version: 0.3.0
     description: molecule pytest fixtures
   - name: testinfra
-    version: 5.0.0
+    version: 5.2.1
     description: molecule python verifier
   - name: twine
     version: 3.1.1
