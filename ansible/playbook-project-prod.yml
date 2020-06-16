@@ -16,6 +16,7 @@
     - takel-bit-client
     - takel-docker
     - takel-gcloud
+    - takel-hugo
     - takel-molecule
     - takel-packer
     - takel-terra
