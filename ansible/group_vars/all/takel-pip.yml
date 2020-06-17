@@ -28,7 +28,7 @@ takel_pip_packages:
     version: 5.4.3
     description: python testing framework
   - name: takeltest
-    version: 0.3.0
+    version: 0.4.0
     description: molecule pytest fixtures
   - name: testinfra
     version: 5.2.1
