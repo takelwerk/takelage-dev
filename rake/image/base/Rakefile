@@ -8,7 +8,7 @@ cmd_img_build_debian_10_systemd = 'docker pull debian:buster-slim && ' \
     "--var 'target_user=#{@project['local_user']}' " \
     "--var 'target_repo=#{@project['dockerhub_base_tag']}' " \
     "--var 'target_tag=latest' " \
-    'templates/base/debian_10_systemd/docker.json'
+    'templates/base/debian_10_systemd/packer.json'
 
 namespace :image do
   namespace :base do

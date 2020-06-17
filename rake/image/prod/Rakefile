@@ -11,7 +11,7 @@ cmd_image_prod_build = 'cd packer && packer build ' \
     "--var 'local_user=#{@project['local_user']}' " \
     "--var 'target_repo=#{@project['project']}' " \
     "--var 'target_tag=prod' " \
-    'templates/project/docker.json'
+    'templates/project/packer.json'
 
 cmd_image_prod_test = 'cd ansible && molecule test --scenario-name prod'
 
