@@ -321,6 +321,54 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "takelage.ansible/ansible/roles/takel-pip@0.0.1": {
+        "files": [
+            {
+                "relativePath": "ansible/roles/takel-pip/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/defaults/main.yml",
+                "test": false,
+                "name": "main.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/molecule/default/molecule.yml",
+                "test": false,
+                "name": "molecule.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/molecule/default/system/test_takel-pip_system.py",
+                "test": false,
+                "name": "test_takel-pip_system.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/molecule/default/tests/test_takel-pip_install.py",
+                "test": false,
+                "name": "test_takel-pip_install.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/tasks/install.yml",
+                "test": false,
+                "name": "install.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-pip/tasks/main.yml",
+                "test": false,
+                "name": "main.yml"
+            }
+        ],
+        "mainFile": "ansible/roles/takel-pip/README.bit",
+        "trackDir": "ansible/roles/takel-pip",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.packer/packer/templates/base@0.0.1": {
         "files": [
             {
