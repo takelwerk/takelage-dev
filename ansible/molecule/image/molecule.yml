@@ -1,38 +1,37 @@
 ---
 driver:
   name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint molecule/*/*.yml
+  flake8
 platforms:
-  - name: "molecule-takelage-dev-packer"
-    image: "packer_local/takelage-dev:prod"
+  - name: molecule-takelage-dev-test-image-${TAKELAGE_PROJECT_ENV:-prod}
+    image: packer_local/takelage-dev:${TAKELAGE_PROJECT_ENV:-prod}
     override_command: true
     command: /entrypoint.py --username testuser --uid 1010 --gid 1010 --home /testhome/testuser --no-bit --no-docker --no-git --no-gopass --no-gpg --no-ssh  --gpg_agent_port 18502 --gpg_ssh_agent_port 18503
     tty: true
     privileged: true
     pre_build_image: true
+    groups:
+      - ${TAKELAGE_PROJECT_ENV:-prod}
+      - users
+      - molecule
 provisioner:
   name: ansible
   log: true
 verifier:
   name: testinfra
   options:
-    disable-pytest-warnings: true
-    # m: debug
-    s: true
-    testvars-no-gather-facts: true
+    # p: cacheprovider  # enable cache
+    s: true  # capture output
     v: true
-  env:
-    # exclude external role which takeltest can't handle
-    TESTVARS_ROLES_BLACKLIST: github-rvm_rvm1-ansible
 scenario:
   create_sequence:
     - create
   converge_sequence:
     - create
-  check_sequence:
-    - destroy
-    - create
-    - check
-    - destroy
   destroy_sequence:
     - destroy
   test_sequence:
