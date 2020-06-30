@@ -369,29 +369,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/base@0.0.1": {
-        "files": [
-            {
-                "relativePath": "packer/templates/base/README.bit",
-                "test": false,
-                "name": "README.bit"
-            },
-            {
-                "relativePath": "packer/templates/base/debian_10_systemd/bin/install-debian.bash",
-                "test": false,
-                "name": "install-debian.bash"
-            },
-            {
-                "relativePath": "packer/templates/base/debian_10_systemd/docker.json",
-                "test": false,
-                "name": "docker.json"
-            }
-        ],
-        "mainFile": "packer/templates/base/README.bit",
-        "trackDir": "packer/templates/base",
-        "origin": "AUTHORED",
-        "exported": true
-    },
     "takelage.packer/packer/templates/project@0.0.3": {
         "files": [
             {
@@ -400,9 +377,9 @@
                 "test": false
             },
             {
-                "name": "docker.json",
-                "relativePath": "docker.json",
-                "test": false
+                "relativePath": "packer.json",
+                "test": false,
+                "name": "packer.json"
             }
         ],
         "mainFile": "README.bit",
