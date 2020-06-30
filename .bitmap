@@ -487,6 +487,24 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/ansible/roles/role"
     },
+    "takelage.rake/rake/dockerhub/takelbase/base/registry@0.0.1": {
+        "files": [
+            {
+                "relativePath": "rake/dockerhub/takelbase/base/registry/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "rake/dockerhub/takelbase/base/registry/Rakefile",
+                "test": false,
+                "name": "Rakefile"
+            }
+        ],
+        "mainFile": "rake/dockerhub/takelbase/base/registry/README.bit",
+        "trackDir": "rake/dockerhub/takelbase/base/registry",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.rake/rake/git@0.0.6": {
         "files": [
             {
