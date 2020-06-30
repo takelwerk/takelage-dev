@@ -5,9 +5,23 @@
     state: present
     update_cache: true
 
-- name: (install) install packages
+- name: (install) install pip packages into venv
   pip:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version }}"
+    virtualenv: "{{ geospin_google_appengine_python_venv_path }}"
+    virtualenv_python: >-
+      python{{ geospin_google_appengine_python_venv_version | default('3') }}
+    virtualenv_site_packages: >-
+      {{ geospin_google_appengine_python_venv_global | default(false)}}
+  when: takel_pip_venv_path is defined
+  loop: "{{ takel_pip_packages }}"
+
+- name: (install) install pip packages
+  pip:
+    name: "{{ item.name }}"
+    state: present
+    version: "{{ item.version }}"
+  when: takel_pip_venv_path is undefined
   loop: "{{ takel_pip_packages }}"

@@ -17,13 +17,6 @@ provisioner:
   config_options:
     defaults:
       interpreter_python: auto_silent
-  inventory:
-    group_vars:
-      all:
-        takel_pip_packages:
-          - name: pytest
-            version: 5.4.1
-            description: python testing framework
 verifier:
   name: testinfra
   options:
