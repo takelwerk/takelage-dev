@@ -469,42 +469,6 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/image/base@0.0.4": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/image/base",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/image/base"
-    },
-    "takelage.rake/rake/image/prod@0.0.7": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/image/prod",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/image/prod"
-    },
     "takelage.rake/rake/meta@0.0.6": {
         "files": [
             {
@@ -540,24 +504,6 @@
         "rootDir": "rake/rubylint",
         "origin": "IMPORTED",
         "originallySharedDir": "rake/rubylint"
-    },
-    "takelage.rake/rake/test@0.0.5": {
-        "files": [
-            {
-                "relativePath": "rake/test/README.bit",
-                "test": false,
-                "name": "README.bit"
-            },
-            {
-                "relativePath": "rake/test/Rakefile",
-                "test": false,
-                "name": "Rakefile"
-            }
-        ],
-        "mainFile": "rake/test/README.bit",
-        "trackDir": "rake/test",
-        "origin": "AUTHORED",
-        "exported": true
     },
     "version": "14.7.6"
 }
