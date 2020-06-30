@@ -415,24 +415,6 @@
         "origin": "IMPORTED",
         "originallySharedDir": "packer/templates/docker/takelbase/project"
     },
-    "takelage.packer/packer/templates/project@0.0.3": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "relativePath": "packer.json",
-                "test": false,
-                "name": "packer.json"
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "packer/templates/project",
-        "origin": "IMPORTED",
-        "originallySharedDir": "packer/templates/project"
-    },
     "takelage.rake/rake/dockerhub/base/registry@0.0.2": {
         "files": [
             {
