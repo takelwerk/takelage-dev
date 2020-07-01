@@ -21,22 +21,27 @@ cmd_dockerhub_prod_registry_tag = 'docker tag ' \
     'latest'
 
 namespace :dockerhub do
-  namespace :prod do
-    namespace :registry do
-      desc 'Log in to hub.docker.com'
-      task :login do
-        @commands << cmd_dockerhub_prod_registry_login
-      end
+  namespace :takelbase do
+    namespace :project do
+      namespace :prod do
+        namespace :registry do
+          desc 'Log in to hub.docker.com'
+          task :login do
+            @commands << cmd_dockerhub_prod_registry_login
+          end
 
-      desc 'Push production image to hub.docker.com'
-      task :push do
-        @commands << cmd_dockerhub_prod_registry_push
-      end
+          desc 'Push production image to hub.docker.com'
+          task :push do
+            @commands << cmd_dockerhub_prod_registry_push
+          end
 
-      desc 'Tag production image for hub.docker.com'
-      task :tag do
-        @commands << cmd_dockerhub_prod_registry_tag
+          desc 'Tag production image for hub.docker.com'
+          task :tag do
+            @commands << cmd_dockerhub_prod_registry_tag
+          end
+        end
       end
     end
   end
 end
+
