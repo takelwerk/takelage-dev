@@ -3,7 +3,7 @@
 require 'rake'
 
 @cmd_image_base = {
-  debian10: 'docker pull debian:buster-slim ' \
+  debian10: 'docker pull debian:buster-slim && ' \
         'mkdir -p packer/images/debian/buster && ' \
         'cd packer && packer build ' \
         "--var 'base_repo=debian' " \
