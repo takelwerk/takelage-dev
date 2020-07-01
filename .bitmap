@@ -339,7 +339,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.ansible/ansible/roles/takel-pip@0.0.2": {
+    "takelage.ansible/ansible/roles/takel-pip@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
@@ -469,7 +469,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/ansible/project/prod"
     },
-    "takelage.rake/rake/ansible/roles/lib@0.0.1": {
+    "takelage.rake/rake/ansible/roles/lib@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -487,7 +487,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/ansible/roles/lib"
     },
-    "takelage.rake/rake/ansible/roles/role@0.0.1": {
+    "takelage.rake/rake/ansible/roles/role@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
@@ -523,7 +523,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/git@0.0.6": {
+    "takelage.rake/rake/git@0.0.7": {
         "files": [
             {
                 "name": "README.bit",
@@ -577,7 +577,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/local/debug/prod@0.0.1": {
+    "takelage.rake/rake/local/debug/prod@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -595,7 +595,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/local/debug/prod"
     },
-    "takelage.rake/rake/local/lib@0.0.1": {
+    "takelage.rake/rake/local/lib@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
