@@ -44,4 +44,3 @@ namespace :dockerhub do
     end
   end
 end
-
