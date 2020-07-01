@@ -16,7 +16,13 @@ def test_takel_pip_install_deb_packages_installed(host, testvars):
 
 @pytest.fixture(scope='module', name='installed_pip_packages')
 def get_packages(host, testvars):
-    return host.check_output('pip3 list')
+    if 'takel_pip_venv_path' in testvars:
+        takel_python_venv_path = \
+            testvars['takel_pip_venv_path']
+        return host.check_output(takel_python_venv_path + '/bin/pip3 list')
+    else:
+        return host.check_output('pip3 list')
+
 
 def test_takel_pip_check_version(installed_pip_packages,
                                         host,
@@ -24,8 +30,16 @@ def test_takel_pip_check_version(installed_pip_packages,
     expected_pip_packages = testvars['takel_pip_packages']
     for package in expected_pip_packages:
         installed = re.search(package['name'] + r'\s+(.*)',
-                              installed_pip_packages)
+                              installed_pip_packages,
+                              re.IGNORECASE)
         if installed is not None:
-            assert package['version'] == installed.group(1).strip()
+            if str(package['version']) == 'latest' or (
+                    'skip_version_test' in package.keys() and
+                    package['skip_version_test']):
+                continue
+            assert str(package['version']) == installed.group(1).strip(), (
+            f"Expected version for {package['name']} is {installed.group(1).strip()}, "
+            f"but {package['version']}"
+            )
         else:
             assert False, f"{package['name']} is not installed."

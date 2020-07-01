@@ -5,14 +5,11 @@ require 'rake'
 namespace :local do
   namespace :debug do
     namespace :prod do |env|
-      exclude_commands = %i[features verify]
-      debug_commands = \
-        @cmd_local_list.reject { |a| exclude_commands.include?(a) }
-      debug_commands.each do |task|
+      @cmd_local_list.except(:features, :verify).each do |task, command|
         desc "#{task} #{env.scope.head} image locally"
         task task do
           @commands << format(
-            @cmd_local_molecule_command,
+            command,
             project_environment: env.scope.head,
             molecule_command: task
           )

@@ -10,11 +10,11 @@
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version }}"
-    virtualenv: "{{ geospin_google_appengine_python_venv_path }}"
+    virtualenv: "{{ takel_pip_venv_path }}"
     virtualenv_python: >-
-      python{{ geospin_google_appengine_python_venv_version | default('3') }}
+      python{{ takel_pip_venv_python_version | default('3') }}
     virtualenv_site_packages: >-
-      {{ geospin_google_appengine_python_venv_global | default(false)}}
+      {{ takel_pip_venv_global_site_packages | default(false)}}
   when: takel_pip_venv_path is defined
   loop: "{{ takel_pip_packages }}"
 
