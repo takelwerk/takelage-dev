@@ -33,10 +33,8 @@ verifier:
 scenario:
   create_sequence:
     - create
-    - prepare
   converge_sequence:
     - create
-    - prepare
     - converge
   destroy_sequence:
     - cleanup
@@ -47,7 +45,6 @@ scenario:
     - destroy
     - syntax
     - create
-    - prepare
     - converge
     - idempotence
     - verify
