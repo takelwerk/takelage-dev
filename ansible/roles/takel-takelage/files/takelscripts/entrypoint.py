@@ -55,13 +55,19 @@ class EntryPoint(object):
         self._agent_forwards = {
             'docker-daemon': {
                 'path': '/var/run/docker.sock',
-                'port': args.docker_daemon_port},
+                'port': args.docker_daemon_port,
+                'user': 'root',
+                'group': 'docker',
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
-                'port': args.gpg_agent_port},
+                'port': args.gpg_agent_port,
+                'user': self._username,
+                'group': self._username},
             'gpg-ssh-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
-                'port': args.gpg_ssh_agent_port}}
+                'port': args.gpg_ssh_agent_port,
+                'user': self._username,
+                'group': self._username}}
         self._logger.debug(
             'agent_forwards: {agent_forwards}'.format(
                 agent_forwards=self._agent_forwards))
@@ -337,12 +343,14 @@ class EntryPoint(object):
         for agent in self._agent_forwards:
             path = self._agent_forwards[agent]['path']
             port = self._agent_forwards[agent]['port']
+            user = self._agent_forwards[agent]['user']
+            group = self._agent_forwards[agent]['group']
             command = [
                 '/usr/bin/socat',
                 'UNIX-LISTEN:' + path +
                 ',reuseaddr,fork,' +
-                'user=' + self._username +
-                ',gid=' + str(self._gid),
+                'user=' + user +
+                ',group=' + group,
                 'TCP:host.docker.internal:' +
                 str(port)]
             self._run_and_fork_(command)
