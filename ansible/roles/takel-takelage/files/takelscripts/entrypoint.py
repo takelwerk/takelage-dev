@@ -57,7 +57,7 @@ class EntryPoint(object):
                 'path': '/var/run/docker.sock',
                 'port': args.docker_daemon_port,
                 'user': 'root',
-                'group': 'docker',
+                'group': 'docker'},
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
                 'port': args.gpg_agent_port,
