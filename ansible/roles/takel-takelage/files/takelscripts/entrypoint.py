@@ -16,6 +16,8 @@ class EntryPoint(object):
 
     def __init__(self):
         args = self._parse_args_()
+        print()
+        print(args)
         self._debug = args.debug
         now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         self._logger = self._logger_init_(self._debug)
@@ -57,7 +59,7 @@ class EntryPoint(object):
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
                 'port': args.gpg_agent_port},
-            'gpg-agent-ssh': {
+            'gpg-ssh-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
                 'port': args.gpg_ssh_agent_port}}
         self._logger.debug(
