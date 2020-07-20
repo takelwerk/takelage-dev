@@ -51,10 +51,13 @@ class EntryPoint(object):
         # gpg agent and gpg ssh agent which are tunneled
         # via socat from host to docker container
         self._agent_forwards = {
+            'docker-daemon': {
+                'path': '/var/run/docker.sock',
+                'port': args.docker_daemon_port},
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
                 'port': args.gpg_agent_port},
-            'gpg-agent.ssh': {
+            'gpg-agent-ssh': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
                 'port': args.gpg_ssh_agent_port}}
         self._logger.debug(
@@ -447,6 +450,11 @@ class EntryPoint(object):
             action="store_true",
             default=False,
             help="Set debug flag")
+        parser.add_argument(
+            "--docker_daemon_port",
+            type=int,
+            default=17873,
+            help="Port of docker daemon socket")
         parser.add_argument(
             "--gid",
             type=int,
