@@ -50,6 +50,7 @@ def test_takelscripts_entrypoint_init_debug(
            "bit=False, " + \
            "debug=True, " + \
            "docker=False, " + \
+           "docker_daemon_port=17873, " + \
            "extra='.config/first:.config/second', " + \
            "gid=1600, " + \
            "git=False, " + \
@@ -63,10 +64,13 @@ def test_takelscripts_entrypoint_init_debug(
            "username='testuser')" in caplog.text
     assert "hostdir: /hostdir" in caplog.text
     assert "agent_forwards: " + \
-           "{'gpg-agent': " + \
+           "{'docker-daemon': " + \
+           "{'path': '/var/run/docker.sock', " + \
+           "'port': 17873}, " + \
+           "'gpg-agent': " + \
            "{'path': '/home/testuser/.gnupg/S.gpg-agent', " + \
            "'port': 17874}, " + \
-           "'gpg-agent.ssh': " + \
+           "'gpg-ssh-agent': " + \
            "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
            "'port': 17875}}" in caplog.text
 
@@ -1115,6 +1119,7 @@ def args_default(
         bit=bit,
         debug=debug,
         docker=docker,
+        docker_daemon_port=17873,
         extra=extra,
         gid=gid,
         git=git,
