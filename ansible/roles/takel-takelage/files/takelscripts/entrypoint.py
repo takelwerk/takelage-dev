@@ -123,8 +123,6 @@ class EntryPoint(object):
             """
         docker_config_homedir.write_text(docker_config_template)
 
-        self._chown_docker_sock_()
-
         self._logger.info('added config: docker')
         return True
 
@@ -348,6 +346,8 @@ class EntryPoint(object):
                 'TCP:host.docker.internal:' +
                 str(port)]
             self._run_and_fork_(command)
+
+        self._chown_docker_sock_()
 
         self._logger.info(
             'forwarded agents')
