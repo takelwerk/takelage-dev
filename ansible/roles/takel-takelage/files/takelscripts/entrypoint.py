@@ -7,11 +7,9 @@ import yaml
 
 from builtins import FileNotFoundError
 from datetime import datetime
-from grp import getgrnam
 from os import chown
 from pathlib import Path
 from shutil import copyfile
-from time import sleep
 
 
 class EntryPoint(object):
