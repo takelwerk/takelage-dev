@@ -712,10 +712,6 @@ def test_takelscripts_entrypoint_forward_agents(
         takelscripts.entrypoint.EntryPoint,
         '_run_and_fork_',
         log_argument)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_chown_docker_sock_',
-        lambda x: True)
 
     entrypoint = EntryPoint()
 
