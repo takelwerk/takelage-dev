@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 
 import argparse
+import logging
+import subprocess
+import yaml
+
 from builtins import FileNotFoundError
 from datetime import datetime
 from grp import getgrnam
-import logging
 from os import chown
 from pathlib import Path
 from shutil import copyfile
-import subprocess
-import yaml
+from time import sleep
 
 
 class EntryPoint(object):
@@ -57,17 +59,20 @@ class EntryPoint(object):
                 'path': '/var/run/docker.sock',
                 'port': args.docker_daemon_port,
                 'user': 'root',
-                'group': 'docker'},
+                'group': 'docker',
+                'mode': '770'},
             'gpg-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
                 'port': args.gpg_agent_port,
                 'user': self._username,
-                'group': self._username},
+                'group': self._username,
+                'mode': '700'},
             'gpg-ssh-agent': {
                 'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
                 'port': args.gpg_ssh_agent_port,
                 'user': self._username,
-                'group': self._username}}
+                'group': self._username,
+                'mode': '700'}}
         self._logger.debug(
             'agent_forwards: {agent_forwards}'.format(
                 agent_forwards=self._agent_forwards))
@@ -305,16 +310,6 @@ class EntryPoint(object):
                 user=self._username))
         return True
 
-    def chown_tty(self):
-        self._logger.debug(
-            'changing ownership: tty')
-        command = ['tty']
-        tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
-        self._logger.debug('making tty readable and writeable for user')
-        chown(tty_device, self._uid, -1)
-        self._logger.info(
-            'changed ownership: tty')
-
     def chown_home(self):
         self._logger.debug(
             'changing ownership: {home}'.format(
@@ -336,6 +331,16 @@ class EntryPoint(object):
                 home=self._homedir))
         return True
 
+    def chown_tty(self):
+        self._logger.debug(
+            'changing ownership: tty')
+        command = ['tty']
+        tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
+        self._logger.debug('making tty readable and writeable for user')
+        chown(tty_device, self._uid, -1)
+        self._logger.info(
+            'changed ownership: tty')
+
     def forward_agents(self):
         self._logger.debug(
             'forwarding agents')
@@ -345,17 +350,17 @@ class EntryPoint(object):
             port = self._agent_forwards[agent]['port']
             user = self._agent_forwards[agent]['user']
             group = self._agent_forwards[agent]['group']
+            mode = self._agent_forwards[agent]['mode']
             command = [
                 '/usr/bin/socat',
                 'UNIX-LISTEN:' + path +
                 ',reuseaddr,fork,' +
                 'user=' + user +
-                ',group=' + group,
+                ',group=' + group +
+                ',mode=' + mode,
                 'TCP:host.docker.internal:' +
                 str(port)]
             self._run_and_fork_(command)
-
-        self._chown_docker_sock_()
 
         self._logger.info(
             'forwarded agents')
@@ -376,11 +381,6 @@ class EntryPoint(object):
                 mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
                 passwordstore_relpath = mount_path.relative_to(self._homedir)
                 self._symlink_(passwordstore_relpath)
-
-    def _chown_docker_sock_(self):
-        self._logger.debug(
-            'make docker.sock readable and writable for docker group')
-        chown('/var/run/docker.sock', 0, getgrnam('docker').gr_gid)
 
     def _copy_takelage_yml_(self):
         # cp /hostdir/.takelage.yml ~/.takelage.yml
