@@ -41,26 +41,6 @@ def test_takelscripts_entrypoint_init_debug(
 
     entrypoint = EntryPoint()
 
-    print()
-    print(caplog.text)
-    print()
-    print("agent_forwards: " + \
-          "{'docker-daemon': " + \
-          "{'path': '/var/run/docker.sock', " + \
-          "'port': 17873, " + \
-          "'user': 'root', " + \
-          "'group': 'docker'}, " + \
-          "'gpg-agent': " + \
-          "{'path': '/home/testuser/.gnupg/S.gpg-agent', " + \
-          "'port': 17874, " + \
-          "'user': 'testuser', " + \
-          "'group': 'testuser'}, " + \
-          "'gpg-ssh-agent': " + \
-          "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
-          "'port': 17874, " + \
-          "'user': 'testuser', " + \
-          "'group': 'testuser'}}")
-
     assert entrypoint._hostdir == Path('/hostdir')
 
     assert '*******************************************' in caplog.text
@@ -88,17 +68,20 @@ def test_takelscripts_entrypoint_init_debug(
            "{'path': '/var/run/docker.sock', " + \
            "'port': 17873, " + \
            "'user': 'root', " + \
-           "'group': 'docker'}, " + \
+           "'group': 'docker', " + \
+           "'mode': '770'}, " + \
            "'gpg-agent': " + \
            "{'path': '/home/testuser/.gnupg/S.gpg-agent', " + \
            "'port': 17874, " + \
            "'user': 'testuser', " + \
-           "'group': 'testuser'}, " + \
+           "'group': 'testuser', " + \
+           "'mode': '700'}, " + \
            "'gpg-ssh-agent': " + \
            "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
            "'port': 17875, " + \
            "'user': 'testuser', " + \
-           "'group': 'testuser'}}" in caplog.text
+           "'group': 'testuser', " + \
+           "'mode': '700'}}" in caplog.text
 
 
 def test_takelscripts_entrypoint_add_bit_config(
@@ -720,17 +703,17 @@ def test_takelscripts_entrypoint_forward_agents(
     first_forward_command = \
         "['/usr/bin/socat', " \
         "'UNIX-LISTEN:/var/run/docker.sock," \
-        "reuseaddr,fork,user=root,group=docker', " \
+        "reuseaddr,fork,user=root,group=docker,mode=770', " \
         "'TCP:host.docker.internal:17873']"
     second_forward_command = \
         "['/usr/bin/socat', " \
         "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent," \
-        "reuseaddr,fork,user=testuser,group=testuser', " \
+        "reuseaddr,fork,user=testuser,group=testuser,mode=700', " \
         "'TCP:host.docker.internal:17874']"
     third_forward_command = \
         "['/usr/bin/socat', " \
         "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent.ssh," \
-        "reuseaddr,fork,user=testuser,group=testuser', " \
+        "reuseaddr,fork,user=testuser,group=testuser,mode=700', " \
         "'TCP:host.docker.internal:17875']"
 
     assert first_forward_command in caplog.text
