@@ -854,25 +854,27 @@ class EntryPoint(
         dest.symlink_to(
             src)
 
-    def main():
-        entrypoint = EntryPoint()
-        entrypoint.add_user()
-        entrypoint.add_gopass()
-        entrypoint.add_gpg()
-        entrypoint.add_ssh()
-        entrypoint.add_git()
-        entrypoint.add_bit()
-        entrypoint.add_extra()
-        entrypoint.add_docker()
-        entrypoint.chown_tty()
-        entrypoint.chown_home()
-        entrypoint.forward_agents()
-        entrypoint.docker_sock_permissions()
-        subprocess.run(
-            [
-                'tail',
-                '-f',
-                '/debug/takelage.log'])
 
-    if __name__ == "__main__":
-        main()
+def main():
+    entrypoint = EntryPoint()
+    entrypoint.add_user()
+    entrypoint.add_gopass()
+    entrypoint.add_gpg()
+    entrypoint.add_ssh()
+    entrypoint.add_git()
+    entrypoint.add_bit()
+    entrypoint.add_extra()
+    entrypoint.add_docker()
+    entrypoint.chown_tty()
+    entrypoint.chown_home()
+    entrypoint.forward_agents()
+    entrypoint.docker_sock_permissions()
+    subprocess.run(
+        [
+            'tail',
+            '-f',
+            '/debug/takelage.log'])
+
+
+if __name__ == "__main__":
+    main()
