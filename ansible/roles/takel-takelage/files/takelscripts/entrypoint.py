@@ -430,14 +430,8 @@ class EntryPoint(
         # check /var/run/docker.sock
         gid = stat(
             docker_socket).st_gid
-        try:
-            docker_socket_group = docker_socket.group()
-        except KeyError:
-            docker_socket_group = 'dockersock'
-            self._create_group_(
-                docker_socket_group,
-                gid)
-
+        docker_socket_group = self._get_dockersocketgroup_(
+            gid)
         mode = docker_socket.stat().st_mode
         docker_socket_stat = {
             'group': docker_socket_group,
@@ -460,34 +454,6 @@ class EntryPoint(
 
         self._logger.debug(
             'made /var/run/docker.sock readable and writable for user')
-
-    def _converge_docker_socket_group_permissions_(
-            self,
-            docker_socket,
-            mode):
-        if not mode & S_IRGRP or not mode & S_IWGRP:
-            command = [
-                '/bin/chmod',
-                'g+rw',
-                str(
-                    docker_socket)]
-            self._run_(
-                command)
-
-    def _add_user_to_group_(
-            self,
-            user,
-            group):
-        self._logger.debug(
-            'adding user {user} to group {group}'.format(
-                user=user,
-                group=group))
-        command = [
-            '/usr/sbin/adduser',
-            user,
-            group]
-        self._run_(
-            command)
 
     def forward_agents(
             self):
@@ -571,6 +537,34 @@ class EntryPoint(
                 self._symlink_(
                     passwordstore_relpath)
 
+    def _add_user_to_group_(
+            self,
+            user,
+            group):
+        self._logger.debug(
+            'adding user {user} to group {group}'.format(
+                user=user,
+                group=group))
+        command = [
+            '/usr/sbin/adduser',
+            user,
+            group]
+        self._run_(
+            command)
+
+    def _converge_docker_socket_group_permissions_(
+            self,
+            docker_socket,
+            mode):
+        if not mode & S_IRGRP or not mode & S_IWGRP:
+            command = [
+                '/bin/chmod',
+                'g+rw',
+                str(
+                    docker_socket)]
+            self._run_(
+                command)
+
     def _copy_takelage_yml_(
             self):
         # cp /hostdir/.takelage.yml ~/.takelage.yml
@@ -623,6 +617,23 @@ class EntryPoint(
         return self._run_(
             command)
 
+    def _get_dockersocketgroup_(
+            self,
+            gid):
+        # check group name of /var/run/docker.sock
+        try:
+            docker_socket_group = self._get_dockersockpath_().group()
+        except KeyError:
+            # else check group name 'takelage_dockersock'
+            docker_socket_group = 'takelage_dockersock'
+            if not self._group_exists_(
+                    docker_socket_group) == 0:
+                # else create 'takelage_dockersock' with group id gid
+                self._create_group_(
+                    docker_socket_group,
+                    gid)
+        return docker_socket_group
+
     def _get_dockersockpath_(
             self):
         return Path(
@@ -632,6 +643,19 @@ class EntryPoint(
             self):
         return Path(
             '/hostdir')
+
+    def _group_exists_(
+            self,
+            group):
+        self._logger.debug(
+            'checking group: {group}'.format(
+                group=group))
+        command = [
+            'getent',
+            'group',
+            group]
+        return self._run_(
+            command).returncode
 
     def _logger_init_(
             self,
