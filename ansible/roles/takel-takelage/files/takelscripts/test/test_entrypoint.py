@@ -697,6 +697,44 @@ def test_takelscripts_entrypoint_chown_home(
     assert command in caplog.text
 
 
+def test_takelscripts_entrypoint_docker_sock_group_permissions(
+        monkeypatch,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default())
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_dockersockpath_',
+        lambda x: tmp_path / 'docker.sock')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_add_user_to_group_',
+        log_arguments_add_user_to_group)
+
+    docker_sock = tmp_path / 'docker.sock'
+    docker_sock.touch()
+
+    entrypoint = EntryPoint()
+
+    mode = docker_sock.stat().st_mode
+
+    assert mode == 33188
+
+    entrypoint.docker_sock_permissions()
+
+    mode = docker_sock.stat().st_mode
+
+    assert mode == 33204
+
+    assert False
+
+
 def test_takelscripts_entrypoint_forward_agents(
         monkeypatch,
         caplog):
@@ -712,10 +750,6 @@ def test_takelscripts_entrypoint_forward_agents(
         takelscripts.entrypoint.EntryPoint,
         '_run_and_fork_',
         log_argument)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_chown_docker_sock_',
-        lambda x: True)
 
     entrypoint = EntryPoint()
 
@@ -731,15 +765,9 @@ def test_takelscripts_entrypoint_forward_agents(
         "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent," \
         "reuseaddr,fork,user=testuser,group=testuser', " \
         "'TCP:host.docker.internal:17874']"
-    third_forward_command = \
-        "['/usr/bin/socat', " \
-        "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent.ssh," \
-        "reuseaddr,fork,user=testuser,group=testuser', " \
-        "'TCP:host.docker.internal:17875']"
 
     assert first_forward_command in caplog.text
     assert second_forward_command in caplog.text
-    assert third_forward_command in caplog.text
 
 
 def test_takelscripts_entrypoint_chown_tty(
@@ -917,7 +945,7 @@ def test_takelscripts_entrypoint_create_group(
 
     entrypoint = EntryPoint()
 
-    entrypoint._create_group_()
+    entrypoint._create_group_('testuser', 1600)
 
     command = "['groupadd', " \
               "'--gid', " \
@@ -1174,6 +1202,11 @@ def log_argument(x, y):
 def log_argument_symlink(x, y):
     x._logger.debug('symlink: ' + str(y))
     return Namespace(returncode=0)
+
+
+def log_arguments_add_user_to_group(x, user, group):
+    adduser = {'user': user, 'group': group}
+    x._logger.debug(adduser)
 
 
 def log_arguments_copy_file(x, src, dest):
