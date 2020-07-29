@@ -3,6 +3,7 @@ import takeltest
 
 testinfra_hosts = takeltest.hosts()
 
+
 @pytest.fixture(name='python3')
 def get_pip_binry(host, testvars):
     if 'takel_pip_venv_path' in testvars:
@@ -33,5 +34,5 @@ def test_takel_pip_system_check_version(host, testvars, python3):
             f"{python3} -c 'import {package_name}; "
             f"print({package_name}.__version__)'")
         assert str(package['version']) in str(installed_version), \
-            (f"Expected version for {package['name']} is {str(installed_version)}, "
-            f"but {package['version']}")
+            (f"Expected version for {package['name']} is "
+             f"{str(installed_version)}, but {package['version']}")

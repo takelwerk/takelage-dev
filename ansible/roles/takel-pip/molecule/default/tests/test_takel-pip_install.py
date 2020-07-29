@@ -25,8 +25,8 @@ def get_packages(host, testvars):
 
 
 def test_takel_pip_check_version(installed_pip_packages,
-                                        host,
-                                        testvars):
+                                 host,
+                                 testvars):
     expected_pip_packages = testvars['takel_pip_packages']
     for package in expected_pip_packages:
         installed = re.search(package['name'] + r'\s+(.*)',
@@ -38,8 +38,8 @@ def test_takel_pip_check_version(installed_pip_packages,
                     package['skip_version_test']):
                 continue
             assert str(package['version']) == installed.group(1).strip(), (
-            f"Expected version for {package['name']} is {installed.group(1).strip()}, "
-            f"but {package['version']}"
+                f"Expected version for {package['name']} is "
+                f"{installed.group(1).strip()}, but {package['version']}"
             )
         else:
             assert False, f"{package['name']} is not installed."
