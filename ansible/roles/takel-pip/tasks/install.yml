@@ -14,7 +14,7 @@
     virtualenv_python: >-
       python{{ takel_pip_venv_python_version | default('3') }}
     virtualenv_site_packages: >-
-      {{ takel_pip_venv_global_site_packages | default(false)}}
+      {{ takel_pip_venv_global_site_packages | default(false) }}
   when: takel_pip_venv_path is defined
   loop: "{{ takel_pip_packages }}"
 
