@@ -12,6 +12,7 @@ class Takelage(object):
     _BLUE = '34'
 
     def __init__(self):
+        self._timeout = 5
         args = self._parse_args_()
         self._summary = args.summary
         self._status_takelage = self._get_status_takelage_()
@@ -170,7 +171,8 @@ class Takelage(object):
         git_result = subprocess.run(
             command,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
+            stderr=subprocess.PIPE,
+            timeout=self._timeout)
         if git_result.returncode == 0:
             result = git_result.stdout.decode('UTF-8')
             git_name_search = re.search(r'user\.name=(.*)', result)
@@ -203,7 +205,8 @@ class Takelage(object):
             gopass_add_result = subprocess.run(
                 command,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.DEVNULL)
+                stderr=subprocess.DEVNULL,
+                timeout=self._timeout)
         except FileNotFoundError:
             _gopass_status['returncode'] = 255
             return _gopass_status
@@ -226,7 +229,8 @@ class Takelage(object):
         gpg_list_result = subprocess.run(
             command,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
+            stderr=subprocess.PIPE,
+            timeout=self._timeout)
         gpg_returncode = gpg_list_result.returncode
 
         if gpg_returncode == 0:
@@ -250,7 +254,8 @@ class Takelage(object):
                     command,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
-                    shell=True)
+                    shell=True,
+                    timeout=self._timeout)
                 gpg_status['returncode'] = gpg_encrypt_result.returncode
             else:
                 gpg_status['returncode'] = 1
@@ -266,7 +271,8 @@ class Takelage(object):
             command,
             shell=True,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE)
+            stderr=subprocess.PIPE,
+            timeout=self._timeout)
 
         _ssh_status['returncode'] = ssh_add_result.returncode
         if ssh_add_result.returncode == 0:
@@ -298,7 +304,8 @@ class Takelage(object):
             tau_version_result = subprocess.run(
                 command,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE)
+                stderr=subprocess.PIPE,
+                timeout=self._timeout)
             _tau_status['version'] = \
                 tau_version_result.stdout.decode('utf-8').strip()
         except OSError:
