@@ -559,7 +559,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/docker/takelbase/base"
     },
-    "takelage.rake/rake/image/docker/takelbase/lib@0.0.1": {
+    "takelage.rake/rake/image/docker/takelbase/lib@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
