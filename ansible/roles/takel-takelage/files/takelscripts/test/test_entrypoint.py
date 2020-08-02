@@ -1098,13 +1098,16 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_notcreate(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_group_exists_',
-        lambda x,y : 0)
+        lambda
+            x,
+            y: 0)
     entrypoint = EntryPoint()
 
     group = entrypoint._get_dockersocketgroup_(
         9999)
 
-    unexpected_log = "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
+    unexpected_log = \
+        "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
 
     assert group == 'takelage_dockersock'
     assert unexpected_log not in caplog.text
@@ -1471,7 +1474,8 @@ def log_arguments_create_group(
         'name': name,
         'gid': gid}
     x._logger.debug(
-        'create_group: ' + str(group))
+        'create_group: ' + str(
+            group))
 
 
 def mock_logger_init(

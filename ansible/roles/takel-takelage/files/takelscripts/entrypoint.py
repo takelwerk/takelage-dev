@@ -12,9 +12,6 @@ from builtins import \
     FileNotFoundError
 from datetime import \
     datetime
-from grp import \
-    getgrnam, \
-    getgrgid
 from os import \
     chown, \
     stat
@@ -28,8 +25,7 @@ from stat import \
     S_IWGRP
 
 
-class EntryPoint(
-    object):
+class EntryPoint(object):
 
     def __init__(
             self):
