@@ -1,0 +1,2 @@
+---
+takel_takelage_version: "{{ project['version'] }}"
