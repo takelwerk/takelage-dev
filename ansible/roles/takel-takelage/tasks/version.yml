@@ -1,8 +1,9 @@
 ---
 - name: (version) create /etc/takelage_version file
   copy:
-    content: "{{ takel_base_version }}\n"
+    content: "{{ takel_takelage_version }}\n"
     dest: /etc/takelage_version
     owner: root
     group: root
     mode: 0644
+  when: takel_takelage_version is defined
