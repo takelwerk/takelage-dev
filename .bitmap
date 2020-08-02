@@ -102,11 +102,6 @@
                 "test": false
             },
             {
-                "name": "test_takel-base_version.py",
-                "relativePath": "molecule/default/tests/test_takel-base_version.py",
-                "test": false
-            },
-            {
                 "name": "configure.yml",
                 "relativePath": "tasks/configure.yml",
                 "test": false
@@ -124,11 +119,6 @@
             {
                 "name": "upgrade.yml",
                 "relativePath": "tasks/upgrade.yml",
-                "test": false
-            },
-            {
-                "name": "version.yml",
-                "relativePath": "tasks/version.yml",
                 "test": false
             },
             {
@@ -321,7 +311,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.ansible/ansible/roles/takel-pip@0.0.4": {
+    "takelage.ansible/ansible/roles/takel-pip@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
