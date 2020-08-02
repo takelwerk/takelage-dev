@@ -6,6 +6,7 @@ takel_pip_packages:
   - name: argcomplete
     version: 1.11.1
     description: autocompletion for argparse
+    skip_version_test: true
   - name: behave
     version: 1.2.6
     description: bdd framework
@@ -24,12 +25,14 @@ takel_pip_packages:
   - name: pyOpenSSL
     version: 19.1.0
     description: ssl library
+    skip_version_test: true
   - name: pytest
     version: 5.4.3
     description: python testing framework
   - name: takeltest
     version: 0.4.0
     description: molecule pytest fixtures
+    skip_version_test: true
   - name: testinfra
     version: 5.2.1
     description: molecule python verifier
