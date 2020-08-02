@@ -29,6 +29,11 @@ def test_takel_pip_check_version(installed_pip_packages,
                                  testvars):
     expected_pip_packages = testvars['takel_pip_packages']
     for package in expected_pip_packages:
+
+        # do not check dependency meta packages
+        if "[" in package['name']:
+            continue
+
         installed = re.search(package['name'] + r'\s+(.*)',
                               installed_pip_packages,
                               re.IGNORECASE)
