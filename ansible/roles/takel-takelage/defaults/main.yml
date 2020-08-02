@@ -5,7 +5,7 @@ takel_takelage_deb_install_packages:
   - expect
   - git
   - gnupg
-  - postgresql-client 
+  - postgresql-client
   - pwgen
   - python3-docker
   - socat
