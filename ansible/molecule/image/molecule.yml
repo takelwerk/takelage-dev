@@ -10,7 +10,20 @@ platforms:
   - name: molecule-takelage-dev-test-image-${TAKELAGE_PROJECT_ENV:-prod}
     image: packer_local/takelage-dev:${TAKELAGE_PROJECT_ENV:-prod}
     override_command: true
-    command: /entrypoint.py --username testuser --uid 1010 --gid 1010 --home /testhome/testuser --no-bit --no-docker --no-git --no-gopass --no-gpg --no-ssh  --gpg_agent_port 18502 --gpg_ssh_agent_port 18503
+    command: >-
+      /entrypoint.py
+      --username testuser
+      --uid 1010
+      --gid 1010
+      --home /testhome/testuser
+      --no-bit
+      --no-docker
+      --no-git
+      --no-gopass
+      --no-gpg
+      --no-ssh
+      --gpg_agent_port 18502
+      --gpg_ssh_agent_port 18503
     tty: true
     privileged: true
     pre_build_image: true
