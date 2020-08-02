@@ -2,6 +2,6 @@
 takel_bit_client_deb_install_packages:
   - git
 
-takel_bit_client_version: '14.7.6'
+takel_bit_client_version: '14.8.8'
 takel_bit_client_url: "https://github.com/teambit/bit/releases/download/v{{ takel_bit_client_version }}/bit-bin-linux"
 takel_bit_client_bin: /usr/local/bin/bit
