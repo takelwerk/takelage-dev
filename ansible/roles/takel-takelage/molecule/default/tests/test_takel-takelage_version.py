@@ -13,4 +13,4 @@ def test_takel_takelage_version_file(host, testvars):
         assert file.user == 'root'
         assert file.group == 'root'
         assert file.mode == 0o644
-        assert file.content_string == version + "\n"
+        assert version + "\n" == file.content_string

@@ -17,6 +17,11 @@ def get_pip_binry(host, testvars):
 def test_takel_pip_system_check_version(host, testvars, python3):
     expected_pip_packages = testvars['takel_pip_packages']
     for package in expected_pip_packages:
+
+        # do not check dependency meta packages
+        if "[" in package['name']:
+            continue
+
         if 'alias' in package:
             package_name = package['alias']
         else:
