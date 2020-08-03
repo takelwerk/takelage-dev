@@ -170,12 +170,13 @@ class Takelage(object):
         if Path('/project/.git').exists():
             command = ['git',
                        '--git-dir',
-                       '/project/.git'
+                       '/project/.git',
+                       '--no-pager',
                        'config',
-                       '--list',
-                       '--worktree']
+                       '--list']
         else:
             command = ['git',
+                       '--no-pager',
                        'config',
                        '--list']
         git_result = subprocess.run(
@@ -203,7 +204,7 @@ class Takelage(object):
             if _git_status['name'] is not None and \
                     _git_status['mail'] is not None:
                 _git_status['returncode'] = 0
-            return _git_status
+        return _git_status
 
     def _get_status_gopass_(self):
         _gopass_status = {'returncode': None,
