@@ -12,7 +12,7 @@ class Takelage(object):
     _BLUE = '34'
 
     def __init__(self):
-        self._timeout = 5
+        self._timeout = 10
         args = self._parse_args_()
         self._summary = args.summary
         self._status_takelage = self._get_status_takelage_()
@@ -167,7 +167,12 @@ class Takelage(object):
             'name': None,
             'mail': None,
             'gpg-key': None}
-        command = ['git', 'config', '--list']
+        command = ['git',
+                   '--git-dir',
+                   '/project/.git'
+                   'config',
+                   '--list',
+                   '--worktree']
         git_result = subprocess.run(
             command,
             stdout=subprocess.PIPE,
