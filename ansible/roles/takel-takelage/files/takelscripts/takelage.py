@@ -167,12 +167,17 @@ class Takelage(object):
             'name': None,
             'mail': None,
             'gpg-key': None}
-        command = ['git',
-                   '--git-dir',
-                   '/project/.git'
-                   'config',
-                   '--list',
-                   '--worktree']
+        if Path('/project/.git').exists():
+            command = ['git',
+                       '--git-dir',
+                       '/project/.git'
+                       'config',
+                       '--list',
+                       '--worktree']
+        else:
+            command = ['git',
+                       'config',
+                       '--list']
         git_result = subprocess.run(
             command,
             stdout=subprocess.PIPE,
