@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+require 'rake'
+
+namespace :project do
+  namespace :ansible do
+    desc 'Run molecule converge'
+    task converge: %w[ansible:docker:takelbase:project:prod:from_base:converge ]
+
+    desc 'Run molecule lint'
+    task lint: %w[ansible:docker:takelbase:project:prod:from_base:converge ]
+
+    desc 'Run molecule login'
+    task login: %w[ansible:docker:takelbase:project:prod:from_base:converge ]
+
+    desc 'Run molecule test'
+    task test: %w[ansible:docker:takelbase:project:prod:from_base:converge ]
+
+    desc 'Run molecule verify'
+    task verify: %w[ansible:docker:takelbase:project:prod:from_base:converge ]
+  end
+
+  desc 'Create and deploy base image to dockerhub'
+  task base: %w[dockerhub:takelbase:project:base]
+
+  desc 'Create and deploy prod image to dockerhub'
+  task prod: %w[dockerhub:takelbase:project:prod]
+end
