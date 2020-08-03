@@ -99,7 +99,7 @@ class Takelage(object):
                           self._BLUE, self._status_git['name']))
                 print('\te-mail: \t' +
                       self._display_colored_text_(
-                          self._BLUE, self._status_git['mail']))
+                          self._BLUE, self._status_git['email']))
                 print('\tgpg signingkey: ' +
                       self._display_colored_text_(
                           self._BLUE, self._status_git['gpg-key']))
@@ -165,45 +165,40 @@ class Takelage(object):
         _git_status = {
             'returncode': -1,
             'name': None,
-            'mail': None,
+            'email': None,
             'gpg-key': None}
+        command = []
         if Path('/project/.git').exists():
             command = ['git',
                        '--git-dir',
                        '/project/.git',
                        '--no-pager',
-                       'config',
-                       '--list']
+                       'config']
         else:
             command = ['git',
                        '--no-pager',
-                       'config',
-                       '--list']
-        git_result = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            timeout=self._timeout)
-        if git_result.returncode == 0:
-            result = git_result.stdout.decode('UTF-8')
-            git_name_search = re.search(r'user\.name=(.*)', result)
-            git_mail_search = re.search(r'user\.email=(.*)', result)
-            git_gpg_search = re.search(r'user\.signingkey=(.*)', result)
-            if git_mail_search is not None and \
-                    git_mail_search.group(1) is not None:
-                _git_status['mail'] = git_mail_search.group(1)
-            if git_name_search is not None and \
-                    git_name_search.group(1) is not None:
-                _git_status['name'] = git_name_search.group(1)
-            if git_gpg_search is not None and \
-                    git_gpg_search.group(1) is not None:
-                gpg_fingerprint = git_gpg_search.group(1)
-                for key in self._status_gpg['keys']:
-                    if gpg_fingerprint in key:
-                        _git_status['gpg-key'] = key
-            if _git_status['name'] is not None and \
-                    _git_status['mail'] is not None:
-                _git_status['returncode'] = 0
+                       'config']
+        for type in ['name', 'email', 'signingkey']:
+            command_type = command.copy()
+            command_type.append(f"user.{type}")
+            git_result = subprocess.run(
+                command_type,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=self._timeout)
+            if git_result.returncode == 0:
+                result = git_result.stdout.decode('UTF-8')
+                if result is not None:
+                    if type != 'signingkey':
+                        _git_status[type] = result.strip()
+                    else:
+                        gpg_fingerprint = result
+                        for key in self._status_gpg['keys']:
+                            if gpg_fingerprint in key:
+                                _git_status['gpg-key'] = key
+                if _git_status['name'] is not None and \
+                        _git_status['email'] is not None:
+                    _git_status['returncode'] = 0
         return _git_status
 
     def _get_status_gopass_(self):
