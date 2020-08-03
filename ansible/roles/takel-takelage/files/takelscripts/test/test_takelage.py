@@ -49,7 +49,7 @@ def test_takelscripts_takelage_print_status_git(
     status_git = {
         'returncode': 0,
         'name': 'name',
-        'mail': 'mail',
+        'email': 'email',
         'gpg-key': 'gpg-key'}
     monkeypatch.setattr(
         takelscripts.takelage.Takelage,
@@ -88,7 +88,7 @@ def test_takelscripts_takelage_print_status_git(
     expected = 'git config status: ' +\
                '\t\x1b[32mavailable\x1b[00m\ngit config:\n\t' + \
                'name: \t\t\x1b[34mname\x1b[00m\n\t' + \
-               'e-mail: \t\x1b[34mmail\x1b[00m\n\t' + \
+               'e-mail: \t\x1b[34memail\x1b[00m\n\t' + \
                'gpg signingkey: \x1b[34mgpg-key\x1b[00m\n'
 
     assert expected == captured.out
