@@ -359,6 +359,79 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "takelage.ansible/ansible/roles/takel-root@0.0.1": {
+        "files": [
+            {
+                "relativePath": "ansible/roles/takel-root/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/defaults/main.yml",
+                "test": false,
+                "name": "main.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/files/bashrc",
+                "test": false,
+                "name": "bashrc"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/files/vimrc",
+                "test": false,
+                "name": "vimrc"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/molecule/default/converge.yml",
+                "test": false,
+                "name": "converge.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/molecule/default/molecule.yml",
+                "test": false,
+                "name": "molecule.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/molecule/default/tests/test_takel-root_bashrc.py",
+                "test": false,
+                "name": "test_takel-root_bashrc.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/molecule/default/tests/test_takel-root_configure.py",
+                "test": false,
+                "name": "test_takel-root_configure.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/molecule/default/tests/test_takel-root_install.py",
+                "test": false,
+                "name": "test_takel-root_install.py"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/tasks/bashrc.yml",
+                "test": false,
+                "name": "bashrc.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/tasks/configure.yml",
+                "test": false,
+                "name": "configure.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/tasks/install.yml",
+                "test": false,
+                "name": "install.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-root/tasks/main.yml",
+                "test": false,
+                "name": "main.yml"
+            }
+        ],
+        "mainFile": "ansible/roles/takel-root/README.bit",
+        "trackDir": "ansible/roles/takel-root",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.packer/packer/templates/docker/takelbase/base@0.0.3": {
         "files": [
             {
