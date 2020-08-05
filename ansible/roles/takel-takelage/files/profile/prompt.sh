@@ -26,7 +26,7 @@ dereference_git_HEAD() {
         local color_ref=$color_blue
         local dirty=$(git status --porcelain 2>&1)
         local unsynced=$(git diff --quiet @{u})
-      	if [ "$unsynced" == "0" ]; then
+      	if [ -z "$unsynced" ]; then
             color_symref=$color_green
             color_ref=$color_green
         fi
