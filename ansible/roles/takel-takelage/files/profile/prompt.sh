@@ -4,6 +4,7 @@
 color_red=$'\001'$(tput setaf 1 2>/dev/null || echo $'\e[31m')$'\002'
 color_green=$'\001'$(tput setaf 2 2>/dev/null || echo $'\e[32m')$'\002'
 color_blue=$'\001'$(tput setaf 4 2>/dev/null || echo $'\e[34m')$'\002'
+color_orange=$'\001'$(tput setaf 11 2>/dev/null || echo $'[41')$'\002'
 color_reset=$'\001'$(tput sgr 0 2>/dev/null || echo $'\e[0m')$'\002'
 prompt_white='\[\e[37;0m\]'
 prompt_orange='\[\e[0;38;5;173m\]'
@@ -21,13 +22,17 @@ dereference_git_HEAD() {
     $(git -C . rev-parse >/dev/null 2>&1)
     if [ $? -eq 0 ]; then
         local sha1=$(git rev-parse --short HEAD 2>&1)
-        local color_symref=$color_green
+        local color_symref=$color_orange
         local color_ref=$color_blue
         local dirty=$(git status --porcelain 2>&1)
+        local unsynced=$(git log origin/master..HEAD | head -c1 | wc -c)
         if [ ! -z "$dirty" ]; then
             color_symref=$color_red
             color_ref=$color_red
             dirty='*'
+        elif [ -z "$unsynced" ]; then
+            color_symref=$color_green
+            color_ref=$color_green
         fi
         GIT_HEAD_PROMPT="$color_symref-($(git symbolic-ref --quiet --short HEAD)$dirty)$color_reset"
         if [ $? -ne 0 ]; then
