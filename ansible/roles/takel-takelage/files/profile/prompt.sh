@@ -24,7 +24,7 @@ dereference_git_HEAD() {
         local sha1=$(git rev-parse --short HEAD 2>&1)
         local color_symref=$color_green
         local color_ref=$color_blue
-        local unsynced=$(git diff @{upstream} 2>&1 | head -c1 | wc -c)
+        local unsynced=$(git --no-pager diff @{upstream} 2>&1 | head -c1 | wc -c)
         local dirty=$(git status --porcelain 2>&1)
         if [ ! -z "$dirty" ]; then
             color_symref=$color_red
