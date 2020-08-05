@@ -26,13 +26,14 @@ dereference_git_HEAD() {
         local color_ref=$color_blue
         local dirty=$(git status --porcelain 2>&1)
         local unsynced=$(git log origin/master..HEAD | head -c1 | wc -c)
+	if [ ! -z "$unsynced" ]; then
+            color_symref=$color_green
+            color_ref=$color_green
+        fi
         if [ ! -z "$dirty" ]; then
             color_symref=$color_red
             color_ref=$color_red
             dirty='*'
-        elif [ -z "$unsynced" ]; then
-            color_symref=$color_green
-            color_ref=$color_green
         fi
         GIT_HEAD_PROMPT="$color_symref-($(git symbolic-ref --quiet --short HEAD)$dirty)$color_reset"
         if [ $? -ne 0 ]; then
