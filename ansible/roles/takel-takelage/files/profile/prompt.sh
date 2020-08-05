@@ -60,5 +60,5 @@ exit_status() {
 # run command before bash takes PS1 to build prompt
 PROMPT_COMMAND="exit_status; dereference_git_HEAD; $PROMPT_COMMAND"
 
-# fancy prompt
+# build fancy prompt
 export PS1="\n${prompt_separator}\$EXIT_STATUS${prompt_separator}(${prompt_font}\u${prompt_separator})-(${prompt_font}${HOSTNAME#*_}${prompt_separator})-(${prompt_font}\w${prompt_separator})\$GIT_HEAD_PROMPT\n${prompt_separator}(\[${prompt_font}#\!${prompt_separator})-(\[${prompt_font}\t${prompt_separator})${prompt_reset} "'\$ '
