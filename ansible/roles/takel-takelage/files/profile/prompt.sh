@@ -24,16 +24,16 @@ dereference_git_HEAD() {
         local sha1=$(git rev-parse --short HEAD 2>&1)
         local color_symref=$color_green
         local color_ref=$color_blue
-        #local unsynced=$(git cherry 2>&1 | head -c1 | wc -c)
-        local dirty=$(git status --porcelain 2>&1)
-        if [ ! -z "$dirty" ]; then
+        local dirty=''
+        local status=$(git status 2>&1)
+        if ! [[ "$status" == *"working tree clean"* ]]; then
             color_symref=$color_red
             color_ref=$color_red
             dirty='*'
-      	#elif [ "$unsynced" == "1" ]; then
-        #    color_symref=$color_orange
-        #    color_ref=$color_orange
-        #    dirty='+'
+        elif [[ "$status" == *"is ahead of"* ]]; then
+            color_symref=$color_orange
+            color_ref=$color_orange
+            dirty='+'
         fi
         GIT_HEAD_PROMPT="$color_symref-($(git symbolic-ref --quiet --short HEAD)$dirty)$color_reset"
         if [ $? -ne 0 ]; then
