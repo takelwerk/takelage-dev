@@ -1,13 +1,13 @@
 ---
 takel_gem_gems:
   - name: aruba
-    version: 1.0.1
+    version: 1.0.2
     description: cli test framework
   - name: data_magic
     version: 1.2
     description: configuration handler
   - name: faker
-    version: 2.12.0
+    version: 2.13.0
     description: randam data generator
   - name: fig_newton
     version: 1.0
@@ -19,19 +19,19 @@ takel_gem_gems:
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 0.85.1
+    version: 0.89.0
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.9.0
+    version: 0.10.1
     description: minitest linter
   - name: rubocop-rails
-    version: 2.6.0
+    version: 2.7.1
     description: rails linter
   - name: rubocop-rake
     version: 0.5.1
     description: rake linter
   - name: rubocop-rspec
-    version: 1.40.0
+    version: 1.42.0
     description: rspec linter
   - name: rspec
     version: 3.9.0
