@@ -21,7 +21,6 @@ prompt_separator=$prompt_orange
 dereference_git_HEAD() {
     $(git -C . rev-parse >/dev/null 2>&1)
     if [ $? -eq 0 ]; then
-        local sha1=$(git rev-parse --short HEAD 2>&1)
         local color_symref=$color_green
         local color_ref=$color_blue
         local dirty=''
@@ -37,6 +36,7 @@ dereference_git_HEAD() {
         fi
         GIT_HEAD_PROMPT="$color_symref-($(git symbolic-ref --quiet --short HEAD)$dirty)$color_reset"
         if [ $? -ne 0 ]; then
+            local sha1=$(git rev-parse --short HEAD 2>&1)
             GIT_HEAD_PROMPT="$color_ref-[$sha1$dirty]$color_reset"
         fi
         GIT_HEAD_PROMPT=$GIT_HEAD_PROMPT
