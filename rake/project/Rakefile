@@ -21,7 +21,7 @@ namespace :project do
   end
 
   desc 'Create and deploy base image to dockerhub'
-  task base: %w[dockerhub:takelbase:project:base]
+  task base: %w[dockerhub:takelbase:base]
 
   desc 'Create and deploy prod image to dockerhub'
   task prod: %w[dockerhub:takelbase:project:prod]
