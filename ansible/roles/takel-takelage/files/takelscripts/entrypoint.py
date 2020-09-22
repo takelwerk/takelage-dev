@@ -197,16 +197,10 @@ class EntryPoint(object):
         self._logger.debug(
             'adding config: gopass')
 
-        gopass_config_file_macos = \
-            self._hostdir / 'Library/Application Support/gopass/config.yml'
-        gopass_config_file_linux = \
+        gopass_config_file = \
             self._hostdir / '.config/gopass/config.yml'
 
-        if gopass_config_file_macos.exists():
-            gopass_config_file = gopass_config_file_macos
-        elif gopass_config_file_linux.exists():
-            gopass_config_file = gopass_config_file_linux
-        else:
+        if not gopass_config_file.exists():
             self._logger.warning(
                 'no gopass config file found')
             self._gopass = False
@@ -236,19 +230,8 @@ class EntryPoint(object):
         self._add_gopass_root_path_(
             gopass_config)
 
-        if gopass_config_file != gopass_config_file_macos:
-            # linux: create symlinks to mount dirs
-            self._add_gopass_mount_paths_(
-                gopass_config)
-        else:
-            # macos: create symlink from linux to macos config dir
-            self._mkdir_homedir_child_(
-                '.config')
-            linux_config_dir = \
-                self._homedir / '.config/gopass'
-            linux_config_dir.symlink_to(
-                gopass_config_file_macos.parents[
-                    0])
+        self._add_gopass_mount_paths_(
+            gopass_config)
 
         self._logger.info(
             'added config: gopass')
