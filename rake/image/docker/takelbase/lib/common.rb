@@ -22,20 +22,20 @@ require 'rake'
              "--var 'base_user=#{@project['dockerhub_base_user']}' " \
              "--var 'base_tag=latest' " \
              "--var 'local_user=#{@project['local_user']}' " \
-             "--var 'target_repo=#{@project['project']}' " \
+             "--var 'target_repo=#{@project['name']}' " \
              "--var 'target_tag=%<project_environment>s' " \
              'templates/docker/takelbase/project/build_from_base.json',
   from_prod: 'cd packer && ' \
              'packer build ' \
              "--var 'ansible_environment=%<project_environment>s' " \
              "--var 'ansible_playbook=playbook-project-from-prod.yml' " \
-             "--var 'base_repo=#{@project['project']}' " \
+             "--var 'base_repo=#{@project['name']}' " \
              "--var 'base_user=#{@project['local_user']}' " \
              "--var 'base_tag=prod' " \
              "--var 'hatch=${TAKELAGE_PROJECT_BASE_DIR}/" \
              "ansible/molecule/support/hatch/stage:/takelage/hatch:ro' " \
              "--var 'local_user=#{@project['local_user']}' " \
-             "--var 'target_repo=#{@project['project']}' " \
+             "--var 'target_repo=#{@project['name']}' " \
              "--var 'target_tag=%<project_environment>s' " \
              'templates/docker/takelbase/project/build_from_prod.json',
   test: 'TAKELAGE_PROJECT_ENV=%<project_environment>s bash -c ' \
