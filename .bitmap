@@ -640,17 +640,17 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/docker/takelbase/lib"
     },
-    "takelage.rake/rake/image/docker/takelbase/project/prod@0.0.1": {
+    "takelage.rake/rake/image/docker/takelbase/project/prod@0.0.2": {
         "files": [
             {
+                "name": "README.bit",
                 "relativePath": "rake/image/docker/takelbase/project/prod/README.bit",
-                "test": false,
-                "name": "README.bit"
+                "test": false
             },
             {
+                "name": "Rakefile",
                 "relativePath": "rake/image/docker/takelbase/project/prod/Rakefile",
-                "test": false,
-                "name": "Rakefile"
+                "test": false
             }
         ],
         "mainFile": "rake/image/docker/takelbase/project/prod/README.bit",
