@@ -1,5 +1,5 @@
 ---
-project: takelage-dev
+name: takelage-dev
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelbase
 dockerhub_base_tag: debian-buster
