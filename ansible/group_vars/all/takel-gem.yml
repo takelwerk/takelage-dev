@@ -12,6 +12,9 @@ takel_gem_gems:
   - name: fig_newton
     version: 1.0
     description: configuration handler
+  - name: minitest
+    version: 5.14.2
+    description: test framework
   - name: page-object
     version: 2.2.6
     description: page object dsl
