@@ -40,4 +40,5 @@ def test_takel_pip_system_check_version(host, testvars, python3):
             f"print({package_name}.__version__)'")
         assert str(package['version']) in str(installed_version), \
             (f"Expected version for {package['name']} is "
-             f"{str(installed_version)}, but {package['version']}")
+             f"{package['version']}, but {str(installed_version)}"
+             " is installed")
