@@ -45,6 +45,7 @@ def test_takel_pip_check_version(installed_pip_packages,
             assert str(package['version']) == installed.group(1).strip(), (
                 f"Expected version for {package['name']} is "
                 f"{installed.group(1).strip()}, but {package['version']}"
+                " is installed"
             )
         else:
             assert False, f"{package['name']} is not installed."
