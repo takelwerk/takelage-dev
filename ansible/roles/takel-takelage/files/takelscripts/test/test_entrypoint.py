@@ -1,19 +1,12 @@
-from argparse import \
-    Namespace
-import \
-    logging
-import \
-    os
-import \
-    subprocess
-import \
-    takelscripts
-from pathlib import \
-    Path
-from stat import \
-    filemode
-from takelscripts.entrypoint import \
-    EntryPoint
+from argparse import Namespace
+import logging
+import os
+import subprocess
+import takelscripts
+from textwrap import dedent
+from pathlib import Path
+from stat import filemode
+from takelscripts.entrypoint import EntryPoint
 
 
 def test_takelscripts_entrypoint_init_nodebug(
@@ -22,9 +15,7 @@ def test_takelscripts_entrypoint_init_nodebug(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            debug=False))
+        lambda x: args_default(debug=False))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -42,9 +33,7 @@ def test_takelscripts_entrypoint_init_debug(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            extra='.config/first:.config/second'))
+        lambda x: args_default(extra='.config/first:.config/second'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -84,8 +73,7 @@ def test_takelscripts_entrypoint_init_debug(
         "'user': 'testuser', " + \
         "'group': 'testuser'}}"
 
-    assert entrypoint._hostdir == Path(
-        '/hostdir')
+    assert entrypoint._hostdir == Path('/hostdir')
 
     assert '*******************************************' in caplog.text
     assert 'starting configuration:' in caplog.text
@@ -99,18 +87,15 @@ def test_takelscripts_entrypoint_add_bit_config(
         caplog,
         tmp_path):
     homedir_config_path = tmp_path / 'hostdir/Library/Caches/Bit/config'
-    homedir_config_path.mkdir(
-        parents=True)
+    homedir_config_path.mkdir(parents=True)
     homedir_config_file = homedir_config_path / 'config.json'
     homedir_config_file.touch()
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             bit=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -118,8 +103,7 @@ def test_takelscripts_entrypoint_add_bit_config(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
@@ -135,11 +119,9 @@ def test_takelscripts_entrypoint_add_bit_config(
     expected_log_start = 'adding config: bit'
     expected_log_end = 'added config: bit'
     expected_log_dir_logs = 'creating homedir child directory: ' + \
-                            str(
-                                bit_dir_logs)
+                            str(bit_dir_logs)
     expected_log_dir_config = 'creating homedir child directory: ' + \
-                              str(
-                                  bit_dir_config)
+                              str(bit_dir_config)
 
     assert bit_dir_logs.is_dir()
     assert bit_dir_config.is_dir()
@@ -157,11 +139,9 @@ def test_takelscripts_entrypoint_add_bit_no_config(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             bit=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -169,8 +149,7 @@ def test_takelscripts_entrypoint_add_bit_no_config(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
 
     entrypoint = EntryPoint()
 
@@ -183,14 +162,11 @@ def test_takelscripts_entrypoint_add_bit_no_config(
     expected_log_start = 'adding config: bit'
     expected_log_end = 'added config: bit'
     expected_log_dir_logs = 'creating homedir child directory: ' + \
-                            str(
-                                bit_dir_logs)
+                            str(bit_dir_logs)
     expected_log_dir_config = 'creating homedir child directory: ' + \
-                              str(
-                                  bit_dir_config)
+                              str(bit_dir_config)
     expected_log_file_config = 'creating bit config.json: ' + \
-                               str(
-                                   bit_dir_config) + '/config.json'
+                               str(bit_dir_config) + '/config.json'
 
     assert bit_dir_logs.is_dir()
     assert bit_dir_config.is_dir()
@@ -210,11 +186,9 @@ def test_takelscripts_entrypoint_add_docker(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             docker=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -230,11 +204,9 @@ def test_takelscripts_entrypoint_add_docker(
     expected_log_start = 'adding config: docker'
     expected_log_end = 'added config: docker'
     expected_log_path = 'creating homedir child directory: ' + \
-                        str(
-                            docker_config_path)
+                        str(docker_config_path)
     expected_log_file = 'creating docker config file: ' + \
-                        str(
-                            docker_config_file)
+                        str(docker_config_file)
 
     assert docker_config_path.is_dir()
     assert docker_config_file.is_file()
@@ -251,9 +223,7 @@ def test_takelscripts_entrypoint_add_extra(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            extra='.config/first:.config/second'))
+        lambda x: args_default(extra='.config/first:.config/second'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -283,14 +253,27 @@ def test_takelscripts_entrypoint_add_gopass_config(
         monkeypatch,
         caplog,
         tmp_path):
+    gopass_config = dedent(f"""\
+        autoclip: false
+        autoimport: true
+        cliptimeout: 45
+        exportkeys: false
+        mime: true
+        nocolor: false
+        nopager: false
+        notifications: true
+        path: {tmp_path}/home/testuser/.password-store
+        safecontent: false
+        mount: 'my-passwords' => '{tmp_path}"""
+                           """/home/testuser/.password-store-my-passwords'
+                           """)
+
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             gopass=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -298,8 +281,11 @@ def test_takelscripts_entrypoint_add_gopass_config(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_add_gopass_get_config_',
+        lambda x: gopass_config)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
@@ -351,12 +337,10 @@ def test_takelscripts_entrypoint_add_gopass_config(
         """
 
     hostdir_config_path = tmp_path / 'hostdir/.config/gopass'
-    hostdir_config_path.mkdir(
-        parents=True)
+    hostdir_config_path.mkdir(parents=True)
 
     hostdir_config_file = hostdir_config_path / 'config.yml'
-    hostdir_config_file.write_text(
-        config)
+    hostdir_config_file.write_text(config)
 
     entrypoint = EntryPoint()
 
@@ -366,8 +350,7 @@ def test_takelscripts_entrypoint_add_gopass_config(
     expected_log_end = 'added config: gopass'
 
     expected_config_file = 'using gopass config file: ' + \
-                           str(
-                               tmp_path) + \
+                           str(tmp_path) + \
                            '/hostdir/.config/gopass/config.yml'
 
     expected_log_symlink1 = 'symlink: .config/gopass'
@@ -391,11 +374,9 @@ def test_takelscripts_entrypoint_add_gopass_noconfig(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             gopass=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -403,8 +384,7 @@ def test_takelscripts_entrypoint_add_gopass_noconfig(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
@@ -428,11 +408,9 @@ def test_takelscripts_entrypoint_add_gpg(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             gpg=True,
-            home=str(
-                tmp_path / 'home/testuser')))
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -468,8 +446,7 @@ def test_takelscripts_entrypoint_add_gpg(
         "{'source': '/srv/.gnupg/gpg.conf', 'destination': '"
 
     gnupg_dir = tmp_path / 'home/testuser/.gnupg'
-    gnupg_dir_mode = os.stat(
-        gnupg_dir).st_mode
+    gnupg_dir_mode = os.stat(gnupg_dir).st_mode
 
     assert gnupg_dir.is_dir()
     assert gnupg_dir_mode == 16832
@@ -495,9 +472,7 @@ def test_takelscripts_entrypoint_add_ssh(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            ssh=True))
+        lambda x: args_default(ssh=True))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -524,30 +499,21 @@ def test_takelscripts_entrypoint_add_user(
         monkeypatch,
         caplog,
         tmp_path):
-    uid = int(
-        subprocess.run(
-            [
-                'id',
-                '--user'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode(
-            'utf-8'))
-    gid = int(
-        subprocess.run(
-            [
-                'id',
-                '--group'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode(
-            'utf-8'))
+    uid = int(subprocess.run(
+        ['id', '--user'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE).stdout.decode('utf-8'))
+    gid = int(subprocess.run(
+        ['id', '--group'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE).stdout.decode(
+        'utf-8'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             gid=gid,
-            home=str(
-                tmp_path / 'home/testuser'),
+            home=str(tmp_path / 'home/testuser'),
             uid=uid))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -564,26 +530,19 @@ def test_takelscripts_entrypoint_add_user(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_create_group_',
-        lambda
-            x,
-            y,
-            z: Namespace(
-            returncode=0))
+        lambda x, y, z: Namespace(returncode=0))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_copy_takelage_yml_',
-        lambda
-            x: True)
+        lambda x: True)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_copy_bashrc_',
-        lambda
-            x: True)
+        lambda x: True)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_mkdir_bashrc_d_',
-        lambda
-            x: True)
+        lambda x: True)
 
     entrypoint = EntryPoint()
 
@@ -604,8 +563,7 @@ def test_takelscripts_entrypoint_add_user(
         "'testuser']"
     expected_log_done = 'created user: testuser'
 
-    assert (
-            tmp_path / 'home').is_dir()
+    assert (tmp_path / 'home').is_dir()
 
     assert expected_log_user in caplog.text
     assert expected_log_grouos in caplog.text
@@ -620,8 +578,7 @@ def test_takelscripts_entrypoint_chown_home(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -650,8 +607,7 @@ def test_takelscripts_entrypoint_docker_sock_group_permissions(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -659,14 +615,11 @@ def test_takelscripts_entrypoint_docker_sock_group_permissions(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_dockersockpath_',
-        lambda
-            x: tmp_path / 'docker.sock')
+        lambda x: tmp_path / 'docker.sock')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_dockersocketgroup_',
-        lambda
-            x,
-            y: 'docker')
+        lambda x, y: 'docker')
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_add_user_to_group_',
@@ -679,15 +632,13 @@ def test_takelscripts_entrypoint_docker_sock_group_permissions(
 
     mode = docker_sock.stat().st_mode
 
-    assert '-rw-r--r--' == filemode(
-        mode)
+    assert '-rw-r--r--' == filemode(mode)
 
     entrypoint.docker_sock_permissions()
 
     mode = docker_sock.stat().st_mode
 
-    assert '-rw-rw-r--' == filemode(
-        mode)
+    assert '-rw-rw-r--' == filemode(mode)
 
 
 def test_takelscripts_entrypoint_forward_agents(
@@ -696,8 +647,7 @@ def test_takelscripts_entrypoint_forward_agents(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -734,18 +684,13 @@ def test_takelscripts_entrypoint_chown_tty(
     testfile.touch()
     uid = int(
         subprocess.run(
-            [
-                'id',
-                '--user'],
+            ['id', '--user'],
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode(
-            'utf-8'))
+            stderr=subprocess.PIPE).stdout.decode('utf-8'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            uid=uid))
+        lambda x: args_default(uid=uid))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -753,12 +698,7 @@ def test_takelscripts_entrypoint_chown_tty(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_run_',
-        lambda
-            x,
-            y: Namespace(
-            stdout=str(
-                testfile).encode(
-                'utf-8')))
+        lambda x, y: Namespace(stdout=str(testfile).encode('utf-8')))
 
     entrypoint = EntryPoint()
 
@@ -778,8 +718,7 @@ def test_takelscripts_entrypoint_copy_takelage_yml_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -787,8 +726,7 @@ def test_takelscripts_entrypoint_copy_takelage_yml_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path)
+        lambda x: tmp_path)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
@@ -810,8 +748,7 @@ def test_takelscripts_entrypoint_copy_takelage_yml_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -819,8 +756,7 @@ def test_takelscripts_entrypoint_copy_takelage_yml_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path)
+        lambda x: tmp_path)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_symlink_',
@@ -841,8 +777,7 @@ def test_takelscripts_entrypoint_copy_bashrc(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -869,10 +804,7 @@ def test_takelscripts_entrypoint_copy_file(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            home=str(
-                tmp_path / 'home/testuser')))
+        lambda x: args_default(home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -880,25 +812,19 @@ def test_takelscripts_entrypoint_copy_file(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
 
     entrypoint = EntryPoint()
-    src = (
-            tmp_path / 'src')
+    src = (tmp_path / 'src')
     src.touch()
-    dest = (
-            tmp_path / 'dest')
-    entrypoint._copy_file_(
-        src,
-        dest)
+    dest = (tmp_path / 'dest')
+    entrypoint._copy_file_(src, dest)
 
     expected_log_begin = "copying file: {'source': '/"
     expected_log_middle = "/src', 'destination': '/"
     expected_log_end = "/dest'}"
 
-    assert (
-            tmp_path / 'dest').is_file()
+    assert (tmp_path / 'dest').is_file()
 
     assert expected_log_begin in caplog.text
     assert expected_log_middle in caplog.text
@@ -911,8 +837,7 @@ def test_takelscripts_entrypoint_create_group(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -924,9 +849,7 @@ def test_takelscripts_entrypoint_create_group(
 
     entrypoint = EntryPoint()
 
-    entrypoint._create_group_(
-        'testuser',
-        1600)
+    entrypoint._create_group_('testuser', 1600)
 
     command = "['groupadd', " \
               "'--gid', " \
@@ -942,13 +865,11 @@ def test_takelscripts_entrypoint_create_group(
 
 def test_takelscripts_entrypoint_get_dockersocketgroup_exists(
         monkeypatch,
-        caplog,
         tmp_path):
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -956,15 +877,13 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_dockersockpath_',
-        lambda
-            x: tmp_path / 'docker.sock')
+        lambda x: tmp_path / 'docker.sock')
     entrypoint = EntryPoint()
 
     docker_socket = tmp_path / 'docker.sock'
     docker_socket.touch()
 
-    group = entrypoint._get_dockersocketgroup_(
-        9999)
+    group = entrypoint._get_dockersocketgroup_(9999)
 
     assert docker_socket.group() == group
 
@@ -979,8 +898,7 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_notcreate(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -988,18 +906,14 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_notcreate(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_dockersockpath_',
-        lambda
-            x: dockersocketpath)
+        lambda x: dockersocketpath)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_group_exists_',
-        lambda
-            x,
-            y: 0)
+        lambda x, y: 0)
     entrypoint = EntryPoint()
 
-    group = entrypoint._get_dockersocketgroup_(
-        9999)
+    group = entrypoint._get_dockersocketgroup_(9999)
 
     unexpected_log = \
         "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
@@ -1018,8 +932,7 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -1027,16 +940,14 @@ def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_dockersockpath_',
-        lambda
-            x: dockersocketpath)
+        lambda x: dockersocketpath)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_create_group_',
         log_arguments_create_group)
     entrypoint = EntryPoint()
 
-    group = entrypoint._get_dockersocketgroup_(
-        9999)
+    group = entrypoint._get_dockersocketgroup_(9999)
 
     expected_log = "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
 
@@ -1053,8 +964,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -1066,8 +976,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_exists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path)
+        lambda x: tmp_path)
 
     entrypoint = EntryPoint()
 
@@ -1085,8 +994,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -1098,8 +1006,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path)
+        lambda x: tmp_path)
 
     entrypoint = EntryPoint()
 
@@ -1114,30 +1021,22 @@ def test_takelscripts_entrypoint_mkdir_homedir_child(
         monkeypatch,
         caplog,
         tmp_path):
-    uid = int(
-        subprocess.run(
-            [
-                'id',
-                '--user'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode(
-            'utf-8'))
-    gid = int(
-        subprocess.run(
-            [
-                'id',
-                '--group'],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE).stdout.decode(
-            'utf-8'))
+    uid = int(subprocess.run(
+        ['id', '--user'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE).stdout.decode(
+        'utf-8'))
+    gid = int(subprocess.run(
+        ['id', '--group'],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE).stdout.decode(
+        'utf-8'))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
+        lambda x: args_default(
             gid=gid,
-            home=str(
-                tmp_path / 'home/testuser'),
+            home=str(tmp_path / 'home/testuser'),
             uid=uid))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
@@ -1145,14 +1044,12 @@ def test_takelscripts_entrypoint_mkdir_homedir_child(
         mock_logger_init)
 
     entrypoint = EntryPoint()
-    entrypoint._mkdir_homedir_child_(
-        'tmp1/tmp2/tmp3')
+    entrypoint._mkdir_homedir_child_('tmp1/tmp2/tmp3')
 
     expected_log_begin = "creating homedir child directory: "
     expected_log_end = "/home/testuser/tmp1/tmp2/tmp3"
 
-    assert (
-            tmp_path / 'home/testuser/tmp1/tmp2/tmp3').is_dir()
+    assert (tmp_path / 'home/testuser/tmp1/tmp2/tmp3').is_dir()
 
     assert expected_log_begin in caplog.text
     assert expected_log_end in caplog.text
@@ -1165,26 +1062,20 @@ def test_takelscripts_entrypoint_mkdir_parent(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            home=str(
-                tmp_path / 'home/testuser')))
+        lambda x: args_default(home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
         mock_logger_init)
 
     entrypoint = EntryPoint()
-    entrypoint._mkdir_parents_(
-        tmp_path / 'tmp1/tmp2/tmp3')
+    entrypoint._mkdir_parents_(tmp_path / 'tmp1/tmp2/tmp3')
 
     expected_log_begin = "creating parent directory: "
     expected_log_end = "/tmp1/tmp2"
 
-    assert (
-            tmp_path / 'tmp1/tmp2').is_dir()
-    assert not (
-            tmp_path / 'tmp1/tmp2/tmp3').is_dir()
+    assert (tmp_path / 'tmp1/tmp2').is_dir()
+    assert not (tmp_path / 'tmp1/tmp2/tmp3').is_dir()
 
     assert expected_log_begin in caplog.text
     assert expected_log_end in caplog.text
@@ -1196,21 +1087,16 @@ def test_takelscripts_entrypoint_run(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
         mock_logger_init)
 
     entrypoint = EntryPoint()
-    result = entrypoint._run_(
-        [
-            'echo',
-            '"banana"'])
+    result = entrypoint._run_(['echo', '"banana"'])
 
-    assert "banana" in result.stdout.decode(
-        'utf-8')
+    assert "banana" in result.stdout.decode('utf-8')
 
     assert 'running command: echo "banana"' in caplog.text
 
@@ -1222,25 +1108,19 @@ def test_takelscripts_entrypoint_run_and_fork(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default())
+        lambda x: args_default())
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
         mock_logger_init)
 
     entrypoint = EntryPoint()
-    entrypoint._run_and_fork_(
-        [
-            'touch',
-            str(
-                tmp_path / 'test.txt')])
+    entrypoint._run_and_fork_(['touch', str(tmp_path / 'test.txt')])
 
     expected_log_begin = "running command in background: touch /"
     expected_log_end = "/test.txt"
 
-    assert (
-            tmp_path / 'test.txt').exists
+    assert (tmp_path / 'test.txt').exists
 
     assert expected_log_begin in caplog.text
     assert expected_log_end in caplog.text
@@ -1253,10 +1133,7 @@ def test_takelscripts_entrypoint_symlink(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda
-            x: args_default(
-            home=str(
-                tmp_path / 'home/testuser')))
+        lambda x: args_default(home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
@@ -1264,23 +1141,18 @@ def test_takelscripts_entrypoint_symlink(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
-        lambda
-            x: tmp_path / 'hostdir')
+        lambda x: tmp_path / 'hostdir')
 
     entrypoint = EntryPoint()
-    (
-            tmp_path / 'hostdir').mkdir()
-    (
-            tmp_path / 'hostdir/.testconfig').touch()
-    entrypoint._symlink_(
-        '.testconfig')
+    (tmp_path / 'hostdir').mkdir()
+    (tmp_path / 'hostdir/.testconfig').touch()
+    entrypoint._symlink_('.testconfig')
 
     expected_log_begin = "creating symlink: {'source': '/"
     expected_log_middle = "/hostdir/.testconfig', 'destination': '/"
     expected_log_end = "/home/testuser/.testconfig'}"
 
-    assert (
-            tmp_path / 'home/testuser/.testconfig').is_symlink()
+    assert (tmp_path / 'home/testuser/.testconfig').is_symlink()
 
     assert expected_log_begin in caplog.text
     assert expected_log_middle in caplog.text
@@ -1318,69 +1190,34 @@ def args_default(
     return args
 
 
-def log_argument(
-        x,
-        y):
-    x._logger.debug(
-        y)
-    return Namespace(
-        returncode=0)
+def log_argument(x, y):
+    x._logger.debug(y)
+    return Namespace(returncode=0)
 
 
-def log_argument_symlink(
-        x,
-        y):
-    x._logger.debug(
-        'symlink: ' + str(
-            y))
-    return Namespace(
-        returncode=0)
+def log_argument_symlink(x, y):
+    x._logger.debug('symlink: ' + str(y))
+    return Namespace(returncode=0)
 
 
-def log_arguments_add_user_to_group(
-        x,
-        user,
-        group):
-    adduser = {
-        'user': user,
-        'group': group}
-    x._logger.debug(
-        adduser)
+def log_arguments_add_user_to_group(x, user, group):
+    adduser = {'user': user, 'group': group}
+    x._logger.debug(adduser)
 
 
-def log_arguments_copy_file(
-        x,
-        src,
-        dest):
-    copy = {
-        'source': str(
-            src),
-        'destination': str(
-            dest)}
-    x._logger.debug(
-        copy)
+def log_arguments_copy_file(x, src, dest):
+    copy = {'source': str(src), 'destination': str(dest)}
+    x._logger.debug(copy)
 
 
-def log_arguments_create_group(
-        x,
-        name,
-        gid):
-    group = {
-        'name': name,
-        'gid': gid}
-    x._logger.debug(
-        'create_group: ' + str(
-            group))
+def log_arguments_create_group(x, name, gid):
+    group = {'name': name, 'gid': gid}
+    x._logger.debug('create_group: ' + str(group))
 
 
-def mock_logger_init(
-        x,
-        debug):
-    logger = logging.getLogger(
-        '')
-    logger.setLevel(
-        logging.INFO)
+def mock_logger_init(x, debug):
+    logger = logging.getLogger('')
+    logger.setLevel(logging.INFO)
     if debug:
-        logger.setLevel(
-            logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
     return logger

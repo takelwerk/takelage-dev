@@ -2,9 +2,8 @@
 
 import argparse
 import logging
+import re
 import subprocess
-import yaml
-from builtins import FileNotFoundError
 from datetime import datetime
 from os import chown, stat
 from pathlib import Path
@@ -148,41 +147,24 @@ class EntryPoint(object):
         self._logger.info('added config: git')
         return True
 
-    def add_gopass(
-            self):
+    def add_gopass(self):
         if not self._gopass:
             return
         self._logger.debug('adding config: gopass')
 
-        gopass_config_file = \
-            self._hostdir / '.config/gopass/config.yml'
+        config_exists = self._add_gopass_config_file_()
 
-        if not gopass_config_file.exists():
-            self._logger.warning(
-                'no gopass config file found')
-            self._gopass = False
+        if not config_exists:
             return False
 
-        self._logger.debug(
-            'using gopass config file: {config_file}'.format(
-                config_file=gopass_config_file))
+        gopass_config = self._add_gopass_get_config_()
 
-        try:
-            gopass_config = yaml.safe_load(
-                gopass_config_file.read_text(encoding='utf-8'))
-        except FileNotFoundError:
-            self._logger.warning(
-                'no valid gopass config: {config_file}'.format(
-                    config_file=gopass_config_file))
-            self._gopass = False
+        if not gopass_config:
             return False
 
-        relpath = gopass_config_file.relative_to(self._hostdir)
-        self._symlink_(relpath.parents[0])
+        self._add_gopass_path_(gopass_config, "^path: (.*)$")
 
-        self._add_gopass_root_path_(gopass_config)
-
-        self._add_gopass_mount_paths_(gopass_config)
+        self._add_gopass_path_(gopass_config, "^mount: '.*?' => '(.*)'$")
 
         self._logger.info(
             'added config: gopass')
@@ -370,25 +352,42 @@ class EntryPoint(object):
             'forwarded agents')
         return True
 
-    def _add_gopass_root_path_(self, gopass_config):
-        if 'path' in gopass_config['root']:
-            gopass_config_root_path = \
-                gopass_config['root']['path'].replace('%20', ' ')
-            root_path = Path(gopass_config_root_path.split(':', 1)[1])
-            passwordstore_relpath = \
-                root_path.relative_to(self._homedir)
-            self._symlink_(passwordstore_relpath)
+    def _add_gopass_config_file_(self):
+        gopass_config_file = \
+            self._hostdir / '.config/gopass/config.yml'
 
-    def _add_gopass_mount_paths_(self, gopass_config):
-        for mount in gopass_config['mounts']:
-            gopass_config_mount = gopass_config['mounts'][mount]
-            if 'path' in gopass_config_mount:
-                gopass_config_mount_path = \
-                    gopass_config_mount['path'].replace('%20', ' ')
-                mount_path = Path(gopass_config_mount_path.split(':', 1)[1])
-                passwordstore_relpath = \
-                    mount_path.relative_to(self._homedir)
-                self._symlink_(passwordstore_relpath)
+        if not gopass_config_file.exists():
+            self._logger.warning(
+                'no gopass config file found')
+            self._gopass = False
+            return False
+
+        self._logger.debug(
+            'using gopass config file: {config_file}'.format(
+                config_file=gopass_config_file))
+
+        relpath = gopass_config_file.relative_to(self._hostdir)
+        self._symlink_(relpath.parents[0])
+        return True
+
+    def _add_gopass_get_config_(self):
+        command = ['gopass', 'config']
+        result = self._run_(command)
+        if result.returncode:
+            self._logger.warning(
+                'no gopass config available')
+            self._gopass = False
+            return False
+
+        return result.stdout.decode('utf-8').strip('\n')
+
+    def _add_gopass_path_(self, gopass_config, pattern):
+        for line in gopass_config.splitlines():
+            match = re.search(pattern, line)
+            if match is not None:
+                path = match.group(1)
+                relpath = Path(path).relative_to(self._homedir)
+                self._symlink_(relpath)
 
     def _add_user_to_group_(self, user, group):
         self._logger.debug(
@@ -400,10 +399,7 @@ class EntryPoint(object):
 
     def _converge_docker_socket_group_permissions_(self, docker_socket, mode):
         if not mode & S_IRGRP or not mode & S_IWGRP:
-            command = [
-                '/bin/chmod',
-                'g+rw',
-                str(docker_socket)]
+            command = ['/bin/chmod', 'g+rw', str(docker_socket)]
             self._run_(command)
 
     def _copy_takelage_yml_(self):
@@ -459,10 +455,7 @@ class EntryPoint(object):
     def _group_exists_(self, group):
         self._logger.debug(
             'checking group: {group}'.format(group=group))
-        command = [
-            'getent',
-            'group',
-            group]
+        command = ['getent', 'group', group]
         return self._run_(command).returncode
 
     def _logger_init_(self, debug):
