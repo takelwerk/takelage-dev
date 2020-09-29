@@ -264,7 +264,7 @@ def test_takelscripts_entrypoint_add_gopass_config(
         notifications: true
         path: {tmp_path}/home/testuser/.password-store
         safecontent: false
-        mount: 'my-passwords' => '{tmp_path}"""
+        mount 'my-passwords' => '{tmp_path}"""
                            """/home/testuser/.password-store-my-passwords'
                            """)
 
