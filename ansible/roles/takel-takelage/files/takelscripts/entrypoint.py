@@ -164,7 +164,7 @@ class EntryPoint(object):
 
         self._add_gopass_path_(gopass_config, "^path: (.*)$")
 
-        self._add_gopass_path_(gopass_config, "^mount: '.*?' => '(.*)'$")
+        self._add_gopass_path_(gopass_config, "^mount '.*?' => '(.*)'$")
 
         self._logger.info(
             'added config: gopass')
@@ -371,7 +371,7 @@ class EntryPoint(object):
         return True
 
     def _add_gopass_get_config_(self):
-        command = ['gopass', 'config']
+        command = ['sudo', '-u', self._username, 'gopass', 'config']
         result = self._run_(command)
         if result.returncode:
             self._logger.warning(
@@ -384,8 +384,12 @@ class EntryPoint(object):
     def _add_gopass_path_(self, gopass_config, pattern):
         for line in gopass_config.splitlines():
             match = re.search(pattern, line)
+            self._logger.warning(pattern)
+            self._logger.warning(line)
+            self._logger.warning(match)
             if match is not None:
                 path = match.group(1)
+                self._logger.warning(path)
                 relpath = Path(path).relative_to(self._homedir)
                 self._symlink_(relpath)
 
