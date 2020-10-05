@@ -12,3 +12,11 @@
     - takel
     - takel_gem
     - takel_gem_profile
+
+# can be removed when pull request is shipped:
+# https://github.com/deitch/docker_registry2/pull/47
+- name: (main) dirty workaround - suppress minitest warning
+  command: >-
+    sudo sed -i
+    "s$    response = doget '/v2/'$    doget '/v2/'$"
+    /usr/local/rvm/gems/ruby-2.6.3/gems/docker_registry2-1.9.0/lib/registry/registry.rb
