@@ -43,7 +43,7 @@ takel_gem_gems:
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.20.2
+    version: 0.21.0
     description: takelage cli
   - name: watir
     version: 6.17.0
