@@ -114,7 +114,31 @@ of your configuration:
 
 - `UseKeychain yes` **NOT** in your `~/.ssh/config`
 
-You may need to reboot your system so that the changes take effect.
+You should use a graphical pinentry program. 
+On a Mac with [homebrew](https://brew.sh/i) you can install
+[pinentry-mac](https://formulae.brew.sh/formula/pinentry-mac):
+
+```bash
+brew install pinentry-mac
+```
+
+and configure it:
+
+- `pinentry-program $(brew --prefix)/bin/pinentry-mac` in your `~/.gnupg/gpg-agent.conf`
+
+You may try to restart your GnuPG agent:
+
+```bash
+gpg-connect-agent reloadagent /bye
+```
+
+But you may need to reboot your system for the changes to take effect.
+
+Now add your SSH key(s) to the new agent:
+
+```bash
+ssh-add ~/.ssh/id_rsa
+```
 
 You should init gopass:
 
