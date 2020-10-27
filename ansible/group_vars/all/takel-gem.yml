@@ -25,7 +25,7 @@ takel_gem_gems:
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 0.91.0
+    version: 1.0.0
     description: ruby linter
   - name: rubocop-minitest
     version: 0.10.1
@@ -37,13 +37,13 @@ takel_gem_gems:
     version: 0.5.1
     description: rake linter
   - name: rubocop-rspec
-    version: 1.43.2
+    version: 1.44.1
     description: rspec linter
   - name: rspec
     version: 3.9.0
     description: test framework
   - name: takelage
-    version: 0.21.1
+    version: 0.22.0
     description: takelage cli
   - name: watir
     version: 6.17.0
