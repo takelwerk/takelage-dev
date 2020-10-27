@@ -4,7 +4,7 @@ takel_pip_packages:
     version: 2.9.13
     description: it automation platform
   - name: argcomplete
-    version: 1.12.0
+    version: 1.12.1
     description: autocompletion for argparse
     skip_version_test: true
   - name: behave
@@ -14,20 +14,20 @@ takel_pip_packages:
     version: 0.9.6
     description: password generator
   - name: molecule
-    version: 3.0.8
+    version: 3.1.5
     description: ansible testing framework
   - name: molecule[docker]
-    version: 3.0.8
+    version: 3.1.5
     description: molecule docker driver
   - name: molecule[lint]
-    version: 3.0.8
+    version: 3.1.5
     description: molecule linters
   - name: pyOpenSSL
     version: 19.1.0
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 6.0.2
+    version: 6.1.1
     description: python testing framework
   - name: takeltest
     version: 0.4.0
