@@ -7,7 +7,7 @@ takel_gem_gems:
     version: 1.2
     description: configuration handler
   - name: faker
-    version: 2.14.0
+    version: 2.15.1
     description: randam data generator
   - name: fig_newton
     version: 1.0
@@ -25,7 +25,7 @@ takel_gem_gems:
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 1.0.0
+    version: 1.4.2
     description: ruby linter
   - name: rubocop-minitest
     version: 0.10.1
@@ -37,10 +37,10 @@ takel_gem_gems:
     version: 0.5.1
     description: rake linter
   - name: rubocop-rspec
-    version: 1.44.1
+    version: 2.0.0
     description: rspec linter
   - name: rspec
-    version: 3.9.0
+    version: 3.10.0
     description: test framework
   - name: takelage
     version: 0.22.0
