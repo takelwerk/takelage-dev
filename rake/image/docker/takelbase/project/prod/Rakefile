@@ -2,10 +2,6 @@
 
 require 'rake'
 
-# frozen_string_literal: true
-
-require 'rake'
-
 namespace :image do
   namespace :docker do
     namespace :takelbase do
