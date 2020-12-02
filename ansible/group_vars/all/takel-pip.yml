@@ -33,7 +33,7 @@ takel_pip_packages:
     version: 0.5.0
     description: molecule pytest fixtures
     skip_version_test: true
-  - name: testinfra
+  - name: pytest-testinfra
     version: 6.0.0
     description: molecule python verifier
     skip_version_test: true
