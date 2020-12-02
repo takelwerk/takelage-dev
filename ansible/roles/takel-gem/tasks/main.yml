@@ -19,6 +19,6 @@
   command: >-
     sudo sed -i
     "s$    response = doget '/v2/'$    doget '/v2/'$"
-    /usr/local/rvm/gems/ruby-2.6.3/gems/docker_registry2-1.10.0/lib/registry/registry.rb
+    /usr/local/rvm/gems/ruby-{{ (rvm1_rubies | first)[5:] }}/gems/docker_registry2-1.10.0/lib/registry/registry.rb
   tags:
     - molecule-idempotence-notest
