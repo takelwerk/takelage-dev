@@ -7,4 +7,12 @@
         'TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK=%<converge_playbook>s ' \
         "molecule %<command>s --scenario-name default'"
 
-@list_ansible_docker_takelbase_project = %i[converge destroy lint list login test verify]
+@list_ansible_docker_takelbase_project = %i[converge
+                                            destroy
+                                            lint
+                                            list
+                                            login
+                                            test
+                                            prepare
+                                            verify
+                                            side-effect]
