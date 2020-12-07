@@ -30,7 +30,7 @@ takel_pip_packages:
     version: 6.1.2
     description: python testing framework
   - name: takeltest
-    version: 0.6.0
+    version: 0.6.1
     description: molecule pytest fixtures
     skip_version_test: true
   - name: pytest-testinfra
