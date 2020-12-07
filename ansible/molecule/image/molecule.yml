@@ -55,7 +55,7 @@ verifier:
     # system
     - ../../../roles/*/molecule/default/system/test_*.py
   env:
-    TESTVARS_ROLES_BLACKLIST: github-rvm_rvm1-ansible
+    TESTVARS_ROLES_BLOCKLIST: github-rvm_rvm1-ansible
 scenario:
   create_sequence:
     - create
