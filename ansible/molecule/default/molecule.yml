@@ -33,15 +33,15 @@ verifier:
   name: testinfra
   options:
     # p: cacheprovider  # enable cache
-    s: true  # capture outenv:
-      TESTVARS_ROLES_BLOCKLIST: github-rvm_rvm1-ansible
-  put
+    s: true  # capture output
     v: true
   additional_files_or_dirs:
     # integration
     - ../../../roles/*/molecule/default/tests/test_*.py
     # system
     - ../../../roles/*/molecule/default/system/test_*.py
+  env:
+    TESTVARS_ROLES_BLOCKLIST: github-rvm_rvm1-ansible
 scenario:
   create_sequence:
     - create
