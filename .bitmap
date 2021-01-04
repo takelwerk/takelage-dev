@@ -455,7 +455,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "packer/templates/docker/takelbase/base"
     },
-    "takelage.packer/packer/templates/docker/takelbase/project@0.0.1": {
+    "takelage.packer/packer/templates/docker/takelbase/project@0.0.2": {
         "files": [
             {
                 "name": "README.bit",
@@ -622,7 +622,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/image/docker/takelbase/base"
     },
-    "takelage.rake/rake/image/docker/takelbase/lib@0.0.3": {
+    "takelage.rake/rake/image/docker/takelbase/lib@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
