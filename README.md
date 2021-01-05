@@ -124,7 +124,7 @@ brew install pinentry-mac
 
 and configure it:
 
-- `pinentry-program $(brew --prefix)/bin/pinentry-mac` in your `~/.gnupg/gpg-agent.conf`
+- `pinentry-program /usr/local/bin/pinentry-mac` in your `~/.gnupg/gpg-agent.conf`
 
 You may try to restart your GnuPG agent:
 
