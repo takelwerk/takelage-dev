@@ -8,6 +8,8 @@ testinfra_hosts = takeltest.hosts()
                          ids=lambda uid: 'uid: ' + str(uid))
 @pytest.mark.parametrize("groupid", [20, 21, 1000],
                          ids=lambda gid: 'gid: ' + str(gid))
+# stop and fail if test is running for more the 60 seconds
+@pytest.mark.timeout(60)
 def test_takel_takelage_system_entrypoint(
         host,
         userid,
@@ -25,9 +27,10 @@ def test_takel_takelage_system_entrypoint(
               '--no-git ' + \
               '--no-gopass ' + \
               '--no-gpg ' + \
-              '--no-ssh'
+              '--no-ssh ' + \
+              '--runcmd ""'
 
-    assert host.run_test(command)
+    assert host.run_expect([0], command)
 
     home = host.file('/testhome/testuser')
     assert home.exists

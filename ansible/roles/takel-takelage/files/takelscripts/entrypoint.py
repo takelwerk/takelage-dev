@@ -4,6 +4,8 @@ import argparse
 import logging
 import re
 import subprocess
+import shlex
+import sys
 from datetime import datetime
 from os import chown, stat
 from pathlib import Path
@@ -33,6 +35,7 @@ class EntryPoint(object):
         self._ssh = args.ssh
         self._username = args.username
         self._uid = args.uid
+        self._runcmd = args.runcmd
         self._logger.debug('command line arguments: {args}'.format(args=args))
 
         # homedir: home directory in docker container (/home/my_user)
@@ -96,26 +99,44 @@ class EntryPoint(object):
         self._logger.debug(
             'adding config: docker')
 
-        self._mkdir_homedir_child_('.docker')
+        create_symlink = False
+        docker_config_dir_hostdir = \
+            self._hostdir / '.docker'
+        docker_config_file_hostdir = \
+            self._hostdir / '.docker/config.json'
 
-        docker_config_homedir = self._homedir / '.docker/config.json'
-        self._logger.debug(
-            'creating docker config file: {file}'.format(
-                file=str(docker_config_homedir)))
-        docker_config_template = \
-            """
-            {
-              "credHelpers": {
-                "gcr.io": "gcloud",
-                "us.gcr.io": "gcloud",
-                "eu.gcr.io": "gcloud",
-                "asia.gcr.io": "gcloud",
-                "staging-k8s.gcr.io": "gcloud",
-                "marketplace.gcr.io": "gcloud"
-              }
-            }
-            """
-        docker_config_homedir.write_text(docker_config_template)
+        if docker_config_dir_hostdir.exists():
+            create_symlink = True
+            if docker_config_file_hostdir.exists():
+                with open(docker_config_file_hostdir) as f:
+                    if 'osxkeychain' in f.read():
+                        self._logger.info(
+                            'usage of osxkeychain found in ' +
+                            f'\'{docker_config_file_hostdir}\'' +
+                            ', no synmlink created')
+                        create_symlink = False
+        if docker_config_dir_hostdir.exists() and create_symlink:
+            self._symlink_('.docker')
+        else:
+            self._mkdir_homedir_child_('.docker')
+            docker_config_homedir = self._homedir / '.docker/config.json'
+            self._logger.debug(
+                'creating docker config file: {file}'.format(
+                    file=str(docker_config_homedir)))
+            docker_config_template = \
+                """
+                {
+                "credHelpers": {
+                    "gcr.io": "gcloud",
+                    "us.gcr.io": "gcloud",
+                    "eu.gcr.io": "gcloud",
+                    "asia.gcr.io": "gcloud",
+                    "staging-k8s.gcr.io": "gcloud",
+                    "marketplace.gcr.io": "gcloud"
+                }
+                }
+                """
+            docker_config_homedir.write_text(docker_config_template)
 
         self._logger.info(
             'added config: docker')
@@ -249,8 +270,6 @@ class EntryPoint(object):
             '--non-unique',
             self._username]
         result = self._run_(command)
-        if result.returncode:
-            return False
 
         self._copy_takelage_yml_()
 
@@ -269,10 +288,14 @@ class EntryPoint(object):
         command = ['tty']
         tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
         self._logger.debug(
-            'making tty readable and writeable for user')
-        chown(tty_device, self._uid, -1)
-        self._logger.info(
-            'changed ownership: tty')
+            f'making \'{tty_device}\' readable and writeable for user')
+        try:
+            chown(tty_device, self._uid, -1)
+            self._logger.info(
+                'changed ownership: tty')
+        except Exception as e:
+            self._logger.warning(
+                f'changed ownership of tty failed: {e}')
 
     def chown_home(self):
         self._logger.debug(
@@ -350,6 +373,26 @@ class EntryPoint(object):
 
         self._logger.info(
             'forwarded agents')
+        return True
+
+    def runcmd(self):
+        if not self._runcmd:
+            return False
+
+        self._logger.info(
+            f'run command(s): \'{self._runcmd}\'')
+
+        for cmd in self._runcmd.split(';'):
+            result = self._run_(shlex.split(cmd))
+            if result.returncode:
+                self._logger.error(f'command \'{cmd}\'' +
+                                   ' terminated with {result.returncode}')
+                # stderr = result.stderr.decode('utf-8').strip('\n')
+                self._logger.error(result.stderr.decode('utf-8').strip('\n'))
+                sys.exit(result.returncode)
+
+        self._logger.info(
+            f'command(s) terminated: \'{self._runcmd}\'')
         return True
 
     def _add_gopass_config_file_(self):
@@ -579,6 +622,11 @@ class EntryPoint(object):
             "--username",
             type=str,
             help="Username used in the host system")
+        parser.add_argument(
+            "--runcmd",
+            type=str,
+            default="tail -f /debug/takelage.log",
+            help="Run given command at the end of the script")
         return parser.parse_args()
 
     def _run_(self, command):
@@ -639,10 +687,7 @@ def main():
     entrypoint.chown_home()
     entrypoint.forward_agents()
     entrypoint.docker_sock_permissions()
-    subprocess.run([
-        'tail',
-        '-f',
-        '/debug/takelage.log'])
+    entrypoint.runcmd()
 
 
 if __name__ == "__main__":

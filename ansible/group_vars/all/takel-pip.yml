@@ -37,6 +37,9 @@ takel_pip_packages:
     version: 6.0.0
     description: molecule python verifier
     skip_version_test: true
+  - name: pytest-timeout
+    version: 1.4.2
+    description: terminate tests after a certain timeout
   - name: twine
     version: 3.2.0
     description: utilities for pypi
