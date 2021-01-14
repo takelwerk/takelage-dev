@@ -40,6 +40,7 @@ takel_pip_packages:
   - name: pytest-timeout
     version: 1.4.2
     description: terminate tests after a certain timeout
+    skip_version_test: true
   - name: twine
     version: 3.2.0
     description: utilities for pypi
