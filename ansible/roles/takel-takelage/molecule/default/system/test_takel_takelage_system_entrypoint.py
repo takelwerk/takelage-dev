@@ -30,7 +30,7 @@ def test_takel_takelage_system_entrypoint(
               '--no-ssh ' + \
               '--runcmd ""'
 
-    assert host.run_expect([0], command)
+    assert host.run_test(command)
 
     home = host.file('/testhome/testuser')
     assert home.exists

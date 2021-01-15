@@ -270,6 +270,8 @@ class EntryPoint(object):
             '--non-unique',
             self._username]
         result = self._run_(command)
+        if result.returncode:
+            return False
 
         self._copy_takelage_yml_()
 
