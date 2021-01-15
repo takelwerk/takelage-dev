@@ -3,7 +3,7 @@ name: takelage-dev
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelbase
 dockerhub_base_tag: debian-buster
-dockerhub_prod_user: wolpert
+dockerhub_prod_user: takelage
 dockerhub_prod_repo: takelage
 local_user: packer_local
-version: 0.24.1
+version: 0.25.0
