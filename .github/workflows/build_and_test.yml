@@ -27,7 +27,7 @@ jobs:
 
       - name: Special settings for tau
         run: |
-          echo "docker_user: wolpert" > $HOME/.takelage.yml
+          echo "docker_user: takelage" > $HOME/.takelage.yml
           echo "docker_repo: takelage" >> $HOME/.takelage.yml
           echo "docker_tag: latest" >> $HOME/.takelage.yml
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
