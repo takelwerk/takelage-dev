@@ -2,7 +2,7 @@ name: build, test and push to dockerhub
 
 on:
   push:
-  workflow_dispatch: # Trigger this only by hand or through another workflow
+  workflow_dispatch: # trigger this only by hand or through another workflow
   schedule: # run daily at midnight
     - cron:  '0 0 * * *'
 
@@ -14,58 +14,55 @@ jobs:
 
     steps:
 
-      - name: Setup Ruby
+      - name: setup ruby
         uses: ruby/setup-ruby@v1.61.1
         with:
           ruby-version: 2.7
 
-      - name: Install tau
+      - name: install tau
         run: gem install takelage
 
-      # Checks-out your repository under $GITHUB_WORKSPACE
+      # check out the repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v2
 
-      - name: Special settings for tau
+      - name: special settings for tau
         run: |
-          echo "docker_user: takelage" > $HOME/.takelage.yml
-          echo "docker_repo: takelage" >> $HOME/.takelage.yml
-          echo "docker_tag: latest" >> $HOME/.takelage.yml
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
           cat $HOME/.takelage.yml
 
-      - name: Pull takelage image
+      - name: pull takelage image
         run: tau update # -l debug
 
-      - name: Start an instance takelage-dev
+      - name: start an instance takelage-dev
         run: tau docker container daemon # -l debug
 
-      - name: Lint ruby
+      - name: lint ruby
         run: tau docker container command "rake rubylint"
 
-# fix test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create
-      - name: Test takelscripts
+      # fix test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create
+      - name: test takelscripts
         run: tau docker container command "rake takelscripts"
 
-      - name: Build takelage project image with packer
+      - name: build takelage project image with packer
         run: tau docker container command "rake image:docker:takelbase:project:prod:from_base"
 
-      - name: Test takelage project image
+      - name: test takelage project image
         run: tau docker container command "rake image:docker:takelbase:project:prod:test"
 
-# image seems to be too large...
-#      - name: Save docker image as artifact
-#        uses: ishworkh/docker-image-artifact-upload@v1
-#        with:
-#          image: "packer_local/takelage-dev:prod"
+      # image seems to be too large...
+      # - name: Save docker image as artifact
+      #   uses: ishworkh/docker-image-artifact-upload@v1
+      #   with:
+      #     image: "packer_local/takelage-dev:prod"
 
-      - name: Login to Docker Hub (if there is a new tag)
+      - name: login to docker hub (if there is a new tag)
         if: startsWith(github.ref, 'refs/tags/')
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Tag and push image (if there is a new tag)
+      - name: tag and push image (if there is a new tag)
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           tau docker container command "rake dockerhub:takelbase:project:prod:registry:tag"
