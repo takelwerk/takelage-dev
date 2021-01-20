@@ -1,7 +1,7 @@
 ---
 takel_gem_gems:
   - name: aruba
-    version: 1.0.3
+    version: 1.0.4
     description: cli test framework
   - name: data_magic
     version: 1.2
@@ -13,7 +13,7 @@ takel_gem_gems:
     version: 1.0
     description: configuration handler
   - name: minitest
-    version: 5.14.2
+    version: 5.14.3
     description: test framework
   - name: minitest-reporters
     version: 1.4.2
@@ -25,31 +25,31 @@ takel_gem_gems:
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 1.4.2
+    version: 1.8.1
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.10.1
+    version: 0.10.3
     description: minitest linter
   - name: rubocop-rails
-    version: 2.8.1
+    version: 2.9.1
     description: rails linter
   - name: rubocop-rake
     version: 0.5.1
     description: rake linter
   - name: rubocop-rspec
-    version: 2.0.0
+    version: 2.1.0
     description: rspec linter
   - name: rspec
     version: 3.10.0
     description: test framework
   - name: takelage
-    version: 0.22.2
+    version: 0.23.1
     description: takelage cli
   - name: watir
     version: 6.17.0
     description: web test framework
   - name: webdrivers
-    version: 4.4.1
+    version: 4.5.0
     description: headless browser drivers
   - name: yard
     version: 0.9.25
