@@ -17,8 +17,6 @@ class EntryPoint(object):
 
     def __init__(self):
         args = self._parse_args_()
-        print()
-        print(args)
         self._debug = args.debug
         now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         self._logger = self._logger_init_(self._debug)
@@ -108,13 +106,14 @@ class EntryPoint(object):
         if docker_config_dir_hostdir.exists():
             create_symlink = True
             if docker_config_file_hostdir.exists():
-                with open(docker_config_file_hostdir) as f:
-                    if 'osxkeychain' in f.read():
-                        self._logger.info(
-                            'usage of osxkeychain found in ' +
-                            f'\'{docker_config_file_hostdir}\'' +
-                            ', no synmlink created')
-                        create_symlink = False
+                config = docker_config_file_hostdir.read_text()
+                if 'osxkeychain' in config or 'desktop' in config:
+                    self._logger.info(
+                        'invalid docker credential helper found in ' +
+                        f'\'{docker_config_file_hostdir}\': ' +
+                        'no synmlink to ' +
+                        f'{docker_config_dir_hostdir} created')
+                    create_symlink = False
         if docker_config_dir_hostdir.exists() and create_symlink:
             self._symlink_('.docker')
         else:
@@ -126,14 +125,14 @@ class EntryPoint(object):
             docker_config_template = \
                 """
                 {
-                "credHelpers": {
+                  "credHelpers": {
                     "gcr.io": "gcloud",
                     "us.gcr.io": "gcloud",
                     "eu.gcr.io": "gcloud",
                     "asia.gcr.io": "gcloud",
                     "staging-k8s.gcr.io": "gcloud",
                     "marketplace.gcr.io": "gcloud"
-                }
+                  }
                 }
                 """
             docker_config_homedir.write_text(docker_config_template)
@@ -241,8 +240,7 @@ class EntryPoint(object):
             'added config: ssh')
         return True
 
-    def add_user(
-            self):
+    def add_user(self):
         self._logger.debug(
             'creating user: {user}'.format(user=self._username))
 
@@ -353,8 +351,7 @@ class EntryPoint(object):
         self._logger.debug(
             'made /var/run/docker.sock readable and writable for user')
 
-    def forward_agents(
-            self):
+    def forward_agents(self):
         self._logger.debug(
             'forwarding agents')
 
