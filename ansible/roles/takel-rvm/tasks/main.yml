@@ -1,0 +1,43 @@
+---
+- name: (main) detect rvm binary
+  stat:
+    path: "{{ takel_rvm_rvm_binary }}"
+  register: takel_rvm_path_rvm_binary
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_update
+    - takel_rvm_install
+    - takel_rvm_cleanup
+
+- name: (main) include update
+  import_tasks: update.yml
+  become: yes
+  become_user: '{{ takel_rvm_user }}'
+  when:
+    - takel_rvm_path_rvm_binary.stat.exists
+    - takel_rvm_check_for_rvm_updates
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_update
+
+- name: (main) include install
+  import_tasks: install.yml
+  become: yes
+  become_user: '{{ takel_rvm_user }}'
+  when:
+    - not takel_rvm_path_rvm_binary.stat.exists
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_install
+
+- name: (main) include cleanup
+  import_tasks: cleanup.yml
+  when:
+    - not takel_rvm_path_rvm_binary.stat.exists
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_cleanup
