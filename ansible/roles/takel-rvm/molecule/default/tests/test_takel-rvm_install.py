@@ -19,7 +19,6 @@ def test_takel_rvm_install_binary_available(host, testvars):
 
     assert rvm_binary.exists
     assert rvm_binary.is_file
-    assert rvm_binary.user == 'rvm_user'
-    assert rvm_binary.group == 'rvm_user'
-    assert rvm_binary.mode == 0o755
-    assert rvm_binary.exists
+    assert rvm_binary.user == rvm_user
+    assert rvm_binary.group == 'rvm'
+    assert rvm_binary.mode == 0o775
