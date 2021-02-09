@@ -1,0 +1,56 @@
+name: Build, test and push image to dockerhub
+
+on:
+  push:
+  workflow_dispatch: # trigger this only by hand or through another workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1.61.1
+        with:
+          ruby-version: 2.7
+
+      - name: Install tau
+        run: gem install takelage
+
+      # check out the repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v2
+
+      - name: Configure tau
+        run: |
+          echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
+          cat $HOME/.takelage.yml
+
+      - name: Pull takelage image
+        run: tau update
+
+      - name: Start an instance of takelage-dev
+        run: tau docker container daemon
+
+      - name: Lint ruby
+        run: tau docker container command "rake rubylint"
+
+      # fix test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create
+      - name: Test takelscripts
+        run: tau docker container command "rake takelscripts"
+
+      - name: Build takelage project image with packer
+        run: tau docker container command "rake image:docker:takelbase:project:prod:from_base"
+
+      - name: Test takelage project image
+        run: tau docker container command "rake image:docker:takelbase:project:prod:test"
+
+      - name: Login to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag and push image
+        run: |
+          tau docker container command "rake dockerhub:takelbase:project:prod:registry:tag"
+          tau docker container command "rake dockerhub:takelbase:project:prod:registry:push -l debug"
