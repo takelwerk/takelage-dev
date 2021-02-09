@@ -1,0 +1,54 @@
+---
+driver:
+  name: docker
+lint: |
+  set -e
+  yamllint .
+  ansible-lint molecule/*/*.yml
+  flake8
+platforms:
+  - name: molecule-takel-rvm-userinstall
+    image: takelage/takelbase
+    command: /lib/systemd/systemd
+    privileged: true
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+  inventory:
+    group_vars:
+      all:
+        takel_rvm_user: ruby
+        takel_rvm_install_path: ~/.rvm
+verifier:
+  name: testinfra
+  options:
+    # p: cacheprovider  # enable cache
+    s: true  # capture output
+  additional_files_or_dirs:
+    - ../../default/*/test_*.py
+scenario:
+  create_sequence:
+    - create
+  check_sequence:
+    - destroy
+    - create
+    - converge
+    - check
+    - destroy
+  converge_sequence:
+    - create
+    - converge
+  destroy_sequence:
+    - destroy
+  test_sequence:
+    - lint
+    - destroy
+    - syntax
+    - create
+    - converge
+    - idempotence
+    - verify
+    - destroy

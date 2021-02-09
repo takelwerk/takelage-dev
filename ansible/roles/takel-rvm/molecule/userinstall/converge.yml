@@ -1,0 +1,9 @@
+---
+- name: userinstall
+  hosts: all
+  pre_tasks:
+    - name: add user ruby
+      user:
+        name: ruby
+  roles:
+    - takel-rvm

@@ -1,13 +1,22 @@
 ---
+- name: (main) include install
+  import_tasks: install.yml
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_install
+
 - name: (main) detect rvm binary
   stat:
     path: "{{ takel_rvm_rvm_binary }}"
   register: takel_rvm_path_rvm_binary
+  become: true
+  become_user: '{{ takel_rvm_user }}'
   tags:
     - takel
     - takel_rvm
     - takel_rvm_update
-    - takel_rvm_install
+    - takel_rvm_rvm
     - takel_rvm_cleanup
 
 - name: (main) include update
@@ -22,8 +31,8 @@
     - takel_rvm
     - takel_rvm_update
 
-- name: (main) include install
-  import_tasks: install.yml
+- name: (main) include rvm
+  import_tasks: rvm.yml
   become: true
   become_user: '{{ takel_rvm_user }}'
   when:
@@ -31,12 +40,10 @@
   tags:
     - takel
     - takel_rvm
-    - takel_rvm_install
+    - takel_rvm_rvm
 
 - name: (main) include cleanup
   import_tasks: cleanup.yml
-  when:
-    - not takel_rvm_path_rvm_binary.stat.exists
   tags:
     - takel
     - takel_rvm
