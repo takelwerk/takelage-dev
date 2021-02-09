@@ -44,12 +44,3 @@
 
 - name: (rvm) configure rvm
   command: "{{ takel_rvm_rvm_binary }} autolibs {{ takel_rvm_autolib_mode }}"
-
-- name: (rvm) symlink rvm on the system path
-  file:
-    state: link
-    src: "{{ takel_rvm_rvm_binary }}"
-    dest: "{{ takel_rvm_symlink_to }}/rvm"
-    owner: root
-    group: root
-  when: not "--user-install" in takel_rvm_install_flags

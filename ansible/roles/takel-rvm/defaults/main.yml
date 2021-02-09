@@ -11,16 +11,11 @@ takel_rvm_deb_install_packages:
 # the last ruby listed will be set as the default ruby
 takel_rvm_rubies:
   - ruby-3
+takel_rvm_default_ruby_version: "{{ takel_rvm_rubies | last }}"
 
 # delete a specific version of ruby (ie. ruby-2.1.0)
 takel_rvm_delete_ruby: []
 
-takel_rvm_default_ruby_version: >-
-  {{ takel_rvm_rubies |
-  last
-  if takel_rvm_rubies
-  and takel_rvm_rubies is iterable
-  else takel_rvm_rubies }}
 takel_rvm_symlink_binaries:
   - 'erb'
   - 'executable-hooks-uninstaller'

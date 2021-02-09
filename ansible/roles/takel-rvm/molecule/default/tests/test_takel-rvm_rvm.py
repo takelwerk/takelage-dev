@@ -17,7 +17,7 @@ def test_takel_rvm_rvm_binary_available(host, testvars):
 
     if rvm_user == 'root':
 
-        assert rvm_binary.group == 'rvm'
+        assert rvm_binary.group == 'root'
         assert rvm_binary.mode == 0o775
 
     else:
