@@ -1,7 +1,6 @@
-name: Build, test and push image to dockerhub
+name: Build and test docker image nightly
 
 on:
-  push:
   workflow_dispatch: # trigger this only by hand or through another workflow
   schedule: # run daily at midnight
     - cron:  '0 0 * * *'
@@ -9,9 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
-    if: startsWith(github.ref, 'refs/tags/')
     steps:
-
       - name: Setup ruby
         uses: ruby/setup-ruby@v1.61.1
         with:
@@ -46,20 +43,3 @@ jobs:
 
       - name: Test takelage project image
         run: tau docker container command "rake image:docker:takelbase:project:prod:test"
-
-      # image seems to be too large...
-      # - name: Save docker image as artifact
-      #   uses: ishworkh/docker-image-artifact-upload@v1
-      #   with:
-      #     image: "packer_local/takelage-dev:prod"
-
-      - name: Login to docker hub (if a new tag exists)
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Tag and push image (if a new tag exists)
-        run: |
-          tau docker container command "rake dockerhub:takelbase:project:prod:registry:tag"
-          tau docker container command "rake dockerhub:takelbase:project:prod:registry:push -l debug"
