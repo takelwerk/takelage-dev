@@ -1,6 +1,7 @@
 ---
 takel_pip_deb_install_packages:
   - python3-pip
+  - virtualenv
 
 takel_pip_packages:
   - name: pytest
@@ -8,5 +9,5 @@ takel_pip_packages:
     description: python testing framework
 
 # takel_pip_venv_python_version: 3.6
-# takel_pip_venv_path: /venv
-# takel_pip_venv_global_site_packages: false
+takel_pip_venv_path: /venv
+takel_pip_venv_global_site_packages: false
