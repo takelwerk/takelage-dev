@@ -11,11 +11,6 @@
     path: "{{ takel_rvm_rvm_installer }}"
   register: takel_rvm_path_rvm_installer
 
-- name: (install) detect current rvm version
-  command: "{{ takel_rvm_rvm_binary }} version"
-  register: takel_rvm_rvm_current_version
-  when: takel_rvm_path_rvm_binary.stat.exists
-
 - name: (install) download rvm installer
   get_url:
     url: "{{ takel_rvm_url_rvm_installer }}"
@@ -29,7 +24,7 @@
     --keyserver {{ takel_rvm_gpg_keyserver }}
     --recv-keys {{ takel_rvm_gpg_key_ids }}
   register: takel_rvm_gpg_keys_import
-  ignore_errors: True
+  ignore_errors: true
 
 - name: (install) copy gpg keys file to host
   copy:

@@ -3,3 +3,4 @@
   shell: >-
     {{ takel_rvm_rvm_binary }} get {{ takel_rvm_rvm_version }} &&
     {{ takel_rvm_rvm_binary }} reload
+  changed_when: false

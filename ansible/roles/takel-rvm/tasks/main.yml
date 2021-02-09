@@ -12,7 +12,7 @@
 
 - name: (main) include update
   import_tasks: update.yml
-  become: yes
+  become: true
   become_user: '{{ takel_rvm_user }}'
   when:
     - takel_rvm_path_rvm_binary.stat.exists
@@ -24,7 +24,7 @@
 
 - name: (main) include install
   import_tasks: install.yml
-  become: yes
+  become: true
   become_user: '{{ takel_rvm_user }}'
   when:
     - not takel_rvm_path_rvm_binary.stat.exists
