@@ -7,10 +7,48 @@ takel_rvm_deb_install_packages:
   - procps
   - sudo
 
+# install one or more versions of ruby
+# the last ruby listed will be set as the default ruby
+takel_rvm_rubies:
+  - ruby-3
+
+# delete a specific version of ruby (ie. ruby-2.1.0)
+takel_rvm_delete_ruby: []
+
+takel_rvm_default_ruby_version: >-
+  {{ takel_rvm_rubies |
+  last
+  if takel_rvm_rubies
+  and takel_rvm_rubies is iterable
+  else takel_rvm_rubies }}
+takel_rvm_symlink_binaries:
+  - 'erb'
+  - 'executable-hooks-uninstaller'
+  - 'gem'
+  - 'irb'
+  - 'rake'
+  - 'rdoc'
+  - 'ri'
+  - 'ruby'
+takel_rvm_bundler_install: true
+takel_rvm_symlink_bundler_binaries:
+  - 'bundle'
+  - 'bundler'
+
+# autolib mode, see https://rvm.io/rvm/autolibs
+#
+# 0, disable, disabled - Do not do anything.
+# 1, read, read-only - Use available libs, ignore missing.
+# 2, fail, read-fail - Use libs, fail if some are missing.
+# 3, packages, install-packages, - Use libs, install missing libs.
+# 4, enable, enabled - Install missing package manager
+#    (only OSX, on Linux it's like 3).
+takel_rvm_autolib_mode: 3
+
 takel_rvm_user: root
 takel_rvm_install_path: /usr/local/rvm
+takel_rvm_symlink_to: /usr/local/bin
 takel_rvm_install_flags: "--auto-dotfiles"
-
 takel_rvm_rvm_binary: "{{ takel_rvm_install_path }}/bin/rvm"
 takel_rvm_temp_path: /tmp
 takel_rvm_rvm_installer: "{{ takel_rvm_temp_path }}/rvm-installer.sh"

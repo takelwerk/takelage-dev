@@ -6,11 +6,7 @@
     - takel-root
     - takel-anarchism
     - takel-pip
-    - role: github-rvm_rvm1-ansible
-      tags:
-        - github-rvm_rvm1-ansible
-        - molecule-idempotence-notest
-      become: true
+    - takel-rvm
     - takel-gem
     - takel-rake
     - takel-bit-client
