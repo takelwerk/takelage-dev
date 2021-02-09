@@ -3,7 +3,7 @@ name: Build and test docker image nightly
 on:
   schedule: # run daily at midnight
     - cron:  '0 0 * * *'
-  workflow_dispatch: # trigger this only by hand or through another workflow
+  workflow_dispatch: # allow manual trigger
 
 jobs:
   build:
