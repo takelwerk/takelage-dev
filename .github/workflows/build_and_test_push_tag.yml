@@ -1,8 +1,8 @@
 name: Build, test and push image to dockerhub
 
 on:
-  push:
-  workflow_dispatch: # trigger this only by hand or through another workflow
+  push: # trigger through git push
+  workflow_dispatch: # allow manual trigger
 
 jobs:
   build:
