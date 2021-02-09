@@ -12,8 +12,5 @@
         - procps
         - sudo
   roles:
-    - role: github-rvm_rvm1-ansible
-      tags:
-        - molecule-idempotence-notest
-      become: true
+    - takel-rvm
     - takel-gem

@@ -1,17 +1,17 @@
 ---
-- name: (install) detect rvm installer
+- name: (rvm) detect rvm installer
   stat:
     path: "{{ takel_rvm_rvm_installer }}"
   register: takel_rvm_path_rvm_installer
 
-- name: (install) download rvm installer
+- name: (rvm) download rvm installer
   get_url:
     url: "{{ takel_rvm_url_rvm_installer }}"
     dest: "{{ takel_rvm_rvm_installer }}"
     mode: 0755
   when: not takel_rvm_path_rvm_installer.stat.exists
 
-- name: (install) import gpg keys from keyservers
+- name: (rvm) import gpg keys from keyservers
   command: >-
     gpg --batch
     --keyserver {{ takel_rvm_gpg_keyserver }}
@@ -19,25 +19,37 @@
   register: takel_rvm_gpg_keys_import
   ignore_errors: true
 
-- name: (install) copy gpg keys file to host
+- name: (rvm) copy gpg keys file to host
   copy:
     content: "{{ takel_rvm_gpg_keys }}"
     dest: "{{ takel_rvm_gpg_temp_keys_file }}"
   when: takel_rvm_gpg_keys_import.rc != 0
 
-- name: (install) import gpg keys from file
+- name: (rvm) import gpg keys from file
   command: "gpg --batch --import {{ takel_rvm_gpg_temp_keys_file }}"
   when: takel_rvm_gpg_keys_import.rc != 0
 
-- name: (install) remove gpg keys file from host
+- name: (rvm) remove gpg keys file from host
   file:
     path: "{{ takel_rvm_gpg_temp_keys_file }}"
     state: absent
   when: takel_rvm_gpg_keys_import.rc != 0
 
-- name: (install) install rvm
+- name: (rvm) install rvm
   shell: >-
     {{ takel_rvm_rvm_installer }}
     {{ takel_rvm_rvm_version }}
     --path {{ takel_rvm_install_path }}
     {{ takel_rvm_install_flags }}
+
+- name: (rvm) configure rvm
+  command: "{{ takel_rvm_rvm_binary }} autolibs {{ takel_rvm_autolib_mode }}"
+
+- name: (rvm) symlink rvm on the system path
+  file:
+    state: link
+    src: "{{ takel_rvm_rvm_binary }}"
+    dest: "{{ takel_rvm_symlink_to }}/rvm"
+    owner: root
+    group: root
+  when: not "--user-install" in takel_rvm_install_flags

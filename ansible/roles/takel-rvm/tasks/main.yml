@@ -42,6 +42,15 @@
     - takel_rvm
     - takel_rvm_rvm
 
+- name: (main) include rubies
+  import_tasks: rubies.yml
+  become: true
+  become_user: '{{ takel_rvm_user }}'
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_rubies
+
 - name: (main) include cleanup
   import_tasks: cleanup.yml
   tags:
