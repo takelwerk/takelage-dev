@@ -5,6 +5,10 @@
     state: present
     update_cache: true
 
+- name: (install) upgrade pip3
+  command: "pip3 install --upgrade pip"
+  changed_when: false
+
 - name: (install) install pip packages into venv
   pip:
     name: "{{ item.name }}"
