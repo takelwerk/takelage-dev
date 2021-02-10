@@ -3,7 +3,7 @@ name: Build and test docker image nightly
 on:
   schedule: # run daily at midnight
     - cron:  '0 0 * * *'
-    - cron:  '16 20 * * *'
+    - cron:  '/10 0 * * *'
   workflow_dispatch: # allow manual trigger
 
 jobs:
@@ -18,8 +18,8 @@ jobs:
       - name: Install tau
         run: gem install takelage
 
-      # check out the repository under $GITHUB_WORKSPACE
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
       - name: Configure tau
         run: |

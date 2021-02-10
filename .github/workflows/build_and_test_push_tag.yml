@@ -17,8 +17,8 @@ jobs:
       - name: Install tau
         run: gem install takelage
 
-      # check out the repository under $GITHUB_WORKSPACE
-      - uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
       - name: Configure tau
         run: |
