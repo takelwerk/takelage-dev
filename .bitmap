@@ -311,7 +311,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.ansible/ansible/roles/takel-pip@0.0.8": {
+    "takelage.ansible/ansible/roles/takel-pip@0.0.9": {
         "files": [
             {
                 "name": "README.bit",
@@ -359,7 +359,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.ansible/ansible/roles/takel-root@0.0.1": {
+    "takelage.ansible/ansible/roles/takel-root@0.0.2": {
         "files": [
             {
                 "relativePath": "ansible/roles/takel-root/README.bit",
