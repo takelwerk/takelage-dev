@@ -432,7 +432,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.ansible/ansible/roles/takel-rvm@0.0.1": {
+    "takelage.ansible/ansible/roles/takel-rvm@0.0.2": {
         "files": [
             {
                 "relativePath": "ansible/roles/takel-rvm/README.bit",
