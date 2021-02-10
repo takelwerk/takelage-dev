@@ -12,23 +12,24 @@ takel_rvm_deb_install_packages:
 takel_rvm_rubies:
   - ruby-3
 takel_rvm_default_ruby_version: "{{ takel_rvm_rubies | last }}"
+takel_rvm_ruby_install_flags:
 
 # delete a specific version of ruby (ie. ruby-2.1.0)
 takel_rvm_delete_ruby: []
 
 takel_rvm_symlink_binaries:
-  - 'erb'
-  - 'executable-hooks-uninstaller'
-  - 'gem'
-  - 'irb'
-  - 'rake'
-  - 'rdoc'
-  - 'ri'
-  - 'ruby'
+  - erb
+  - executable-hooks-uninstaller
+  - gem
+  - irb
+  - rake
+  - rdoc
+  - ri
+  - ruby
 takel_rvm_bundler_install: true
 takel_rvm_symlink_bundler_binaries:
-  - 'bundle'
-  - 'bundler'
+  - bundle
+  - bundler
 
 # autolib mode, see https://rvm.io/rvm/autolibs
 #
@@ -43,7 +44,7 @@ takel_rvm_autolib_mode: 3
 takel_rvm_user: root
 takel_rvm_install_path: /usr/local/rvm
 takel_rvm_symlink_to: /usr/local/bin
-takel_rvm_install_flags: "--auto-dotfiles"
+takel_rvm_rvm_install_flags: --auto-dotfiles
 takel_rvm_rvm_binary: "{{ takel_rvm_install_path }}/bin/rvm"
 takel_rvm_temp_path: /tmp
 takel_rvm_rvm_installer: "{{ takel_rvm_temp_path }}/rvm-installer.sh"

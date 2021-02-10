@@ -7,7 +7,8 @@
 - name: (rubies) install rubies
   command: >-
     {{ takel_rvm_rvm_binary }} install
-    {{ item }} {{ takel_rvm_install_flags }}
+    {{ item }} {{ takel_rvm_ruby_install_flags }}
+  changed_when: false
   loop: "{{ takel_rvm_rubies | difference(rvm_list_strings.stdout_lines) }}"
 
 - name: (rubies) detect default ruby version
@@ -50,9 +51,9 @@
     state: link
     src: "{{ takel_rvm_install_path }}/wrappers/default/{{ item }}"
     dest: "{{ takel_rvm_symlink_to }}/{{ item }}"
-    owner: root
-    group: root
-  when: not "--user-install" in takel_rvm_install_flags
+  become: true
+  become_user: root
+  when: not "--user-install" in takel_rvm_rvm_install_flags
   with_items: '{{ takel_rvm_symlink_binaries }}'
 
 - name: (rubies) symlink bundler binaries on the system path
@@ -60,10 +61,10 @@
     state: link
     src: "{{ takel_rvm_install_path }}/wrappers/default/{{ item }}"
     dest: "{{ takel_rvm_symlink_to }}/{{ item }}"
-    owner: root
-    group: root
+  become: true
+  become_user: root
   when:
-    - not "--user-install" in takel_rvm_install_flags
+    - not "--user-install" in takel_rvm_rvm_install_flags
     - takel_rvm_bundler_install
   with_items: '{{ takel_rvm_symlink_bundler_binaries }}'
 

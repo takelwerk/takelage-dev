@@ -40,7 +40,7 @@
     {{ takel_rvm_rvm_installer }}
     {{ takel_rvm_rvm_version }}
     --path {{ takel_rvm_install_path }}
-    {{ takel_rvm_install_flags }}
+    {{ takel_rvm_rvm_install_flags }}
 
 - name: (rvm) configure rvm
   command: "{{ takel_rvm_rvm_binary }} autolibs {{ takel_rvm_autolib_mode }}"
