@@ -1,4 +1,4 @@
-name: Build and test docker image nightly
+name: Build and deploy takelbase
 
 on:
   schedule: # run daily at midnight CET
