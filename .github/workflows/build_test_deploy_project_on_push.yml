@@ -52,4 +52,4 @@ jobs:
       - name: Tag and push image
         run: |
           tau docker container command "rake dockerhub:takelbase:project:prod:registry:tag"
-          tau docker container command "rake dockerhub:takelbase:project:prod:registry:push -l debug"
+          tau docker container command "rake dockerhub:takelbase:project:prod:registry:push"
