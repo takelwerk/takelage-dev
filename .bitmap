@@ -751,6 +751,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "takelage.rake/rake/image/docker/takelbase/update@0.0.1": {
+        "files": [
+            {
+                "relativePath": "rake/image/docker/takelbase/update/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "rake/image/docker/takelbase/update/Rakefile",
+                "test": false,
+                "name": "Rakefile"
+            }
+        ],
+        "mainFile": "rake/image/docker/takelbase/update/README.bit",
+        "trackDir": "rake/image/docker/takelbase/update",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.rake/rake/meta@0.0.7": {
         "files": [
             {
