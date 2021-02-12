@@ -1,12 +1,12 @@
 name: Build and test docker image nightly
 
 on:
-  schedule: # run daily at midnight CET
-    - cron:  '0 1 * * *'
+  schedule: # run daily at 1 pm CET
+    - cron:  '0 2 * * *'
   workflow_dispatch: # allow manual trigger
 
 jobs:
-  build_and_test:
+  build-and-test-project:
     runs-on: ubuntu-20.04
     steps:
       - name: Set up ruby
