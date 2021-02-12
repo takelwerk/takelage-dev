@@ -35,7 +35,7 @@ jobs:
         run: tau docker container command "rake rubylint"
 
       - name: Build takelage takelbase image with packer
-        run: tau docker container command "image:docker:takelbase:base:debian10"
+        run: tau docker container command "rake image:docker:takelbase:base:debian10"
 
       - name: Login to docker hub
         uses: docker/login-action@v1
