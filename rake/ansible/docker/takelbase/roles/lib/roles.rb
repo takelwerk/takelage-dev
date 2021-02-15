@@ -4,7 +4,7 @@
     '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
     'do ' \
     'cd `dirname $dir`; ' \
-    'if $(molecule test --all; ' \
+    'molecule test --all; ' \
     'cd ../../../; ' \
     'done'
 
