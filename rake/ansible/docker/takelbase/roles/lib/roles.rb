@@ -4,7 +4,7 @@
     '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
     'do ' \
     'cd `dirname $dir`; ' \
-    'molecule test; ' \
+    'molecule test --all; ' \
     'cd ../../../; ' \
     'done'
 
@@ -12,7 +12,7 @@
     '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
     'do ' \
     'cd `dirname $dir`; ' \
-    '(molecule test || exit); ' \
+    '(molecule test --all || exit); ' \
     'cd ../../../; ' \
     'done'
 
