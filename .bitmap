@@ -185,7 +185,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "ansible/roles/takel-bit-client"
     },
-    "takelage.ansible/ansible/roles/takel-cleanup@0.0.8": {
+    "takelage.ansible/ansible/roles/takel-cleanup@0.0.9": {
         "files": [
             {
                 "name": "README.bit",
