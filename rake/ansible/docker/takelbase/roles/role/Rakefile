@@ -2,6 +2,7 @@
 
 require 'rake'
 
+# rubocop:disable Metrics/BlockLength
 namespace :ansible do
   namespace :docker do
     namespace :takelbase do
@@ -33,3 +34,4 @@ namespace :ansible do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
