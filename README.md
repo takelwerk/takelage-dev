@@ -1,6 +1,6 @@
-![takelbase image](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_deploy_takelbase_nightly.yml/badge.svg) 
 ![takelage image](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_project_nightly.yml/badge.svg)
 ![ansible roles](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_roles_nightly.yml/badge.svg)
+![takelbase image](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_deploy_takelbase_nightly.yml/badge.svg)
 
 # takelage-dev
 
