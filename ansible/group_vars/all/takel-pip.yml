@@ -1,7 +1,7 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 3.0.0
+    version: 2.10.6
     description: it automation platform
   - name: argcomplete
     version: 1.12.2
