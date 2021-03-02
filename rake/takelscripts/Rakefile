@@ -8,8 +8,7 @@ cmd_takelscripts =
 
 desc 'Run takelscripts tests'
 task takelscripts: %w[takelscripts:entrypoint
-                      takelscripts:loginpoint
-                      takelscripts:takelage]
+                      takelscripts:loginpoint]
 
 namespace :takelscripts do
   desc 'Run unit tests for entrypoint.py'
@@ -25,14 +24,6 @@ namespace :takelscripts do
     @commands << format(
       cmd_takelscripts,
       files: 'test_loginpoint*'
-    )
-  end
-
-  desc 'Run unit tests for takelage.py'
-  task :takelage do
-    @commands << format(
-      cmd_takelscripts,
-      files: 'test_takelage*'
     )
   end
 end
