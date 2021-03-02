@@ -10,9 +10,3 @@
     src: takelscripts/loginpoint.py
     dest: "{{ takel_takelage_entrypoint_path }}loginpoint.py"
     mode: 0755
-
-- name: (takelscripts) copy takelage script
-  copy:
-    src: takelscripts/takelage.py
-    dest: /usr/local/bin/takelage
-    mode: 0755

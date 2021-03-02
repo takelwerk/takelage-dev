@@ -136,7 +136,7 @@ def test_takelscripts_loginpoint_get_cmd_status_nodebug(
         '/bin/su',
         'my_user',
         '--command',
-        '/usr/local/bin/takelage --summary']
+        'tau status']
 
     assert expected == cmd_status
 

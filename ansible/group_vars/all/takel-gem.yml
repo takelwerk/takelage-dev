@@ -7,13 +7,13 @@ takel_gem_gems:
     version: 1.2
     description: configuration handler
   - name: faker
-    version: 2.15.1
+    version: 2.16.0
     description: randam data generator
   - name: fig_newton
     version: 1.0
     description: configuration handler
   - name: minitest
-    version: 5.14.3
+    version: 5.14.4
     description: test framework
   - name: minitest-reporters
     version: 1.4.3
@@ -25,7 +25,7 @@ takel_gem_gems:
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 1.9.1
+    version: 1.11.0
     description: ruby linter
   - name: rubocop-minitest
     version: 0.10.3
@@ -43,13 +43,13 @@ takel_gem_gems:
     version: 3.10.0
     description: test framework
   - name: takelage
-    version: 0.24.0
+    version: 0.26.3
     description: takelage cli
   - name: watir
-    version: 6.17.0
+    version: 6.18.0
     description: web test framework
   - name: webdrivers
-    version: 4.5.0
+    version: 4.6.0
     description: headless browser drivers
   - name: yard
     version: 0.9.26
