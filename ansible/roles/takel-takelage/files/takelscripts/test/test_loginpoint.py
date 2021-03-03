@@ -157,6 +157,6 @@ def test_takelscripts_loginpoint_get_cmd_status_debug(
         '/bin/su',
         'my_user',
         '--command',
-        '/usr/bin/python3 /debug/takelage.py']
+        '/usr/local/rvm/wrappers/default/tau status']
 
     assert expected == cmd_status

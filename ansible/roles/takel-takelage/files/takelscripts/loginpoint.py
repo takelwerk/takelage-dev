@@ -49,12 +49,11 @@ class LoginPoint(object):
     def _get_cmd_status_(self):
         command = [
             '/bin/su',
+            '--login',
             self._username,
-            '--command']
-        if self._debug:
-            command.append('/usr/bin/python3 /debug/takelage.py')
-        else:
-            command.append('/usr/local/rvm/wrappers/default/tau status')
+            '--command',
+            'cd /project && '
+            '/usr/local/rvm/wrappers/default/tau status']
         return command
 
     def _get_processes_(self, when):
