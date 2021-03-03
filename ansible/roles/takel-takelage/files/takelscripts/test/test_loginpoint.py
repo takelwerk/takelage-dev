@@ -134,10 +134,11 @@ def test_takelscripts_loginpoint_get_cmd_status_nodebug(
     cmd_status = loginpoint._get_cmd_status_()
     expected = [
         '/bin/su',
+        '--login',
         'my_user',
         '--command',
+        'cd /project && '
         '/usr/local/rvm/wrappers/default/tau status']
-
     assert expected == cmd_status
 
 
@@ -155,8 +156,9 @@ def test_takelscripts_loginpoint_get_cmd_status_debug(
     cmd_status = loginpoint._get_cmd_status_()
     expected = [
         '/bin/su',
+        '--login',
         'my_user',
         '--command',
+        'cd /project && '
         '/usr/local/rvm/wrappers/default/tau status']
-
     assert expected == cmd_status
