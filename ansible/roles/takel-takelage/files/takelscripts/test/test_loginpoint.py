@@ -136,7 +136,7 @@ def test_takelscripts_loginpoint_get_cmd_status_nodebug(
         '/bin/su',
         'my_user',
         '--command',
-        'tau status']
+        '/usr/local/rvm/wrappers/default/tau status']
 
     assert expected == cmd_status
 

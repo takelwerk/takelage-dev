@@ -54,7 +54,7 @@ class LoginPoint(object):
         if self._debug:
             command.append('/usr/bin/python3 /debug/takelage.py')
         else:
-            command.append('tau status')
+            command.append('/usr/local/rvm/wrappers/default/tau status')
         return command
 
     def _get_processes_(self, when):
