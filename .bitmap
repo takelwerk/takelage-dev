@@ -525,7 +525,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/docker/takelbase/base@0.0.3": {
+    "takelage.packer/packer/templates/docker/takelbase/base@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
