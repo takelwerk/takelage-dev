@@ -1,9 +1,16 @@
 ---
 name: takelage-dev
-dockerhub_base_user: takelage
-dockerhub_base_repo: takelbase
-dockerhub_base_tag: debian-buster
 dockerhub_prod_user: takelage
 dockerhub_prod_repo: takelage
 local_user: packer_local
 version: 0.30.9
+
+# dockerhub takelbase settings
+dockerhub_base_user: takelage
+dockerhub_base_repo: takelbase
+dockerhub_base_tag: debian-buster
+
+# dockerhub multipostgres settings
+dockerhub_multipostgres_user: takelage
+dockerhub_multipostgres_repo: multipostgres
+dockerhub_multipostgres_tag: 11

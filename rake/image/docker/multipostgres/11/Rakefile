@@ -1,0 +1,23 @@
+# frozen_string_literal: true
+
+require 'rake'
+
+cmd_image_multipostgres11 = 'docker pull postgres:11 && ' \
+        'cd packer && packer build ' \
+        "--var 'base_repo=postgres' " \
+        "--var 'base_tag=11' " \
+        "--var 'target_user=#{@project['local_user']}' " \
+        "--var 'target_repo=multipostgres' " \
+        "--var 'target_tag=11' " \
+        'templates/docker/multipostgres/11/packer.json'
+
+namespace :image do
+  namespace :docker do
+    namespace :multipostgres do
+      desc 'Build multipostgres 11 image with packer'
+      task :'11' do
+        @commands << cmd_image_multipostgres11
+      end
+    end
+  end
+end

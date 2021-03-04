@@ -25,4 +25,7 @@ namespace :project do
 
   desc 'Create and deploy prod image to dockerhub'
   task prod: %w[dockerhub:takelbase:project:prod]
+
+  desc 'Create and deploy multipostgres image to dockerhub'
+  task multipostgres: %w[dockerhub:multipostgres:11]
 end
