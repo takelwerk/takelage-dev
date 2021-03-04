@@ -20,12 +20,15 @@ namespace :project do
     task verify: %w[ansible:docker:takelbase:project:prod:from_base:converge]
   end
 
-  desc 'Create and deploy base image to dockerhub'
-  task base: %w[dockerhub:takelbase:base]
-
   desc 'Create and deploy prod image to dockerhub'
-  task prod: %w[dockerhub:takelbase:project:prod]
-
-  desc 'Create and deploy multipostgres image to dockerhub'
-  task multipostgres: %w[dockerhub:multipostgres:11]
+  task prod: %w[git:warn
+                dockerhub:registry:login
+                rubylint
+                takelscripts
+                image:docker:takelbase:update
+                image:docker:takelbase:project:prod:from_base
+                image:docker:takelbase:project:prod:test
+                git:tag
+                dockerhub:registry:tag
+                dockerhub:registry:push]
 end
