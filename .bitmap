@@ -638,24 +638,6 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/dockerhub/registry"
     },
-    "takelage.rake/rake/dockerhub/takelbase/project/prod/registry@0.0.2": {
-        "files": [
-            {
-                "relativePath": "rake/dockerhub/takelbase/project/prod/registry/README.bit",
-                "test": false,
-                "name": "README.bit"
-            },
-            {
-                "relativePath": "rake/dockerhub/takelbase/project/prod/registry/Rakefile",
-                "test": false,
-                "name": "Rakefile"
-            }
-        ],
-        "mainFile": "rake/dockerhub/takelbase/project/prod/registry/README.bit",
-        "trackDir": "rake/dockerhub/takelbase/project/prod/registry",
-        "origin": "AUTHORED",
-        "exported": true
-    },
     "takelage.rake/rake/git@0.0.7": {
         "files": [
             {
@@ -673,24 +655,6 @@
         "rootDir": "rake/git",
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
-    },
-    "takelage.rake/rake/image/docker/takelbase/base@0.0.1": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/image/docker/takelbase/base",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/image/docker/takelbase/base"
     },
     "takelage.rake/rake/image/docker/takelbase/lib@0.0.4": {
         "files": [
