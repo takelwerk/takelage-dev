@@ -525,29 +525,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/docker/takelbase/base@0.0.4": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "install-debian.bash",
-                "relativePath": "debian10/bin/install-debian.bash",
-                "test": false
-            },
-            {
-                "name": "packer.json",
-                "relativePath": "debian10/packer.json",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "packer/templates/docker/takelbase/base",
-        "origin": "IMPORTED",
-        "originallySharedDir": "packer/templates/docker/takelbase/base"
-    },
     "takelage.packer/packer/templates/docker/takelbase/project@0.0.2": {
         "files": [
             {
@@ -642,24 +619,6 @@
         "rootDir": "rake/ansible/docker/takelbase/roles/role",
         "origin": "IMPORTED",
         "originallySharedDir": "rake/ansible/docker/takelbase/roles/role"
-    },
-    "takelage.rake/rake/dockerhub/takelbase/base/registry@0.0.2": {
-        "files": [
-            {
-                "relativePath": "rake/dockerhub/takelbase/base/registry/README.bit",
-                "test": false,
-                "name": "README.bit"
-            },
-            {
-                "relativePath": "rake/dockerhub/takelbase/base/registry/Rakefile",
-                "test": false,
-                "name": "Rakefile"
-            }
-        ],
-        "mainFile": "rake/dockerhub/takelbase/base/registry/README.bit",
-        "trackDir": "rake/dockerhub/takelbase/base/registry",
-        "origin": "AUTHORED",
-        "exported": true
     },
     "takelage.rake/rake/dockerhub/takelbase/project/prod/registry@0.0.2": {
         "files": [
