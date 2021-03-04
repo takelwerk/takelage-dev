@@ -1,7 +1,9 @@
 ---
 name: takelage-dev
 local_user: packer_local
+dockerhub_base_user: takelage
+dockerhub_base_repo: takelbase
 dockerhub_user: takelage
 dockerhub_repo: takelage
 dockerhub_tag: prod
-version: 0.30.10
+version: 0.30.11
