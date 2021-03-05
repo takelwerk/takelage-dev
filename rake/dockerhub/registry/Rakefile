@@ -30,6 +30,7 @@ cmd_dockerhub_registry_tag_version = 'docker tag ' \
     "#{@project['dockerhub_repo']}:" \
     "#{@project['version']}"
 
+# rubocop:disable Metrics/BlockLength
 namespace :dockerhub do
   namespace :registry do
     desc 'Log in to hub.docker.com'
@@ -40,7 +41,6 @@ namespace :dockerhub do
     desc 'Push multipostgres image to hub.docker.com'
     task push: %w[dockerhub:registry:push:version
                   dockerhub:registry:push:latest]
-    
     namespace :push do
       desc 'Push latest multipostgres image to hub.docker.com'
       task :latest do
@@ -55,8 +55,7 @@ namespace :dockerhub do
 
     desc 'Tag multipostgres image for hub.docker.com'
     task tag: %w[dockerhub:registry:tag:version
-                  dockerhub:registry:tag:latest]
-
+                 dockerhub:registry:tag:latest]
     namespace :tag do
       desc 'Tag latest multipostgres image for hub.docker.com'
       task :latest do
@@ -69,3 +68,4 @@ namespace :dockerhub do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

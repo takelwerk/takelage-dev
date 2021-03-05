@@ -6,4 +6,4 @@ dockerhub_base_repo: takelbase
 dockerhub_user: takelage
 dockerhub_repo: takelage
 dockerhub_tag: prod
-version: 0.30.13
+version: 0.30.14
