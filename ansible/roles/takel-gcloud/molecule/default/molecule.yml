@@ -9,7 +9,7 @@ lint: |
 platforms:
   - name: molecule-takel-gcloud
     image: takelage/takelbase
-    command: /lib/systemd/systemd
+    command: /bin/bash
     privileged: true
     pre_build_image: true
 provisioner:

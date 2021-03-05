@@ -10,7 +10,7 @@ def test_image_meta_env_exists(image_meta_data):
 
 
 def test_image_meta_cmd(image_meta_data):
-    assert image_meta_data['Config']['Cmd'] == ['/lib/systemd/systemd']
+    assert image_meta_data['Config']['Cmd'] == ['/bin/bash']
 
 
 def test_image_meta_user(image_meta_data):

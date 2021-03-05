@@ -56,10 +56,9 @@ docker image.
 The Debian base image is used by 
 [packer](https://packer.io)
 to create the
-[takelbase](https://hub.docker.com/r/takelage/takelbase)
+[takelslim](https://hub.docker.com/r/takelage/takelslim)
 docker image by installing 
-[python3](https://packages.debian.org/buster/python3),
-[python3-apt](https://packages.debian.org/buster/python3-apt)
-and [systemd](https://packages.debian.org/buster/systemd).
-The takelbase docker image is then used to create
+[python3](https://packages.debian.org/buster/python3) and
+[python3-apt](https://packages.debian.org/buster/python3-apt).
+The takelslim docker image is then used to create
 the takelage docker image.

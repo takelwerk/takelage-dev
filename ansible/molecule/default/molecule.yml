@@ -9,7 +9,7 @@ lint: |
 platforms:
   - name: molecule-takelage-dev-test-project-${TAKELAGE_PROJECT_ENV:-default}
     image: ${TAKELAGE_PROJECT_BASE_IMAGE:-takelage/takelbase}
-    command: /lib/systemd/systemd
+    command: /bin/bash
     privileged: true
     pre_build_image: true
     groups:
