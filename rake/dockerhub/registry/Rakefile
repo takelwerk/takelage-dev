@@ -4,29 +4,31 @@ require 'rake'
 
 cmd_dockerhub_registry_login = 'docker login'
 
-cmd_dockerhub_registry_push = 'docker push ' \
+cmd_dockerhub_registry_push_latest = 'docker push ' \
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
-    "#{@project['dockerhub_tag']} && " \
-    'docker push ' \
+    "#{@project['version']} "
+
+cmd_dockerhub_registry_push_version = 'docker push ' \
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
     'latest'
 
-cmd_dockerhub_registry_tag = 'docker tag ' \
-    "#{@project['local_user']}/" \
-    "#{@project['name']}:" \
-    "#{@project['dockerhub_tag']} " \
-    "#{@project['dockerhub_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
-    "#{@project['dockerhub_tag']} && " \
-    'docker tag ' \
+cmd_dockerhub_registry_tag_latest = 'docker tag ' \
     "#{@project['local_user']}/" \
     "#{@project['name']}:" \
     "#{@project['dockerhub_tag']} "\
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
     'latest'
+
+cmd_dockerhub_registry_tag_version = 'docker tag ' \
+    "#{@project['local_user']}/" \
+    "#{@project['name']}:" \
+    "#{@project['dockerhub_tag']} " \
+    "#{@project['dockerhub_user']}/" \
+    "#{@project['dockerhub_repo']}:" \
+    "#{@project['version']}"
 
 namespace :dockerhub do
   namespace :registry do
@@ -36,13 +38,34 @@ namespace :dockerhub do
     end
 
     desc 'Push multipostgres image to hub.docker.com'
-    task :push do
-      @commands << cmd_dockerhub_registry_push
+    task push: %w[dockerhub:registry:push:version
+                  dockerhub:registry:push:latest]
+    
+    namespace :push do
+      desc 'Push latest multipostgres image to hub.docker.com'
+      task :latest do
+        @commands << cmd_dockerhub_registry_push_latest
+      end
+
+      desc 'Push version multipostgres image to hub.docker.com'
+      task :version do
+        @commands << cmd_dockerhub_registry_push_version
+      end
     end
 
     desc 'Tag multipostgres image for hub.docker.com'
-    task :tag do
-      @commands << cmd_dockerhub_registry_tag
+    task tag: %w[dockerhub:registry:tag:version
+                  dockerhub:registry:tag:latest]
+
+    namespace :tag do
+      desc 'Tag latest multipostgres image for hub.docker.com'
+      task :latest do
+        @commands << cmd_dockerhub_registry_tag_latest
+      end
+      desc 'Tag version multipostgres image for hub.docker.com'
+      task :version do
+        @commands << cmd_dockerhub_registry_tag_version
+      end
     end
   end
 end
