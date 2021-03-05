@@ -7,12 +7,12 @@ cmd_dockerhub_registry_login = 'docker login'
 cmd_dockerhub_registry_push_latest = 'docker push ' \
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
-    "#{@project['version']} "
+    'latest'
 
 cmd_dockerhub_registry_push_version = 'docker push ' \
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
-    'latest'
+    "#{@project['version']} "
 
 cmd_dockerhub_registry_tag_latest = 'docker tag ' \
     "#{@project['local_user']}/" \
