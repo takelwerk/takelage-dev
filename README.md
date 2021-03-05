@@ -1,6 +1,6 @@
 [![takelage image](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_project_nightly.yml/badge.svg)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_project_nightly.yml)
 [![ansible roles](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_roles_nightly.yml/badge.svg)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_roles_nightly.yml)
-[![docker image](https://img.shields.io/docker/v/takelage/takelage?label=hub.docker.com&sort=semver&color=blue)](https://hub.docker.com/repository/docker/takelage/takelage)
+[![docker image](https://img.shields.io/docker/v/takelage/takelage?label=hub.docker.com&sort=semver&color=blue)](https://hub.docker.com/r/takelage/takelage)
 [![license](https://img.shields.io/github/license/geospin-takelage/takelage-dev?label=License&color=blueviolet)](https://github.com/geospin-takelage/takelage-dev/blob/main/LICENSE)
 
 
