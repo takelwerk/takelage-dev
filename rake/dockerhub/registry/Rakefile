@@ -15,14 +15,14 @@ cmd_dockerhub_registry_push = 'docker push ' \
 
 cmd_dockerhub_registry_tag = 'docker tag ' \
     "#{@project['local_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
+    "#{@project['name']}:" \
     "#{@project['dockerhub_tag']} " \
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
     "#{@project['dockerhub_tag']} && " \
     'docker tag ' \
     "#{@project['local_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
+    "#{@project['name']}:" \
     "#{@project['dockerhub_tag']} "\
     "#{@project['dockerhub_user']}/" \
     "#{@project['dockerhub_repo']}:" \
