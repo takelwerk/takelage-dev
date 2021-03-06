@@ -58,7 +58,7 @@ The Debian base image is used by
 to create the
 [takelslim](https://hub.docker.com/r/takelage/takelslim)
 docker image by installing 
-[python3](https://packages.debian.org/buster/python3) and
+[python3-minimal](https://packages.debian.org/buster/python3-minimal) and
 [python3-apt](https://packages.debian.org/buster/python3-apt).
 The takelslim docker image is then used to create
 the takelage docker image.
@@ -71,8 +71,8 @@ which is basically a
 [debian:buster-slim](https://hub.docker.com/_/debian)
 docker 
 [official image](https://docs.docker.com/docker-hub/official_images/)
-with 
-[python3-minimal](https://github.com/geospin-takelage/takelage-img-takelslim/blob/main/packer/templates/docker/takelslim/debian-buster/packer.json)
+with a
+[minimal python3](https://github.com/geospin-takelage/takelage-img-takelslim/blob/main/packer/templates/docker/takelslim/debian-buster/packer.json)
 installed for 
 [ansible](https://docs.ansible.com/ansible/latest/).
 
