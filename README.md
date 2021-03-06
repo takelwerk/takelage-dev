@@ -62,3 +62,37 @@ docker image by installing
 [python3-apt](https://packages.debian.org/buster/python3-apt).
 The takelslim docker image is then used to create
 the takelage docker image.
+
+## Versions
+
+Since version 0.31 takelage is based on
+[takelage-img-takelslim](https://github.com/geospin-takelage/takelage-img-takelslim)
+which is basically a 
+[debian:buster-slim](https://hub.docker.com/_/debian)
+docker 
+[official image](https://docs.docker.com/docker-hub/official_images/)
+with 
+[python3-minimal](https://github.com/geospin-takelage/takelage-img-takelslim/blob/main/packer/templates/docker/takelslim/debian-buster/packer.json)
+to run 
+[ansible](https://docs.ansible.com/ansible/latest/).
+
+Up to version 0.30 takelage was based on
+[takelage-img-takelbase](https://github.com/geospin-takelage/takelage-img-takelbase)
+which has 
+[python3, sudo and systemd](https://github.com/geospin-takelage/takelage-img-takelbase/blob/main/packer/templates/docker/takelbase/debian-buster/bin/install-debian.bash)
+installed. These takelage containers were run with the
+`--privileged` flag with extended privileges.
+This method was developed to simulate an old-fashioned
+debian systemd server it is not needed for takelage-dev.
+
+Accordingly the takelage command line tool `tau` from the 
+[ruby gem takelage](https://github.com/geospin-takelage/takelage-cli)
+dropped the `--privileged` flag 
+starting from version 0.27 which is part of takelage 0.31. 
+
+The docker run command is stored in the `cmd_docker_container_create` setting 
+which can be inspected with `tau self config default`. 
+If you want to run containers with the `--privileged` flag you can 
+[overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
+in  a project `takelage.yml` or in your `~/.takelage.yml` and add the flag.
+Afterwards, check your final config with `tau self config active`.
