@@ -94,5 +94,8 @@ The docker run command is stored in the `cmd_docker_container_create` setting
 which can be inspected with `tau self config default`. 
 If you want to run takelage containers with the `--privileged` flag you can 
 [overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
-in  a project `takelage.yml` or in your `~/.takelage.yml` and add the flag.
-Afterwards, check your final config with `tau self config active`.
+and add the flag in a project `takelage.yml` or in your `~/.takelage.yml`.
+Afterwards, you can check your final config with `tau self config active`.
+
+If you still run into problems, try the helpful
+ `tau -l debug` flag or drop us a line.
