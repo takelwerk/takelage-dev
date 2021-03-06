@@ -92,8 +92,8 @@ dropped the `--privileged` flag.
 
 For
 [takelage-cli](https://github.com/geospin-takelage/takelage-cli)
-for example the flag `--privileged` flag is still needed.
-So if you want to run takelage containers with the `--privileged` flag you can 
+for example the `--privileged` flag is still needed.
+So if you want to run privileged takelage containers you can 
 [overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
 by adding `docker_run_options: --privileged` 
 to a 
