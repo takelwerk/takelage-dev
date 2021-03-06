@@ -23,13 +23,14 @@
         "--detach",
         "--interactive",
         "--tty",
-        "--privileged",
         "--name",
         "{{user `target_repo`}}",
         "--volume",
         "{{user `hatch`}}",
         "{{.Image}}",
-        "/usr/bin/tail -f /dev/null"
+        "/usr/bin/tail",
+        "--follow",
+        "/dev/null"
       ]
     }
   ],
