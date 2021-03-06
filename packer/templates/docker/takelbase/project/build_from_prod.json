@@ -29,7 +29,7 @@
         "--volume",
         "{{user `hatch`}}",
         "{{.Image}}",
-        "/bin/bash"
+        "/usr/bin/tail -f /dev/null"
       ]
     }
   ],
@@ -58,7 +58,7 @@
         "repository": "{{ user `local_user` }}/{{ user `target_repo` }}",
         "tag": "{{ user `target_tag` }}",
         "changes": [
-          "CMD [\"/bin/bash\"]",
+          "CMD [\"/usr/bin/tail -f /dev/null\"]",
           "ENV DEBIAN_FRONTEND=noninteractive",
           "ENV LANG=en_US.UTF-8",
           "ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",

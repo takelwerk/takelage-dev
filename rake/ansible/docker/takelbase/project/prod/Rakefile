@@ -16,7 +16,7 @@ namespace :ansible do
                   @cmd_ansible_docker_takelbase_project,
                   command: command,
                   converge_playbook: 'playbook-project-base.yml',
-                  image: 'takelage/takelbase',
+                  image: 'takelage/takelslim',
                   project_environment: env.scope.head
                 )
               end

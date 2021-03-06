@@ -10,7 +10,7 @@ def test_image_meta_env_exists(image_meta_data):
 
 
 def test_image_meta_cmd(image_meta_data):
-    assert image_meta_data['Config']['Cmd'] == ['/bin/bash']
+    assert image_meta_data['Config']['Cmd'] == ['/usr/bin/tail -f /dev/null']
 
 
 def test_image_meta_user(image_meta_data):

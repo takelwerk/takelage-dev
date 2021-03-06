@@ -9,8 +9,8 @@ lint: |
 platforms:
   - name: molecule-takelage-dev-local-${TAKELAGE_PROJECT_ENV:-prod}
     image: packer_local/mapapp:${TAKELAGE_PROJECT_ENV:-prod}
-    command: /bin/bash
-    privileged: true
+    command: /usr/bin/tail -f /dev/null
+    privileged: false
     pre_build_image: true
     groups:
       - ${TAKELAGE_PROJECT_ENV:-prod}
