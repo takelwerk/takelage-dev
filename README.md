@@ -90,12 +90,10 @@ Accordingly, the takelage command line tool `tau` from the
 beginning with version 0.27 which is part of takelage 0.31
 dropped the `--privileged` flag. 
 
-The docker run command is stored in the `cmd_docker_container_create` setting 
-which can be inspected with `tau self config default`. 
-
 If you want to run takelage containers with the `--privileged` flag you can 
 [overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
-and add the flag in a project `takelage.yml` or in your `~/.takelage.yml`.
+you can add `docker_run_options: --privileged` 
+to a project `takelage.yml` or your `~/.takelage.yml`.
 Afterwards, you can check your active config with `tau self config active`.
 
 If you still run into problems, try the helpful
