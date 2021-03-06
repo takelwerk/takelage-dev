@@ -92,7 +92,7 @@ dropped the `--privileged` flag.
 
 If you want to run takelage containers with the `--privileged` flag you can 
 [overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
-you can add `docker_run_options: --privileged` 
+by adding `docker_run_options: --privileged` 
 to a project `takelage.yml` or your `~/.takelage.yml`.
 Afterwards, you can check your active config with `tau self config active`.
 
