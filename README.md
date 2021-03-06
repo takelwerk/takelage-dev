@@ -87,8 +87,8 @@ debian systemd server but it is not needed for takelage-dev.
 
 Accordingly, the takelage command line tool `tau` from the 
 [ruby gem takelage](https://github.com/geospin-takelage/takelage-cli)
-dropped the `--privileged` flag 
-starting from version 0.27 which is part of takelage 0.31. 
+from version 0.27 which is part of takelage 0.31
+dropped the `--privileged` flag. 
 
 The docker run command is stored in the `cmd_docker_container_create` setting 
 which can be inspected with `tau self config default`. 
