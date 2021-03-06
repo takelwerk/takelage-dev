@@ -95,6 +95,5 @@ If you want to run takelage containers with the `--privileged` flag you can
 by adding `docker_run_options: --privileged` 
 to a project `takelage.yml` or your `~/.takelage.yml`.
 Afterwards, you can check your active config with `tau self config active`.
-
 If you still run into problems, try the helpful
  `tau -l debug` flag or drop us a line.
