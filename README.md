@@ -110,6 +110,6 @@ to a
 [project `takelage.yml`](https://github.com/geospin-takelage/takelage-cli/blob/main/.github/workflows/test_project_nightly.yml)
 or your `~/.takelage.yml`.
 
-Afterwards, you can check your active config with `tau self config active`.
+Afterwards, you can check your active config with `tau config`.
 If you still run into problems, try the helpful
  `tau -l debug` flag or drop us a line.
