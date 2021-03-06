@@ -83,17 +83,23 @@ which has
 installed. These takelage containers were run with the
 `--privileged` flag with extended privileges.
 This method was developed to simulate an old-fashioned
-debian systemd server but it is not needed for takelage-dev.
+debian systemd server but it is generally not needed for takelage-dev.
 
 Accordingly, the takelage command line tool `tau` from the 
 [ruby gem takelage](https://github.com/geospin-takelage/takelage-cli)
 beginning with version 0.27 which is part of takelage 0.31
 dropped the `--privileged` flag. 
 
-If you want to run takelage containers with the `--privileged` flag you can 
+For
+[takelage-cli](https://github.com/geospin-takelage/takelage-cli)
+for example the flag `--privileged` flag is still needed.
+So if you want to run takelage containers with the `--privileged` flag you can 
 [overwrite the setting](https://github.com/geospin-takelage/takelage-cli#configuration)
 by adding `docker_run_options: --privileged` 
-to a project `takelage.yml` or your `~/.takelage.yml`.
+to a 
+[project `takelage.yml`](https://github.com/geospin-takelage/takelage-cli/blob/main/.github/workflows/test_project_nightly.yml)
+or your `~/.takelage.yml`.
+
 Afterwards, you can check your active config with `tau self config active`.
 If you still run into problems, try the helpful
  `tau -l debug` flag or drop us a line.
