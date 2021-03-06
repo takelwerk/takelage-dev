@@ -18,7 +18,7 @@ jobs:
           ruby-version: 2.7
 
       - name: Install tau
-        run: gem install takelage -v 0.26.7
+        run: gem install takelage
 
       - name: Configure tau
         run: |
