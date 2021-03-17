@@ -56,6 +56,7 @@ def test_takelscripts_entrypoint_init_debug(
         "gpg_agent_port=17874, " + \
         "gpg_ssh_agent_port=17875, " + \
         "home='/home/testuser', " + \
+        "mutagen=False, " + \
         "runcmd='', " + \
         "ssh=False, " + \
         "uid=1500, " + \
@@ -453,7 +454,7 @@ def test_takelscripts_entrypoint_add_gpg(
     gnupg_dir_mode = os.stat(gnupg_dir).st_mode
 
     assert gnupg_dir.is_dir()
-    assert gnupg_dir_mode == 16832
+    assert 16832 == gnupg_dir_mode
 
     assert expected_log_start in caplog.text
     assert expected_log_end in caplog.text
@@ -468,6 +469,33 @@ def test_takelscripts_entrypoint_add_gpg(
     assert expected_log_copy_file1 in caplog.text
     assert expected_log_copy_file2 in caplog.text
     assert expected_log_copy_file3 in caplog.text
+
+
+def test_takelscripts_entrypoint_add_mutagen_socket_dir(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(
+            mutagen=True,
+            home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+
+    entrypoint = EntryPoint()
+
+    entrypoint.add_mutagen()
+
+    mutagen_socket_dir = tmp_path / 'home/testuser/.mutagen/daemon'
+    mutagen_socket_dir_mode = os.stat(mutagen_socket_dir).st_mode
+    print(mutagen_socket_dir_mode)
+
+    assert mutagen_socket_dir.is_dir()
+    assert 16877 == mutagen_socket_dir_mode
 
 
 def test_takelscripts_entrypoint_add_ssh(
@@ -1173,6 +1201,7 @@ def args_default(
         gopass=False,
         gpg=False,
         home='/home/testuser',
+        mutagen=False,
         ssh=False,
         uid=1500):
     args = Namespace(
@@ -1188,6 +1217,7 @@ def args_default(
         gpg_agent_port=17874,
         gpg_ssh_agent_port=17875,
         home=home,
+        mutagen=mutagen,
         runcmd='',
         ssh=ssh,
         uid=uid,

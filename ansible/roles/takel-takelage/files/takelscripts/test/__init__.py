@@ -1,3 +1,3 @@
-import os
+import pathlib
 import sys
-sys.path.append(os.path.realpath(os.path.dirname(__file__)+"/.."))
+sys.path.append(pathlib.Path(__file__).parent.absolute().parent)
