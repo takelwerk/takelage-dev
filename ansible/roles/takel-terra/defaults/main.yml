@@ -7,7 +7,7 @@ takel_terra_terraform_version: 0.14.7
 takel_terra_terraform_url: >-
   https://releases.hashicorp.com/terraform/{{
   takel_terra_terraform_version }}/terraform_{{
-  takel_terra_terraform_version }}_linux_amd64.zip"
+  takel_terra_terraform_version }}_linux_amd64.zip
 
 takel_terra_terragrunt_version: 0.28.7
 takel_terra_terragrunt_url: >-

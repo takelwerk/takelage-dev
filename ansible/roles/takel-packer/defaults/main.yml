@@ -9,6 +9,6 @@ takel_packer_bin_path: /usr/local/bin/
 takel_packer_url: >-
   https://releases.hashicorp.com/packer/{{
   takel_packer_version }}/packer_{{
-  takel_packer_version }}_linux_amd64.zip"
+  takel_packer_version }}_linux_amd64.zip
 
 takel_packer_completion_path: /etc/bash_completion.d/packer
