@@ -4,4 +4,7 @@ takel_hugo_deb_install_packages:
   - ca-certificates
 
 takel_hugo_hugo_version: 0.80.0
-takel_hugo_hugo_url: "https://github.com/gohugoio/hugo/releases/download/v{{ takel_hugo_hugo_version }}/hugo_extended_{{ takel_hugo_hugo_version }}_Linux-64bit.deb"
+takel_hugo_hugo_url: >-
+  https://github.com/gohugoio/hugo/releases/download/v{{
+  takel_hugo_hugo_version }}/hugo_extended_{{
+  takel_hugo_hugo_version }}_Linux-64bit.deb"

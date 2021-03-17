@@ -16,7 +16,10 @@ takel_docker_ce_repository_key: https://download.docker.com/linux/debian/gpg
 takel_docker_ce_repository_filename: docker-ce
 takel_docker_ce_repository_codename: buster
 takel_docker_ce_repository_url: https://download.docker.com/linux/debian
-takel_docker_ce_repository: "deb {{ takel_docker_ce_repository_url }} {{ takel_docker_ce_repository_codename }} stable"
+takel_docker_ce_repository: >-
+  deb {{ takel_docker_ce_repository_url }} {{
+  takel_docker_ce_repository_codename }} stable
 
 takel_docker_completion_path: /etc/bash_completion.d/docker
-takel_docker_completion_url: https://github.com/docker/cli/raw/master/contrib/completion/bash/docker
+takel_docker_completion_url: >-
+  https://github.com/docker/cli/raw/master/contrib/completion/bash/docker

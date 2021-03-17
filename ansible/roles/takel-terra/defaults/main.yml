@@ -4,12 +4,18 @@ takel_terra_deb_install_packages:
   - unzip
 
 takel_terra_terraform_version: 0.14.7
-takel_terra_terraform_url: "https://releases.hashicorp.com/terraform/{{ takel_terra_terraform_version }}/terraform_{{ takel_terra_terraform_version }}_linux_amd64.zip"
+takel_terra_terraform_url: >-
+  https://releases.hashicorp.com/terraform/{{
+  takel_terra_terraform_version }}/terraform_{{
+  takel_terra_terraform_version }}_linux_amd64.zip"
 
 takel_terra_terragrunt_version: 0.28.7
-takel_terra_terragrunt_url: https://github.com/gruntwork-io/terragrunt/releases/download/v{{ takel_terra_terragrunt_version }}/terragrunt_linux_amd64
+takel_terra_terragrunt_url: >-
+  https://github.com/gruntwork-io/terragrunt/releases/download/v{{
+  takel_terra_terragrunt_version }}/terragrunt_linux_amd64
 takel_terra_terragrunt_binary: terragrunt
 
 takel_terra_bin_path: /usr/local/bin/
 
-takel_terra_terraform_bash_completion_path: /etc/profile.d/terraform_completion.sh
+takel_terra_terraform_bash_completion_path: >-
+  /etc/profile.d/terraform_completion.sh

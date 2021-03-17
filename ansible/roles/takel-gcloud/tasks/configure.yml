@@ -16,5 +16,7 @@
     mode: 0644
 
 - name: (configure) install gcloud components
-  command: "{{ takel_gcloud_installation_root }}/google-cloud-sdk/bin/gcloud --quiet components install alpha beta"
+  command: >-
+    {{ takel_gcloud_installation_root}}/google-cloud-sdk/bin/gcloud
+    --quiet components install alpha beta
   changed_when: false
