@@ -17,6 +17,7 @@ class EntryPoint(object):
 
     def __init__(self):
         args = self._parse_args_()
+        print(args)
         self._debug = args.debug
         now = datetime.now().strftime("%d.%m.%Y %H:%M:%S")
         self._logger = self._logger_init_(self._debug)
@@ -30,6 +31,7 @@ class EntryPoint(object):
         self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
+        self._mutagen = args.mutagen
         self._ssh = args.ssh
         self._username = args.username
         self._uid = args.uid
@@ -226,6 +228,17 @@ class EntryPoint(object):
 
         self._logger.info(
             'added config: gpg')
+        return True
+
+    def add_mutagen(self):
+        if not self._mutagen:
+            return
+        self._logger.debug('adding config: mutagen')
+
+        self._mkdir_homedir_child_('.mutagen/daemon')
+
+        self._logger.info(
+            'added config: mutagen')
         return True
 
     def add_ssh(self):
@@ -608,6 +621,12 @@ class EntryPoint(object):
             default=True,
             help="Do not add gpg configuration")
         parser.add_argument(
+            "--no-mutagen",
+            dest="mutagen",
+            action="store_false",
+            default=True,
+            help="Do not add mutagen configuration")
+        parser.add_argument(
             "--no-ssh",
             dest="ssh",
             action="store_false",
@@ -675,6 +694,7 @@ class EntryPoint(object):
 def main():
     entrypoint = EntryPoint()
     entrypoint.add_user()
+    entrypoint.add_mutagen()
     entrypoint.add_gopass()
     entrypoint.add_gpg()
     entrypoint.add_ssh()
