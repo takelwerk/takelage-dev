@@ -1,9 +1,8 @@
 ---
-- name: (profile) copy system-wide profile files
-  copy:
-    src: "{{ item.file }}"
-    dest: "/etc/profile.d/{{ item.order }}{{ item.file }}"
-    owner: root
-    group: root
-    mode: 0644
-  loop: "{{ takel_gopass_profile }}"
+- name: (profile) generate gopass autocompletion
+  shell: >-
+     completion bash >
+    /etc/profile.d/{{ takel_gopass_profile_order }}gopass
+  args:
+    creates: >-
+      /etc/profile.d/{{ takel_gopass_profile_order }}gopass

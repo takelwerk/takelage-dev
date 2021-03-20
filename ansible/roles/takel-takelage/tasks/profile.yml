@@ -7,3 +7,11 @@
     group: root
     mode: 0644
   loop: "{{ takel_takelage_profile }}"
+
+- name: (profile) generate tau autocompletion
+  shell: >-
+    tau completion bash >
+    /etc/profile.d/{{ takel_takelage_profile_order_default }}tau
+  args:
+    creates: >-
+      /etc/profile.d/{{ takel_takelage_profile_order_default }}tau

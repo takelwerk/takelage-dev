@@ -6,13 +6,11 @@ takel_gopass_deb_preinstall_packages:
 takel_gopass_deb_install_packages:
   - gopass
 
-takel_gopass_version: '1.12.1'
+takel_gopass_version: '1.12.4'
 takel_gopass_deb: gopass_{{ takel_gopass_version }}_linux_amd64.deb
 takel_gopass_tmp: "/tmp/{{ takel_gopass_deb }}"
 takel_gopass_url: >-
   https://github.com/gopasspw/gopass/releases/download/v{{
   takel_gopass_version }}/{{ takel_gopass_deb }}
 
-takel_gopass_profile:
-  - file: gopass.sh
-    order: 50
+takel_gopass_profile_order: 50

@@ -17,14 +17,14 @@ takel_takelage_gpg_config_files:
 
 takel_takelage_entrypoint_path: /
 
+takel_takelage_profile_order_default: 50
+
 takel_takelage_profile:
   - file: aliases.sh
-    order: 50
+    order: "{{ takel_takelage_profile_order_default }}"
   - file: make.sh
-    order: 50
+    order: "{{ takel_takelage_profile_order_default }}"
   - file: prompt.sh
-    order: 50
+    order: "{{ takel_takelage_profile_order_default }}"
   - file: sshagent.sh
-    order: 50
-  - file: tau.sh
-    order: 50
+    order: "{{ takel_takelage_profile_order_default }}"
