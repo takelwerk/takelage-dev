@@ -8,7 +8,6 @@ takel_takelage_deb_install_packages:
   - postgresql-client
   - pwgen
   - python3-docker
-  - socat
   - sudo
 
 takel_takelage_gpg_config_files:
