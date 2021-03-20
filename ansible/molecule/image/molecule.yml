@@ -22,8 +22,6 @@ platforms:
       --no-gopass
       --no-gpg
       --no-ssh
-      --gpg_agent_port 18502
-      --gpg_ssh_agent_port 18503
     tty: true
     privileged: false
     pre_build_image: true
