@@ -45,23 +45,6 @@ class EntryPoint(object):
         self._hostdir = self._get_hostdir_()
         self._logger.debug('hostdir: {hostdir}'.format(hostdir=self._hostdir))
 
-        # gpg agent and gpg ssh agent which are tunneled
-        # via socat from host to docker container
-        self._agent_forwards = {
-            'gpg-agent': {
-                'path': str(self._homedir) + '/.gnupg/S.gpg-agent',
-                'port': args.gpg_agent_port,
-                'user': self._username,
-                'group': self._username},
-            'gpg-ssh-agent': {
-                'path': str(self._homedir) + '/.gnupg/S.gpg-agent.ssh',
-                'port': args.gpg_ssh_agent_port,
-                'user': self._username,
-                'group': self._username}}
-        self._logger.debug(
-            'agent_forwards: {agent_forwards}'.format(
-                agent_forwards=self._agent_forwards))
-
     def add_bit(self):
         if not self._bit:
             return
@@ -364,29 +347,6 @@ class EntryPoint(object):
         self._logger.debug(
             'made /var/run/docker.sock readable and writable for user')
 
-    def forward_agents(self):
-        self._logger.debug(
-            'forwarding agents')
-
-        for agent in self._agent_forwards:
-            path = self._agent_forwards[agent]['path']
-            port = self._agent_forwards[agent]['port']
-            user = self._agent_forwards[agent]['user']
-            group = self._agent_forwards[agent]['group']
-            command = [
-                '/usr/bin/socat',
-                'UNIX-LISTEN:' + path +
-                ',reuseaddr,fork,' +
-                'user=' + user +
-                ',group=' + group,
-                'TCP:host.docker.internal:' +
-                str(port)]
-            self._run_and_fork_(command)
-
-        self._logger.info(
-            'forwarded agents')
-        return True
-
     def runcmd(self):
         if not self._runcmd:
             return False
@@ -572,16 +532,6 @@ class EntryPoint(object):
             type=int,
             help="Group ID of the username used in the host system")
         parser.add_argument(
-            "--gpg_agent_port",
-            type=int,
-            default=17874,
-            help="Port of gpg agent socket")
-        parser.add_argument(
-            "--gpg_ssh_agent_port",
-            type=int,
-            default=17875,
-            help="Port of gpg ssh agent socket")
-        parser.add_argument(
             "--extra",
             type=str,
             default="",
@@ -704,7 +654,6 @@ def main():
     entrypoint.add_docker()
     entrypoint.chown_tty()
     entrypoint.chown_home()
-    entrypoint.forward_agents()
     entrypoint.docker_sock_permissions()
     entrypoint.runcmd()
 

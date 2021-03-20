@@ -53,8 +53,6 @@ def test_takelscripts_entrypoint_init_debug(
         "git=False, " + \
         "gopass=False, " + \
         "gpg=False, " + \
-        "gpg_agent_port=17874, " + \
-        "gpg_ssh_agent_port=17875, " + \
         "home='/home/testuser', " + \
         "mutagen=False, " + \
         "runcmd='', " + \
@@ -62,26 +60,12 @@ def test_takelscripts_entrypoint_init_debug(
         "uid=1500, " + \
         "username='testuser')"
 
-    output_agent_forwards = \
-        "agent_forwards: {" + \
-        "'gpg-agent': " + \
-        "{'path': '/home/testuser/.gnupg/S.gpg-agent', " + \
-        "'port': 17874, " + \
-        "'user': 'testuser', " + \
-        "'group': 'testuser'}, " + \
-        "'gpg-ssh-agent': " + \
-        "{'path': '/home/testuser/.gnupg/S.gpg-agent.ssh', " + \
-        "'port': 17875, " + \
-        "'user': 'testuser', " + \
-        "'group': 'testuser'}}"
-
     assert entrypoint._hostdir == Path('/hostdir')
 
     assert '*******************************************' in caplog.text
     assert 'starting configuration:' in caplog.text
     assert output_args in caplog.text
     assert "hostdir: /hostdir" in caplog.text
-    assert output_agent_forwards in caplog.text
 
 
 def test_takelscripts_entrypoint_add_bit_config(
@@ -673,41 +657,6 @@ def test_takelscripts_entrypoint_docker_sock_group_permissions(
     assert '-rw-rw-r--' == filemode(mode)
 
 
-def test_takelscripts_entrypoint_forward_agents(
-        monkeypatch,
-        caplog):
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default())
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_run_and_fork_',
-        log_argument)
-
-    entrypoint = EntryPoint()
-
-    entrypoint.forward_agents()
-
-    first_forward_command = \
-        "['/usr/bin/socat', " \
-        "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent," \
-        "reuseaddr,fork,user=testuser,group=testuser', " \
-        "'TCP:host.docker.internal:17874']"
-    second_forward_command = \
-        "['/usr/bin/socat', " \
-        "'UNIX-LISTEN:/home/testuser/.gnupg/S.gpg-agent.ssh," \
-        "reuseaddr,fork,user=testuser,group=testuser', " \
-        "'TCP:host.docker.internal:17875']"
-
-    assert first_forward_command in caplog.text
-    assert second_forward_command in caplog.text
-
-
 def test_takelscripts_entrypoint_chown_tty(
         monkeypatch,
         caplog,
@@ -1214,8 +1163,6 @@ def args_default(
         git=git,
         gopass=gopass,
         gpg=gpg,
-        gpg_agent_port=17874,
-        gpg_ssh_agent_port=17875,
         home=home,
         mutagen=mutagen,
         runcmd='',
