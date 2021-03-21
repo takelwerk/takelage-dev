@@ -14,7 +14,7 @@ def test_takel_mutagen_install_packages_installed(host, testvars):
 
 
 def test_takel_mutagen_install_mutagen_installed(host, testvars):
-    mutagen_bin = testvars['takel_mutagen_bin_path'] + '/mutagen'
+    mutagen_bin = f"{testvars['takel_mutagen_bin_path']}/mutagen"
     file = host.file(mutagen_bin)
 
     assert file.exists
