@@ -13,4 +13,5 @@ takel_gopass_url: >-
   https://github.com/gopasspw/gopass/releases/download/v{{
   takel_gopass_version }}/{{ takel_gopass_deb }}
 
-takel_gopass_profile_order: 50
+takel_gopass_completion_dir: /etc/bash_completion.d
+takel_gopass_bash_completion: "{{ takel_gopass_completion_dir }}/gopass"

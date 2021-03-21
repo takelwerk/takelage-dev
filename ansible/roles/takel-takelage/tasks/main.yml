@@ -34,6 +34,13 @@
     - takel_takelage
     - takel_takelage_profile
 
+- name: (main) include completion
+  import_tasks: completion.yml
+  tags:
+    - takel
+    - takel_takelage
+    - takel_takelage_completion
+
 - name: (main) include version
   import_tasks: version.yml
   tags:

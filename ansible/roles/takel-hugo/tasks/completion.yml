@@ -1,0 +1,14 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_hugo_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+# https://gohugo.io/commands/hugo_gen_autocomplete/
+- name: (configure) add hugo autocompletion
+  shell: "hugo gen autocomplete > {{ takel_hugo_bash_completion }}"
+  args:
+    creates: "{{ takel_hugo_bash_completion }}"

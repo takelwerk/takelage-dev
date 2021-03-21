@@ -9,4 +9,5 @@ takel_hugo_hugo_url: >-
   takel_hugo_hugo_version }}/hugo_extended_{{
   takel_hugo_hugo_version }}_Linux-64bit.deb
 
-takel_hugo_profile_order: 50
+takel_hugo_completion_dir: /etc/bash_completion.d
+takel_hugo_bash_completion: "{{ takel_gopass_completion_dir }}/hugo"

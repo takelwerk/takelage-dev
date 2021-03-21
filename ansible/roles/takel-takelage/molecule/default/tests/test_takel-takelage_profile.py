@@ -15,15 +15,3 @@ def test_takel_takelage_profile_files(host, testvars):
         assert file.user == 'root'
         assert file.group == 'root'
         assert file.mode == 0o644
-
-
-def test_takel_takelage_profile_configure_tau_bash_completion(host, testvars):
-    profile_order = testvars['takel_takelage_profile_order_default']
-    file = host.file('/etc/profile.d/'
-                     f"{str(profile_order)}tau")
-
-    assert file.exists
-    assert file.is_file
-    assert file.user == 'root'
-    assert file.group == 'root'
-    assert file.mode == 0o644

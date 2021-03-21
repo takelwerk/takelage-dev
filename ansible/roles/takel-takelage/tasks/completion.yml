@@ -1,0 +1,13 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_takelage_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) generate tau bash autocompletion
+  shell: "tau completion bash > {{ takel_takelage_tau_bash_completion }}"
+  args:
+    creates: "{{ takel_takelage_tau_bash_completion }}"

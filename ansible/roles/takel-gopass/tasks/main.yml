@@ -13,9 +13,9 @@
     - takel_gopass
     - takel_gopass_install
 
-- name: (main) include profile
-  import_tasks: profile.yml
+- name: (main) include completion
+  import_tasks: completion.yml
   tags:
     - takel
     - takel_gopass
-    - takel_gopass_profile
+    - takel_gopass_completion
