@@ -1,7 +1,7 @@
 ---
 - name: (configure) create completion dir
   file:
-    path: /etc/bash_completion.d
+    path: "{{ takel_mutagen_completion_dir }}"
     state: directory
     owner: root
     group: root
@@ -11,6 +11,6 @@
   command: >-
     mutagen generate
     --bash-completion-script
-    {{ takel_mutagen_completion_path }}
+    {{ takel_mutagen_bash_completion }}
   args:
-    creates: "{{ takel_mutagen_completion_path }}"
+    creates: "{{ takel_mutagen_bash_completion }}"

@@ -10,4 +10,5 @@ takel_mutagen_url: >-
   takel_mutagen_version }}/mutagen_linux_amd64_v{{
   takel_mutagen_version }}.tar.gz
 
-takel_mutagen_completion_path: /etc/bash_completion.d/mutagen
+takel_mutagen_completion_dir: /etc/bash_completion.d
+takel_mutagen_bash_completion: "{{ takel_gopass_completion_dir }}/mutagen"

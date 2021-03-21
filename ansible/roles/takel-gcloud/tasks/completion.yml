@@ -1,0 +1,16 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_gcloud_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (configure) copy completion file
+  copy:
+    src: gcloud-completion.sh
+    dest: "{{ takel_gcloud_completion_path }}"
+    owner: root
+    group: root
+    mode: 0644
