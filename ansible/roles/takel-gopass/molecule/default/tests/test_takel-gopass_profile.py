@@ -3,7 +3,7 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_takel_gopass_profile_exists(host, testvars):
+def test_takel_gopass_configure_bash_completion(host, testvars):
     profile_order = testvars['takel_gopass_profile_order']
     file = host.file('/etc/profile.d/'
                      f"{str(profile_order)}gopass")

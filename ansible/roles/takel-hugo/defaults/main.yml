@@ -8,3 +8,5 @@ takel_hugo_hugo_url: >-
   https://github.com/gohugoio/hugo/releases/download/v{{
   takel_hugo_hugo_version }}/hugo_extended_{{
   takel_hugo_hugo_version }}_Linux-64bit.deb
+
+takel_hugo_profile_order: 50

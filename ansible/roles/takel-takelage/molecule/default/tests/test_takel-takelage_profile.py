@@ -17,7 +17,7 @@ def test_takel_takelage_profile_files(host, testvars):
         assert file.mode == 0o644
 
 
-def test_takel_takelage_profile_tau_exists(host, testvars):
+def test_takel_takelage_profile_configure_tau_bash_completion(host, testvars):
     profile_order = testvars['takel_takelage_profile_order_default']
     file = host.file('/etc/profile.d/'
                      f"{str(profile_order)}tau")

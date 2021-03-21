@@ -9,6 +9,8 @@
 
 # https://gohugo.io/commands/hugo_gen_autocomplete/
 - name: (configure) add hugo autocompletion
-  command: hugo gen autocomplete
+  shell: >-
+    hugo gen autocomplete > /etc/profile.d/{{
+    takel_hugo_profile_order }}hugo
   args:
-    creates: /etc/bash_completion.d/hugo.sh
+    creates: "/etc/profile.d/{{ takel_hugo_profile_order }}hugo"
