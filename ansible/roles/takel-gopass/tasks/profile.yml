@@ -1,7 +1,8 @@
 ---
 - name: (profile) generate gopass autocompletion
   shell: >-
-    gopass completion bash > /etc/profile.d/{{ takel_gopass_profile_order }}gopass
+    gopass completion bash > /etc/profile.d/{{
+    takel_gopass_profile_order }}gopass
   args:
     creates: >-
       /etc/profile.d/{{ takel_gopass_profile_order }}gopass
