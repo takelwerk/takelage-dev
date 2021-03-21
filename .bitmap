@@ -261,9 +261,9 @@
                 "name": "test_takel-docker_system.py"
             },
             {
-                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_configure.py",
+                "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_completion.py",
                 "test": false,
-                "name": "test_takel-docker_configure.py"
+                "name": "test_takel-docker_completion.py"
             },
             {
                 "relativePath": "ansible/roles/takel-docker/molecule/default/tests/test_takel-docker_install.py",
@@ -281,9 +281,9 @@
                 "name": "test_takel-docker_repository.py"
             },
             {
-                "relativePath": "ansible/roles/takel-docker/tasks/configure.yml",
+                "relativePath": "ansible/roles/takel-docker/tasks/completion.yml",
                 "test": false,
-                "name": "configure.yml"
+                "name": "completion.yml"
             },
             {
                 "relativePath": "ansible/roles/takel-docker/tasks/install.yml",
