@@ -18,4 +18,5 @@ takel_terra_terragrunt_binary: terragrunt
 takel_terra_bin_path: /usr/local/bin/
 
 takel_terraform_completion_dir: /etc/bash_completion.d
-takel_terraform_bash_completion: "{{ takel_terraform_completion_dir }}/terraform"
+takel_terraform_bash_completion: >-
+  {{ takel_terraform_completion_dir }}/terraform
