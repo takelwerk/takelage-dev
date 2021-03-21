@@ -21,6 +21,10 @@ provisioner:
     group_vars:
       all:
         takel_takelage_version: 0.0.1
+        takel_gem_gems:
+          - name: takelage
+            version: 0.29.10
+            description: takelage cli
 verifier:
   name: testinfra
   options:

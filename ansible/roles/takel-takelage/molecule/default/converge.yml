@@ -1,12 +1,18 @@
 ---
 - name: default
   hosts: all
-  roles:
-    - takel-takelage
-  tasks:
-    - name: (converge) install deb prerequisites
+  pre_tasks:
+    - name: (converge) install prerequisites
       package:
         name: "{{ item }}"
       loop:
+        - ca-certificates
+        - curl
+        - gnupg
         - procps
         - python3-yaml
+        - sudo
+  roles:
+    - takel-rvm
+    - takel-gem
+    - takel-takelage
