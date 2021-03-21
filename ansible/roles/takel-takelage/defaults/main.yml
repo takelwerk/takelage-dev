@@ -1,6 +1,5 @@
 ---
 takel_takelage_deb_install_packages:
-  - chromium
   - cloc
   - expect
   - git
