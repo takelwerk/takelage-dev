@@ -1,6 +1,0 @@
----
-- name: (configure) add terraform_completion.sh profile.d
-  copy:
-    src: terraform-completion.sh
-    dest: "{{ takel_terra_terraform_bash_completion_path }}"
-    mode: 0644

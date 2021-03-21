@@ -1,2 +1,3 @@
 ---
-takel_molecule_completion_path: /etc/bash_completion.d/molecule
+takel_molecule_completion_dir: /etc/bash_completion.d
+takel_molecule_bash_completion: "{{ takel_molecule_completion_dir }}/molecule"

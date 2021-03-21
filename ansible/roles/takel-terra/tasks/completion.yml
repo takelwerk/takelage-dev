@@ -1,7 +1,7 @@
 ---
 - name: (configure) create completion dir
   file:
-    path: /etc/bash_completion.d
+    path: "{{ takel_terraform_completion_dir }}"
     state: directory
     owner: root
     group: root
@@ -9,8 +9,8 @@
 
 - name: (configure) copy completion file
   copy:
-    src: molecule
-    dest: "{{ takel_molecule_completion_path }}"
+    src: terraform
+    dest: "{{ takel_terraform_bash_completion }}"
     owner: root
     group: root
     mode: 0644

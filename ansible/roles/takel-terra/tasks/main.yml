@@ -6,9 +6,9 @@
     - takel_terra
     - takel_terra_install
 
-- name: (main) include configure
-  import_tasks: configure.yml
+- name: (main) include completion
+  import_tasks: completion.yml
   tags:
     - takel
     - takel_terra
-    - takel_terra_configure
+    - takel_terra_completion

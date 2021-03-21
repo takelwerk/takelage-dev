@@ -1,7 +1,7 @@
 ---
 - name: (configure) create completion dir
   file:
-    path: /etc/bash_completion.d
+    path: "{{ takel_docker_completion_dir }}"
     state: directory
     owner: root
     group: root
@@ -10,7 +10,7 @@
 - name: (configure) download docker bash completion
   get_url:
     url: "{{ takel_docker_completion_url }}"
-    dest: "{{ takel_docker_completion_path }}"
+    dest: "{{ takel_docker_bash_completion }}"
     owner: root
     group: root
     mode: 0644

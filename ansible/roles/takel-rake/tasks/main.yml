@@ -1,7 +1,7 @@
 ---
-- name: (main) include configure
-  import_tasks: configure.yml
+- name: (main) include completion
+  import_tasks: completion.yml
   tags:
     - takel
     - takel_rake
-    - takel_rake_configure
+    - takel_rake_completion

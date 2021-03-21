@@ -1,2 +1,3 @@
 ---
-takel_rake_completion_path: /etc/bash_completion.d/rake
+takel_rake_completion_dir: /etc/bash_completion.d
+takel_rake_bash_completion: "{{ takel_rake_completion_dir }}/rake"
