@@ -10,7 +10,7 @@
 - name: (configure) copy completion file
   copy:
     src: gcloud-completion.sh
-    dest: "{{ takel_gcloud_completion_path }}"
+    dest: "{{ takel_gcloud_bash_completion }}"
     owner: root
     group: root
     mode: 0644
