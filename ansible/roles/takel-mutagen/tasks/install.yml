@@ -11,8 +11,10 @@
     dest: "{{ takel_mutagen_bin_path }}"
     remote_src: true
     mode: 0644
+  changed_when: false
 
 - name: (install) make mutagen executable
   file:
     path: "{{ takel_mutagen_bin_path }}/mutagen"
     mode: 0755
+  changed_when: false
