@@ -194,7 +194,7 @@ def test_takelscripts_entrypoint_add_docker(
     # so this test should respect that... dunno how to test this right now..
     # expected_log_path = 'creating homedir child directory: ' + \
     #                     str(docker_config_path)
-    #expected_log_file = 'creating docker config file: ' + \
+    # expected_log_file = 'creating docker config file: ' + \
     #                    str(docker_config_file)
 
     assert docker_config_path.is_dir()
@@ -251,10 +251,11 @@ def test_takelscripts_entrypoint_add_gopass_config(
         nocolor: false
         nopager: false
         notifications: true
-        path: {tmp_path}/home/testuser/.password-store
+        path: {tmp_path}/home/testuser/.local/share/gopass/stores/root
         safecontent: false
         mount "my-passwords" => "{tmp_path}"""
-                           """/home/testuser/.password-store-my-passwords"
+                           """/home/testuser/.local/share/gopass/stores/"""
+                           """password-store-my-passwords"
                            """)
 
     monkeypatch.setattr(
@@ -280,56 +281,11 @@ def test_takelscripts_entrypoint_add_gopass_config(
         '_symlink_',
         log_argument_symlink)
 
-    config = \
-        """
-        root:
-          askformore: false
-          autoclip: true
-          autoprint: false
-          autoimport: true
-          autosync: false
-          check_recipient_hash: false
-          cliptimeout: 45
-          concurrency: 1
-          editrecipients: false
-          nocolor: false
-          noconfirm: true
-          nopager: false
-          notifications: true
-          path: gpgcli-gitcli-fs+file://""" + str(
-            tmp_path) + """/home/testuser/.password-store
-          recipient_hash:
-            .gpg-id: 1234567890
-          safecontent: false
-          usesymbols: false
-        mounts:
-          my-passwords:
-            askformore: false
-            autoclip: true
-            autoprint: false
-            autoimport: true
-            autosync: true
-            check_recipient_hash: false
-            cliptimeout: 45
-            concurrency: 1
-            editrecipients: false
-            nocolor: false
-            noconfirm: true
-            nopager: false
-            notifications: true
-            path: gpgcli-gitcli-fs+file://""" + str(
-            tmp_path) + """/home/testuser/.password-store-my-passwords
-            recipient_hash:
-              .gpg-id: 5678901234
-            safecontent: false
-            usesymbols: false
-        """
-
     hostdir_config_path = tmp_path / 'hostdir/.config/gopass'
     hostdir_config_path.mkdir(parents=True)
 
     hostdir_config_file = hostdir_config_path / 'config.yml'
-    hostdir_config_file.write_text(config)
+    hostdir_config_file.write_text(gopass_config)
 
     entrypoint = EntryPoint()
 
@@ -343,8 +299,7 @@ def test_takelscripts_entrypoint_add_gopass_config(
                            '/hostdir/.config/gopass/config.yml'
 
     expected_log_symlink1 = 'symlink: .config/gopass'
-    expected_log_symlink2 = 'symlink: .password-store'
-    expected_log_symlink3 = 'symlink: .password-store-my-passwords'
+    expected_log_symlink2 = 'symlink: .local/share/gopass/stores'
 
     assert expected_log_start in caplog.text
     assert expected_log_end in caplog.text
@@ -353,7 +308,6 @@ def test_takelscripts_entrypoint_add_gopass_config(
 
     assert expected_log_symlink1 in caplog.text
     assert expected_log_symlink2 in caplog.text
-    assert expected_log_symlink3 in caplog.text
 
 
 def test_takelscripts_entrypoint_add_gopass_noconfig(
@@ -1107,7 +1061,7 @@ def test_takelscripts_entrypoint_run_and_fork(
     assert expected_log_end in caplog.text
 
 
-def test_takelscripts_entrypoint_symlink(
+def test_takelscripts_entrypoint_symlink_create(
         monkeypatch,
         caplog,
         tmp_path):
@@ -1130,6 +1084,40 @@ def test_takelscripts_entrypoint_symlink(
     entrypoint._symlink_('.testconfig')
 
     expected_log_begin = "creating symlink: {'source': '/"
+    expected_log_middle = "/hostdir/.testconfig', 'destination': '/"
+    expected_log_end = "/home/testuser/.testconfig'}"
+
+    assert (tmp_path / 'home/testuser/.testconfig').is_symlink()
+
+    assert expected_log_begin in caplog.text
+    assert expected_log_middle in caplog.text
+    assert expected_log_end in caplog.text
+
+
+def test_takelscripts_entrypoint_symlink_exists(
+        monkeypatch,
+        caplog,
+        tmp_path):
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_parse_args_',
+        lambda x: args_default(home=str(tmp_path / 'home/testuser')))
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_logger_init_',
+        mock_logger_init)
+    monkeypatch.setattr(
+        takelscripts.entrypoint.EntryPoint,
+        '_get_hostdir_',
+        lambda x: tmp_path / 'hostdir')
+
+    entrypoint = EntryPoint()
+    (tmp_path / 'hostdir').mkdir()
+    (tmp_path / 'hostdir/.testconfig').touch()
+    entrypoint._symlink_('.testconfig')
+    entrypoint._symlink_('.testconfig')
+
+    expected_log_begin = "symlink already exists: {'source': '/"
     expected_log_middle = "/hostdir/.testconfig', 'destination': '/"
     expected_log_end = "/home/testuser/.testconfig'}"
 

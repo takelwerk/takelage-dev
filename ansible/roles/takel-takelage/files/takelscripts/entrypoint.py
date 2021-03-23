@@ -167,7 +167,7 @@ class EntryPoint(object):
         if not gopass_config:
             return False
 
-        self._add_gopass_path_(gopass_config, "^path: (.*)$")
+        self._add_gopass_path_(gopass_config, '^path: (.*)$')
 
         self._add_gopass_path_(gopass_config, '^mount ".*?" => "(.*)"$')
 
@@ -399,13 +399,9 @@ class EntryPoint(object):
     def _add_gopass_path_(self, gopass_config, pattern):
         for line in gopass_config.splitlines():
             match = re.search(pattern, line)
-            self._logger.warning(pattern)
-            self._logger.warning(line)
-            self._logger.warning(match)
             if match is not None:
                 path = match.group(1)
-                self._logger.warning(path)
-                relpath = Path(path).relative_to(self._homedir)
+                relpath = Path(path).parents[0].relative_to(self._homedir)
                 self._symlink_(relpath)
 
     def _add_user_to_group_(self, user, group):
@@ -631,13 +627,18 @@ class EntryPoint(object):
     def _symlink_(self, item):
         src = self._hostdir / item
         dest = self._homedir / item
-        self._mkdir_parents_(dest)
         symlink = {
             'source': str(src),
             'destination': str(dest)}
+        if dest.exists():
+            self._logger.debug(
+                'symlink already exists: {symlink}'.format(
+                    symlink=symlink))
+            return
         self._logger.debug(
             'creating symlink: {symlink}'.format(
                 symlink=symlink))
+        self._mkdir_parents_(dest)
         dest.symlink_to(src)
 
 
