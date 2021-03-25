@@ -8,6 +8,7 @@ takel_takelage_deb_install_packages:
   - pwgen
   - python3-docker
   - sudo
+  - swaks
 
 takel_takelage_gpg_config_files:
   - gpg-agent.conf
