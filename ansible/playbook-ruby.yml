@@ -1,0 +1,7 @@
+---
+- name: (playbook-system) install ruby
+  hosts: all
+  roles:
+    - takel-rvm
+    - takel-gem
+    - takel-rake

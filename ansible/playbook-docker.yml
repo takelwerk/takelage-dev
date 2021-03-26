@@ -1,0 +1,5 @@
+---
+- name: (playbook-system) install docker
+  hosts: all
+  roles:
+    - takel-docker

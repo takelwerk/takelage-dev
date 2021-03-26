@@ -1,9 +1,33 @@
 ---
 name: takelage-dev
+version: 0.35.4
 local_user: packer_local
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelslim
 dockerhub_user: takelage
 dockerhub_repo: takelage
 dockerhub_tag: prod
-version: 0.35.4
+images:
+  takelage:
+    layer:
+      - system
+      - python
+      - ruby
+      - docker
+      - packer
+      - gopass
+      - bit
+      - gcloud
+      - hugo
+      - terra
+      - takelage
+  webshell:
+    layer:
+      - system
+      - python
+      - ruby
+      - docker
+      - packer
+      - gopass
+      - gcloud
+      - takelage

@@ -1,0 +1,5 @@
+---
+- name: (playbook-system) install packer
+  hosts: all
+  roles:
+    - takel-packer

@@ -1,0 +1,5 @@
+---
+- name: (playbook-system) install terraform and terragrunt
+  hosts: all
+  roles:
+    - takel-terra

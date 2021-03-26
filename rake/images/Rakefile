@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+require 'rake'
+
+cmd_images_build = 'ls'
+
+namespace :images do
+  @project['images'].each do |image|
+    imagename = image.first
+    namespace imagename.to_sym do
+      desc "Build image #{imagename}"
+      task :build do
+        @commands << cmd_images_build
+      end
+    end
+  end
+end

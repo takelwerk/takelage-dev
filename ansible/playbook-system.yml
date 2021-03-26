@@ -1,0 +1,9 @@
+---
+# the first takelage playbook
+- name: (playbook-system) set up the system
+  hosts: all
+  roles:
+    - takel-base
+    - takel-root
+    - takel-anarchism
+    - takel-mutagen
