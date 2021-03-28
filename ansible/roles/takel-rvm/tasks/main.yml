@@ -51,6 +51,13 @@
     - takel_rvm
     - takel_rvm_rubies
 
+- name: (main) include completion
+  import_tasks: completion.yml
+  tags:
+    - takel
+    - takel_rvm
+    - takel_rvm_completion
+
 - name: (main) include cleanup
   import_tasks: cleanup.yml
   tags:

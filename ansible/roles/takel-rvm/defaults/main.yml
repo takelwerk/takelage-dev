@@ -1,11 +1,18 @@
 ---
 takel_rvm_deb_install_packages:
   - apt-transport-https
+  - bash-completion
   - ca-certificates
   - curl
+  - git
   - gnupg
   - procps
   - sudo
+
+takel_rvm_completion_src_dir: /usr/local/src/completion-ruby
+takel_rvm_completion_src_repo: https://github.com/mernen/completion-ruby.git
+takel_rvm_completion_dir: /etc/bash_completion.d
+takel_rvm_bash_completion: "{{ takel_rvm_completion_dir }}/ruby"
 
 # install one or more versions of ruby
 # the last ruby listed will be set as the default ruby

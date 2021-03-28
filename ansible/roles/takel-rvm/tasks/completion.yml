@@ -1,0 +1,21 @@
+---
+- name: (completion) clone completion repo
+  git:
+    repo: "{{ takel_rvm_completion_src_repo }}"
+    dest: "{{ takel_rvm_completion_src_dir }}"
+
+- name: (configure) create completion dir
+  file:
+    path: "{{ takel_rvm_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) copy wrapper file
+  template:
+    src: ruby.j2
+    dest: "{{ takel_rvm_bash_completion }}"
+    owner: root
+    group: root
+    mode: 0644
