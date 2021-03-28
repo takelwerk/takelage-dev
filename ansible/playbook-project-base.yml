@@ -8,7 +8,6 @@
     - takel-pip
     - takel-rvm
     - takel-gem
-    - takel-rake
     - takel-bit-client
     - takel-docker
     - takel-gcloud
