@@ -10,9 +10,11 @@ dockerhub_tag: prod
 images:
   takelage:
     layer:
+      - site.yml
+  takeldev:
+    layer:
       - system
       - python
-      - ruby
       - docker
       - packer
       - gopass
@@ -20,14 +22,15 @@ images:
       - gcloud
       - hugo
       - terra
+      - ruby
       - takelage
-  webshell:
+  takelweb:
     layer:
       - system
       - python
-      - ruby
       - docker
       - packer
       - gopass
       - gcloud
+      - ruby
       - takelage
