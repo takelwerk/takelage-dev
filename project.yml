@@ -7,12 +7,16 @@ dockerhub_base_repo: takelslim
 dockerhub_user: takelage
 dockerhub_repo: takelage
 dockerhub_tag: prod
+pipelines:
+  - prod
+  - stage
+  - dev
 images:
   takelage:
-    layer:
-      - site.yml
+    layers:
+      - site
   takeldev:
-    layer:
+    layers:
       - system
       - python
       - docker
@@ -25,7 +29,7 @@ images:
       - ruby
       - takelage
   takelweb:
-    layer:
+    layers:
       - system
       - python
       - docker

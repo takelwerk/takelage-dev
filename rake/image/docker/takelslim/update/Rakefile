@@ -1,0 +1,19 @@
+# frozen_string_literal: true
+
+require 'rake'
+
+cmd_takelslim_docker_pull = 'docker pull ' \
+    "#{@project['dockerhub_base_user']}/" \
+    "#{@project['dockerhub_base_repo']}:" \
+    'latest'
+
+namespace :image do
+  namespace :docker do
+    namespace :takelslim do
+      desc 'Update takelslim docker image'
+      task :update do
+        @commands << cmd_takelslim_docker_pull
+      end
+    end
+  end
+end

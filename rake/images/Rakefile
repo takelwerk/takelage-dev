@@ -8,9 +8,13 @@ namespace :images do
   @project['images'].each do |image|
     imagename = image.first
     namespace imagename.to_sym do
-      desc "Build image #{imagename}"
-      task :build do
-        @commands << cmd_images_build
+      namespace :from do
+        @project['images'][imagename]['layers'].each_with_index do |layer, i|
+          desc "Build image \"#{imagename}\" from layer \"#{layer}\""
+          task "#{i.to_s.rjust(2, '0')}-#{layer}".to_sym do
+            @commands << cmd_images_build
+          end
+        end
       end
     end
   end
