@@ -3,6 +3,7 @@ takel_pip_packages:
   - name: ansible
     version: 3.2.0
     description: it automation platform
+    skip_version_test: true
   - name: argcomplete
     version: 1.12.2
     description: autocompletion for argparse
