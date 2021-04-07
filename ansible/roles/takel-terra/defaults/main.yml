@@ -3,13 +3,13 @@ takel_terra_deb_install_packages:
   - ca-certificates
   - unzip
 
-takel_terra_terraform_version: 0.14.8
+takel_terra_terraform_version: 0.14.10
 takel_terra_terraform_url: >-
   https://releases.hashicorp.com/terraform/{{
   takel_terra_terraform_version }}/terraform_{{
   takel_terra_terraform_version }}_linux_amd64.zip
 
-takel_terra_terragrunt_version: 0.28.15
+takel_terra_terragrunt_version: 0.28.18
 takel_terra_terragrunt_url: >-
   https://github.com/gruntwork-io/terragrunt/releases/download/v{{
   takel_terra_terragrunt_version }}/terragrunt_linux_amd64
