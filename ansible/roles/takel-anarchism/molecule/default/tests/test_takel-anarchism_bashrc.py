@@ -37,7 +37,7 @@ def test_takel_anarchism_bashrc_files(host, testvars):
         bashrc_files = testvars['takel_anarchism_bashrc']
         for bashrc_file in bashrc_files:
             with host.sudo():
-                file = host.file(f"/root/.bashrc.d/{bashrc_file['file']}")
+                file = host.file(f"/root/.bashrc.d/{bashrc_file}")
                 assert file.exists
                 assert file.is_file
                 assert file.user == 'root'

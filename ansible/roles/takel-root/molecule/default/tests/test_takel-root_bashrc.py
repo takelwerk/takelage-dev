@@ -29,9 +29,7 @@ def test_takel_root_bashrc_files(host, testvars):
     bashrc_files = testvars['takel_root_bashrc']
     for bashrc_file in bashrc_files:
         with host.sudo():
-            file = host.file('/root/.bashrc.d/' +
-                             str(bashrc_file['order']) +
-                             bashrc_file['file'])
+            file = host.file(f"/root/.bashrc.d/{bashrc_file}")
             assert file.exists
             assert file.is_file
             assert file.user == 'root'
