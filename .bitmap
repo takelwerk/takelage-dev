@@ -465,6 +465,11 @@
                 "name": "test_takel-rvm_cleanup.py"
             },
             {
+                "relativePath": "ansible/roles/takel-rvm/molecule/default/tests/test_takel-rvm_completion.py",
+                "test": false,
+                "name": "test_takel-rvm_completion.py"
+            },
+            {
                 "relativePath": "ansible/roles/takel-rvm/molecule/default/tests/test_takel-rvm_install.py",
                 "test": false,
                 "name": "test_takel-rvm_install.py"
@@ -495,6 +500,11 @@
                 "name": "cleanup.yml"
             },
             {
+                "relativePath": "ansible/roles/takel-rvm/tasks/completion.yml",
+                "test": false,
+                "name": "completion.yml"
+            },
+            {
                 "relativePath": "ansible/roles/takel-rvm/tasks/install.yml",
                 "test": false,
                 "name": "install.yml"
@@ -518,6 +528,11 @@
                 "relativePath": "ansible/roles/takel-rvm/tasks/update.yml",
                 "test": false,
                 "name": "update.yml"
+            },
+            {
+                "relativePath": "ansible/roles/takel-rvm/templates/ruby.j2",
+                "test": false,
+                "name": "ruby.j2"
             }
         ],
         "mainFile": "ansible/roles/takel-rvm/README.bit",
