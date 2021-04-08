@@ -23,6 +23,7 @@
   when: detect_default_ruby_version.stdout | default() | length > 0 or
         takel_rvm_default_ruby_version
         not in detect_default_ruby_version.stdout
+  changed_when: false
 
 - name: (rubies) detect installed ruby patch number
   shell: >-
