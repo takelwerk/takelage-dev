@@ -27,7 +27,7 @@ takel_gem_gems:
   - name: rubocop-rake
     version: 0.5.1
     description: rake linter
-  - name: rubocorspec
+  - name: rubocop-rspec
     version: 2.3.0
     description: rspec linter
   - name: rspec
