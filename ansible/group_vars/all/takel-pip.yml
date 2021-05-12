@@ -1,11 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 3.2.0
+    version: 3.4.0
     description: it automation platform
     skip_version_test: true
   - name: argcomplete
-    version: 1.12.2
+    version: 1.12.3
     description: autocompletion for argparse
     skip_version_test: true
   - name: behave
@@ -28,10 +28,10 @@ takel_pip_packages:
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 6.2.3
+    version: 6.2.4
     description: python testing framework
   - name: pytest-testinfra
-    version: 6.2.0
+    version: 6.3.0
     description: molecule python verifier
     skip_version_test: true
   - name: pytest-timeout
