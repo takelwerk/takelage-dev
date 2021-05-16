@@ -4,3 +4,4 @@ takel_root_deb_install_packages:
 
 takel_root_bashrc:
   - bash_aliases
+  - profile

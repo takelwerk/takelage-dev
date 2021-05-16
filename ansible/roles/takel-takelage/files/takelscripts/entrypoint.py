@@ -494,6 +494,16 @@ class EntryPoint(object):
         else:
             self._mkdir_homedir_child_('.bashrc.d')
 
+            profile_file = \
+                self._homedir / '.bashrc.d/profile'
+            profile_template = \
+                """
+                if [ -f /etc/profile ]; then
+                  . /etc/profile
+                fi
+                """
+            profile_file.write_text(profile_template)
+
     def _mkdir_homedir_child_(self, directory):
         directory = self._homedir / directory
         if not directory.exists():
