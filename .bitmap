@@ -382,6 +382,11 @@
                 "test": false
             },
             {
+                "relativePath": "ansible/roles/takel-root/files/profile",
+                "test": false,
+                "name": "profile"
+            },
+            {
                 "name": "vimrc",
                 "relativePath": "ansible/roles/takel-root/files/vimrc",
                 "test": false
