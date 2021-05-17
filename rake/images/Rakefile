@@ -69,8 +69,6 @@ namespace :images do
             end
           end
           cmd_images_molecule.each do |job, command|
-            next if %i[build_from].include? job
-
             desc "#{job.capitalize} image \"#{imagename}\""
             task job.to_sym do
               @commands << format(
