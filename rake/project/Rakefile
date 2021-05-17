@@ -3,7 +3,7 @@
 require 'rake'
 
 namespace :project do
-  namespace :ansible do
+  namespace :molecule do
     desc 'Run molecule converge'
     task converge: %w[ansible:docker:takelbase:project:prod:from_base:converge]
 

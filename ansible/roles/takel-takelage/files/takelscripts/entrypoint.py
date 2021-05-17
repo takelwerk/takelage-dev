@@ -67,9 +67,9 @@ class EntryPoint(object):
                 'creating bit config.json: {file}'.format(
                     file=bit_config_file_homedir))
             bit_config_template = \
-                f"{{\"analytics_id\":\"40599udvk6jhxplr\"," \
-                f"\"analytics_reporting\":false," \
-                f"\"error_reporting\":false}}"
+                '{"analytics_id":"40599udvk6jhxplr",' \
+                '"analytics_reporting":false,' \
+                '"error_reporting":false}'
             bit_config_file_homedir.write_text(bit_config_template)
 
         self._logger.info(
@@ -95,9 +95,9 @@ class EntryPoint(object):
                 if 'osxkeychain' in config or 'desktop' in config:
                     self._logger.info(
                         'invalid docker credential helper found in ' +
-                        f'\'{docker_config_file_hostdir}\': ' +
+                        f"'{docker_config_file_hostdir}': " +
                         'no synmlink to ' +
-                        f'{docker_config_dir_hostdir} created')
+                        f"{docker_config_dir_hostdir} created")
                     create_symlink = False
         if docker_config_dir_hostdir.exists() and create_symlink:
             self._symlink_('.docker')
@@ -108,16 +108,16 @@ class EntryPoint(object):
                 'creating docker config file: {file}'.format(
                     file=str(docker_config_homedir)))
             docker_config_template = \
-                f"{{" \
-                f"  \"credHelpers\": {{" \
-                f"    \"gcr.io\": \"gcloud\"," \
-                f"    \"us.gcr.io\": \"gcloud\"," \
-                f"    \"eu.gcr.io\": \"gcloud\"," \
-                f"    \"asia.gcr.io\": \"gcloud\"," \
-                f"    \"staging-k8s.gcr.io\": \"gcloud\"," \
-                f"    \"marketplace.gcr.io\": \"gcloud\"" \
-                f"  }}" \
-                f"}}"
+                '{' \
+                '  "credHelpers": {' \
+                '    "gcr.io": "gcloud",' \
+                '    "us.gcr.io": "gcloud",' \
+                '    "eu.gcr.io": "gcloud",' \
+                '    "asia.gcr.io": "gcloud",' \
+                '    "staging-k8s.gcr.io": "gcloud",' \
+                '    "marketplace.gcr.io": "gcloud"' \
+                '  }' \
+                '}'
             docker_config_homedir.write_text(docker_config_template)
 
         self._logger.info(
@@ -282,14 +282,14 @@ class EntryPoint(object):
         command = ['tty']
         tty_device = self._run_(command).stdout.decode('utf-8').strip('\n')
         self._logger.debug(
-            f'making \'{tty_device}\' readable and writeable for user')
+            f"making '{tty_device}' readable and writeable for user")
         try:
             chown(tty_device, self._uid, -1)
             self._logger.info(
                 'changed ownership: tty')
         except Exception as e:
             self._logger.warning(
-                f'changed ownership of tty failed: {e}')
+                f"changed ownership of tty failed: {e}")
 
     def chown_home(self):
         self._logger.debug(
@@ -350,19 +350,19 @@ class EntryPoint(object):
             return False
 
         self._logger.info(
-            f'run command(s): \'{self._runcmd}\'')
+            f"run command(s): '{self._runcmd}'")
 
         for cmd in self._runcmd.split(';'):
             result = self._run_(shlex.split(cmd))
             if result.returncode:
-                self._logger.error(f'command \'{cmd}\'' +
+                self._logger.error(f"command '{cmd}'" +
                                    ' terminated with {result.returncode}')
                 # stderr = result.stderr.decode('utf-8').strip('\n')
                 self._logger.error(result.stderr.decode('utf-8').strip('\n'))
                 sys.exit(result.returncode)
 
         self._logger.info(
-            f'command(s) terminated: \'{self._runcmd}\'')
+            f"command(s) terminated: '{self._runcmd}'")
         return True
 
     def _add_gopass_config_file_(self):
@@ -495,9 +495,9 @@ class EntryPoint(object):
             profile_file = \
                 self._homedir / '.bashrc.d/profile'
             profile_template = \
-                f"if [ -f /etc/profile ]; then" \
-                f"  . /etc/profile" \
-                f"fi"
+                'if [ -f /etc/profile ]; then' \
+                '  . /etc/profile' \
+                'fi'
             profile_file.write_text(profile_template)
 
     def _mkdir_homedir_child_(self, directory):
