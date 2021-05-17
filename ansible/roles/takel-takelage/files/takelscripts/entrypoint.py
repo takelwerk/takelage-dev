@@ -67,9 +67,7 @@ class EntryPoint(object):
                 'creating bit config.json: {file}'.format(
                     file=bit_config_file_homedir))
             bit_config_template = \
-                """
-                {"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}
-                """
+"""{"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}"""
             bit_config_file_homedir.write_text(bit_config_template)
 
         self._logger.info(
@@ -108,18 +106,16 @@ class EntryPoint(object):
                 'creating docker config file: {file}'.format(
                     file=str(docker_config_homedir)))
             docker_config_template = \
-                """
-                {
-                  "credHelpers": {
-                    "gcr.io": "gcloud",
-                    "us.gcr.io": "gcloud",
-                    "eu.gcr.io": "gcloud",
-                    "asia.gcr.io": "gcloud",
-                    "staging-k8s.gcr.io": "gcloud",
-                    "marketplace.gcr.io": "gcloud"
-                  }
-                }
-                """
+"""{
+  "credHelpers": {
+    "gcr.io": "gcloud",
+    "us.gcr.io": "gcloud",
+    "eu.gcr.io": "gcloud",
+    "asia.gcr.io": "gcloud",
+    "staging-k8s.gcr.io": "gcloud",
+    "marketplace.gcr.io": "gcloud"
+  }
+}"""
             docker_config_homedir.write_text(docker_config_template)
 
         self._logger.info(
@@ -493,6 +489,14 @@ class EntryPoint(object):
             self._symlink_('.bashrc.d')
         else:
             self._mkdir_homedir_child_('.bashrc.d')
+
+            profile_file = \
+                self._homedir / '.bashrc.d/profile'
+            profile_template = \
+"""if [ -f /etc/profile ]; then
+  . /etc/profile
+fi"""
+            profile_file.write_text(profile_template)
 
     def _mkdir_homedir_child_(self, directory):
         directory = self._homedir / directory

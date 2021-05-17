@@ -1,10 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 2.10.7
+    version: 3.4.0
     description: it automation platform
+    skip_version_test: true
   - name: argcomplete
-    version: 1.12.2
+    version: 1.12.3
     description: autocompletion for argparse
     skip_version_test: true
   - name: behave
@@ -14,23 +15,23 @@ takel_pip_packages:
     version: 0.9.6
     description: password generator
   - name: molecule
-    version: 3.2.3
+    version: 3.3.0
     description: ansible testing framework
   - name: molecule[docker]
-    version: 3.2.3
+    version: 3.3.0
     description: molecule docker driver
   - name: molecule[lint]
-    version: 3.2.3
+    version: 3.3.0
     description: molecule linters
   - name: pyOpenSSL
     version: 20.0.1
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 6.2.2
+    version: 6.2.4
     description: python testing framework
   - name: pytest-testinfra
-    version: 6.1.0
+    version: 6.3.0
     description: molecule python verifier
     skip_version_test: true
   - name: pytest-timeout
@@ -42,7 +43,7 @@ takel_pip_packages:
     description: molecule pytest fixtures
     skip_version_test: true
   - name: twine
-    version: 3.3.0
+    version: 3.4.1
     description: utilities for pypi
   - name: wheel
     version: 0.36.2

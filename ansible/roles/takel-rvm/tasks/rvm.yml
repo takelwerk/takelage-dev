@@ -23,6 +23,7 @@
   copy:
     content: "{{ takel_rvm_gpg_keys }}"
     dest: "{{ takel_rvm_gpg_temp_keys_file }}"
+    mode: 0644
   when: takel_rvm_gpg_keys_import.rc != 0
 
 - name: (rvm) import gpg keys from file
@@ -36,7 +37,7 @@
   when: takel_rvm_gpg_keys_import.rc != 0
 
 - name: (rvm) install rvm
-  shell: >-
+  command: >-
     {{ takel_rvm_rvm_installer }}
     {{ takel_rvm_rvm_version }}
     --path {{ takel_rvm_install_path }}

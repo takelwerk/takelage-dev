@@ -37,4 +37,4 @@ jobs:
         run: tau docker container daemon
 
       - name: Test roles
-        run: tau docker container command "rake ansible:docker:takelbase:roles:each"
+        run: tau docker container command "ANSIBLE_ROLES_PATH=/project/ansible/roles rake ansible:docker:takelbase:roles:each"

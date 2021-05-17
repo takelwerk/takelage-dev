@@ -533,6 +533,7 @@ def test_takelscripts_entrypoint_add_user(
         "'testuser']"
     expected_log_done = 'created user: testuser'
 
+
     assert (tmp_path / 'home').is_dir()
 
     assert expected_log_user in caplog.text
@@ -929,15 +930,12 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_notexists(
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_parse_args_',
-        lambda x: args_default())
+        lambda x: args_default(
+            home=str(tmp_path / 'home/testuser')))
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_logger_init_',
         mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_mkdir_homedir_child_',
-        log_argument)
     monkeypatch.setattr(
         takelscripts.entrypoint.EntryPoint,
         '_get_hostdir_',
@@ -947,9 +945,12 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_notexists(
 
     entrypoint._mkdir_bashrc_d_()
 
-    expected_log = '.bashrc.d'
+    expected_log_begin = "creating homedir child directory: "
+    expected_log_end = ".bashrc.d"
 
-    assert expected_log in caplog.text
+    assert (tmp_path / 'home/testuser/.bashrc.d/profile').is_file()
+    assert expected_log_begin in caplog.text
+    assert expected_log_end in caplog.text
 
 
 def test_takelscripts_entrypoint_mkdir_homedir_child(

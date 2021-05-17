@@ -1,7 +1,7 @@
 ---
 takel_gem_gems:
   - name: aruba
-    version: 1.0.4
+    version: 1.1.0
     description: cli test framework
   - name: minitest
     version: 5.14.4
@@ -10,34 +10,34 @@ takel_gem_gems:
     version: 1.4.3
     description: minitest reporter plugin
   - name: page-object
-    version: 2.2.6
+    version: 2.3.1
     description: page object dsl
   - name: require_all
     version: 3.0.0
     description: code loader
   - name: rubocop
-    version: 1.11.0
+    version: 1.14.0
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.10.3
+    version: 0.12.1
     description: minitest linter
   - name: rubocop-rails
-    version: 2.9.1
+    version: 2.10.1
     description: rails linter
   - name: rubocop-rake
     version: 0.5.1
     description: rake linter
   - name: rubocop-rspec
-    version: 2.2.0
+    version: 2.3.0
     description: rspec linter
   - name: rspec
     version: 3.10.0
     description: test framework
   - name: takelage
-    version: 0.29.14
+    version: 0.30.3
     description: takelage cli
   - name: watir
-    version: 6.18.0
+    version: 6.19.1
     description: web test framework
   - name: webdrivers
     version: 4.6.0

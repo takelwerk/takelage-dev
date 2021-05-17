@@ -20,26 +20,32 @@
   command: >-
     {{ takel_rvm_rvm_binary }} alias create default
     {{ takel_rvm_default_ruby_version }}
-  when: detect_default_ruby_version.stdout|default() == '' or
+  when: detect_default_ruby_version.stdout | default() | length > 0 or
         takel_rvm_default_ruby_version
         not in detect_default_ruby_version.stdout
+  changed_when: false
 
 - name: (rubies) detect installed ruby patch number
   shell: >-
+    set -o pipefail;
     {{ takel_rvm_rvm_binary }} list strings |
     grep {{ item }} |
     tail -n 1
+  args:
+    executable: /bin/bash
   with_items: '{{ takel_rvm_rubies }}'
   changed_when: false
   register: ruby_patch
 
 - name: (rubies) install bundler if not installed
   shell: >-
+    set -o pipefail;
     ls {{ takel_rvm_install_path }}/wrappers/{{ item.stdout }}
     | if ! grep "^bundler " ;
     then {{ takel_rvm_install_path }}/wrappers/{{ item.stdout }}/gem
     install bundler ; fi
   args:
+    executable: /bin/bash
     creates: "{{ takel_rvm_install_path }}/wrappers/{{ item.stdout }}/bundler"
   with_items: "{{ ruby_patch.results }}"
   when: takel_rvm_bundler_install
