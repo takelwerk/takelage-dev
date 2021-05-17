@@ -2,17 +2,88 @@
 
 require 'rake'
 
-cmd_images_build = 'ls'
+@cmd_images_packer = \
+  'cd packer && ' \
+  'packer build ' \
+  "--var 'ansible_environment=%<pipeline>s' " \
+  "--var 'ansible_playbook=%<playbook>s' " \
+  "--var 'base_repo=%<base_repo>s' " \
+  "--var 'base_user=%<base_user>s' " \
+  "--var 'base_tag=latest' " \
+  "--var 'local_user=%<local_user>s' " \
+  "--var 'target_repo=%<target_repo>s' " \
+  "--var 'target_tag=latest' " \
+  'templates/docker/takelbase/project/build_from_prod.json'
+
+@cmd_images_molecule = {
+  create: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule create --scenario-name image'",
+  destroy: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule destroy --scenario-name image'",
+  lint: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule lint --scenario-name image'",
+  login: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule login --scenario-name image'",
+  test: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule test --scenario-name image'",
+  verify: \
+    'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+    "'cd ansible && molecule verify --scenario-name image'"
+}
+
+cmd_images_docker_pull = 'docker pull ' \
+  "#{@project['dockerhub_base_user']}/" \
+  "#{@project['dockerhub_base_repo']}:" \
+  'latest'
 
 namespace :images do
+  desc "Update docker base image"
+  task :update do
+    @commands << cmd_images_docker_pull
+  end
   @project['images'].each do |image|
     imagename = image.first
     namespace imagename.to_sym do
-      namespace :from do
-        @project['images'][imagename]['layers'].each_with_index do |layer, i|
-          desc "Build image \"#{imagename}\" from layer \"#{layer}\""
-          task "#{i.to_s.rjust(2, '0')}-#{layer}".to_sym do
-            @commands << cmd_images_build
+      @project['pipelines'].each do |pipeline|
+        namespace pipeline.to_sym do
+          namespace :build_from do
+            base_repo = @project['dockerhub_base_repo']
+            base_user = @project['dockerhub_base_user']
+            parent_layer = ''
+            @project['images'][imagename]['layers'].each_with_index do |layer, index|
+              unless index.zero?
+                base_repo = "#{@project['name']}-#{parent_layer}"
+                base_user = @project['local_user']
+                parent_layer = layer
+              end
+              desc "Build image \"#{imagename}\" from layer \"#{layer}\""
+              task "#{index.to_s.rjust(2, '0')}-#{layer}".to_sym do
+                @commands << format(
+                  @cmd_images_packer,
+                  pipeline: pipeline,
+                  playbook: "playbook-#{layer}.yml",
+                  base_repo: base_repo,
+                  base_user: base_user,
+                  local_user: @project['local_user'],
+                  target_repo: "#{@project['name']}-#{pipeline}"
+                )
+              end
+            end
+          end
+          @cmd_images_molecule.each do |job, command|
+            next if %i[build_from].include? job
+            desc "#{job.capitalize} image \"#{imagename}\""
+            task job.to_sym do
+              @commands << format(
+                command,
+                pipeline: pipeline
+              )
+            end
           end
         end
       end
