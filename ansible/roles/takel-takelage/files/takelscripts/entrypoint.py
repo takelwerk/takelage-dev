@@ -67,7 +67,9 @@ class EntryPoint(object):
                 'creating bit config.json: {file}'.format(
                     file=bit_config_file_homedir))
             bit_config_template = \
-"""{"analytics_id":"40599udvk6jhxplr","analytics_reporting":false,"error_reporting":false}"""
+                f"{{\"analytics_id\":\"40599udvk6jhxplr\"," \
+                f"\"analytics_reporting\":false," \
+                f"\"error_reporting\":false}}"
             bit_config_file_homedir.write_text(bit_config_template)
 
         self._logger.info(
@@ -106,16 +108,16 @@ class EntryPoint(object):
                 'creating docker config file: {file}'.format(
                     file=str(docker_config_homedir)))
             docker_config_template = \
-"""{
-  "credHelpers": {
-    "gcr.io": "gcloud",
-    "us.gcr.io": "gcloud",
-    "eu.gcr.io": "gcloud",
-    "asia.gcr.io": "gcloud",
-    "staging-k8s.gcr.io": "gcloud",
-    "marketplace.gcr.io": "gcloud"
-  }
-}"""
+                f"{{" \
+                f"  \"credHelpers\": {{" \
+                f"    \"gcr.io\": \"gcloud\"," \
+                f"    \"us.gcr.io\": \"gcloud\"," \
+                f"    \"eu.gcr.io\": \"gcloud\"," \
+                f"    \"asia.gcr.io\": \"gcloud\"," \
+                f"    \"staging-k8s.gcr.io\": \"gcloud\"," \
+                f"    \"marketplace.gcr.io\": \"gcloud\"" \
+                f"  }}" \
+                f"}}"
             docker_config_homedir.write_text(docker_config_template)
 
         self._logger.info(
@@ -493,9 +495,9 @@ class EntryPoint(object):
             profile_file = \
                 self._homedir / '.bashrc.d/profile'
             profile_template = \
-"""if [ -f /etc/profile ]; then
-  . /etc/profile
-fi"""
+                f"if [ -f /etc/profile ]; then" \
+                f"  . /etc/profile" \
+                f"fi"
             profile_file.write_text(profile_template)
 
     def _mkdir_homedir_child_(self, directory):
