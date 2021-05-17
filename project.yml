@@ -1,6 +1,5 @@
 ---
 name: takelage-dev
-version: 0.36.14
 local_user: packer_local
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelslim
@@ -38,3 +37,4 @@ images:
       - gcloud
       - ruby
       - takelage
+version: 0.36.16
