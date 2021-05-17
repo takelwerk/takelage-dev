@@ -1,6 +1,6 @@
 ---
 name: takelage-dev
-version: 0.36.11
+version: 0.36.12
 local_user: packer_local
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelslim
