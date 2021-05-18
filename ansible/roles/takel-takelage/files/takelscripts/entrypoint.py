@@ -500,6 +500,12 @@ class EntryPoint(object):
                 'fi\n'
             profile_file.write_text(profile_template)
 
+            takelage_file = \
+                self._homedir / '.bashrc.d/takelage'
+            takelage_template = \
+                "alias take='rake overview=true'\n"
+            takelage_file.write_text(takelage_template)
+
     def _mkdir_homedir_child_(self, directory):
         directory = self._homedir / directory
         if not directory.exists():

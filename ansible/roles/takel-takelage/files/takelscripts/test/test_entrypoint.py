@@ -949,6 +949,7 @@ def test_takelscripts_entrypoint_mkdir_bashrc_d_notexists(
     expected_log_end = ".bashrc.d"
 
     assert (tmp_path / 'home/testuser/.bashrc.d/profile').is_file()
+    assert (tmp_path / 'home/testuser/.bashrc.d/takelage').is_file()
     assert expected_log_begin in caplog.text
     assert expected_log_end in caplog.text
 
