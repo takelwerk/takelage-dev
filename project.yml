@@ -1,15 +1,22 @@
 ---
 name: takelage-dev
+version: 0.36.16
+
+# results in packer_local/myproject:latest
 local_user: packer_local
+
+# pull
 dockerhub_base_user: takelage
 dockerhub_base_repo: takelslim
+
+# push
 dockerhub_user: takelage
 dockerhub_repo: takelage
 dockerhub_tag: prod
+
 pipelines:
   - prod
-  - stage
-  - dev
+
 images:
   takelage:
     layers:
@@ -27,14 +34,3 @@ images:
       - terra
       - ruby
       - takelage
-  takelweb:
-    layers:
-      - system
-      - python
-      - docker
-      - packer
-      - gopass
-      - gcloud
-      - ruby
-      - takelage
-version: 0.36.16
