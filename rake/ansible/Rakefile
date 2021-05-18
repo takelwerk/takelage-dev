@@ -1,0 +1,107 @@
+# frozen_string_literal: true
+
+require 'rake'
+
+cmd_ansible_molecule_project = \
+  "cd ansible && bash -c '" \
+  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
+  'TAKELAGE_PROJECT_BASE_IMAGE=%<image>s ' \
+  "TAKELAGE_PROJECT_NAME=#{@project['name']} " \
+  'TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK=%<playbook>s ' \
+  "molecule %<job>s --scenario-name default'"
+
+cmd_ansible_molecule_role = \
+  "cd %<role_path>s && bash -c '" \
+  "molecule %<job>s'"
+
+cmd_ansible_roles_test_all = \
+  'for dir in ' \
+  '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
+  'do ' \
+  'cd `dirname $dir`; ' \
+  'molecule test --all; ' \
+  'cd ../../../; ' \
+  'done'
+
+cmd_ansible_roles_test_each = \
+  'for dir in ' \
+  '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
+  'do ' \
+  'cd `dirname $dir`; ' \
+  'molecule test --all || exit; ' \
+  'cd ../../../; ' \
+  'done'
+
+jobs_project = \
+  %i[converge
+     destroy
+     lint
+     list
+     login
+     test
+     prepare
+     verify
+     side-effect]
+
+jobs_roles = \
+  %i[converge
+     destroy
+     lint
+     login
+     test
+     verify]
+
+# rubocop:disable Metrics/BlockLength
+namespace :ansible do
+  @project['pipelines'].each do |pipeline|
+    namespace pipeline.to_sym do
+      jobs_project.each do |job|
+        desc "Run molecule #{job} in #{pipeline}"
+        task job do
+          @commands << format(
+            cmd_ansible_molecule_project,
+            job: job,
+            playbook: 'site.yml',
+            image:
+              "#{@project['dockerhub_base_user']}/" \
+              "#{@project['dockerhub_base_repo']}",
+            pipeline: pipeline
+          )
+        end
+      end
+    end
+  end
+
+  namespace :roles do
+    desc 'Run molecule tests for all roles skipping errors'
+    task :all do
+      @commands << cmd_ansible_roles_test_all
+    end
+
+    desc 'Run molecule tests for each role failing in case of errors'
+    task :each do
+      @commands << cmd_ansible_roles_test_each
+    end
+
+    Dir.glob('ansible/roles/*/molecule').each do |role_path|
+      role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
+      namespace role[:role_name] do
+        desc "Show subtasks of #{role[:role_name]}" if @overview
+        task 'tasks'.to_sym => :default
+        next if @overview
+
+        jobs_roles.each do |job|
+          desc "Run molecule #{job} for #{role[:role_name]}"
+          task job do
+            @commands << format(
+              @cmd_ansible_docker_takelbase_role,
+              command: job,
+              role_path: role_path.split('/molecule')[0]
+            )
+          end
+        end
+      end
+    end
+  end
+end
+# rubocop:enable Metrics/BlockLength

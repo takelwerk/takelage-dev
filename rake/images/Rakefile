@@ -39,10 +39,15 @@ namespace :images do
   task :update do
     @commands << cmd_images_docker_pull
   end
+
   @project['images'].each do |image|
     imagename = image.first
     namespace imagename.to_sym do
       @project['pipelines'].each do |pipeline|
+        desc "Show subtasks of #{imagename}" if @overview
+        task 'tasks'.to_sym => :default
+        next if @overview
+
         namespace pipeline.to_sym do
           namespace :build_from do
             base_repo = @project['dockerhub_base_repo']

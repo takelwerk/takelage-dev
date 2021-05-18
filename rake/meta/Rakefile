@@ -15,12 +15,13 @@ require 'yaml'
 
 # The tasks will add shell commands to this empty global array
 @commands = []
+@overview = ENV['overview'] != 'false'
 
 #####################################################################
 # Default task
 
 task :default do
-  sh 'rake --tasks', verbose: false
+  sh "rake overview=#{@overview} --tasks", verbose: false
 end
 
 #####################################################################
