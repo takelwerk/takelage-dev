@@ -33,7 +33,7 @@ provisioner:
   name: ansible
   playbooks:
     converge: >-
-      ../../${TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK:-playbook-project-base.yml}
+      ../../${TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK:-playbook-site.yml}
   config_options:
     defaults:
       interpreter_python: auto_silent
