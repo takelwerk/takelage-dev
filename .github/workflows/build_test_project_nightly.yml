@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # allow manual trigger
 
 jobs:
-  build-and-test-project:
+  build-and-test-takeldev:
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository
@@ -40,13 +40,13 @@ jobs:
         run: tau docker container command "rake rubylint"
 
       - name: Lint project
-        run: tau docker container command "rake ansible:docker:takelbase:project:prod:from_base:lint"
+        run: tau docker container command "rake images:takelage:prod:lint"
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
 
       - name: Build takelage project image with packer
-        run: tau docker container command "rake image:docker:takelbase:project:prod:from_base"
+        run: tau docker container command "rake images:takelage:prod:00-site"
 
       - name: Test takelage project image
-        run: tau docker container command "rake image:docker:takelbase:project:prod:test"
+        run: tau docker container command "rake images:takelage:prod:test"
