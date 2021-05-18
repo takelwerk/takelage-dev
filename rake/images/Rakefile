@@ -2,7 +2,7 @@
 
 require 'rake'
 
-cmd_images_packer = \
+cmd_images_packer =
   'cd packer && ' \
   'packer build ' \
   "--var 'ansible_environment=%<pipeline>s' " \
@@ -15,7 +15,7 @@ cmd_images_packer = \
   "--var 'target_tag=latest' " \
   'templates/docker/takelbase/project/build_from_prod.json'
 
-cmd_images_molecule = \
+cmd_images_molecule =
   'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
   "'cd ansible && molecule <job>s --scenario-name image'"
 
@@ -41,46 +41,44 @@ namespace :images do
 
   @project['images'].each do |image|
     imagename = image.first
-    namespace imagename.to_sym do
+    namespace imagename.to_sym do |env|
       @project['pipelines'].each do |pipeline|
-        desc "Show subtasks of #{imagename}" if @overview
+        desc "Show subtasks of #{env.scope.head}" if @overview
         task 'tasks'.to_sym => :details
         next if @overview
 
         namespace pipeline.to_sym do
-          namespace :build_from do
-            base_repo = @project['dockerhub_base_repo']
-            base_user = @project['dockerhub_base_user']
-            parent_layer = ''
-            @project['images'][imagename]['layers'].each_with_index do |layer, index|
-              unless index.zero?
-                base_repo = "#{@project['name']}-#{parent_layer}"
-                base_user = @project['local_user']
-                parent_layer = layer
-              end
-              desc "Build image \"#{imagename}\" from layer \"#{layer}\""
-              task "#{index.to_s.rjust(2, '0')}-#{layer}".to_sym do
-                @commands << format(
-                  cmd_images_packer,
-                  pipeline: pipeline,
-                  playbook: "playbook-#{layer}.yml",
-                  base_repo: base_repo,
-                  base_user: base_user,
-                  local_user: @project['local_user'],
-                  target_repo: "#{@project['name']}-#{pipeline}"
-                )
-              end
+          base_repo = @project['dockerhub_base_repo']
+          base_user = @project['dockerhub_base_user']
+          parent_layer = ''
+          @project['images'][imagename]['layers'].each_with_index do |layer, index|
+            unless index.zero?
+              base_repo = "#{@project['name']}-#{parent_layer}"
+              base_user = @project['local_user']
+              parent_layer = layer
             end
-          end
-          jobs.each do |job|
-            desc "#{job.capitalize} image \"#{imagename}\""
-            task job.to_sym do
+            desc "Build image #{imagename} from layer #{layer}"
+            task "#{index.to_s.rjust(2, '0')}-#{layer}".to_sym do
               @commands << format(
-                cmd_images_molecule,
-                job: job,
-                pipeline: pipeline
+                cmd_images_packer,
+                pipeline: pipeline,
+                playbook: "playbook-#{layer}.yml",
+                base_repo: base_repo,
+                base_user: base_user,
+                local_user: @project['local_user'],
+                target_repo: "#{@project['name']}-#{pipeline}"
               )
             end
+          end
+        end
+        jobs.each do |job|
+          desc "#{job.capitalize} image #{imagename}"
+          task job.to_sym do
+            @commands << format(
+              cmd_images_molecule,
+              job: job,
+              pipeline: pipeline
+            )
           end
         end
       end

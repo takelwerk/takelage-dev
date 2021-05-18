@@ -2,7 +2,7 @@
 
 require 'rake'
 
-cmd_ansible_molecule_project = \
+cmd_ansible_molecule_project =
   "cd ansible && bash -c '" \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_BASE_IMAGE=%<image>s ' \
@@ -10,11 +10,11 @@ cmd_ansible_molecule_project = \
   'TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK=%<playbook>s ' \
   "molecule %<job>s --scenario-name default'"
 
-cmd_ansible_molecule_role = \
+cmd_ansible_molecule_role =
   "cd %<role_path>s && bash -c '" \
   "molecule %<job>s'"
 
-cmd_ansible_roles_test_all = \
+cmd_ansible_roles_test_all =
   'for dir in ' \
   '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
   'do ' \
@@ -23,7 +23,7 @@ cmd_ansible_roles_test_all = \
   'cd ../../../; ' \
   'done'
 
-cmd_ansible_roles_test_each = \
+cmd_ansible_roles_test_each =
   'for dir in ' \
   '`find ansible/roles -maxdepth 2 -name molecule | sort`; ' \
   'do ' \
@@ -54,8 +54,8 @@ jobs_roles = \
 # rubocop:disable Metrics/BlockLength
 namespace :ansible do
   @project['pipelines'].each do |pipeline|
-    namespace pipeline.to_sym do
-      desc "Show subtasks of #{pipeline}" if @overview
+    namespace pipeline.to_sym do |env|
+      desc "Show subtasks of #{env.scope.head}" if @overview
       task 'tasks'.to_sym => :details
       next if @overview
 
@@ -76,7 +76,7 @@ namespace :ansible do
     end
   end
 
-  namespace :roles do
+  namespace :roles do |env|
     desc 'Run molecule tests for all roles skipping errors'
     task :all do
       @commands << cmd_ansible_roles_test_all
@@ -87,18 +87,19 @@ namespace :ansible do
       @commands << cmd_ansible_roles_test_each
     end
 
+    desc "Show subtasks of #{env.scope.head}" if @overview
+    task 'tasks'.to_sym => :details
+    next if @overview
+
     Dir.glob('ansible/roles/*/molecule').each do |role_path|
       role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
       namespace role[:role_name] do
-        desc "Show subtasks of #{role[:role_name]}" if @overview
-        task 'tasks'.to_sym => :details
-        next if @overview
 
         jobs_roles.each do |job|
           desc "Run molecule #{job} for #{role[:role_name]}"
           task job do
             @commands << format(
-              @cmd_ansible_docker_takelbase_role,
+              cmd_ansible_molecule_role,
               command: job,
               role_path: role_path.split('/molecule')[0]
             )

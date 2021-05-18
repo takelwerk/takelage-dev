@@ -10,7 +10,11 @@ desc 'Run takelscripts tests'
 task takelscripts: %w[takelscripts:entrypoint
                       takelscripts:loginpoint]
 
-namespace :takelscripts do
+namespace :takelscripts do |env|
+  desc "Show subtasks of #{env.scope.head}" if @overview
+  task 'tasks'.to_sym => :details
+  next if @overview
+
   desc 'Run unit tests for entrypoint.py'
   task :entrypoint do
     @commands << format(
