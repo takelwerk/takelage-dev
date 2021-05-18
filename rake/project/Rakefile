@@ -3,29 +3,12 @@
 require 'rake'
 
 namespace :project do
-  namespace :molecule do
-    desc 'Run molecule converge'
-    task converge: %w[ansible:docker:takelbase:project:prod:from_base:converge]
-
-    desc 'Run molecule lint'
-    task lint: %w[ansible:docker:takelbase:project:prod:from_base:lint]
-
-    desc 'Run molecule login'
-    task login: %w[ansible:docker:takelbase:project:prod:from_base:login]
-
-    desc 'Run molecule test'
-    task test: %w[ansible:docker:takelbase:project:prod:from_base:test]
-
-    desc 'Run molecule verify'
-    task verify: %w[ansible:docker:takelbase:project:prod:from_base:verify]
-  end
-
   desc 'Create and deploy prod image to dockerhub'
   task prod: %w[git:warn
                 dockerhub:registry:login
                 rubylint
                 takelscripts
-                image:docker:takelbase:update
+                images:update
                 image:docker:takelbase:project:prod:from_base
                 image:docker:takelbase:project:prod:test
                 git:tag

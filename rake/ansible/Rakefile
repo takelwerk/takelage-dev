@@ -55,6 +55,10 @@ jobs_roles = \
 namespace :ansible do
   @project['pipelines'].each do |pipeline|
     namespace pipeline.to_sym do
+      desc "Show subtasks of #{pipeline}" if @overview
+      task 'tasks'.to_sym => :details
+      next if @overview
+
       jobs_project.each do |job|
         desc "Run molecule #{job} in #{pipeline}"
         task job do
@@ -87,7 +91,7 @@ namespace :ansible do
       role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
       namespace role[:role_name] do
         desc "Show subtasks of #{role[:role_name]}" if @overview
-        task 'tasks'.to_sym => :default
+        task 'tasks'.to_sym => :details
         next if @overview
 
         jobs_roles.each do |job|

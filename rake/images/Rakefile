@@ -15,18 +15,17 @@ cmd_images_packer = \
   "--var 'target_tag=latest' " \
   'templates/docker/takelbase/project/build_from_prod.json'
 
-template_begin = \
+cmd_images_molecule = \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
-  "'cd ansible && molecule"
-template_end = "--scenario-name image'"
-cmd_images_molecule = {
-  create: "#{template_begin} create #{template_end}",
-  destroy: "#{template_begin} destroy #{template_end}",
-  lint: "#{template_begin} lint #{template_end}",
-  login: "#{template_begin} login #{template_end}",
-  test: "#{template_begin} test #{template_end}",
-  verify: "#{template_begin} verify #{template_end}"
-}
+  "'cd ansible && molecule <job>s --scenario-name image'"
+
+jobs = \
+  %i[converge
+     destroy
+     lint
+     login
+     test
+     verify]
 
 cmd_images_docker_pull = 'docker pull ' \
   "#{@project['dockerhub_base_user']}/" \
@@ -45,7 +44,7 @@ namespace :images do
     namespace imagename.to_sym do
       @project['pipelines'].each do |pipeline|
         desc "Show subtasks of #{imagename}" if @overview
-        task 'tasks'.to_sym => :default
+        task 'tasks'.to_sym => :details
         next if @overview
 
         namespace pipeline.to_sym do
@@ -73,11 +72,12 @@ namespace :images do
               end
             end
           end
-          cmd_images_molecule.each do |job, command|
+          jobs.each do |job|
             desc "#{job.capitalize} image \"#{imagename}\""
             task job.to_sym do
               @commands << format(
-                command,
+                cmd_images_molecule,
+                job: job,
                 pipeline: pipeline
               )
             end

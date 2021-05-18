@@ -25,6 +25,13 @@ task :default do
 end
 
 #####################################################################
+# Non-overview task
+
+task :details do
+  sh "rake overview=false --tasks", verbose: false
+end
+
+#####################################################################
 # Import Rakefiles from rake subfolders
 
 Dir.glob('rake/**/Rakefile').each do |rakefile|
