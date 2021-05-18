@@ -8,7 +8,7 @@ lint: |
   flake8
 platforms:
   - name: molecule-takelage-dev-test-image-${TAKELAGE_PROJECT_ENV:-prod}
-    image: packer_local/takelage-dev:${TAKELAGE_PROJECT_ENV:-prod}
+    image: packer_local/takelage-dev-${TAKELAGE_PROJECT_ENV:-prod}
     override_command: true
     command: >-
       /entrypoint.py
