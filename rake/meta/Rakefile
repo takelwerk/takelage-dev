@@ -25,10 +25,10 @@ task :default do
 end
 
 #####################################################################
-# Non-overview task
+# List all tasks
 
 task :details do
-  sh "rake overview=false --tasks", verbose: false
+  sh 'rake overview=false --tasks', verbose: false
 end
 
 #####################################################################

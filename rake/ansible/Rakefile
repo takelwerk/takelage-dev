@@ -94,7 +94,6 @@ namespace :ansible do
     Dir.glob('ansible/roles/*/molecule').each do |role_path|
       role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
       namespace role[:role_name] do
-
         jobs_roles.each do |job|
           desc "Run molecule #{job} for #{role[:role_name]}"
           task job do
