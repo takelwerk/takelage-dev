@@ -1,6 +1,6 @@
 ---
 name: takelage-dev
-version: 0.36.16
+version: 0.37.0
 
 # results in packer_local/myproject:latest
 local_user: packer_local
