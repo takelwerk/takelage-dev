@@ -2,20 +2,31 @@
 - name: (playbook-project-prod) create project prod
   hosts: all
   roles:
+    # system
     - takel-base
     - takel-root
     - takel-anarchism
+    - takel-mutagen
+    # python
     - takel-pip
+    - takel-molecule
+    # docker
+    - takel-docker
+    # packer
+    - takel-packer
+    # gopass
+    - takel-gopass
+    # bit
+    - takel-bit-client
+    # gcloud
+    - takel-gcloud
+    # hugo
+    - takel-hugo
+    # terra
+    - takel-terra
+    # ruby
     - takel-rvm
     - takel-gem
-    - takel-bit-client
-    - takel-docker
-    - takel-gcloud
-    - takel-hugo
-    - takel-molecule
-    - takel-mutagen
-    - takel-packer
-    - takel-terra
-    - takel-gopass
+    # takelage
     - takel-takelage
     - takel-cleanup
