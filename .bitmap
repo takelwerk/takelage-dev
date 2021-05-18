@@ -573,24 +573,6 @@
         "origin": "IMPORTED",
         "originallySharedDir": "packer/templates/docker/takelbase/project"
     },
-    "takelage.rake/rake/dockerhub/registry@0.0.5": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "Rakefile",
-                "relativePath": "Rakefile",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "rake/dockerhub/registry",
-        "origin": "IMPORTED",
-        "originallySharedDir": "rake/dockerhub/registry"
-    },
     "takelage.rake/rake/git@0.0.7": {
         "files": [
             {
