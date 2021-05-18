@@ -39,14 +39,14 @@ jobs:
       - name: Lint ruby
         run: tau docker container command "rake rubylint"
 
-      - name: Lint project
+      - name: Lint takeldev
         run: tau docker container command "rake images:takeldev:prod:lint"
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
 
-      - name: Build takelage project image with packer
+      - name: Build takeldev project image with packer
         run: tau docker container command "rake images:takeldev:prod:00-system"
 
-      - name: Test takelage project image
+      - name: Test takeldev project image
         run: tau docker container command "rake images:takeldev:prod:test"
