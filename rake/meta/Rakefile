@@ -15,7 +15,7 @@ require 'yaml'
 
 # The tasks will add shell commands to this empty global array
 @commands = []
-@overview = ENV['overview'] != 'false'
+@overview = ENV['overview'] == 'true'
 
 #####################################################################
 # Default task

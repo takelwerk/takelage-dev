@@ -65,7 +65,7 @@ namespace :ansible do
           @commands << format(
             cmd_ansible_molecule_project,
             job: job,
-            playbook: 'site.yml',
+            playbook: 'playbook-site.yml',
             image:
               "#{@project['dockerhub_base_user']}/" \
               "#{@project['dockerhub_base_repo']}",

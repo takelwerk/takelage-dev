@@ -5,13 +5,14 @@ require 'rake'
 namespace :project do
   desc 'Create and deploy prod image to dockerhub'
   task prod: %w[git:warn
-                dockerhub:registry:login
+                dockerhub:login
                 rubylint
+                rake ansible:prod:lint
                 takelscripts
                 images:update
-                image:docker:takelbase:project:prod:from_base
-                image:docker:takelbase:project:prod:test
+                images:takelage:prod:00-site
+                images:takelage:prod:test
                 git:tag
-                dockerhub:registry:tag
-                dockerhub:registry:push]
+                dockerhub:tag
+                dockerhub:push]
 end

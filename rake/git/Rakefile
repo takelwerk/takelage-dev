@@ -18,11 +18,15 @@ cmd_git_warn = 'git rev-parse ' \
     '\e[0m\n"; ' \
     'true'
 
-namespace :git do
+namespace :git do |env|
   desc 'Create and push git tag'
   task :tag do
     @commands << cmd_git_tag
   end
+
+  desc "Show subtasks of #{env.scope.head}" if @overview
+  task 'tasks'.to_sym => :details
+  next if @overview
 
   desc 'Warn if git tag already exists'
   task :warn do
