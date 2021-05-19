@@ -31,7 +31,7 @@ end
 # if task_subtasks env.scope.path
 
 def task_subtasks(scope)
-  desc "Show subtasks of #{scope}" if @overview unless @subtasks.eql? scope
+  (desc "Show subtasks of #{scope}" if @overview) unless @subtasks.eql? scope
   task :tasks do
     sh "rake overview=true subtasks=#{scope} --tasks", verbose: false
   end
