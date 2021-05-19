@@ -34,20 +34,16 @@ end
 # Uses: @subtasks
 
 def subtasks(scope)
-  # desciption?
-  unless @subtasks.eql? scope
-    desc "Show subtasks of #{scope}"
-  end
+  # show desciption? (no description creates hidden task)
+  desc "Show subtasks of #{scope}" unless @subtasks.eql?(scope)
 
-  # task!
+  # register task!
   task :tasks do
     sh "rake overview=true subtasks=#{scope} --tasks", verbose: false
   end
 
-  # subtasks?
-  if @subtasks.eql?(scope) || !@overview
-    yield
-  end
+  # show subtasks?
+  yield unless @overview && !@subtasks.eql?(scope)
 end
 
 #####################################################################
