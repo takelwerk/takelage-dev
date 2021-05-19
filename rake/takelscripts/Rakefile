@@ -11,7 +11,7 @@ task takelscripts: %w[takelscripts:entrypoint
                       takelscripts:loginpoint]
 
 namespace :takelscripts do |env|
-  if task_subtasks env.scope.path
+  subtasks(env.scope.path) do
     desc 'Run unit tests for entrypoint.py'
     task :entrypoint do
       @commands << format(

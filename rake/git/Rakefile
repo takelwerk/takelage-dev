@@ -24,7 +24,7 @@ namespace :git do |env|
     @commands << cmd_git_tag
   end
 
-  if task_subtasks env.scope.path
+  subtasks(env.scope.path) do
     desc 'Warn if git tag already exists'
     task :warn do
       @commands << cmd_git_warn

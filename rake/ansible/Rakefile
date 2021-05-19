@@ -55,7 +55,7 @@ jobs_roles = \
 namespace :ansible do
   @project['pipelines'].each do |pipeline|
     namespace pipeline.to_sym do |env|
-      if task_subtasks env.scope.path
+      subtasks(env.scope.path) do
         jobs_project.each do |job|
           desc "Run molecule #{job} in #{pipeline}"
           task job do
@@ -85,7 +85,7 @@ namespace :ansible do
       @commands << cmd_ansible_roles_test_each
     end
 
-    if task_subtasks env.scope.path
+    subtasks(env.scope.path) do
       Dir.glob('ansible/roles/*/molecule').each do |role_path|
         role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
         namespace role[:role_name] do

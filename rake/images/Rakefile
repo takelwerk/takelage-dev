@@ -42,7 +42,7 @@ namespace :images do
   @project['images'].each do |image|
     imagename = image.first
     namespace imagename.to_sym do |env|
-      if task_subtasks env.scope.path
+      subtasks(env.scope.path) do
         layers = @project['images'][imagename]['layers']
         @project['pipelines'].each do |pipeline|
           namespace pipeline.to_sym do |pipeline_env|

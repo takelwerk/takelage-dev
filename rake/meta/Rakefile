@@ -26,16 +26,18 @@ task :default do
 end
 
 #####################################################################
-# Add a subtasks task
-# Wrap the folded task in
-# if task_subtasks env.scope.path
+# Add a subtasks block
 
-def task_subtasks(scope)
-  (desc "Show subtasks of #{scope}" if @overview) unless @subtasks.eql? scope
+def subtasks(scope)
+  unless @subtasks.eql? scope
+    desc "Show subtasks of #{scope}"
+  end
   task :tasks do
     sh "rake overview=true subtasks=#{scope} --tasks", verbose: false
   end
-  !@overview || (@overview && (@subtasks.eql? scope))
+  if @subtasks.eql? scope
+    yield
+  end
 end
 
 #####################################################################
