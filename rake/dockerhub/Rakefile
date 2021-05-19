@@ -48,8 +48,8 @@ namespace :dockerhub do |env|
             end
 
             desc 'Push image to hub.docker.com'
-            task tag: [:"dockerhub:#{image}:#{pipeline}:push:version",
-                       :"dockerhub:#{image}:#{pipeline}:push:latest"]
+            task push: [:"dockerhub:#{image}:#{pipeline}:push:version",
+                        :"dockerhub:#{image}:#{pipeline}:push:latest"]
             namespace :push do
               desc 'Push latest image to hub.docker.com'
               task :latest do
