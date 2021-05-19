@@ -24,12 +24,10 @@ namespace :git do |env|
     @commands << cmd_git_tag
   end
 
-  desc "Show subtasks of #{env.scope.head}" if @overview
-  task 'tasks'.to_sym => :details
-  next if @overview
-
-  desc 'Warn if git tag already exists'
-  task :warn do
-    @commands << cmd_git_warn
+  if task_subtasks env.scope.path
+    desc 'Warn if git tag already exists'
+    task :warn do
+      @commands << cmd_git_warn
+    end
   end
 end

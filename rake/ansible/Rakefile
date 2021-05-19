@@ -55,22 +55,20 @@ jobs_roles = \
 namespace :ansible do
   @project['pipelines'].each do |pipeline|
     namespace pipeline.to_sym do |env|
-      desc "Show subtasks of #{env.scope.head}" if @overview
-      task 'tasks'.to_sym => :details
-      next if @overview
-
-      jobs_project.each do |job|
-        desc "Run molecule #{job} in #{pipeline}"
-        task job do
-          @commands << format(
-            cmd_ansible_molecule_project,
-            job: job,
-            playbook: 'playbook-site.yml',
-            image:
-              "#{@project['dockerhub_base_user']}/" \
+      if task_subtasks env.scope.path
+        jobs_project.each do |job|
+          desc "Run molecule #{job} in #{pipeline}"
+          task job do
+            @commands << format(
+              cmd_ansible_molecule_project,
+              job: job,
+              playbook: 'playbook-site.yml',
+              image:
+                "#{@project['dockerhub_base_user']}/" \
               "#{@project['dockerhub_base_repo']}",
-            pipeline: pipeline
-          )
+              pipeline: pipeline
+            )
+          end
         end
       end
     end
@@ -87,21 +85,19 @@ namespace :ansible do
       @commands << cmd_ansible_roles_test_each
     end
 
-    desc "Show subtasks of #{env.scope.head}" if @overview
-    task 'tasks'.to_sym => :details
-    next if @overview
-
-    Dir.glob('ansible/roles/*/molecule').each do |role_path|
-      role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
-      namespace role[:role_name] do
-        jobs_roles.each do |job|
-          desc "Run molecule #{job} for #{role[:role_name]}"
-          task job do
-            @commands << format(
-              cmd_ansible_molecule_role,
-              command: job,
-              role_path: role_path.split('/molecule')[0]
-            )
+    if task_subtasks env.scope.path
+      Dir.glob('ansible/roles/*/molecule').each do |role_path|
+        role = role_path.match(%r{roles/(?<role_name>.*)/molecule})
+        namespace role[:role_name] do
+          jobs_roles.each do |job|
+            desc "Run molecule #{job} for #{role[:role_name]}"
+            task job do
+              @commands << format(
+                cmd_ansible_molecule_role,
+                command: job,
+                role_path: role_path.split('/molecule')[0]
+              )
+            end
           end
         end
       end

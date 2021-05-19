@@ -12,7 +12,7 @@ task takelscripts: %w[takelscripts:entrypoint
 
 namespace :takelscripts do |env|
   desc "Show subtasks of #{env.scope.head}" if @overview
-  task 'tasks'.to_sym => :details
+  task :tasks => :details
   next if @overview
 
   desc 'Run unit tests for entrypoint.py'
