@@ -34,7 +34,7 @@ end
 
 def subtasks(scope)
   # show desciption? (no description creates hidden task)
-  desc "Show subtasks of #{scope}" unless @subtasks.eql?(scope)
+  desc "Show subtasks of #{scope}" if @overview && !@subtasks.eql?(scope)
 
   # register task!
   task :tasks do

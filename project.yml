@@ -1,6 +1,6 @@
 ---
 name: takelage-dev
-version: 0.37.9
+version: 0.37.10
 
 # results in packer_local/myproject-mypipeline:latest
 local_user: packer_local
@@ -12,7 +12,7 @@ dockerhub_base_repo: takelslim
 # push
 dockerhub_user: takelage
 dockerhub_repo: takelage
-dockerhub_tag: prod
+dockerhub_tag: latest
 
 pipelines:
   - prod

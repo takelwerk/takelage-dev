@@ -19,7 +19,7 @@ cmd_dockerhub_registry_push_version = \
 cmd_dockerhub_registry_tag_latest = \
   'docker tag ' \
   "#{@project['local_user']}/" \
-  "#{@project['name']}:" \
+  "#{@project['name']}-%<image>s-%<pipeline>s:" \
   "#{@project['dockerhub_tag']} "\
   "#{@project['dockerhub_user']}/" \
   "#{@project['dockerhub_repo']}:" \
@@ -28,7 +28,7 @@ cmd_dockerhub_registry_tag_latest = \
 cmd_dockerhub_registry_tag_version = \
   'docker tag ' \
   "#{@project['local_user']}/" \
-  "#{@project['name']}:" \
+  "#{@project['name']}-%<image>s-%<pipeline>s:" \
   "#{@project['dockerhub_tag']} " \
   "#{@project['dockerhub_user']}/" \
   "#{@project['dockerhub_repo']}:" \
@@ -36,40 +36,59 @@ cmd_dockerhub_registry_tag_version = \
 
 # rubocop:disable Metrics/BlockLength
 namespace :dockerhub do |env|
-  subtasks(env.scope.path) do
-    desc 'Log in to hub.docker.com'
-    task :login do
-      @commands << cmd_dockerhub_registry_login
-    end
+  @project['images'].each do |project_image|
+    image = project_image.first
+    namespace image.to_sym do
+      @project['pipelines'].each do |pipeline|
+        namespace pipeline.to_sym do |pipeline_env|
 
-    desc 'Push image to hub.docker.com'
-    task push: %w[dockerhub:push:version
-                  dockerhub:push:latest]
-    namespace :push do
-      desc 'Push latest image to hub.docker.com'
-      task :latest do
-        @commands << cmd_dockerhub_registry_push_latest
-      end
+          subtasks(env.scope.path) do
+            desc 'Log in to hub.docker.com'
+            task :login do
+              @commands << cmd_dockerhub_registry_login
+            end
 
-      desc 'Push version image to hub.docker.com'
-      task :version do
-        @commands << cmd_dockerhub_registry_push_version
-      end
-    end
+            desc 'Push image to hub.docker.com'
+            task tag: [:"dockerhub:#{image}:#{pipeline}:push:version",
+                       :"dockerhub:#{image}:#{pipeline}:push:latest"]
+            namespace :push do
+              desc 'Push latest image to hub.docker.com'
+              task :latest do
+                @commands << cmd_dockerhub_registry_push_latest
+              end
 
-    desc 'Tag image for hub.docker.com'
-    task tag: %w[dockerhub:tag:version
-                 dockerhub:tag:latest]
-    namespace :tag do
-      desc 'Tag latest image for hub.docker.com'
-      task :latest do
-        @commands << cmd_dockerhub_registry_tag_latest
-      end
-      desc 'Tag version image for hub.docker.com'
-      task :version do
-        @commands << cmd_dockerhub_registry_tag_version
+              desc 'Push version image to hub.docker.com'
+              task :version do
+                @commands << cmd_dockerhub_registry_push_version
+              end
+            end
+
+            desc 'Tag image for hub.docker.com'
+            task tag: [:"dockerhub:#{image}:#{pipeline}:tag:version",
+                       :"dockerhub:#{image}:#{pipeline}:tag:latest"]
+            namespace :tag do
+              desc 'Tag latest image for hub.docker.com'
+              task :latest do
+                @commands << format(
+                  cmd_dockerhub_registry_tag_latest,
+                  image: image,
+                  pipeline: pipeline
+                )
+              end
+              desc 'Tag version image for hub.docker.com'
+              task :version do
+                @commands << format(
+                  cmd_dockerhub_registry_tag_version,
+                  image: image,
+                  pipeline: pipeline
+                )
+              end
+            end
+          end
+        end
       end
     end
   end
 end
+
 # rubocop:enable Metrics/BlockLength

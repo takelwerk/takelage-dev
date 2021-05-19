@@ -18,16 +18,14 @@ cmd_git_warn = 'git rev-parse ' \
     '\e[0m\n"; ' \
     'true'
 
-namespace :git do |env|
+namespace :git do
   desc 'Create and push git tag'
   task :tag do
     @commands << cmd_git_tag
   end
 
-  subtasks(env.scope.path) do
-    desc 'Warn if git tag already exists'
-    task :warn do
-      @commands << cmd_git_warn
-    end
+  desc 'Warn if git tag already exists'
+  task :warn do
+    @commands << cmd_git_warn
   end
 end
