@@ -16,7 +16,9 @@ cmd_images_packer =
   'templates/docker/takelbase/project/build_from_prod.json'
 
 cmd_images_molecule =
-  'TAKELAGE_PROJECT_ENV=%<pipeline>s bash -c ' \
+  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
+  'TAKELAGE_PROJECT_IMG=%<image>s' \
+  'bash -c ' \
   "'cd ansible && molecule %<job>s --scenario-name image'"
 
 jobs = \
@@ -39,15 +41,15 @@ namespace :images do
     @commands << cmd_images_docker_pull
   end
 
-  @project['images'].each do |image|
-    imagename = image.first
-    namespace imagename.to_sym do |env|
+  @project['images'].each do |project_image|
+    image = project_image.first
+    namespace image.to_sym do |env|
       subtasks(env.scope.path) do
-        layers = @project['images'][imagename]['layers']
+        layers = @project['images'][image]['layers']
         @project['pipelines'].each do |pipeline|
           namespace pipeline.to_sym do |pipeline_env|
             if layers.count == 1
-              desc "Build image #{imagename}"
+              desc "Build image #{image}"
               task build: "#{pipeline_env.scope.path}:build:layer:01-#{layers.first}"
             else
               # more than one layer
@@ -60,9 +62,9 @@ namespace :images do
                       next if index < subindex
 
                       subnumber = subindex.next.to_s.rjust(2, '0')
-                      dependencies << "images:#{imagename}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
+                      dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
                     end
-                    desc "Build layers up to layer #{layer} of image #{imagename}"
+                    desc "Build layers up to layer #{layer} of image #{image}"
                     task "#{number}-#{layer}".to_sym => dependencies
                   end
                 end
@@ -74,10 +76,10 @@ namespace :images do
                     layers[0..-1].each_with_index do |sublayer, subindex|
                       if subindex > index
                         subnumber = subindex.next.to_s.rjust(2, '0')
-                        dependencies << "images:#{imagename}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
+                        dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
                       end
                     end
-                    desc "Build layers from to layer #{layer} of image #{imagename}"
+                    desc "Build layers from to layer #{layer} of image #{image}"
                     task "#{number}-#{layer}".to_sym => dependencies
                   end
                 end
@@ -90,17 +92,17 @@ namespace :images do
                 layers.each_with_index do |layer, index|
                   parent_number = index.to_s.rjust(2, '0')
                   number = index.next.to_s.rjust(2, '0')
-                  target_repo = "#{@project['name']}-#{imagename}-#{number}-#{layer}"
+                  target_repo = "#{@project['name']}-#{image}-#{number}-#{layer}"
                   # first image
                   if index.zero?
                     base_repo = @project['dockerhub_base_repo']
                     base_user = @project['dockerhub_base_user']
                   else
-                    base_repo = "#{@project['name']}-#{imagename}-#{parent_number}-#{parent_layer}"
+                    base_repo = "#{@project['name']}-#{image}-#{parent_number}-#{parent_layer}"
                     base_user = @project['local_user']
                   end
                   # last
-                  target_repo = "#{@project['name']}-#{imagename}-#{pipeline}" if index.next == layers.count
+                  target_repo = "#{@project['name']}-#{image}-#{pipeline}" if index.next == layers.count
 
                   parent_layer = layer
                   # desc "Build layer #{layer} from base layer #{parent_layer} of image #{imagename}"
@@ -122,10 +124,11 @@ namespace :images do
             # no pipeline as these jobs use the target image
             namespace :molecule do
               jobs.each do |job|
-                desc "#{job.capitalize} image #{imagename}"
+                desc "#{job.capitalize} image #{image}"
                 task job.to_sym do
                   @commands << format(
                     cmd_images_molecule,
+                    image: image,
                     job: job,
                     pipeline: pipeline
                   )

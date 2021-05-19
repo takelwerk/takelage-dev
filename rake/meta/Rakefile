@@ -16,7 +16,7 @@ require 'yaml'
 # The tasks will add shell commands to this empty global array
 @commands = []
 
-# Used by task :default
+# Used by task :default and by function subtasks
 @overview = ENV['overview'] == 'true'
 
 # Used by function subtasks
@@ -34,13 +34,18 @@ end
 # Uses: @subtasks
 
 def subtasks(scope)
+  # desciption?
   unless @subtasks.eql? scope
     desc "Show subtasks of #{scope}"
   end
+
+  # task!
   task :tasks do
     sh "rake overview=true subtasks=#{scope} --tasks", verbose: false
   end
-  if @subtasks.eql? scope
+
+  # subtasks?
+  if @subtasks.eql?(scope) || !@overview
     yield
   end
 end
