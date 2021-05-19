@@ -17,7 +17,7 @@ cmd_images_packer =
 
 cmd_images_molecule =
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
-  'TAKELAGE_PROJECT_IMG=%<image>s' \
+  'TAKELAGE_PROJECT_IMG=%<image>s ' \
   'bash -c ' \
   "'cd ansible && molecule %<job>s --scenario-name image'"
 
