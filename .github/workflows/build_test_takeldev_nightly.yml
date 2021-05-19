@@ -45,11 +45,11 @@ jobs:
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
 
-      - name: Build takeldev layers image with packer
-        run: tau docker container command "rake images:takeldev:prod:to:10-ruby"
+      - name: Build takeldev intermediate image with packer
+        run: tau docker container command "rake images:takeldev:prod:build:to:09-terra"
 
-      - name: Build takeldev image from last layer with packer
-        run: tau docker container command "rake images:takeldev:prod:from:10-ruby"
+      - name: Build takeldev image from intermediate image with packer
+        run: tau docker container command "rake images:takeldev:prod:build:from:09-terra"
 
       - name: Test takeldev project image
         run: tau docker container command "rake images:takeldev:prod:test"
