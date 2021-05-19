@@ -8,7 +8,8 @@ lint: |
   flake8
 platforms:
   - name: molecule-takelage-dev-test-image-${TAKELAGE_PROJECT_ENV:-prod}
-    image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-debugme}-${TAKELAGE_PROJECT_ENV:-prod}
+    # yamllint disable-line rule:line-length
+    image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}-${TAKELAGE_PROJECT_ENV:-prod}
     override_command: true
     command: >-
       /entrypoint.py
