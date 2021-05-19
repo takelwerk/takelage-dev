@@ -4,31 +4,35 @@ require 'rake'
 
 cmd_dockerhub_registry_login = 'docker login'
 
-cmd_dockerhub_registry_push_latest = 'docker push ' \
-    "#{@project['dockerhub_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
-    'latest'
+cmd_dockerhub_registry_push_latest = \
+  'docker push ' \
+  "#{@project['dockerhub_user']}/" \
+  "#{@project['dockerhub_repo']}:" \
+  'latest'
 
-cmd_dockerhub_registry_push_version = 'docker push ' \
-    "#{@project['dockerhub_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
-    "#{@project['version']} "
+cmd_dockerhub_registry_push_version = \
+  'docker push ' \
+  "#{@project['dockerhub_user']}/" \
+  "#{@project['dockerhub_repo']}:" \
+  "#{@project['version']} "
 
-cmd_dockerhub_registry_tag_latest = 'docker tag ' \
-    "#{@project['local_user']}/" \
-    "#{@project['name']}:" \
-    "#{@project['dockerhub_tag']} "\
-    "#{@project['dockerhub_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
-    'latest'
+cmd_dockerhub_registry_tag_latest = \
+  'docker tag ' \
+  "#{@project['local_user']}/" \
+  "#{@project['name']}:" \
+  "#{@project['dockerhub_tag']} "\
+  "#{@project['dockerhub_user']}/" \
+  "#{@project['dockerhub_repo']}:" \
+  'latest'
 
-cmd_dockerhub_registry_tag_version = 'docker tag ' \
-    "#{@project['local_user']}/" \
-    "#{@project['name']}:" \
-    "#{@project['dockerhub_tag']} " \
-    "#{@project['dockerhub_user']}/" \
-    "#{@project['dockerhub_repo']}:" \
-    "#{@project['version']}"
+cmd_dockerhub_registry_tag_version = \
+  'docker tag ' \
+  "#{@project['local_user']}/" \
+  "#{@project['name']}:" \
+  "#{@project['dockerhub_tag']} " \
+  "#{@project['dockerhub_user']}/" \
+  "#{@project['dockerhub_repo']}:" \
+  "#{@project['version']}"
 
 # rubocop:disable Metrics/BlockLength
 namespace :dockerhub do |env|
@@ -40,7 +44,7 @@ namespace :dockerhub do |env|
 
     desc 'Push image to hub.docker.com'
     task push: %w[dockerhub:push:version
-                dockerhub:push:latest]
+                  dockerhub:push:latest]
     namespace :push do
       desc 'Push latest image to hub.docker.com'
       task :latest do
@@ -55,7 +59,7 @@ namespace :dockerhub do |env|
 
     desc 'Tag image for hub.docker.com'
     task tag: %w[dockerhub:tag:version
-               dockerhub:tag:latest]
+                 dockerhub:tag:latest]
     namespace :tag do
       desc 'Tag latest image for hub.docker.com'
       task :latest do

@@ -11,23 +11,21 @@ task takelscripts: %w[takelscripts:entrypoint
                       takelscripts:loginpoint]
 
 namespace :takelscripts do |env|
-  desc "Show subtasks of #{env.scope.head}" if @overview
-  task :tasks => :details
-  next if @overview
+  if task_subtasks env.scope.path
+    desc 'Run unit tests for entrypoint.py'
+    task :entrypoint do
+      @commands << format(
+        cmd_takelscripts,
+        files: 'test_entrypoint*'
+      )
+    end
 
-  desc 'Run unit tests for entrypoint.py'
-  task :entrypoint do
-    @commands << format(
-      cmd_takelscripts,
-      files: 'test_entrypoint*'
-    )
-  end
-
-  desc 'Run unit tests for loginpoint.py'
-  task :loginpoint do
-    @commands << format(
-      cmd_takelscripts,
-      files: 'test_loginpoint*'
-    )
+    desc 'Run unit tests for loginpoint.py'
+    task :loginpoint do
+      @commands << format(
+        cmd_takelscripts,
+        files: 'test_loginpoint*'
+      )
+    end
   end
 end

@@ -48,15 +48,15 @@ namespace :images do
           namespace pipeline.to_sym do |pipeline_env|
             if layers.count == 1
               desc "Build image #{imagename}"
-              task :build => "#{pipeline_env.scope.path}:build:layer:01-#{layers.first}"
+              task build: "#{pipeline_env.scope.path}:build:layer:01-#{layers.first}"
             else
               # more than one layer
               namespace :build do
                 namespace :to do
-                  layers[..-1].each_with_index do |layer, index|
+                  layers[0..-1].each_with_index do |layer, index|
                     number = index.next.to_s.rjust(2, '0')
                     dependencies = []
-                    layers[..-2].each_with_index do |sublayer, subindex|
+                    layers[0..-2].each_with_index do |sublayer, subindex|
                       next if index < subindex
 
                       subnumber = subindex.next.to_s.rjust(2, '0')
@@ -64,14 +64,14 @@ namespace :images do
                     end
                     desc "Build layers up to layer #{layer} of image #{imagename}"
                     task "#{number}-#{layer}".to_sym => dependencies
-                  end # layers.each
-                end # namespace 'to'
+                  end
+                end
 
                 namespace :from do
-                  layers[..-1].each_with_index do |layer, index|
+                  layers[0..-1].each_with_index do |layer, index|
                     number = index.next.to_s.rjust(2, '0')
                     dependencies = []
-                    layers[..-1].each_with_index do |sublayer, subindex|
+                    layers[0..-1].each_with_index do |sublayer, subindex|
                       if subindex > index
                         subnumber = subindex.next.to_s.rjust(2, '0')
                         dependencies << "images:#{imagename}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
@@ -80,9 +80,9 @@ namespace :images do
                     desc "Build layers from to layer #{layer} of image #{imagename}"
                     task "#{number}-#{layer}".to_sym => dependencies
                   end
-                end # namespace 'from'
-              end # namespace 'build'
-            end # one or more layers?
+                end
+              end
+            end
 
             namespace :build do
               namespace :layer do
@@ -100,9 +100,7 @@ namespace :images do
                     base_user = @project['local_user']
                   end
                   # last
-                  if index.next == layers.count
-                    target_repo = "#{@project['name']}-#{imagename}-#{pipeline}"
-                  end
+                  target_repo = "#{@project['name']}-#{imagename}-#{pipeline}" if index.next == layers.count
 
                   parent_layer = layer
                   # desc "Build layer #{layer} from base layer #{parent_layer} of image #{imagename}"
@@ -114,11 +112,12 @@ namespace :images do
                       base_repo: base_repo,
                       base_user: base_user,
                       local_user: @project['local_user'],
-                      target_repo: target_repo)
-                  end # task layer
-                end # layers.each_with_index
-              end # namespace 'layer'
-            end # namespace 'build'
+                      target_repo: target_repo
+                    )
+                  end
+                end
+              end
+            end
 
             # no pipeline as these jobs use the target image
             namespace :molecule do
@@ -130,13 +129,13 @@ namespace :images do
                     job: job,
                     pipeline: pipeline
                   )
-                end # task job
-              end # jobs.each
-            end # namespace 'molecule'
-          end # namespace pipeline
-        end # pipelines.each
-      end # subtasks
-    end # namespace image
-  end # images.each
-end # namespace 'images'
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end
 # rubocop:enable Metrics/BlockLength
