@@ -15,7 +15,11 @@ require 'yaml'
 
 # The tasks will add shell commands to this empty global array
 @commands = []
+
+# Used by task :default
 @overview = ENV['overview'] == 'true'
+
+# Used by function subtasks
 @subtasks = ENV['subtasks'] || ''
 
 #####################################################################
@@ -27,6 +31,7 @@ end
 
 #####################################################################
 # Add a subtasks block
+# Uses: @subtasks
 
 def subtasks(scope)
   unless @subtasks.eql? scope
