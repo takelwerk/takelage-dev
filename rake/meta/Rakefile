@@ -31,7 +31,6 @@ end
 
 #####################################################################
 # Add a subtasks block
-# Uses: @subtasks
 
 def subtasks(scope)
   # show desciption? (no description creates hidden task)
