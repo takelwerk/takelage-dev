@@ -52,4 +52,4 @@ jobs:
         run: tau docker container command "rake images:takeldev:prod:build:from:05-ruby"
 
       - name: Test takeldev project image
-        run: tau docker container command "rake images:takeldev:prod:test"
+        run: tau docker container command "rake images:takeldev:prod:molecule:test"
