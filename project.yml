@@ -1,8 +1,8 @@
 ---
 name: takelage-dev
-version: 0.37.1
+version: 0.37.3
 
-# results in packer_local/myproject:latest
+# results in packer_local/myproject-mypipeline:latest
 local_user: packer_local
 
 # pull

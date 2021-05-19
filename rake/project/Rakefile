@@ -10,7 +10,7 @@ namespace :project do
                 rake ansible:prod:lint
                 takelscripts
                 images:update
-                images:takelage:prod:00-site
+                images:takelage:prod:from:00-base
                 images:takelage:prod:test
                 git:tag
                 dockerhub:tag

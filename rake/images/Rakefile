@@ -48,37 +48,87 @@ namespace :images do
         next if @overview
 
         namespace pipeline.to_sym do
-          base_repo = @project['dockerhub_base_repo']
-          base_user = @project['dockerhub_base_user']
-          parent_layer = ''
-          @project['images'][imagename]['layers'].each_with_index do |layer, index|
-            unless index.zero?
-              base_repo = "#{@project['name']}-#{parent_layer}"
-              base_user = @project['local_user']
-              parent_layer = layer
-            end
-            desc "Build image #{imagename} from layer #{layer}"
-            task "#{index.to_s.rjust(2, '0')}-#{layer}".to_sym do
+          namespace :from do
+            target_repo = "#{@project['name']}-#{imagename}-#{pipeline}"
+            desc "Build from base layer image #{imagename}"
+            task :'00-base' do
               @commands << format(
                 cmd_images_packer,
                 pipeline: pipeline,
-                playbook: "playbook-#{layer}.yml",
-                base_repo: base_repo,
-                base_user: base_user,
+                playbook: 'playbook-site.yml',
+                base_repo: @project['dockerhub_base_repo'],
+                base_user: @project['dockerhub_base_user'],
                 local_user: @project['local_user'],
-                target_repo: "#{@project['name']}-#{pipeline}"
-              )
+                target_repo: target_repo)
+            end
+            @project['images'][imagename]['layers'][..-2].each_with_index do |layer, index|
+              number = index.next.to_s.rjust(2, '0')
+              desc "Build from layer #{layer} image #{imagename}"
+              task "#{number}-#{layer}".to_sym do
+                @commands << format(
+                  cmd_images_packer,
+                  pipeline: pipeline,
+                  playbook: "playbook-#{layer}.yml",
+                  base_repo: "#{@project['name']}-#{imagename}-#{number}-#{layer}",
+                  base_user: @project['local_user'],
+                  local_user: @project['local_user'],
+                  target_repo: target_repo)
+              end
             end
           end
-          jobs.each do |job|
-            desc "#{job.capitalize} image #{imagename}"
-            task job.to_sym do
-              @commands << format(
-                cmd_images_molecule,
-                job: job,
-                pipeline: pipeline
-              )
+
+          namespace :next do
+            parent_layer = ''
+            @project['images'][imagename]['layers'][..-2].each_with_index do |layer, index|
+              parent_number = index.to_s.rjust(2, '0')
+              number = index.next.to_s.rjust(2, '0')
+              if index.zero?
+                base_repo = @project['dockerhub_base_repo']
+                base_user = @project['dockerhub_base_user']
+              else
+                base_repo = "#{@project['name']}-#{imagename}-#{parent_number}-#{parent_layer}"
+                base_user = @project['local_user']
+              end
+              parent_layer = layer
+              desc "Build layer #{layer} from layer #{parent_layer} of image #{imagename}"
+              task "#{number}-#{layer}".to_sym do
+                @commands << format(
+                  cmd_images_packer,
+                  pipeline: pipeline,
+                  playbook: "playbook-#{layer}.yml",
+                  base_repo: base_repo,
+                  base_user: base_user,
+                  local_user: @project['local_user'],
+                  target_repo: "#{@project['name']}-#{imagename}-#{number}-#{layer}")
+              end
             end
+          end
+
+          namespace :to do
+            @project['images'][imagename]['layers'][..-2].each_with_index do |layer, index|
+              number = index.next.to_s.rjust(2, '0')
+              dependencies = []
+              @project['images'][imagename]['layers'][..-2].each_with_index do |sublayer, subindex|
+                next if index < subindex
+
+                subnumber = subindex.next.to_s.rjust(2, '0')
+                dependencies << "images:#{imagename}:#{pipeline}:next:#{subnumber}-#{sublayer}".to_sym
+              end
+              desc "Build layers up to layer #{layer} from base layer of image #{imagename}"
+              task "#{number}-#{layer}".to_sym => dependencies
+            end
+          end
+        end
+
+        # no pipeline as these jobs use the target image
+        jobs.each do |job|
+          desc "#{job.capitalize} image #{imagename}"
+          task job.to_sym do
+            @commands << format(
+              cmd_images_molecule,
+              job: job,
+              pipeline: pipeline
+            )
           end
         end
       end
