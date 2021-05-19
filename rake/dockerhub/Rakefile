@@ -40,8 +40,7 @@ namespace :dockerhub do |env|
     image = project_image.first
     namespace image.to_sym do
       @project['pipelines'].each do |pipeline|
-        namespace pipeline.to_sym do |pipeline_env|
-
+        namespace pipeline.to_sym do
           subtasks(env.scope.path) do
             desc 'Log in to hub.docker.com'
             task :login do
