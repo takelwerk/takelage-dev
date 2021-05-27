@@ -13,7 +13,7 @@ cmd_images_packer =
   "--var 'local_user=%<local_user>s' " \
   "--var 'target_repo=%<target_repo>s' " \
   "--var 'target_tag=latest' " \
-  'templates/docker/takelbase/project/build_from_prod.json'
+  'templates/docker/takelbase/project/build_from_base.json'
 
 cmd_images_molecule =
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
