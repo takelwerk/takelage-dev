@@ -46,9 +46,7 @@ namespace :images do
   end
 
   @project['images'].each do |project_image|
-    puts @project['keep_interim_images']
     keep_interim_images = @project['keep_interim_images'].nil? ? true : @project['keep_interim_images']
-    puts keep_interim_images
     image = project_image.first
     namespace image.to_sym do |env|
       subtasks(env.scope.path) do
