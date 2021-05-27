@@ -2,6 +2,21 @@
 
 require 'rake'
 
+cmd_images_docker_pull = 'docker pull ' \
+  "#{@project['dockerhub_base_user']}/" \
+  "#{@project['dockerhub_base_repo']}:" \
+  'latest'
+
+cmd_images_docker_remove = 'docker image remove %<image>s'
+
+cmd_images_molecule =
+  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
+  'TAKELAGE_PROJECT_IMG=%<image>s ' \
+  'TAKELAGE_MOLECULE_VERIFIER_FILES=%<files>s ' \
+  'TAKELAGE_MOLECULE_VERIFIER_PLAYS=%<plays>s ' \
+  'bash -c ' \
+  "'cd ansible && molecule %<job>s --scenario-name image'"
+
 cmd_images_packer =
   'cd packer && ' \
   'packer build ' \
@@ -15,14 +30,6 @@ cmd_images_packer =
   "--var 'target_tag=latest' " \
   'templates/docker/takelbase/project/build_from_base.json'
 
-cmd_images_molecule =
-  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
-  'TAKELAGE_PROJECT_IMG=%<image>s ' \
-  'TAKELAGE_MOLECULE_VERIFIER_FILES=%<files>s ' \
-  'TAKELAGE_MOLECULE_VERIFIER_PLAYS=%<plays>s ' \
-  'bash -c ' \
-  "'cd ansible && molecule %<job>s --scenario-name image'"
-
 jobs = \
   %i[converge
      destroy
@@ -30,11 +37,6 @@ jobs = \
      login
      test
      verify]
-
-cmd_images_docker_pull = 'docker pull ' \
-  "#{@project['dockerhub_base_user']}/" \
-  "#{@project['dockerhub_base_repo']}:" \
-  'latest'
 
 # rubocop:disable Metrics/BlockLength
 namespace :images do
@@ -44,6 +46,9 @@ namespace :images do
   end
 
   @project['images'].each do |project_image|
+    puts @project['keep_interim_images']
+    keep_interim_images = @project['keep_interim_images'].nil? ? true : @project['keep_interim_images']
+    puts keep_interim_images
     image = project_image.first
     namespace image.to_sym do |env|
       subtasks(env.scope.path) do
@@ -60,11 +65,14 @@ namespace :images do
                   layers[0..-1].each_with_index do |layer, index|
                     number = index.next.to_s.rjust(2, '0')
                     dependencies = []
+                    remove_last_layer = nil
                     layers[0..-2].each_with_index do |sublayer, subindex|
                       next if index < subindex
 
                       subnumber = subindex.next.to_s.rjust(2, '0')
                       dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
+                      dependencies << remove_last_layer unless remove_last_layer.nil? || keep_interim_images
+                      remove_last_layer = "images:#{image}:#{pipeline}:remove:layer:#{subnumber}-#{sublayer}".to_sym
                     end
                     desc "Build layers up to layer #{layer} of image #{image}"
                     task "#{number}-#{layer}".to_sym => dependencies
@@ -75,11 +83,14 @@ namespace :images do
                   layers[0..-1].each_with_index do |layer, index|
                     number = index.next.to_s.rjust(2, '0')
                     dependencies = []
+                    remove_last_layer = nil
                     layers[0..-1].each_with_index do |sublayer, subindex|
-                      if subindex > index
-                        subnumber = subindex.next.to_s.rjust(2, '0')
-                        dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
-                      end
+                      next if index > subindex
+
+                      subnumber = subindex.next.to_s.rjust(2, '0')
+                      dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
+                      dependencies << remove_last_layer unless (remove_last_layer.nil? || keep_interim_images)
+                      remove_last_layer = "images:#{image}:#{pipeline}:remove:layer:#{subnumber}-#{sublayer}".to_sym
                     end
                     desc "Build layers from to layer #{layer} of image #{image}"
                     task "#{number}-#{layer}".to_sym => dependencies
@@ -107,7 +118,7 @@ namespace :images do
                   target_repo = "#{@project['name']}-#{image}-#{pipeline}" if index.next == layers.count
 
                   parent_layer = layer
-                  # desc "Build layer #{layer} from base layer #{parent_layer} of image #{imagename}"
+                  # desc "Build layer #{layer} from base layer #{parent_layer} of image #{image}"
                   task "#{number}-#{layer}".to_sym do
                     @commands << format(
                       cmd_images_packer,
@@ -117,6 +128,24 @@ namespace :images do
                       base_user: base_user,
                       local_user: @project['local_user'],
                       target_repo: target_repo
+                    )
+                  end
+                end
+              end
+            end
+
+            namespace :remove do
+              namespace :layer do
+                layers.each_with_index do |layer, index|
+                  number = index.next.to_s.rjust(2, '0')
+                  user = @project['local_user']
+                  repo = "#{@project['name']}-#{image}-#{number}-#{layer}"
+                  tag = 'latest'
+                  # desc "Remove layer #{layer} of image #{image}"
+                  task "#{number}-#{layer}".to_sym do
+                    @commands << format(
+                      cmd_images_docker_remove,
+                      image: "#{user}/#{repo}:#{tag}"
                     )
                   end
                 end
