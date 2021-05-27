@@ -48,11 +48,9 @@ verifier:
   options:
     s: true  # capture output
     v: true
-  additional_files_or_dirs:
-    # integration
-    - ../../../roles/*/molecule/default/tests/test_*.py
-    # system
-    - ../../../roles/*/molecule/default/system/test_*.py
+  env:
+    TESTVARS_ROLES_PLAYBOOKS: ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
+  additional_files_or_dirs: ${TAKELAGE_MOLECULE_VERIFIER_FILES:-[]}
 scenario:
   create_sequence:
     - create
