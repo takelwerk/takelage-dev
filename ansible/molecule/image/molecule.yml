@@ -49,7 +49,8 @@ verifier:
     s: true  # capture output
     v: true
   env:
-    TESTVARS_ROLES_PLAYBOOKS: ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
+    TESTVARS_ROLES_PLAYBOOKS: >-
+      ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
   additional_files_or_dirs: ${TAKELAGE_MOLECULE_VERIFIER_FILES:-[]}
 scenario:
   create_sequence:

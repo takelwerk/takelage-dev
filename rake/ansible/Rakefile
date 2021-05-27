@@ -6,7 +6,7 @@ cmd_ansible_molecule_project =
   "cd ansible && bash -c '" \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_BASE_IMAGE=%<image>s ' \
-  "TAKELAGE_PROJECT_NAME=%<projectname>s " \
+  'TAKELAGE_PROJECT_NAME=%<projectname>s ' \
   'TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK=%<playbook>s ' \
   "molecule %<job>s --scenario-name default'"
 
