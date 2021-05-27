@@ -87,7 +87,7 @@ namespace :images do
 
                       subnumber = subindex.next.to_s.rjust(2, '0')
                       dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
-                      dependencies << remove_last_layer unless (remove_last_layer.nil? || keep_interim_images)
+                      dependencies << remove_last_layer unless remove_last_layer.nil? || keep_interim_images
                       remove_last_layer = "images:#{image}:#{pipeline}:remove:layer:#{subnumber}-#{sublayer}".to_sym
                     end
                     desc "Build layers from to layer #{layer} of image #{image}"
