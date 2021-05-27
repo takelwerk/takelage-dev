@@ -18,6 +18,8 @@ cmd_images_packer =
 cmd_images_molecule =
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_IMG=%<image>s ' \
+  'TAKELAGE_MOLECULE_VERIFIER_FILES=%<files>s ' \
+  'TAKELAGE_MOLECULE_VERIFIER_PLAYS=%<plays>s ' \
   'bash -c ' \
   "'cd ansible && molecule %<job>s --scenario-name image'"
 
@@ -128,9 +130,11 @@ namespace :images do
                 task job.to_sym do
                   @commands << format(
                     cmd_images_molecule,
+                    files: molecule_verifier_files(layers),
                     image: image,
                     job: job,
-                    pipeline: pipeline
+                    pipeline: pipeline,
+                    plays: molecule_verifier_plays(layers)
                   )
                 end
               end
@@ -142,3 +146,25 @@ namespace :images do
   end
 end
 # rubocop:enable Metrics/BlockLength
+
+private
+
+def molecule_verifier_files(layers)
+  verifier_files = []
+  layers.each do |layer|
+    playbook = YAML.load(File.read("ansible/playbook-#{layer}.yml"))
+    playbook[0]['roles'].each do |role|
+      verifier_files << "\"../../../roles/#{role}/molecule/default/system/test_*.py\""
+      verifier_files << "\"../../../roles/#{role}/molecule/default/tests/test_*.py\""
+    end
+  end
+  "'[#{verifier_files.join(',')}]'"
+end
+
+def molecule_verifier_plays(layers)
+  verifier_plays = []
+  layers.each do |layer|
+    verifier_plays << "../../playbook-#{layer}.yml"
+  end
+  "'#{verifier_plays.join(':')}'"
+end
