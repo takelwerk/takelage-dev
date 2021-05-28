@@ -83,7 +83,7 @@ namespace :images do
                     dependencies = []
                     remove_last_layer = nil
                     layers[0..-1].each_with_index do |sublayer, subindex|
-                      next if index > subindex
+                      next if index >= subindex
 
                       subnumber = subindex.next.to_s.rjust(2, '0')
                       dependencies << "images:#{image}:#{pipeline}:build:layer:#{subnumber}-#{sublayer}".to_sym
