@@ -550,29 +550,6 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/docker/takelbase/project@0.0.3": {
-        "files": [
-            {
-                "name": "README.bit",
-                "relativePath": "README.bit",
-                "test": false
-            },
-            {
-                "name": "build_from_base.json",
-                "relativePath": "build_from_base.json",
-                "test": false
-            },
-            {
-                "name": "build_from_prod.json",
-                "relativePath": "build_from_prod.json",
-                "test": false
-            }
-        ],
-        "mainFile": "README.bit",
-        "rootDir": "packer/templates/docker/takelbase/project",
-        "origin": "IMPORTED",
-        "originallySharedDir": "packer/templates/docker/takelbase/project"
-    },
     "takelage.rake/rake/git@0.0.8": {
         "files": [
             {
