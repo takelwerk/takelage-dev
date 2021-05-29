@@ -28,7 +28,7 @@ cmd_images_packer =
   "--var 'local_user=%<local_user>s' " \
   "--var 'target_repo=%<target_repo>s' " \
   "--var 'target_tag=latest' " \
-  'templates/takelage-docker.pkr.hcl'
+  '%<packer_template>s'
 
 jobs = \
   %i[converge
@@ -115,6 +115,8 @@ namespace :images do
                   # last
                   target_repo = "#{@project['name']}-#{image}-#{pipeline}" if index.next == layers.count
 
+                  packer_template = @project['images'][image][packer_template] || 'templates/takelage/docker.pkr.hcl'
+
                   parent_layer = layer
                   # desc "Build layer #{layer} from base layer #{parent_layer} of image #{image}"
                   task "#{number}-#{layer}".to_sym do
@@ -125,6 +127,7 @@ namespace :images do
                       base_repo: base_repo,
                       base_user: base_user,
                       local_user: @project['local_user'],
+                      packer_template: packer_template,
                       target_repo: target_repo
                     )
                   end
