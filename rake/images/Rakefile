@@ -20,15 +20,13 @@ cmd_images_molecule =
 cmd_images_packer =
   'cd packer && ' \
   'packer build ' \
-  "--var 'ansible_environment=%<pipeline>s' " \
-  "--var 'ansible_playbook=%<playbook>s' " \
-  "--var 'base_repo=%<base_repo>s' " \
-  "--var 'base_user=%<base_user>s' " \
-  "--var 'base_tag=latest' " \
-  "--var 'local_user=%<local_user>s' " \
-  "--var 'target_repo=%<target_repo>s' " \
-  "--var 'target_tag=latest' " \
-  '%<packer_template>s'
+  "-var='ansible_environment=%<pipeline>s' " \
+  "-var='ansible_playbook=%<playbook>s' " \
+  "-var='base_repo=%<base_repo>s' " \
+  "-var='base_user=%<base_user>s' " \
+  "-var='local_user=%<local_user>s' " \
+  "-var='target_repo=%<target_repo>s' " \
+  '%<packer_template_dir>s'
 
 jobs = \
   %i[converge
@@ -115,7 +113,7 @@ namespace :images do
                   # last
                   target_repo = "#{@project['name']}-#{image}-#{pipeline}" if index.next == layers.count
 
-                  packer_template = @project['images'][image][packer_template] || 'templates/takelage/docker.pkr.hcl'
+                  packer_template_dir = @project['images'][image][packer_template_dir] || 'templates/takelage/docker'
 
                   parent_layer = layer
                   # desc "Build layer #{layer} from base layer #{parent_layer} of image #{image}"
@@ -127,7 +125,7 @@ namespace :images do
                       base_repo: base_repo,
                       base_user: base_user,
                       local_user: @project['local_user'],
-                      packer_template: packer_template,
+                      packer_template_dir: packer_template_dir,
                       target_repo: target_repo
                     )
                   end
