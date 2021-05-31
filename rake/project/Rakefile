@@ -10,8 +10,8 @@ namespace :project do
                 ansible:prod:lint
                 takelscripts
                 images:update
-                images:takelage:prod:build
-                images:takelage:prod:molecule:test
+                images:project:prod:build
+                images:project:prod:molecule:test
                 git:tag
                 dockerhub:tag
                 dockerhub:push]
