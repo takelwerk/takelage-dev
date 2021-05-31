@@ -22,20 +22,6 @@ cmd_dockerhub_tag_version = \
   '%<local_user>s/%<local_repo>s:latest ' \
   '%<target_user>s/%<target_repo>s:%<version>s'
 
-"#{@project['local_user']}/" \
-  "#{@project['name']}-%<image>s-%<pipeline>s:" \
-  "#{@project['dockerhub_tag']} "\
-  "#{@project['dockerhub_user']}/" \
-  "#{@project['dockerhub_repo']}:" \
-  'latest'
-
-"#{@project['local_user']}/" \
-  "#{@project['name']}-%<image>s-%<pipeline>s:" \
-  "#{@project['dockerhub_tag']} " \
-  "#{@project['dockerhub_user']}/" \
-  "#{@project['dockerhub_repo']}:" \
-  "#{@project['version']}"
-
 # rubocop:disable Metrics/BlockLength
 namespace :dockerhub do |env|
   desc 'Log in to hub.docker.com'
@@ -47,16 +33,17 @@ namespace :dockerhub do |env|
     image = project_image.first
     namespace image.to_sym do
       next unless @project['images'][image].key?('target_user') &&
-        @project['images'][image].key?('target_repo')
+                  @project['images'][image].key?('target_repo')
+
       @project['pipelines'].each do |pipeline|
         namespace pipeline.to_sym do
           subtasks(env.scope.path) do
             local_user = @project['local_user']
             local_repo = "#{@project['name']}-#{image}-#{pipeline}"
             target_user = @project['images'][image]['target_user']
-            target_repo = "#{@project['images'][image]['target_repo']}"
+            target_repo = @project['images'][image]['target_repo']
             unless @project['images'][image].key?('omit_pipeline_name') &&
-              @project['images'][image]['omit_pipeline_name'] == pipeline
+                   @project['images'][image]['omit_pipeline_name'] == pipeline
               target_repo = "#{target_repo}-#{pipeline}"
             end
             version = @project['version']
