@@ -29,7 +29,7 @@ cmd_images_packer =
   "-var='local_user=%<local_user>s' " \
   "-var='target_repo=%<target_repo>s' " \
   '%<var_privileged>s' \
-  '%<var_run_command>s' \
+  '%<var_command>s' \
   '%<packer_template_dir>s'
 
 jobs = \
@@ -124,9 +124,9 @@ namespace :images do
                     var_privileged = "-var='privileged=#{@project['images'][image]['privileged']}' "
                   end
 
-                  var_run_command = ''
-                  if @project['images'][image].key?('run_command')
-                    var_run_command = "-var='run_command=#{@project['images'][image]['run_command']}' "
+                  var_command = ''
+                  if @project['images'][image].key?('command')
+                    var_command = "-var='command=#{@project['images'][image]['command']}' "
                   end
 
                   parent_layer = layer
@@ -142,7 +142,7 @@ namespace :images do
                       local_user: @project['local_user'],
                       packer_template_dir: packer_template_dir,
                       var_privileged: var_privileged,
-                      var_run_command: var_run_command,
+                      var_command: var_command,
                       target_repo: target_repo
                     )
                   end

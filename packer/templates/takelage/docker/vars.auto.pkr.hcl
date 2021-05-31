@@ -43,11 +43,21 @@ variable "privileged" {
   default = ""
 }
 
-variable "run_command" {
+variable "command" {
   type = string
-  default = "/bin/cat"
+  default = "/usr/bin/tail --follow /dev/null"
 }
 
 locals {
   ansible_host = "${var.target_repo}"
+  privileged_list = "${var.privileged}" == "" ? [] : ["${var.privileged}"]
+  command_split = split(" ", "${var.command}")
+  run_command = concat(concat("${local.privileged_list}", [
+    "--detach",
+    "--interactive",
+    "--tty",
+    "--name",
+    "${var.target_repo}",
+    "{{ .Image }}"
+  ]), "${local.command_split}")
 }
