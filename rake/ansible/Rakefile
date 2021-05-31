@@ -65,8 +65,9 @@ namespace :ansible do
               playbook: 'playbook-site.yml',
               projectname: @project['name'],
               image:
-                "#{@project['dockerhub_base_user']}/" \
-              "#{@project['dockerhub_base_repo']}",
+                "#{@project['images']['project']['base_user']}/" \
+                "#{@project['images']['project']['base_repo']}:" \
+                "#{@project['images']['project']['base_tag']}",
               pipeline: pipeline
             )
           end
