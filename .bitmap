@@ -550,6 +550,29 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "takelage.packer/packer/templates/takelage/docker@0.0.1": {
+        "files": [
+            {
+                "relativePath": "packer/templates/takelage/docker/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "packer/templates/takelage/docker/main.pkr.hcl",
+                "test": false,
+                "name": "main.pkr.hcl"
+            },
+            {
+                "relativePath": "packer/templates/takelage/docker/vars.auto.pkr.hcl",
+                "test": false,
+                "name": "vars.auto.pkr.hcl"
+            }
+        ],
+        "mainFile": "packer/templates/takelage/docker/README.bit",
+        "trackDir": "packer/templates/takelage/docker",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.rake/rake/ansible@0.0.1": {
         "files": [
             {
