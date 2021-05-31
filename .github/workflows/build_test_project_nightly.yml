@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # allow manual trigger
 
 jobs:
-  build-and-test-takeldev:
+  build-and-test-project:
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository
