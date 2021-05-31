@@ -627,17 +627,17 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.1": {
+    "takelage.rake/rake/images@0.0.2": {
         "files": [
             {
+                "name": "README.bit",
                 "relativePath": "rake/images/README.bit",
-                "test": false,
-                "name": "README.bit"
+                "test": false
             },
             {
+                "name": "Rakefile",
                 "relativePath": "rake/images/Rakefile",
-                "test": false,
-                "name": "Rakefile"
+                "test": false
             }
         ],
         "mainFile": "rake/images/README.bit",
