@@ -568,6 +568,24 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
+    "takelage.rake/rake/images@0.0.1": {
+        "files": [
+            {
+                "relativePath": "rake/images/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "rake/images/Rakefile",
+                "test": false,
+                "name": "Rakefile"
+            }
+        ],
+        "mainFile": "rake/images/README.bit",
+        "trackDir": "rake/images",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.rake/rake/meta@0.0.9": {
         "files": [
             {
