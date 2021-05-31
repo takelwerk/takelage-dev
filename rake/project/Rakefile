@@ -7,7 +7,7 @@ namespace :project do
   task prod: %w[git:warn
                 dockerhub:login
                 rubylint
-                rake ansible:prod:lint
+                ansible:prod:lint
                 takelscripts
                 images:update
                 images:takelage:prod:build
