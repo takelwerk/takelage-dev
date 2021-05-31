@@ -550,7 +550,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/git@0.0.8": {
+    "takelage.rake/rake/git@0.0.9": {
         "files": [
             {
                 "name": "README.bit",
@@ -568,7 +568,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/meta@0.0.8": {
+    "takelage.rake/rake/meta@0.0.9": {
         "files": [
             {
                 "name": "README.bit",
