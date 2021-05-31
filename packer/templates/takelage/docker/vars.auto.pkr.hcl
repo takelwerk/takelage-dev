@@ -45,7 +45,7 @@ variable "privileged" {
 
 variable "command" {
   type = string
-  default = "/usr/bin/tail --follow /dev/null"
+  default = "/usr/bin/tail -f /dev/null"
 }
 
 locals {
