@@ -550,7 +550,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/takelage/docker@0.0.2": {
+    "takelage.packer/packer/templates/takelage/docker@0.0.3": {
         "files": [
             {
                 "name": "README.bit",
@@ -627,7 +627,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.4": {
+    "takelage.rake/rake/images@0.0.5": {
         "files": [
             {
                 "name": "README.bit",
