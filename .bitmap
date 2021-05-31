@@ -550,22 +550,22 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/takelage/docker@0.0.1": {
+    "takelage.packer/packer/templates/takelage/docker@0.0.2": {
         "files": [
             {
+                "name": "README.bit",
                 "relativePath": "packer/templates/takelage/docker/README.bit",
-                "test": false,
-                "name": "README.bit"
+                "test": false
             },
             {
+                "name": "main.pkr.hcl",
                 "relativePath": "packer/templates/takelage/docker/main.pkr.hcl",
-                "test": false,
-                "name": "main.pkr.hcl"
+                "test": false
             },
             {
+                "name": "vars.auto.pkr.hcl",
                 "relativePath": "packer/templates/takelage/docker/vars.auto.pkr.hcl",
-                "test": false,
-                "name": "vars.auto.pkr.hcl"
+                "test": false
             }
         ],
         "mainFile": "packer/templates/takelage/docker/README.bit",
@@ -627,7 +627,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.3": {
+    "takelage.rake/rake/images@0.0.4": {
         "files": [
             {
                 "name": "README.bit",
