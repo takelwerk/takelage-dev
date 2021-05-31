@@ -573,17 +573,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/ansible@0.0.1": {
+    "takelage.rake/rake/ansible@0.0.2": {
         "files": [
             {
+                "name": "README.bit",
                 "relativePath": "rake/ansible/README.bit",
-                "test": false,
-                "name": "README.bit"
+                "test": false
             },
             {
+                "name": "Rakefile",
                 "relativePath": "rake/ansible/Rakefile",
-                "test": false,
-                "name": "Rakefile"
+                "test": false
             }
         ],
         "mainFile": "rake/ansible/README.bit",
@@ -627,7 +627,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.5": {
+    "takelage.rake/rake/images@0.0.6": {
         "files": [
             {
                 "name": "README.bit",
