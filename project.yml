@@ -5,12 +5,25 @@ version: 0.38.3
 
 pipelines:
   - prod
+  - beta
+
+local_user: packer_local
 
 images:
-  takelage:
+  project:
+    base_user: takelage
+    base_repo: takelslim
+    base_tag: latest
+    target_user: takelage
+    target_repo: takelage
+    omit_pipeline_name: prod
     layers:
       - site
   takeldev:
+    base_user: takelage
+    base_repo: takelslim
+    base_tag: latest
+    keep_interim_images: false
     layers:
       - system
       - python
@@ -18,17 +31,3 @@ images:
       - packer
       - ruby
       - takelage
-
-keep_interim_images: false
-
-# results in packer_local/myproject-mypipeline:latest
-local_user: packer_local
-
-# pull
-dockerhub_base_user: takelage
-dockerhub_base_repo: takelslim
-
-# push
-dockerhub_user: takelage
-dockerhub_repo: takelage
-dockerhub_tag: latest

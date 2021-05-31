@@ -2,32 +2,34 @@
 
 require 'rake'
 
-cmd_dockerhub_registry_login = 'docker login'
+cmd_dockerhub_login = 'docker login'
 
-cmd_dockerhub_registry_push_latest = \
+cmd_dockerhub_push_latest = \
   'docker push ' \
-  "#{@project['dockerhub_user']}/" \
-  "#{@project['dockerhub_repo']}:" \
-  'latest'
+  '%<target_user>s/%<target_repo>s:latest'
 
-cmd_dockerhub_registry_push_version = \
+cmd_dockerhub_push_version = \
   'docker push ' \
-  "#{@project['dockerhub_user']}/" \
-  "#{@project['dockerhub_repo']}:" \
-  "#{@project['version']} "
+  '%<target_user>s/%<target_repo>s:%<version>s'
 
-cmd_dockerhub_registry_tag_latest = \
+cmd_dockerhub_tag_latest = \
   'docker tag ' \
-  "#{@project['local_user']}/" \
+  '%<local_user>s/%<local_repo>s:latest ' \
+  '%<target_user>s/%<target_repo>s:latest'
+
+cmd_dockerhub_tag_version = \
+  'docker tag ' \
+  '%<local_user>s/%<local_repo>s:latest ' \
+  '%<target_user>s/%<target_repo>s:%<version>s'
+
+"#{@project['local_user']}/" \
   "#{@project['name']}-%<image>s-%<pipeline>s:" \
   "#{@project['dockerhub_tag']} "\
   "#{@project['dockerhub_user']}/" \
   "#{@project['dockerhub_repo']}:" \
   'latest'
 
-cmd_dockerhub_registry_tag_version = \
-  'docker tag ' \
-  "#{@project['local_user']}/" \
+"#{@project['local_user']}/" \
   "#{@project['name']}-%<image>s-%<pipeline>s:" \
   "#{@project['dockerhub_tag']} " \
   "#{@project['dockerhub_user']}/" \
@@ -36,16 +38,28 @@ cmd_dockerhub_registry_tag_version = \
 
 # rubocop:disable Metrics/BlockLength
 namespace :dockerhub do |env|
+  desc 'Log in to hub.docker.com'
+  task :login do
+    @commands << cmd_dockerhub_login
+  end
+
   @project['images'].each do |project_image|
     image = project_image.first
     namespace image.to_sym do
+      next unless @project['images'][image].key?('target_user') &&
+        @project['images'][image].key?('target_repo')
       @project['pipelines'].each do |pipeline|
         namespace pipeline.to_sym do
           subtasks(env.scope.path) do
-            desc 'Log in to hub.docker.com'
-            task :login do
-              @commands << cmd_dockerhub_registry_login
+            local_user = @project['local_user']
+            local_repo = "#{@project['name']}-#{image}-#{pipeline}"
+            target_user = @project['images'][image]['target_user']
+            target_repo = "#{@project['images'][image]['target_repo']}"
+            unless @project['images'][image].key?('omit_pipeline_name') &&
+              @project['images'][image]['omit_pipeline_name'] == pipeline
+              target_repo = "#{target_repo}-#{pipeline}"
             end
+            version = @project['version']
 
             desc 'Push image to hub.docker.com'
             task push: [:"dockerhub:#{image}:#{pipeline}:push:version",
@@ -53,12 +67,21 @@ namespace :dockerhub do |env|
             namespace :push do
               desc 'Push latest image to hub.docker.com'
               task :latest do
-                @commands << cmd_dockerhub_registry_push_latest
+                @commands << format(
+                  cmd_dockerhub_push_latest,
+                  target_user: target_user,
+                  target_repo: target_repo
+                )
               end
 
               desc 'Push version image to hub.docker.com'
               task :version do
-                @commands << cmd_dockerhub_registry_push_version
+                @commands << format(
+                  cmd_dockerhub_push_version,
+                  target_user: target_user,
+                  target_repo: target_repo,
+                  version: version
+                )
               end
             end
 
@@ -69,17 +92,22 @@ namespace :dockerhub do |env|
               desc 'Tag latest image for hub.docker.com'
               task :latest do
                 @commands << format(
-                  cmd_dockerhub_registry_tag_latest,
-                  image: image,
-                  pipeline: pipeline
+                  cmd_dockerhub_tag_latest,
+                  local_user: local_user,
+                  local_repo: local_repo,
+                  target_user: target_user,
+                  target_repo: target_repo
                 )
               end
               desc 'Tag version image for hub.docker.com'
               task :version do
                 @commands << format(
-                  cmd_dockerhub_registry_tag_version,
-                  image: image,
-                  pipeline: pipeline
+                  cmd_dockerhub_tag_version,
+                  local_user: @project['local_user'],
+                  local_repo: local_repo,
+                  target_user: target_user,
+                  target_repo: target_repo,
+                  version: version
                 )
               end
             end
