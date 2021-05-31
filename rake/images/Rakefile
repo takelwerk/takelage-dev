@@ -5,7 +5,7 @@ require 'rake'
 default_packer_template_dir = 'templates/takelage/docker'
 
 cmd_images_docker_pull = 'docker pull ' \
-  "%<base_user>s/%<base_repo>s:%<base_tag>s"
+  '%<base_user>s/%<base_repo>s:%<base_tag>s'
 
 cmd_images_docker_remove = 'docker image remove %<image>s'
 
