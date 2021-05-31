@@ -568,6 +568,24 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "takelage.rake/rake/dockerhub@0.0.1": {
+        "files": [
+            {
+                "relativePath": "rake/dockerhub/README.bit",
+                "test": false,
+                "name": "README.bit"
+            },
+            {
+                "relativePath": "rake/dockerhub/Rakefile",
+                "test": false,
+                "name": "Rakefile"
+            }
+        ],
+        "mainFile": "rake/dockerhub/README.bit",
+        "trackDir": "rake/dockerhub",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "takelage.rake/rake/git@0.0.9": {
         "files": [
             {
