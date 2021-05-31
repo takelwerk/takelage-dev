@@ -177,19 +177,21 @@ end
 
 private
 
+# rubocop:disable Metrics/MethodLength
 def molecule_verifier_files(layers)
   verifier_files = []
   layers.each do |layer|
     playbook = YAML.safe_load(File.read("ansible/playbook-#{layer}.yml"))
     playbook[0]['roles'].each do |role|
       rolename = role
-      rolename = role['role'] if (role.is_a?(Hash) && role.key?('role'))
+      rolename = role['role'] if role.is_a?(Hash) && role.key?('role')
       verifier_files << "\"../../../roles/#{rolename}/molecule/default/system/test_*.py\""
       verifier_files << "\"../../../roles/#{rolename}/molecule/default/tests/test_*.py\""
     end
   end
   "'[#{verifier_files.join(',')}]'"
 end
+# rubocop:enable Metrics/MethodLength
 
 def molecule_verifier_plays(layers)
   verifier_plays = []
