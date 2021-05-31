@@ -5,13 +5,12 @@ source "docker" "takelage" {
   run_command = [
     "--detach",
     "--interactive",
+    "${var.privileged}",
     "--tty",
     "--name",
     "${var.target_repo}",
     "{{ .Image }}",
-    "/usr/bin/tail",
-    "--follow",
-    "/dev/null"
+    "${var.run_command}"
   ]
 }
 
@@ -42,7 +41,7 @@ build {
 
   post-processor "docker-import" {
     changes = [
-      "CMD [\"/usr/bin/tail -f /dev/null\"]",
+      "CMD [\"${var.run_command}\"]",
       "ENV DEBIAN_FRONTEND=noninteractive",
       "ENV LANG=en_US.UTF-8",
       "ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",

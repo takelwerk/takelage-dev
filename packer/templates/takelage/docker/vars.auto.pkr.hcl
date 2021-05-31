@@ -38,6 +38,16 @@ variable "target_tag" {
   default = "latest"
 }
 
+variable "privileged" {
+  type = string
+  default = ""
+}
+
+variable "run_command" {
+  type = string
+  default = "/bin/cat"
+}
+
 locals {
   ansible_host = "${var.target_repo}"
 }
