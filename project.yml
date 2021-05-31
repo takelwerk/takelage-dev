@@ -3,20 +3,6 @@
 name: takelage-dev
 version: 0.38.2
 
-# results in packer_local/myproject-mypipeline:latest
-local_user: packer_local
-
-# pull
-dockerhub_base_user: takelage
-dockerhub_base_repo: takelslim
-
-# push
-dockerhub_user: takelage
-dockerhub_repo: takelage
-dockerhub_tag: latest
-
-keep_interim_images: false
-
 pipelines:
   - prod
 
@@ -32,3 +18,17 @@ images:
       - packer
       - ruby
       - takelage
+
+keep_interim_images: false
+
+# results in packer_local/myproject-mypipeline:latest
+local_user: packer_local
+
+# pull
+dockerhub_base_user: takelage
+dockerhub_base_repo: takelslim
+
+# push
+dockerhub_user: takelage
+dockerhub_repo: takelage
+dockerhub_tag: latest
