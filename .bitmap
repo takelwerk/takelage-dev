@@ -591,7 +591,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/dockerhub@0.0.2": {
+    "takelage.rake/rake/dockerhub@0.0.3": {
         "files": [
             {
                 "relativePath": "rake/dockerhub/README.bit",
