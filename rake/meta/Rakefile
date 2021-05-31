@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
+# Add run=dry to see shell @commands
+# Example: rake prod run=dry
+
 require 'English'
 require 'rake'
 require 'yaml'
 
 @project = YAML.safe_load `tau project`
 @base_dir = ENV['TAKELAGE_PROJECT_BASE_DIR'] || "/tmp/#{@project['name']}"
-
-# Add run=dry to see shell @commands
-# Example: rake stage run=dry
 
 #####################################################################
 # Variables
@@ -73,7 +73,12 @@ task :finally do
     if dry_run
       puts command
     else
-      sh command
+      begin
+        sh command
+      rescue RuntimeError
+        # do not show backtrace
+        exit 1
+      end
     end
   end
 end
