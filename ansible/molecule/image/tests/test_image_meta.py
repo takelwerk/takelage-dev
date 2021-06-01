@@ -1,4 +1,5 @@
 import takeltest
+import os
 import pytest
 import subprocess
 
@@ -9,8 +10,13 @@ def test_image_meta_env_exists(image_meta_data):
     assert image_meta_data['Config']['Env'] is not None
 
 
-def test_image_meta_cmd(image_meta_data):
-    assert image_meta_data['Config']['Cmd'] == ['/usr/bin/tail -f /dev/null']
+def test_image_meta_cmd(testvars, image_meta_data):
+    image = os.environ.get('TAKELAGE_PROJECT_IMG')
+    if 'command' in testvars['project'][image]:
+        expected = testvars['project'][image]['command']
+    else:
+        expected = '/usr/bin/tail -f /dev/null'
+    assert expected.split(' ') == image_meta_data['Config']['Cmd']
 
 
 def test_image_meta_user(image_meta_data):
