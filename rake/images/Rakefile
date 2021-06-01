@@ -41,9 +41,9 @@ jobs = \
 
 # rubocop:disable Metrics/BlockLength
 namespace :images do
+  images = @project['images']
   images.each do |project_image|
     image = project_image.first
-    images = @project['images']
     keep_interim_images = images[image]['keep_interim_images'].nil? ? true : images[image]['keep_interim_images']
     namespace image.to_sym do |env|
       subtasks(env.scope.path) do
@@ -132,9 +132,7 @@ namespace :images do
                   end
 
                   var_command = ''
-                  if images[image].key?('command')
-                    var_command = "-var='command=#{images[image]['command']}' "
-                  end
+                  var_command = "-var='command=#{images[image]['command']}' " if images[image].key?('command')
 
                   parent_layer = layer
 
