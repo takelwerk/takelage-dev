@@ -627,7 +627,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.7": {
+    "takelage.rake/rake/images@0.0.8": {
         "files": [
             {
                 "name": "README.bit",
