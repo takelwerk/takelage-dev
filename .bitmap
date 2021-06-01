@@ -550,7 +550,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.packer/packer/templates/takelage/docker@0.0.4": {
+    "takelage.packer/packer/templates/takelage/docker@0.0.5": {
         "files": [
             {
                 "name": "README.bit",
