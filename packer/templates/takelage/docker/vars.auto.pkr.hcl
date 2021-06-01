@@ -55,9 +55,7 @@ variable "command" {
 
 locals {
   ansible_host = "${var.target_repo}"
-  privileged_list = "${var.privileged}" == "" ? [] : [
-    "${var.privileged}"]
-  run_command_split = split(" ", "${var.packer_command}")
+  privileged_list = "${var.privileged}" == "" ? [] : ["${var.privileged}"]
   run_command_arguments = [
     "--detach",
     "--interactive",
@@ -66,6 +64,7 @@ locals {
     "${var.target_repo}",
     "{{ .Image }}"
   ]
+  run_command_split = split(" ", "${var.packer_command}")
   run_command = concat(concat(
     "${local.privileged_list}", "${local.run_command_arguments}"),
     "${local.run_command_split}"
