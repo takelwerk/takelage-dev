@@ -43,6 +43,11 @@ variable "privileged" {
   default = ""
 }
 
+variable "packer_command" {
+  type = string
+  default = "/usr/bin/tail -f /dev/null"
+}
+
 variable "command" {
   type = string
   default = "/usr/bin/tail -f /dev/null"
@@ -50,14 +55,19 @@ variable "command" {
 
 locals {
   ansible_host = "${var.target_repo}"
-  privileged_list = "${var.privileged}" == "" ? [] : ["${var.privileged}"]
-  command_split = split(" ", "${var.command}")
-  run_command = concat(concat("${local.privileged_list}", [
+  privileged_list = "${var.privileged}" == "" ? [] : [
+    "${var.privileged}"]
+  run_command_split = split(" ", "${var.packer_command}")
+  run_command_arguments = [
     "--detach",
     "--interactive",
     "--tty",
     "--name",
     "${var.target_repo}",
     "{{ .Image }}"
-  ]), "${local.command_split}")
+  ]
+  run_command = concat(concat(
+    "${local.privileged_list}", "${local.run_command_arguments}"),
+    "${local.run_command_split}"
+  )
 }
