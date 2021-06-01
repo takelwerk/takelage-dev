@@ -24,7 +24,8 @@ build {
       "private",
       "users",
       "image",
-      "${var.ansible_environment}"
+      "${var.ansible_environment}",
+      "${var.image_name}"
     ]
     playbook_file = "../ansible/${var.ansible_playbook}"
     user = "root"
@@ -32,7 +33,7 @@ build {
 
   post-processor "docker-import" {
     changes = [
-      "CMD [\"${var.command}\"]",
+      "CMD ${local.command_string}",
       "ENV DEBIAN_FRONTEND=noninteractive",
       "ENV LANG=en_US.UTF-8",
       "ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
