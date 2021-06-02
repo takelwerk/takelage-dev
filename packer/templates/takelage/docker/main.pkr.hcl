@@ -41,6 +41,6 @@ build {
 
   post-processor "docker-tag" {
     repository = "${var.local_user}/${var.target_repo}"
-    tag = ["${var.target_tag}"]
+    tags = ["${var.target_tag}"]
   }
 }
