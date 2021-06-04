@@ -1,12 +1,11 @@
-name: Build and test takeldev
+name: Build, test and deploy takelbeta
 
 on:
-  schedule: # run daily at 1 pm CET
-    - cron:  '0 3 * * *'
+  push: # trigger on git push
   workflow_dispatch: # allow manual trigger
 
 jobs:
-  build-and-test-project:
+  build-and-test-and-deploy-takelbeta:
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository
@@ -39,17 +38,25 @@ jobs:
       - name: Lint ruby
         run: tau docker container command "rake rubylint"
 
-      - name: Lint takeldev
-        run: tau docker container command "rake images:takeldev:prod:molecule:lint"
+      - name: Lint takelbeta
+        run: tau docker container command "rake images:takelbeta:prod:molecule:lint"
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
 
-      - name: Build takeldev intermediate image with packer
-        run: tau docker container command "rake images:takeldev:prod:build:to:05-ruby"
+      - name: Build takelage takelbeta image with packer
+        run: tau docker container command "rake images:takelbeta:prod:build"
 
-      - name: Build takeldev image from intermediate image with packer
-        run: tau docker container command "rake images:takeldev:prod:build:from:05-ruby"
+      - name: Test takelage takelbeta image
+        run: tau docker container command "rake images:takelbeta:prod:molecule:test"
 
-      - name: Test takeldev project image
-        run: tau docker container command "rake images:takeldev:prod:molecule:test"
+      - name: Login to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag and push image
+        run: |
+          tau docker container command "rake dockerhub:takelbeta:prod:tag:latest"
+          tau docker container command "rake dockerhub:takelbeta:prod:push:latest"

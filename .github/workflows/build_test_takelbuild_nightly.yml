@@ -1,0 +1,55 @@
+name: Build and test takelbuild
+
+on:
+  schedule: # run daily at 1 pm CET
+    - cron:  '0 3 * * *'
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  build-and-test-project:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install mutagen
+        run: |
+          wget -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.11.8/mutagen_linux_amd64_v0.11.8.tar.gz
+          sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
+
+      - name: Set up ruby
+        uses: ruby/setup-ruby@v1.61.1
+        with:
+          ruby-version: 2.7
+
+      - name: Install tau
+        run: gem install takelage
+
+      - name: Configure tau
+        run: |
+          echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
+          cat $HOME/.takelage.yml
+
+      - name: Pull takelage image
+        run: tau update
+
+      - name: Start an instance of takelage
+        run: tau docker container daemon
+
+      - name: Lint ruby
+        run: tau docker container command "rake rubylint"
+
+      - name: Lint takelbuild
+        run: tau docker container command "rake images:takelbuild:prod:molecule:lint"
+
+      - name: Test takelscripts
+        run: tau docker container command "rake takelscripts"
+
+      - name: Build takelbuild intermediate image with packer
+        run: tau docker container command "rake images:takelbuild:prod:build:to:05-ruby"
+
+      - name: Build takelbuild image from intermediate image with packer
+        run: tau docker container command "rake images:takelbuild:prod:build:from:05-ruby"
+
+      - name: Test takelbuild project image
+        run: tau docker container command "rake images:takelbuild:prod:molecule:test"
