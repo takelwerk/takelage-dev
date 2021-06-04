@@ -1,4 +1,4 @@
-name: Build, test and deploy project
+name: Build, test and deploy takelbuild
 
 on:
   push: # trigger on git push
