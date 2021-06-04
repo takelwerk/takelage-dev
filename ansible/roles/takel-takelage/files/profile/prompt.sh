@@ -19,7 +19,7 @@ prompt_separator=$prompt_orange
 # object and amend by information about current status of staging area
 # see: http://www.daprose.de/article/minimal-git-bash-prompt
 dereference_git_HEAD() {
-    $(git -C . rev-parse >/dev/null 2>&1)
+    sha1=$(git -C . rev-parse --short HEAD 2>&1)
     if [ $? -eq 0 ]; then
         local color_symref=$color_green
         local color_ref=$color_blue
@@ -29,14 +29,15 @@ dereference_git_HEAD() {
             color_symref=$color_red
             color_ref=$color_red
             dirty='*'
-        elif [[ "$status" == *"is ahead of"* ]]; then
+        elif { ! [[ "$status" == *"Your branch is"* ]] && \
+               ! [[ "$status" == *"HEAD detached at"* ]]; } \
+             || [[ "$status" == *"is ahead of"* ]]; then
             color_symref=$color_orange
             color_ref=$color_orange
             dirty='+'
         fi
         GIT_HEAD_PROMPT="$color_symref-($(git symbolic-ref --quiet --short HEAD)$dirty)$color_reset"
         if [ $? -ne 0 ]; then
-            local sha1=$(git rev-parse --short HEAD 2>&1)
             GIT_HEAD_PROMPT="$color_ref-[$sha1$dirty]$color_reset"
         fi
         GIT_HEAD_PROMPT=$GIT_HEAD_PROMPT
@@ -44,7 +45,6 @@ dereference_git_HEAD() {
         GIT_HEAD_PROMPT=""
     fi
 }
-
 # determine exit status of last command
 exit_status() {
   local exit_status="$?"
