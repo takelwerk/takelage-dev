@@ -1,7 +1,7 @@
 ---
 # project settings
 name: takelage-dev
-version: 0.39.0
+version: 0.39.1
 
 pipelines:
   - prod
@@ -32,7 +32,7 @@ images:
     base_repo: takelslim
     base_tag: latest
     target_user: takelage
-    target_repo: takelage
+    target_repo: takelbuild
     keep_interim_images: false
     layers:
       - system
