@@ -9,7 +9,9 @@ cmd_images_docker_pull = 'docker pull ' \
 
 cmd_images_docker_remove = 'docker image remove %<image>s'
 
-cmd_images_molecule =
+cmd_images_molecule = \
+  '%<env_command>s' \
+  'TAKELAGE_PROJECT_NAME=%<name>s ' \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_IMG=%<image>s ' \
   'TAKELAGE_MOLECULE_VERIFIER_FILES=%<files>s ' \
@@ -43,6 +45,7 @@ jobs = \
 
 # rubocop:disable Metrics/BlockLength
 namespace :images do
+  name = @project['name']
   images = @project['images']
   images.each do |project_image|
     image = project_image.first
@@ -189,16 +192,24 @@ namespace :images do
 
             # no pipeline as these jobs use the target image
             namespace :molecule do
+              env_command = ''
+              if images[image].key?('command')
+                env_command = "TAKELAGE_PROJECT_COMMAND=#{images[image]['command']} "
+              end
+
+
               jobs.each do |job|
                 desc "#{job.capitalize} image #{image}"
                 task job.to_sym do
                   @commands << format(
                     cmd_images_molecule,
+                    env_command: env_command,
                     files: molecule_verifier_files(layers),
                     image: image,
                     job: job,
+                    name: name,
                     pipeline: pipeline,
-                    plays: molecule_verifier_plays(layers)
+                    plays: molecule_verifier_plays(layers),
                   )
                 end
               end

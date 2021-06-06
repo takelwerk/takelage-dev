@@ -4,9 +4,10 @@ require 'rake'
 
 cmd_ansible_molecule_project =
   "cd ansible && bash -c '" \
-  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
-  'TAKELAGE_PROJECT_BASE_IMAGE=%<image>s ' \
   'TAKELAGE_PROJECT_NAME=%<projectname>s ' \
+  'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
+  'TAKELAGE_PROJECT_BASE_IMG=%<image>s ' \
+  'TAKELAGE_MOLECULE_VERIFIER_FILES=%<files>s ' \
   'TAKELAGE_MOLECULE_CONVERGE_PLAYBOOK=%<playbook>s ' \
   "molecule %<job>s --scenario-name default'"
 
@@ -39,9 +40,7 @@ jobs_project = \
      list
      login
      test
-     prepare
-     verify
-     side-effect]
+     verify]
 
 jobs_roles = \
   %i[converge
@@ -63,6 +62,7 @@ namespace :ansible do
               cmd_ansible_molecule_project,
               job: job,
               playbook: 'playbook-site.yml',
+              files: molecule_verifier_files(['site']),
               projectname: @project['name'],
               image:
                 "#{@project['images']['project']['base_user']}/" \
@@ -96,7 +96,7 @@ namespace :ansible do
             task job do
               @commands << format(
                 cmd_ansible_molecule_role,
-                command: job,
+                job: job,
                 role_path: role_path.split('/molecule')[0]
               )
             end
@@ -107,3 +107,19 @@ namespace :ansible do
   end
 end
 # rubocop:enable Metrics/BlockLength
+
+# rubocop:disable Metrics/MethodLength
+def molecule_verifier_files(layers)
+  verifier_files = []
+  layers.each do |layer|
+    playbook = YAML.safe_load(File.read("ansible/playbook-#{layer}.yml"))
+    playbook[0]['roles'].each do |role|
+      rolename = role
+      rolename = role['role'] if role.is_a?(Hash) && role.key?('role')
+      verifier_files << "\"../../../roles/#{rolename}/molecule/default/system/test_*.py\""
+      verifier_files << "\"../../../roles/#{rolename}/molecule/default/tests/test_*.py\""
+    end
+  end
+  "'[#{verifier_files.join(',')}]'"
+end
+# rubocop:enable Metrics/MethodLength
