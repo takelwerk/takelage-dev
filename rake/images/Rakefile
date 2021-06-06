@@ -193,10 +193,7 @@ namespace :images do
             # no pipeline as these jobs use the target image
             namespace :molecule do
               env_command = ''
-              if images[image].key?('command')
-                env_command = "TAKELAGE_PROJECT_COMMAND=#{images[image]['command']} "
-              end
-
+              env_command = "TAKELAGE_PROJECT_COMMAND=#{images[image]['command']} " if images[image].key?('command')
 
               jobs.each do |job|
                 desc "#{job.capitalize} image #{image}"
@@ -209,7 +206,7 @@ namespace :images do
                     job: job,
                     name: name,
                     pipeline: pipeline,
-                    plays: molecule_verifier_plays(layers),
+                    plays: molecule_verifier_plays(layers)
                   )
                 end
               end
