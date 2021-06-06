@@ -1,7 +1,7 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 3.4.0
+    version: 4.0.0
     description: it automation platform
     skip_version_test: true
   - name: argcomplete
@@ -11,17 +11,14 @@ takel_pip_packages:
   - name: behave
     version: 1.2.6
     description: bdd framework
-  - name: diceware
-    version: 0.9.6
-    description: password generator
   - name: molecule
-    version: 3.3.0
+    version: 3.3.4
     description: ansible testing framework
   - name: molecule[docker]
-    version: 3.3.0
+    version: 3.3.4
     description: molecule docker driver
   - name: molecule[lint]
-    version: 3.3.0
+    version: 3.3.4
     description: molecule linters
   - name: pyOpenSSL
     version: 20.0.1
