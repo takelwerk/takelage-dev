@@ -1,6 +1,8 @@
 [![license](https://img.shields.io/github/license/geospin-takelage/takelage-dev?color=blueviolet)](https://github.com/geospin-takelage/takelage-dev/blob/main/LICENSE)
 [![hub.docker.com](https://img.shields.io/docker/v/takelage/takelage/latest?label=hub.docker.com&sort=semver&color=blue)](https://hub.docker.com/r/takelage/takelage)
 [![deploy project](https://img.shields.io/github/workflow/status/geospin-takelage/takelage-dev/Build,%20test%20and%20deploy%20project?label=deploy%20project)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_deploy_project_on_push.yml)
+[![deploy takelbeta](https://img.shields.io/github/workflow/status/geospin-takelage/takelage-dev/Build,%20test%20and%20deploy%20project?label=deploy%20takelbeta)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_deploy_takelbeta_on_push.yml)
+[![deploy takelbuild](https://img.shields.io/github/workflow/status/geospin-takelage/takelage-dev/Build,%20test%20and%20deploy%20project?label=deploy%20takelbuild)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_deploy_takelbuild_on_push.yml)
 [![test project](https://img.shields.io/github/workflow/status/geospin-takelage/takelage-dev/Build%20and%20test%20project?label=test%20project)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_project_nightly.yml)
 [![test roles](https://img.shields.io/github/workflow/status/geospin-takelage/takelage-dev/Test%20roles?label=test%20roles)](https://github.com/geospin-takelage/takelage-dev/actions/workflows/build_test_roles_nightly.yml)
 
