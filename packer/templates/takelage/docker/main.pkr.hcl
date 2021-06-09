@@ -5,7 +5,7 @@ source "docker" "takelage" {
   pull = false
   run_command = "${local.run_command}"
   changes = [
-    "CMD ${local.command_string}",
+    "CMD ${var.command}",
     "ENV DEBIAN_FRONTEND=noninteractive",
     "ENV LANG=en_US.UTF-8",
     "ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
