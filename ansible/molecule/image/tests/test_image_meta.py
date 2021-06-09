@@ -15,7 +15,7 @@ def test_image_meta_cmd(testvars, image_meta_data):
     if 'command' in testvars['project']['images'][image]:
         expected = testvars['project']['images'][image]['command']
     else:
-        expected = '/usr/bin/tail -f /dev/null'
+        expected = '/bin/sh -c "/usr/bin/tail -f /dev/null"'
     assert expected.split(' ') == image_meta_data['Config']['Cmd']
 
 
