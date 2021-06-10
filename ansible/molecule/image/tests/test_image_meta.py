@@ -13,10 +13,10 @@ def test_image_meta_env_exists(image_meta_data):
 def test_image_meta_cmd(testvars, image_meta_data):
     image = os.environ.get('TAKELAGE_PROJECT_IMG')
     if 'command' in testvars['project']['images'][image]:
-        expected = testvars['project']['images'][image]['command']
+        expected = testvars['project']['images'][image]['command'].split(' ')
     else:
-        expected = '/bin/sh -c "/usr/bin/tail -f /dev/null"'
-    assert expected.split(' ') == image_meta_data['Config']['Cmd']
+        expected = ['/bin/sh', '-c', '/usr/bin/tail -f /dev/null']
+    assert expected == image_meta_data['Config']['Cmd']
 
 
 def test_image_meta_user(image_meta_data):
