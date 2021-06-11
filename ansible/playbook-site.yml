@@ -25,7 +25,6 @@
     # terra
     - takel-terra
     # ruby
-    - takel-rvm
     - takel-gem
     # takelage
     - takel-takelage

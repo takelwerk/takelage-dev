@@ -1,7 +1,7 @@
 ---
 # project settings
 name: takelage-dev
-version: 0.41.1
+version: 0.42.0
 
 pipelines:
   - prod
@@ -11,7 +11,7 @@ local_user: packer_local
 images:
   project:
     base_user: takelage
-    base_repo: takelslim
+    base_repo: takelruby
     base_tag: latest
     target_user: takelage
     target_repo: takelage
@@ -20,7 +20,7 @@ images:
       - site
   takelbeta:
     base_user: takelage
-    base_repo: takelslim
+    base_repo: takelruby
     base_tag: latest
     target_user: takelage
     target_repo: takelbeta
@@ -29,7 +29,7 @@ images:
       - site
   takelbuild:
     base_user: takelage
-    base_repo: takelslim
+    base_repo: takelruby
     base_tag: latest
     target_user: takelage
     target_repo: takelbuild
