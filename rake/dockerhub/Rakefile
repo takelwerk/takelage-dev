@@ -4,6 +4,10 @@ require 'rake'
 
 cmd_dockerhub_login = 'docker login'
 
+cmd_dockerhub_push_custom = \
+  'docker push ' \
+  '%<target_user>s/%<target_repo>s:%<target_tag>s'
+
 cmd_dockerhub_push_latest = \
   'docker push ' \
   '%<target_user>s/%<target_repo>s:latest'
@@ -11,6 +15,11 @@ cmd_dockerhub_push_latest = \
 cmd_dockerhub_push_version = \
   'docker push ' \
   '%<target_user>s/%<target_repo>s:%<version>s'
+
+cmd_dockerhub_tag_custom = \
+  'docker tag ' \
+  '%<local_user>s/%<local_repo>s:latest ' \
+  '%<target_user>s/%<target_repo>s:%<target_tag>s'
 
 cmd_dockerhub_tag_latest = \
   'docker tag ' \
@@ -70,9 +79,22 @@ namespace :dockerhub do |env|
                   version: version
                 )
               end
+
+              if @project['images'][image].key?('target_tag')
+                target_tag = @project['images'][image]['target_tag']
+                desc 'Push custom tagged image to hub.docker.com'
+                task :custom do
+                  @commands << format(
+                    cmd_dockerhub_push_custom,
+                    target_user: target_user,
+                    target_repo: target_repo,
+                    target_tag: target_tag
+                  )
+                end
+              end
             end
 
-            desc 'Tag image for hub.docker.com'
+            desc 'Tag image with latest tag for hub.docker.com'
             task tag: [:"dockerhub:#{image}:#{pipeline}:tag:version",
                        :"dockerhub:#{image}:#{pipeline}:tag:latest"]
             namespace :tag do
@@ -86,7 +108,8 @@ namespace :dockerhub do |env|
                   target_repo: target_repo
                 )
               end
-              desc 'Tag version image for hub.docker.com'
+
+              desc 'Tag image with version tag for hub.docker.com'
               task :version do
                 @commands << format(
                   cmd_dockerhub_tag_version,
@@ -96,6 +119,21 @@ namespace :dockerhub do |env|
                   target_repo: target_repo,
                   version: version
                 )
+              end
+
+              if @project['images'][image].key?('target_tag')
+                target_tag = @project['images'][image]['target_tag']
+                desc 'Tag image with custom tag for hub.docker.com'
+                task :custom do
+                  @commands << format(
+                    cmd_dockerhub_tag_custom,
+                    local_user: @project['local_user'],
+                    local_repo: local_repo,
+                    target_user: target_user,
+                    target_repo: target_repo,
+                    target_tag: target_tag
+                  )
+                end
               end
             end
           end

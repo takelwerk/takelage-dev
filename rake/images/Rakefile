@@ -11,6 +11,7 @@ cmd_images_docker_remove = 'docker image remove %<image>s'
 
 cmd_images_molecule = \
   '%<env_command>s' \
+  'TAKELAGE_UNIQUE=%<unique>s ' \
   'TAKELAGE_PROJECT_NAME=%<name>s ' \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_IMG=%<image>s ' \
@@ -195,6 +196,8 @@ namespace :images do
               env_command = ''
               env_command = "TAKELAGE_PROJECT_COMMAND=#{images[image]['command']} " if images[image].key?('command')
 
+              unique = ENV['HOSTNAME'][-11..-1]
+
               jobs.each do |job|
                 desc "#{job.capitalize} image #{image}"
                 task job.to_sym do
@@ -206,7 +209,8 @@ namespace :images do
                     job: job,
                     name: name,
                     pipeline: pipeline,
-                    plays: molecule_verifier_plays(layers)
+                    plays: molecule_verifier_plays(layers),
+                    unique: unique
                   )
                 end
               end
