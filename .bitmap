@@ -591,17 +591,17 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/dockerhub@0.0.3": {
+    "takelage.rake/rake/dockerhub@0.0.4": {
         "files": [
             {
+                "name": "README.bit",
                 "relativePath": "rake/dockerhub/README.bit",
-                "test": false,
-                "name": "README.bit"
+                "test": false
             },
             {
+                "name": "Rakefile",
                 "relativePath": "rake/dockerhub/Rakefile",
-                "test": false,
-                "name": "Rakefile"
+                "test": false
             }
         ],
         "mainFile": "rake/dockerhub/README.bit",
@@ -627,7 +627,7 @@
         "origin": "IMPORTED",
         "originallySharedDir": "rake/git"
     },
-    "takelage.rake/rake/images@0.0.13": {
+    "takelage.rake/rake/images@0.0.14": {
         "files": [
             {
                 "name": "README.bit",
