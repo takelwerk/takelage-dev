@@ -1,5 +1,0 @@
----
-- name: (cleanup) remove rvm installer
-  file:
-    path: "{{ takel_rvm_rvm_installer }}"
-    state: absent
