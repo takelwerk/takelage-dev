@@ -28,7 +28,7 @@ takel_gem_gems:
     version: 3.10.0
     description: test framework
   - name: takelage
-    version: 0.33.0
+    version: 0.33.1
     description: takelage cli
   - name: yard
     version: 0.9.26
