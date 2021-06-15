@@ -6,13 +6,7 @@
       package:
         name: "{{ item }}"
       loop:
-        - ca-certificates
-        - curl
-        - gnupg
-        - procps
         - python3-yaml
-        - sudo
   roles:
-    - takel-rvm
     - takel-gem
     - takel-takelage
