@@ -1,16 +1,5 @@
 ---
 - name: default
   hosts: all
-  pre_tasks:
-    - name: (converge) install prerequisites
-      package:
-        name: "{{ item }}"
-      loop:
-        - ca-certificates
-        - curl
-        - gnupg
-        - procps
-        - sudo
   roles:
-    - takel-rvm
     - takel-gem

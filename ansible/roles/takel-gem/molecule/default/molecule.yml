@@ -8,7 +8,7 @@ lint: |
   flake8
 platforms:
   - name: molecule-takel-gem
-    image: takelage/takelslim
+    image: takelage/takelruby
     command: /usr/bin/tail -f /dev/null
     privileged: false
     pre_build_image: true
@@ -31,8 +31,6 @@ verifier:
     s: true  # capture output
   additional_files_or_dirs:
     - ../system/test_*.py
-  env:
-    TESTVARS_ROLES_WHITELIST: takel-gem
 scenario:
   create_sequence:
     - create
