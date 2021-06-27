@@ -2,6 +2,7 @@
 takel_gcloud_deb_install_packages:
   - bash-completion
   - curl
+  - gsutil
 
 takel_gcloud_installation_root: /opt
 
