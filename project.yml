@@ -1,7 +1,7 @@
 ---
 # project settings
 name: takelage-dev
-version: 0.44.3
+version: 0.44.4
 
 local_user: packer_local
 
