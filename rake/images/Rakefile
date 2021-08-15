@@ -194,7 +194,7 @@ namespace :images do
             # no pipeline as these jobs use the target image
             namespace :molecule do
               env_command = ''
-              env_command = "TAKELAGE_PROJECT_COMMAND=#{images[image]['command']} " if images[image].key?('command')
+              env_command = "TAKELAGE_PROJECT_COMMAND='#{images[image]['command']}' " if images[image].key?('command')
 
               unique = ENV['HOSTNAME'][-11..-1]
 

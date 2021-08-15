@@ -4,6 +4,7 @@ require 'rake'
 
 cmd_ansible_molecule_project =
   "cd ansible && bash -c '" \
+  '%<env_command>s' \
   'TAKELAGE_PROJECT_NAME=%<projectname>s ' \
   'TAKELAGE_PROJECT_ENV=%<pipeline>s ' \
   'TAKELAGE_PROJECT_BASE_IMG=%<image>s ' \
@@ -55,11 +56,16 @@ namespace :ansible do
   @project['pipelines'].each do |pipeline|
     namespace pipeline.to_sym do |env|
       subtasks(env.scope.path) do
+        image = @project['images']['project']
+        env_command = ''
+        env_command = "TAKELAGE_PROJECT_COMMAND=#{image['command']} " if image.key?('command')
+
         jobs_project.each do |job|
           desc "Run molecule #{job} in #{pipeline}"
           task job do
             @commands << format(
               cmd_ansible_molecule_project,
+              env_command: env_command,
               job: job,
               playbook: 'playbook-site.yml',
               files: molecule_verifier_files(['site']),
