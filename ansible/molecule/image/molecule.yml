@@ -7,9 +7,9 @@ lint: |
   ansible-lint
   flake8
 platforms:
-  - name: molecule-takelage-dev-test-image-${TAKELAGE_PROJECT_ENV:-prod}
+  - name: molecule-takelage-dev-test-image}
     # yamllint disable-line rule:line-length
-    image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}-${TAKELAGE_PROJECT_ENV:-prod}
+    image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}
     override_command: true
     command: >-
       /entrypoint.py
@@ -27,7 +27,6 @@ platforms:
     privileged: false
     pre_build_image: true
     groups:
-      - ${TAKELAGE_PROJECT_ENV:-prod}
       - users
       - molecule
 provisioner:

@@ -7,11 +7,11 @@ namespace :project do
   task prod: %w[git:warn
                 dockerhub:login
                 rubylint
-                ansible:prod:lint
+                ansible:lint
                 takelscripts
                 images:update
-                images:project:prod:build
-                images:project:prod:molecule:test
+                images:project:build
+                images:project:molecule:test
                 git:tag
                 dockerhub:tag
                 dockerhub:push]

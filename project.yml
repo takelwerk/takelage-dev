@@ -1,10 +1,7 @@
 ---
 # project settings
 name: takelage-dev
-version: 0.43.4
-
-pipelines:
-  - prod
+version: 0.44.0
 
 local_user: packer_local
 
@@ -15,7 +12,6 @@ images:
     base_tag: latest
     target_user: takelwerk
     target_repo: takelage
-    omit_pipeline_name: prod
     layers:
       - site
   takelbeta:
@@ -24,7 +20,6 @@ images:
     base_tag: latest
     target_user: takelwerk
     target_repo: takelbeta
-    omit_pipeline_name: prod
     layers:
       - site
   takelbuild:
@@ -33,7 +28,6 @@ images:
     base_tag: latest
     target_user: takelwerk
     target_repo: takelbuild
-    omit_pipeline_name: prod
     keep_interim_images: false
     layers:
       - system

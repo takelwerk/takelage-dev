@@ -41,19 +41,19 @@ jobs:
         run: tau docker container command "rake rubylint"
 
       - name: Lint takelbuild
-        run: tau docker container command "rake images:takelbuild:prod:molecule:lint"
+        run: tau docker container command "rake images:takelbuild:molecule:lint"
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
 
       - name: Build takelbuild intermediate image with packer
-        run: tau docker container command "rake images:takelbuild:prod:build:to:05-ruby"
+        run: tau docker container command "rake images:takelbuild:build:to:05-ruby"
 
       - name: Build takelbuild image from intermediate image with packer
-        run: tau docker container command "rake images:takelbuild:prod:build:from:05-ruby"
+        run: tau docker container command "rake images:takelbuild:build:from:05-ruby"
 
       - name: Test takelbuild project image
-        run: tau docker container command "rake images:takelbuild:prod:molecule:test"
+        run: tau docker container command "rake images:takelbuild:molecule:test"
 
       - name: Login to docker hub
         uses: docker/login-action@v1
@@ -63,5 +63,5 @@ jobs:
 
       - name: Tag and push image
         run: |
-          tau docker container command "rake dockerhub:takelbuild:prod:tag"
-          tau docker container command "rake dockerhub:takelbuild:prod:push"
+          tau docker container command "rake dockerhub:takelbuild:tag"
+          tau docker container command "rake dockerhub:takelbuild:push"

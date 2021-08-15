@@ -50,7 +50,7 @@ def test_container_process(host, process, expected_args):
 def test_container_process_tail(host):
     successfully_login = False
     command = '/usr/bin/docker exec ' \
-              '--tty molecule-takelage-dev-test-image-prod ' \
+              '--tty molecule-takelage-dev-test-image ' \
               '/loginpoint.py --username testuser'.split(' ')
     try:
         subprocess.run(command,
