@@ -17,7 +17,7 @@ build, test and deploy os images.
 [Docker](https://www.docker.com) image 
 [takelwerk/takelage](http://hub.docker.com/r/takelwerk/takelage)
 which based on the official [Debian](https://www.debian.org) docker image
-[buster-slim](https://hub.docker.com/_/debian). 
+[bullseye-slim](https://hub.docker.com/_/debian). 
 It builds itself.
 
 ## Framework Versions
@@ -60,18 +60,18 @@ directory you will log in to the already running container.
 So you have one container for each project,
 but you can have many shells per project.
 
-takelage has been tested under macOS Catalina and Debian Buster hosts.
+takelage has been tested under macOS Catalina and Debian Bullseye hosts.
 The [takelage](https://hub.docker.com/r/takelwerk/takelage)
 docker image is based on the Debian 
-[buster-slim](https://hub.docker.com/_/debian)
+[bullseye-slim](https://hub.docker.com/_/debian)
 docker image.
 The Debian base image is used by 
 [packer](https://packer.io)
 to create the
 [takelslim](https://hub.docker.com/r/takelwerk/takelslim)
 docker image by installing 
-[python3-minimal](https://packages.debian.org/buster/python3-minimal) and
-[python3-apt](https://packages.debian.org/buster/python3-apt).
+[python3-minimal](https://packages.debian.org/bullseye/python3-minimal) and
+[python3-apt](https://packages.debian.org/bullseye/python3-apt).
 The takelslim docker image is then used to create
 the takelage docker image.
 
@@ -80,18 +80,18 @@ the takelage docker image.
 Since version 0.31 takelage is based on
 [takelage-img-takelslim](https://github.com/takelwerk/takelage-img-takelslim)
 which is basically a 
-[debian:buster-slim](https://hub.docker.com/_/debian)
+[debian:bullseye-slim](https://hub.docker.com/_/debian)
 docker 
 [official image](https://docs.docker.com/docker-hub/official_images/)
 with a
-[minimal python3](https://github.com/takelwerk/takelage-img-takelslim/blob/main/packer/templates/docker/takelslim/debian-buster/packer.json)
+[minimal python3](https://github.com/takelwerk/takelage-img-takelslim/blob/main/packer/templates/takelslim/build.pkr.hcl)
 installed for 
 [ansible](https://docs.ansible.com/ansible/latest/).
 
 Up to version 0.30 takelage was based on
 [takelage-img-takelbase](https://github.com/takelwerk/takelage-img-takelbase)
 which has 
-[python3, sudo and systemd](https://github.com/takelwerk/takelage-img-takelbase/blob/main/packer/templates/docker/takelbase/debian-buster/bin/install-debian.bash)
+[python3, sudo and systemd](https://github.com/takelwerk/takelage-img-takelbase/blob/main/packer/templates/takelbase/bin/install-debian.bash)
 installed. These takelage containers were run with the
 `--privileged` flag with extended privileges.
 This method was developed to simulate an old-fashioned
