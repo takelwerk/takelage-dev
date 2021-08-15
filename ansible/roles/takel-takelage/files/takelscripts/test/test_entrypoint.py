@@ -389,10 +389,10 @@ def test_takelscripts_entrypoint_add_gpg(
         "{'source': '/srv/.gnupg/gpg.conf', 'destination': '"
 
     gnupg_dir = tmp_path / 'home/testuser/.gnupg'
-    gnupg_dir_mode = os.stat(gnupg_dir).st_mode
+    gnupg_dir_mode = gnupg_dir.stat().st_mode
 
     assert gnupg_dir.is_dir()
-    assert 16832 == gnupg_dir_mode
+    assert 'drwx------' == filemode(gnupg_dir_mode)
 
     assert expected_log_start in caplog.text
     assert expected_log_end in caplog.text
@@ -429,11 +429,10 @@ def test_takelscripts_entrypoint_add_mutagen_socket_dir(
     entrypoint.add_mutagen()
 
     mutagen_socket_dir = tmp_path / 'home/testuser/.mutagen/daemon'
-    mutagen_socket_dir_mode = os.stat(mutagen_socket_dir).st_mode
-    print(mutagen_socket_dir_mode)
+    mutagen_socket_dir_mode = mutagen_socket_dir.stat().st_mode
 
     assert mutagen_socket_dir.is_dir()
-    assert 16877 == mutagen_socket_dir_mode
+    assert 'drwxrwxr-x' == filemode(mutagen_socket_dir_mode)
 
 
 def test_takelscripts_entrypoint_add_ssh(
@@ -600,10 +599,6 @@ def test_takelscripts_entrypoint_docker_sock_group_permissions(
     docker_sock.touch()
 
     entrypoint = EntryPoint()
-
-    mode = docker_sock.stat().st_mode
-
-    assert '-rw-r--r--' == filemode(mode)
 
     entrypoint.docker_sock_permissions()
 
