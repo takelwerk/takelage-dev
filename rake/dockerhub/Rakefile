@@ -32,7 +32,7 @@ cmd_dockerhub_tag_version = \
   '%<target_user>s/%<target_repo>s:%<version>s'
 
 # rubocop:disable Metrics/BlockLength
-namespace :dockerhub do |env|
+namespace :dockerhub do
   desc 'Log in to hub.docker.com'
   task :login do
     @commands << cmd_dockerhub_login
@@ -42,17 +42,20 @@ namespace :dockerhub do |env|
     image = project_image.first
     namespace image.to_sym do
       next unless @project['images'][image].key?('target_user') &&
-        @project['images'][image].key?('target_repo')
+                  @project['images'][image].key?('target_repo')
 
       local_user = @project['local_user']
-      local_repo = "#{@project['name']}"
+      local_repo = @project['name']
       target_user = @project['images'][image]['target_user']
       target_repo = @project['images'][image]['target_repo']
       version = @project['version']
 
+      # rubocop:disable Style/SymbolArray
       desc 'Push image to hub.docker.com'
       task push: [:"dockerhub:push:version",
                   :"dockerhub:push:latest"]
+      # rubocop:enable Style/SymbolArray
+
       namespace :push do
         desc 'Push latest image to hub.docker.com'
         task :latest do
