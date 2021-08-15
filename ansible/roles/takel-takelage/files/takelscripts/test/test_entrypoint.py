@@ -432,7 +432,7 @@ def test_takelscripts_entrypoint_add_mutagen_socket_dir(
     mutagen_socket_dir_mode = mutagen_socket_dir.stat().st_mode
 
     assert mutagen_socket_dir.is_dir()
-    assert 'drwxrwxr-x' == filemode(mutagen_socket_dir_mode)
+    assert 'drwxr-xr-x' == filemode(mutagen_socket_dir_mode)
 
 
 def test_takelscripts_entrypoint_add_ssh(
