@@ -3,11 +3,6 @@ variable "ansible_connection" {
   default = "docker"
 }
 
-variable "ansible_environment" {
-  type = string
-  default = "{{ ansible_environment }}"
-}
-
 variable "image_name" {
   type = string
 }
