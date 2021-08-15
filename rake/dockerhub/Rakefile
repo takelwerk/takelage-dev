@@ -45,7 +45,7 @@ namespace :dockerhub do
                   @project['images'][image].key?('target_repo')
 
       local_user = @project['local_user']
-      local_repo = @project['name']
+      local_repo = "#{@project['name']}-#{image}"
       target_user = @project['images'][image]['target_user']
       target_repo = @project['images'][image]['target_repo']
       version = @project['version']
