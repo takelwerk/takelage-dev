@@ -52,8 +52,8 @@ namespace :dockerhub do
 
       # rubocop:disable Style/SymbolArray
       desc 'Push image to hub.docker.com'
-      task push: [:"dockerhub:push:version",
-                  :"dockerhub:push:latest"]
+      task push: [:"dockerhub:#{image}:push:version",
+                  :"dockerhub:#{image}:push:latest"]
       # rubocop:enable Style/SymbolArray
 
       namespace :push do
