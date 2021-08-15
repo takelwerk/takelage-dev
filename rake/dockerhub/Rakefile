@@ -50,11 +50,9 @@ namespace :dockerhub do
       target_repo = @project['images'][image]['target_repo']
       version = @project['version']
 
-      # rubocop:disable Style/SymbolArray
       desc 'Push image to hub.docker.com'
       task push: [:"dockerhub:#{image}:push:version",
                   :"dockerhub:#{image}:push:latest"]
-      # rubocop:enable Style/SymbolArray
 
       namespace :push do
         desc 'Push latest image to hub.docker.com'
