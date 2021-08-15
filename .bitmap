@@ -483,7 +483,7 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "takelage.rake/rake/dockerhub@0.0.8": {
+    "takelage.rake/rake/dockerhub@0.0.9": {
         "files": [
             {
                 "name": "README.bit",
