@@ -9,7 +9,7 @@ namespace :project do
                 rubylint
                 ansible:lint
                 takelscripts
-                images:update
+                images:project:update
                 images:project:build
                 images:project:molecule:test
                 git:tag
