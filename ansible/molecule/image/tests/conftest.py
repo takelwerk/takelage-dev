@@ -1,7 +1,7 @@
 import pytest
 import docker
 
-image_name = 'takelage/takelage'
+image_name = 'takelwerk/takelage'
 image_tag = 'testing'
 
 
