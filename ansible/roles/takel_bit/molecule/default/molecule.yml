@@ -4,10 +4,10 @@ driver:
 lint: |
   set -e
   yamllint .
-  ansible-lint
+  ansible-lint .
   flake8
 platforms:
-  - name: molecule-takel-bit-client
+  - name: molecule_takel_bit
     image: takelwerk/takelslim
     command: /usr/bin/tail -f /dev/null
     privileged: false
@@ -19,11 +19,10 @@ provisioner:
       interpreter_python: auto_silent
 verifier:
   name: testinfra
+  options:
+    s: true
   additional_files_or_dirs:
     - ../system/test_*.py
-  options:
-    # p: cacheprovider
-    s: true
 scenario:
   create_sequence:
     - create

@@ -1,0 +1,7 @@
+---
+takel_bit_deb_install_packages:
+  - git
+
+takel_bit_completion_dir: /etc/bash_completion.d
+takel_bit_bvm_bash_completion: "{{ takel_bit_completion_dir }}/bvm"
+takel_bit_bit_bash_completion: "{{ takel_bit_completion_dir }}/bit"

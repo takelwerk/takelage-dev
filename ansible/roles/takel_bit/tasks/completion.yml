@@ -1,0 +1,18 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_bit_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) add bvm autocompletion
+  shell: "bvm completion > {{ takel_bit_bvm_bash_completion }}"
+  args:
+    creates: "{{ takel_bit_bvm_bash_completion }}"
+
+- name: (completion) add bit autocompletion
+  shell: "bit completion > {{ takel_bit_bit_bash_completion }}"
+  args:
+    creates: "{{ takel_bit_bit_bash_completion }}"

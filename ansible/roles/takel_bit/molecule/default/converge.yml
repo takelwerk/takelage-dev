@@ -1,5 +1,5 @@
 ---
-- name: (playbook-system) install bit
+- name: default
   hosts: all
   roles:
     - takel_nodejs

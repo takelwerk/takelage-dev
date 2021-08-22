@@ -1,0 +1,14 @@
+---
+- name: (main) include install
+  import_tasks: install.yml
+  tags:
+    - takel
+    - takel_bit
+    - takel_bit_install
+
+- name: (main) include completion
+  import_tasks: completion.yml
+  tags:
+    - takel
+    - takel_bit
+    - takel_bit_completion

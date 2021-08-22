@@ -17,7 +17,8 @@
     # gopass
     - takel-gopass
     # bit
-    - takel-bit-client
+    - takel_nodejs
+    - takel_bit
     # gcloud
     - takel-gcloud
     # hugo
