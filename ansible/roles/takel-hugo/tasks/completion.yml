@@ -8,7 +8,7 @@
     mode: 0755
 
 # https://gohugo.io/commands/hugo_gen_autocomplete/
-- name: (configure) add hugo autocompletion
+- name: (completion) add hugo autocompletion
   shell: "hugo gen autocomplete > {{ takel_hugo_bash_completion }}"
   args:
     creates: "{{ takel_hugo_bash_completion }}"
