@@ -2,4 +2,4 @@
 - name: (playbook-system) install bit
   hosts: all
   roles:
-    - takel-bit-client
+    - takel_nodejs
