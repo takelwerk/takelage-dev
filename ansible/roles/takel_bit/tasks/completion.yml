@@ -12,7 +12,17 @@
   args:
     creates: "{{ takel_bit_bvm_bash_completion }}"
 
+- name: (completion) opt out of analytics reporting
+  command: bit config set analytics_reporting false
+  changed_when: false
+
+- name: (completion) opt out of error reporting
+  command: bit config set error_reporting false
+  changed_when: false
+
 - name: (completion) add bit autocompletion
-  shell: "bit completion > {{ takel_bit_bit_bash_completion }}"
+  shell: >-
+    bit completion | tail --lines +2 >
+    {{ takel_bit_bit_bash_completion }}
   args:
     creates: "{{ takel_bit_bit_bash_completion }}"

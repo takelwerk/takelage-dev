@@ -7,7 +7,7 @@
     group: root
     mode: 0755
 
-- name: (completion) add hugo autocompletion
+- name: (completion) add nodejs autocompletion
   shell: "node --completion-bash > {{ takel_nodejs_bash_completion }}"
   args:
     creates: "{{ takel_nodejs_bash_completion }}"
