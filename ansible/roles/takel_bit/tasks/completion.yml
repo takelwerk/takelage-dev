@@ -26,4 +26,4 @@
     bit completion | tail --lines +2 > {{ takel_bit_bit_bash_completion }}
   args:
     creates: "{{ takel_bit_bit_bash_completion }}"
-    executable: /usr/bin/bash
+    executable: /bin/bash
