@@ -9,11 +9,5 @@
  */
 
 {
-    "rake/meta": {
-        "scope": "",
-        "version": "",
-        "mainFile": "README.bit",
-        "rootDir": "rake/meta"
-    },
     "$schema-version": "14.9.0"
 }
