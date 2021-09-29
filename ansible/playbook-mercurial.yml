@@ -1,0 +1,5 @@
+---
+- name: (playbook-mercurial) install mercurial
+  hosts: all
+  roles:
+    - takel_hg

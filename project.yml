@@ -1,7 +1,7 @@
 ---
 # project settings
 name: takelage-dev
-version: 0.46.1
+version: 0.47.0
 
 local_user: packer_local
 
@@ -31,6 +31,7 @@ images:
     keep_interim_images: false
     layers:
       - system
+      - mercurial
       - python
       - docker
       - packer

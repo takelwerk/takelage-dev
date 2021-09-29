@@ -7,6 +7,8 @@
     - takel-root
     - takel-anarchism
     - takel-mutagen
+    # mercurial
+    - takel_hg
     # python
     - takel-pip
     - takel-molecule
@@ -16,15 +18,8 @@
     - takel-packer
     # gopass
     - takel-gopass
-    # bit
-    - takel_nodejs
-    - takel_bit
-    # gcloud
-    - takel-gcloud
     # hugo
     - takel-hugo
-    # terra
-    - takel-terra
     # ruby
     - takel-gem
     # takelage
