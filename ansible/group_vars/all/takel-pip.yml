@@ -1,7 +1,7 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 4..0
+    version: 4.6.0
     description: it automation platform
     skip_version_test: true
   - name: argcomplete
@@ -12,20 +12,20 @@ takel_pip_packages:
     version: 1.2.6
     description: bdd framework
   - name: molecule
-    version: 3.4.0
+    version: 3.5.1
     description: ansible testing framework
   - name: molecule[docker]
-    version: 3.4.0
+    version: 3.5.1
     description: molecule docker driver
   - name: molecule[lint]
-    version: 3.4.0
+    version: 3.5.1
     description: molecule linters
   - name: pyOpenSSL
-    version: 20.0.1
+    version: 21.0.0
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 6.2.4
+    version: 6.2.5
     description: python testing framework
   - name: pytest-testinfra
     version: 6.4.0

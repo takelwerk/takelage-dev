@@ -3,7 +3,7 @@ import takeltest
 testinfra_hosts = takeltest.hosts()
 
 
-def test_takel_anarchism_install_deb_packages_installed(host, testvars):
+def test_takel_gopass_install_deb_packages_installed(host, testvars):
     install_packages = testvars['takel_gopass_deb_install_packages']
 
     for install_package in install_packages:
@@ -18,7 +18,7 @@ def test_takel_gopass_install_deb_package_removed(host, testvars):
     assert not host.file(deb).exists
 
 
-def test_takel_anarchism_install_template_pass(host):
+def test_takel_gopass_install_template_pass(host):
     file = host.file('/usr/local/bin/pass')
 
     assert file.exists

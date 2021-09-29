@@ -3,7 +3,7 @@
   import_tasks: preinstall.yml
   tags:
     - takel
-    - takel_gopas
+    - takel_gopass
     - takel_gopass_preinstall
 
 - name: (main) include install
