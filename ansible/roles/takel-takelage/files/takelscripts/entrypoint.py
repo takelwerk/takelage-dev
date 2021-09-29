@@ -23,7 +23,6 @@ class EntryPoint(object):
         self._logger = self._logger_init_(self._debug)
         self._logger.info('*******************************************')
         self._logger.info('starting configuration: {now}'.format(now=now))
-        self._bit = args.bit
         self._docker = args.docker
         self._extra = args.extra
         self._gid = args.gid
@@ -31,6 +30,7 @@ class EntryPoint(object):
         self._git = args.git
         self._gopass = args.gopass
         self._gpg = args.gpg
+        self._hg = args.hg
         self._mutagen = args.mutagen
         self._ssh = args.ssh
         self._username = args.username
@@ -44,37 +44,6 @@ class EntryPoint(object):
         # hostdir: host home directory mapped do docker container (/hostdir)
         self._hostdir = self._get_hostdir_()
         self._logger.debug('hostdir: {hostdir}'.format(hostdir=self._hostdir))
-
-    def add_bit(self):
-        if not self._bit:
-            return
-        self._logger.debug(
-            'adding config: bit')
-
-        # bit directories
-        self._mkdir_homedir_child_('Library/Caches/Bit/logs')
-        self._mkdir_homedir_child_('Library/Caches/Bit/config')
-
-        bit_config_file_hostdir = \
-            self._hostdir / 'Library/Caches/Bit/config/config.json'
-        bit_config_file_homedir = \
-            self._homedir / 'Library/Caches/Bit/config/config.json'
-
-        if bit_config_file_hostdir.exists():
-            self._symlink_('Library/Caches/Bit/config/config.json')
-        else:
-            self._logger.debug(
-                'creating bit config.json: {file}'.format(
-                    file=bit_config_file_homedir))
-            bit_config_template = \
-                '{"analytics_id":"40599udvk6jhxplr",' \
-                '"analytics_reporting":false,' \
-                '"error_reporting":false}\n'
-            bit_config_file_homedir.write_text(bit_config_template)
-
-        self._logger.info(
-            'added config: bit')
-        return True
 
     def add_docker(self):
         if not self._docker:
@@ -209,6 +178,19 @@ class EntryPoint(object):
 
         self._logger.info(
             'added config: gpg')
+        return True
+
+    def add_hg(self):
+        if not self._hg:
+            return
+        self._logger.debug(
+            'adding config: hg')
+
+        hgconfig_hostdir = self._hostdir / '.hgrc'
+        if hgconfig_hostdir.exists():
+            self._symlink_('.hgrc')
+
+        self._logger.info('added config: hg')
         return True
 
     def add_mutagen(self):
@@ -549,12 +531,6 @@ class EntryPoint(object):
             type=str,
             help="Home directory used in the host system")
         parser.add_argument(
-            "--no-bit",
-            dest="bit",
-            action="store_false",
-            default=True,
-            help="Do not add bit configuration")
-        parser.add_argument(
             "--no-docker",
             dest="docker",
             action="store_false",
@@ -565,7 +541,7 @@ class EntryPoint(object):
             dest="git",
             action="store_false",
             default=True,
-            help="Do not add git configuation")
+            help="Do not add git configuration")
         parser.add_argument(
             "--no-gopass",
             dest="gopass",
@@ -578,6 +554,12 @@ class EntryPoint(object):
             action="store_false",
             default=True,
             help="Do not add gpg configuration")
+        parser.add_argument(
+            "--no-hg",
+            dest="hg",
+            action="store_false",
+            default=True,
+            help="Do not add hg configuration")
         parser.add_argument(
             "--no-mutagen",
             dest="mutagen",
@@ -662,7 +644,7 @@ def main():
     entrypoint.add_gpg()
     entrypoint.add_ssh()
     entrypoint.add_git()
-    entrypoint.add_bit()
+    entrypoint.add_hg()
     entrypoint.add_extra()
     entrypoint.add_docker()
     entrypoint.chown_tty()

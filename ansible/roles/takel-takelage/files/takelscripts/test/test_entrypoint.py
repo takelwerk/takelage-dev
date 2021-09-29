@@ -1,6 +1,5 @@
 from argparse import Namespace
 import logging
-import os
 import subprocess
 import takelscripts
 from textwrap import dedent
@@ -44,7 +43,6 @@ def test_takelscripts_entrypoint_init_debug(
     output_args = \
         "command line arguments: " + \
         "Namespace(" + \
-        "bit=False, " + \
         "debug=True, " + \
         "docker=False, " + \
         "docker_daemon_port=17873, " + \
@@ -53,6 +51,7 @@ def test_takelscripts_entrypoint_init_debug(
         "git=False, " + \
         "gopass=False, " + \
         "gpg=False, " + \
+        "hg=False, " + \
         "home='/home/testuser', " + \
         "mutagen=False, " + \
         "runcmd='', " + \
@@ -66,103 +65,6 @@ def test_takelscripts_entrypoint_init_debug(
     assert 'starting configuration:' in caplog.text
     assert output_args in caplog.text
     assert "hostdir: /hostdir" in caplog.text
-
-
-def test_takelscripts_entrypoint_add_bit_config(
-        monkeypatch,
-        caplog,
-        tmp_path):
-    homedir_config_path = tmp_path / 'hostdir/Library/Caches/Bit/config'
-    homedir_config_path.mkdir(parents=True)
-    homedir_config_file = homedir_config_path / 'config.json'
-    homedir_config_file.touch()
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default(
-            bit=True,
-            home=str(tmp_path / 'home/testuser')))
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_hostdir_',
-        lambda x: tmp_path / 'hostdir')
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_symlink_',
-        log_argument_symlink)
-
-    entrypoint = EntryPoint()
-
-    entrypoint.add_bit()
-
-    bit_dir_logs = tmp_path / 'home/testuser/Library/Caches/Bit/logs'
-    bit_dir_config = tmp_path / 'home/testuser/Library/Caches/Bit/config'
-
-    expected_log_start = 'adding config: bit'
-    expected_log_end = 'added config: bit'
-    expected_log_dir_logs = 'creating homedir child directory: ' + \
-                            str(bit_dir_logs)
-    expected_log_dir_config = 'creating homedir child directory: ' + \
-                              str(bit_dir_config)
-
-    assert bit_dir_logs.is_dir()
-    assert bit_dir_config.is_dir()
-
-    assert expected_log_start in caplog.text
-    assert expected_log_end in caplog.text
-    assert expected_log_dir_logs in caplog.text
-    assert expected_log_dir_config in caplog.text
-
-
-def test_takelscripts_entrypoint_add_bit_no_config(
-        monkeypatch,
-        caplog,
-        tmp_path):
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default(
-            bit=True,
-            home=str(tmp_path / 'home/testuser')))
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_hostdir_',
-        lambda x: tmp_path / 'hostdir')
-
-    entrypoint = EntryPoint()
-
-    entrypoint.add_bit()
-
-    bit_dir_logs = tmp_path / 'home/testuser/Library/Caches/Bit/logs'
-    bit_dir_config = tmp_path / 'home/testuser/Library/Caches/Bit/config'
-    bit_file_config = bit_dir_config / 'config.json'
-
-    expected_log_start = 'adding config: bit'
-    expected_log_end = 'added config: bit'
-    expected_log_dir_logs = 'creating homedir child directory: ' + \
-                            str(bit_dir_logs)
-    expected_log_dir_config = 'creating homedir child directory: ' + \
-                              str(bit_dir_config)
-    expected_log_file_config = 'creating bit config.json: ' + \
-                               str(bit_dir_config) + '/config.json'
-
-    assert bit_dir_logs.is_dir()
-    assert bit_dir_config.is_dir()
-    assert bit_file_config.is_file()
-
-    assert expected_log_start in caplog.text
-    assert expected_log_end in caplog.text
-    assert expected_log_dir_logs in caplog.text
-    assert expected_log_dir_config in caplog.text
-    assert expected_log_file_config in caplog.text
 
 
 def test_takelscripts_entrypoint_add_docker(
@@ -1126,7 +1028,6 @@ def test_takelscripts_entrypoint_symlink_exists(
 
 
 def args_default(
-        bit=False,
         debug=True,
         docker=False,
         extra='',
@@ -1134,12 +1035,12 @@ def args_default(
         git=False,
         gopass=False,
         gpg=False,
+        hg=False,
         home='/home/testuser',
         mutagen=False,
         ssh=False,
         uid=1500):
     args = Namespace(
-        bit=bit,
         debug=debug,
         docker=docker,
         docker_daemon_port=17873,
@@ -1148,6 +1049,7 @@ def args_default(
         git=git,
         gopass=gopass,
         gpg=gpg,
+        hg=hg,
         home=home,
         mutagen=mutagen,
         runcmd='',

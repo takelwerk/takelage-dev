@@ -17,11 +17,11 @@ platforms:
       --uid 1010
       --gid 1010
       --home /testhome/testuser
-      --no-bit
       --no-docker
       --no-git
       --no-gopass
       --no-gpg
+      --no-hg
       --no-ssh
     tty: true
     privileged: false
