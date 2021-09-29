@@ -29,11 +29,11 @@ def test_image_meta_user(image_meta_data):
                 '--uid 1010 '
                 '--gid 1010 '
                 '--home /testhome/testuser '
-                '--no-bit '
                 '--no-docker '
                 '--no-git '
                 '--no-gopass '
                 '--no-gpg '
+                '--no-hg '
                 '--no-ssh'),
     ('tail',    'tail -f /debug/takelage.log')])
 def test_container_process(host, process, expected_args):
