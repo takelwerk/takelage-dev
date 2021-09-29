@@ -1,0 +1,8 @@
+---
+- name: (configure) copy hg-git extension configuration
+  template:
+    src: hggit.j2
+    dest: "{{ takel_hg_hgrcd_dir }}/hggit.rc"
+    owner: root
+    group: root
+    mode: 0644

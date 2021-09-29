@@ -1,0 +1,8 @@
+---
+takel_hg_deb_install_packages:
+  - mercurial
+  - python3-pip
+
+takel_hg_hgrcd_dir: /etc/mercurial/hgrc.d
+takel_hg_extension_dir: /var/lib/mercurial/hgext
+takel_hg_extension_repo_hggit: https://foss.heptapod.net/mercurial/hg-git
