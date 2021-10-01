@@ -1,4 +1,4 @@
-ename: Build and test takelbuild
+name: Build and test takelbuild
 
 on:
   schedule: # run daily at 1 pm CET
