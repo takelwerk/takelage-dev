@@ -7,6 +7,7 @@ takel_pip_packages:
   - name: ansible-lint
     version: 5.2.0
     description: ansible linter
+    skip_version_test: true
   - name: argcomplete
     version: 1.12.3
     description: autocompletion for argparse
