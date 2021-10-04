@@ -47,10 +47,10 @@ jobs:
         run: tau docker container command "rake takelscripts"
 
       - name: Build takelbuild intermediate image with packer
-        run: tau docker container command "rake images:takelbuild:build:to:05-ruby"
+        run: tau docker container command "rake images:takelbuild:build:to:06-ruby"
 
       - name: Build takelbuild image from intermediate image with packer
-        run: tau docker container command "rake images:takelbuild:build:from:05-ruby"
+        run: tau docker container command "rake images:takelbuild:build:from:06-ruby"
 
       - name: Test takelbuild project image
         run: tau docker container command "rake images:takelbuild:molecule:test"
