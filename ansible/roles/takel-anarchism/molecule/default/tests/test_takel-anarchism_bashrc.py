@@ -19,8 +19,7 @@ if [ -d ~/.bashrc.d ]; then
     fi
   done
   unset i
-fi
-'''
+fi'''
             assert expected in file.content_string
 
 

@@ -18,8 +18,7 @@ desc 'hello NAME', 'say hello to NAME'
   end
 end
 
-MyCLI.start(ARGV)
-"""
+MyCLI.start(ARGV)"""
 
     playbook = moleculebook.get()
     args = dict(content=thor_file_content,
