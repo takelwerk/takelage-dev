@@ -5,7 +5,7 @@
     # system
     - takel-base
     - takel-root
-    - takel-anarchism
+    - takel_anarchism
     - takel-mutagen
     # mercurial
     - takel_hg

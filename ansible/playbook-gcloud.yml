@@ -1,5 +1,0 @@
----
-- name: (playbook-system) install gcloud
-  hosts: all
-  roles:
-    - takel-gcloud
