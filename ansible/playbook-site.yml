@@ -24,4 +24,4 @@
     - takel-gem
     # takelage
     - takel-takelage
-    - takel-cleanup
+    - takel_cleanup

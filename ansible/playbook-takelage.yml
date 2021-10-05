@@ -4,4 +4,4 @@
   hosts: all
   roles:
     - takel-takelage
-    - takel-cleanup
+    - takel_cleanup
