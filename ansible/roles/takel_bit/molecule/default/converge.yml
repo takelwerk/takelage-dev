@@ -1,6 +1,0 @@
----
-- name: default
-  hosts: all
-  roles:
-    - takel_nodejs
-    - takel_bit
