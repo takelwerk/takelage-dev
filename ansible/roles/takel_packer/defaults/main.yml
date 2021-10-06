@@ -12,5 +12,5 @@ takel_packer_url: >-
   takel_packer_version }}_linux_amd64.zip
 
 takel_packer_completion_dir: /etc/bash_completion.d
-takel_packer_bash_completion: >_
+takel_packer_bash_completion: >-
   {{ takel_packer_completion_dir }}/packer
