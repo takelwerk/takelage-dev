@@ -18,7 +18,7 @@ def test_takel_nodejs_repository_apt_repository_key(host, testvars):
 
 
 def test_takel_nodejs_repository_apt_repository(host, testvars):
-    nodejs_repository = testvars['takel_nodejs_repository'] + "\n"
+    nodejs_repository = testvars['takel_nodejs_repository']
     repository_filename = testvars['takel_nodejs_repository_filename']
     file = f"/etc/apt/sources.list.d/{repository_filename}.list"
     sources_list = host.file(file)
