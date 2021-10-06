@@ -1,0 +1,32 @@
+---
+takel_takelage_deb_install_packages:
+  - cloc
+  - expect
+  - git
+  - gnupg
+  - postgresql-client
+  - pwgen
+  - python3-docker
+  - sudo
+  - swaks
+
+takel_takelage_gpg_config_files:
+  - gpg-agent.conf
+  - gpg.conf
+  - dirmngr.conf
+
+takel_takelage_entrypoint_path: /
+
+takel_takelage_profile_order_default: 50
+
+takel_takelage_profile:
+  - file: aliases.sh
+    order: "{{ takel_takelage_profile_order_default }}"
+  - file: prompt.sh
+    order: "{{ takel_takelage_profile_order_default }}"
+  - file: sshagent.sh
+    order: "{{ takel_takelage_profile_order_default }}"
+
+takel_takelage_completion_dir: /etc/bash_completion.d
+takel_takelage_tau_bash_completion: >-
+  {{ takel_takelage_completion_dir }}/tau

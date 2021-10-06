@@ -1,0 +1,13 @@
+data/defaults/main.yml.i
+data/molecule/default/tests/test_takel_docker_preinstall.py.i
+data/tasks/repository.yml.i
+data/molecule/default/tests/test_takel_docker_repository.py.i
+data/molecule/default/converge.yml.i
+data/tasks/preinstall.yml.i
+data/molecule/default/system/test_takel_docker_system.py.i
+data/tasks/main.yml.i
+data/tasks/install.yml.i
+data/molecule/default/tests/test_takel_docker_completion.py.i
+data/tasks/completion.yml.i
+data/molecule/default/molecule.yml.i
+data/molecule/default/tests/test_takel_docker_install.py.i

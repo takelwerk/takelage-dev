@@ -1,0 +1,29 @@
+---
+takel_docker_deb_preinstall_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - gnupg-agent
+  - software-properties-common
+
+takel_docker_deb_install_packages:
+  - containerd.io
+  - docker-ce
+  - docker-ce-cli
+
+takel_docker_ce_repository_key: >-
+  https://download.docker.com/linux/debian/gpg
+takel_docker_ce_repository_filename: docker-ce
+takel_docker_ce_repository_codename: bullseye
+takel_docker_ce_repository_url: >-
+  https://download.docker.com/linux/debian
+takel_docker_ce_repository: >-
+  deb {{ takel_docker_ce_repository_url }} {{
+  takel_docker_ce_repository_codename }} stable
+
+takel_docker_completion_url: >-
+  https://github.com/docker/cli/raw/master/contrib/completion/bash/docker
+takel_docker_completion_dir: /etc/bash_completion.d
+takel_docker_bash_completion: >-
+  {{ takel_docker_completion_dir }}/docker

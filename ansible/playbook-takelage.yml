@@ -3,5 +3,5 @@
 - name: (playbook-takelage) set up takelage and clean up
   hosts: all
   roles:
-    - takel-takelage
+    - takel_takelage
     - takel_cleanup

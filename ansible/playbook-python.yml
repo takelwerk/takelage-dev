@@ -2,5 +2,5 @@
 - name: (playbook-python) install python
   hosts: all
   roles:
-    - takel-pip
-    - takel-molecule
+    - takel_pip
+    - takel_molecule

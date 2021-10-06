@@ -1,2 +1,2 @@
 [flake8]
-exclude = roles/takel-takelage/files/takelscripts/test/test_entrypoint.py
+exclude = roles/takel_takelage/files/takelscripts/test/test_entrypoint.py

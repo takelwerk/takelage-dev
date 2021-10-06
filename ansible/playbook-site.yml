@@ -3,25 +3,25 @@
   hosts: all
   roles:
     # system
-    - takel-base
-    - takel-root
+    - takel_base
+    - takel_root
     - takel_anarchism
-    - takel-mutagen
+    - takel_mutagen
     # mercurial
     - takel_hg
     # python
-    - takel-pip
-    - takel-molecule
+    - takel_pip
+    - takel_molecule
     # docker
-    - takel-docker
+    - takel_docker
     # packer
-    - takel-packer
+    - takel_packer
     # gopass
-    - takel-gopass
+    - takel_gopass
     # hugo
-    - takel-hugo
+    - takel_hugo
     # ruby
-    - takel-gem
+    - takel_gem
     # takelage
-    - takel-takelage
+    - takel_takelage
     - takel_cleanup

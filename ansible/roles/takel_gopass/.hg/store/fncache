@@ -1,0 +1,12 @@
+data/molecule/default/molecule.yml.i
+data/templates/pass.j2.i
+data/tasks/completion.yml.i
+data/molecule/default/system/test_takel_gopass_system.py.i
+data/molecule/default/tests/test_takel_gopass_completion.py.i
+data/tasks/main.yml.i
+data/molecule/default/tests/test_takel_gopass_preinstall.py.i
+data/molecule/default/tests/test_takel_gopass_install.py.i
+data/molecule/default/converge.yml.i
+data/tasks/install.yml.i
+data/defaults/main.yml.i
+data/tasks/preinstall.yml.i

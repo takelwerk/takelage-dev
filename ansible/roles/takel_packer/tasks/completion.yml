@@ -1,0 +1,16 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_packer_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) copy completion file
+  copy:
+    src: packer
+    dest: "{{ takel_packer_bash_completion }}"
+    owner: root
+    group: root
+    mode: 0644

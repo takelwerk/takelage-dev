@@ -1,0 +1,12 @@
+---
+- name: default
+  hosts: all
+  pre_tasks:
+    - name: (converge) install prerequisites
+      package:
+        name: "{{ item }}"
+      loop:
+        - python3-yaml
+  roles:
+    - takel_gem
+    - takel_takelage

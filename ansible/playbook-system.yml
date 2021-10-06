@@ -3,7 +3,7 @@
 - name: (playbook-system) set up the system
   hosts: all
   roles:
-    - takel-base
-    - takel-root
+    - takel_base
+    - takel_root
     - takel_anarchism
-    - takel-mutagen
+    - takel_mutagen

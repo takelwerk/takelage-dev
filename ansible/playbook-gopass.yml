@@ -2,4 +2,4 @@
 - name: (playbook-system) install gopass
   hosts: all
   roles:
-    - takel-gopass
+    - takel_gopass

@@ -1,0 +1,10 @@
+---
+- name: (install) install deb packages
+  apt:
+    name: "{{ takel_hugo_deb_install_packages }}"
+    state: present
+    update_cache: true
+
+- name: (install) download and install hugo deb package
+  apt:
+    deb: "{{ takel_hugo_hugo_url }}"

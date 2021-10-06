@@ -1,0 +1,4 @@
+---
+takel_molecule_completion_dir: /etc/bash_completion.d
+takel_molecule_bash_completion: >-
+  {{ takel_molecule_completion_dir }}/molecule

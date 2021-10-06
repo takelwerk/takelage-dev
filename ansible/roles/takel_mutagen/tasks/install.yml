@@ -1,0 +1,20 @@
+---
+- name: (install) install deb packages
+  apt:
+    name: "{{ takel_mutagen_deb_install_packages }}"
+    state: present
+    update_cache: true
+
+- name: (install) download mutagen binary
+  unarchive:
+    src: "{{ takel_mutagen_url }}"
+    dest: "{{ takel_mutagen_bin_path }}"
+    remote_src: true
+    mode: 0644
+  changed_when: false
+
+- name: (install) make mutagen executable
+  file:
+    path: "{{ takel_mutagen_bin_path }}/mutagen"
+    mode: 0755
+  changed_when: false

@@ -2,4 +2,4 @@
 - name: (playbook-system) install hugo
   hosts: all
   roles:
-    - takel-hugo
+    - takel_hugo

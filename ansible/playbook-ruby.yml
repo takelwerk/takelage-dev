@@ -2,4 +2,4 @@
 - name: (playbook-system) install ruby
   hosts: all
   roles:
-    - takel-gem
+    - takel_gem

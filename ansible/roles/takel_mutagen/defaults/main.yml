@@ -1,0 +1,15 @@
+---
+takel_mutagen_deb_install_packages:
+  - bash-completion
+  - ca-certificates
+
+takel_mutagen_version: 0.11.8
+takel_mutagen_bin_path: /usr/local/bin/
+takel_mutagen_url: >-
+  https://github.com/mutagen-io/mutagen/releases/download/v{{
+  takel_mutagen_version }}/mutagen_linux_amd64_v{{
+  takel_mutagen_version }}.tar.gz
+
+takel_mutagen_completion_dir: /etc/bash_completion.d
+takel_mutagen_bash_completion: >-
+  {{ takel_mutagen_completion_dir }}/mutagen

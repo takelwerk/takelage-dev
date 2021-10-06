@@ -7,7 +7,7 @@ lint: |
   ansible-lint .
   flake8
 platforms:
-  - name: molecule-takelage-dev-test-image
+  - name: molecule_takelage_dev_test_image
     image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}
     override_command: true
     command: >-
@@ -44,7 +44,7 @@ provisioner:
 verifier:
   name: testinfra
   options:
-    s: true  # capture output
+    s: true
     v: true
   env:
     TESTVARS_ROLES_PLAYBOOKS: >-

@@ -1,0 +1,16 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_docker_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) download docker bash completion
+  get_url:
+    url: "{{ takel_docker_completion_url }}"
+    dest: "{{ takel_docker_bash_completion }}"
+    owner: root
+    group: root
+    mode: 0644

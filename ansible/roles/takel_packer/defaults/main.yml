@@ -1,0 +1,16 @@
+---
+takel_packer_deb_install_packages:
+  - bash-completion
+  - ca-certificates
+  - unzip
+
+takel_packer_version: 1.7.6
+takel_packer_bin_path: /usr/local/bin/
+takel_packer_url: >-
+  https://releases.hashicorp.com/packer/{{
+  takel_packer_version }}/packer_{{
+  takel_packer_version }}_linux_amd64.zip
+
+takel_packer_completion_dir: /etc/bash_completion.d
+takel_packer_bash_completion: >_
+  {{ takel_packer_completion_dir }}/packer
