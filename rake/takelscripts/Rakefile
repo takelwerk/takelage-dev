@@ -3,7 +3,7 @@
 require 'rake'
 
 cmd_takelscripts =
-  'cd ansible/roles/takel-takelage/files/takelscripts/test && ' \
+  'cd ansible/roles/takel_takelage/files/takelscripts/test && ' \
     'pytest -v %<files>s'
 
 desc 'Run takelscripts tests'
