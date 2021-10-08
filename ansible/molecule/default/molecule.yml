@@ -7,7 +7,7 @@ lint: |
   ansible-lint .
   flake8
 platforms:
-  - name: molecule_takelage_dev_test_project
+  - name: molecule-takelage-dev-test-project
     image: ${TAKELAGE_PROJECT_BASE_IMAGE:-takelwerk/takelslim}
     command: /usr/bin/tail -f /dev/null
     privileged: false
@@ -32,7 +32,6 @@ verifier:
   name: testinfra
   options:
     s: true
-    v: true
   additional_files_or_dirs:
     # integration
     - ../../../roles/*/molecule/default/tests/test_*.py
