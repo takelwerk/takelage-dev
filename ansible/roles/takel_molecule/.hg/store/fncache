@@ -1,7 +1,7 @@
 data/tasks/main.yml.i
-data/files/molecule.i
-data/molecule/default/tests/test_takel_molecule_completion.py.i
-data/molecule/default/converge.yml.i
-data/defaults/main.yml.i
 data/tasks/completion.yml.i
+data/molecule/default/tests/test_takel_molecule_completion.py.i
+data/defaults/main.yml.i
+data/molecule/default/converge.yml.i
+data/files/molecule.i
 data/molecule/default/molecule.yml.i
