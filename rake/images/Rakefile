@@ -190,7 +190,11 @@ namespace :images do
           env_command = ''
           env_command = "TAKELAGE_PROJECT_COMMAND='#{images[image]['command']}' " if images[image].key?('command')
 
-          unique = ENV['HOSTNAME'][-11..-1]
+          begin
+            unique = ENV['HOSTNAME'][-11..-1]
+          rescue StandardError
+            unique = 'nonunique'
+          end
 
           jobs.each do |job|
             desc "#{job.capitalize} image #{image}"
