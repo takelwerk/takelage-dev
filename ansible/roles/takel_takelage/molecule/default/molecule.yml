@@ -7,7 +7,7 @@ lint: |
   ansible-lint .
   flake8
 platforms:
-  - name: molecule_takel_takelage
+  - name: molecule-takel-takelage
     image: takelwerk/takelruby
     command: /usr/bin/tail -f /dev/null
     privileged: false
