@@ -29,3 +29,10 @@
     version: "{{ item.version }}"
   when: takel_pip_venv_path is undefined
   loop: "{{ takel_pip_packages }}"
+
+# cf. https://github.services.devops.takamol.support/ansible-community/molecule-docker/commit/009aacd0c3d03b91c4033c5b9c0a57fb8e10c99f#diff-a0d1546c9210b39d0263910adf42b804526d72cfb37e8274f1cdcd9d13151008
+- name: (install) workaround until patch is shipped
+  command: >-
+    sed -i 's/docker_netname.network.Labels.owner is not
+    defined/docker_netname.network.Labels.owner is defined/'
+    /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
