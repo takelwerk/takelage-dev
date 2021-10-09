@@ -45,10 +45,11 @@ verifier:
   name: testinfra
   options:
     s: true
+  additional_files_or_dirs: ${TAKELAGE_MOLECULE_VERIFIER_FILES:-[]}
   env:
     TESTVARS_ROLES_PLAYBOOKS: >-
       ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
-  additional_files_or_dirs: ${TAKELAGE_MOLECULE_VERIFIER_FILES:-[]}
+    TESTVARS_ROLES_INCLUDE: takel_user
 scenario:
   create_sequence:
     - create

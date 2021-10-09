@@ -37,6 +37,10 @@ verifier:
     - ../../../roles/*/molecule/default/tests/test_*.py
     # system
     - ../../../roles/*/molecule/default/system/test_*.py
+  env:
+    TESTVARS_ROLES_PLAYBOOKS: >-
+      ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
+    TESTVARS_ROLES_INCLUDE: takel_user
 scenario:
   create_sequence:
     - create
