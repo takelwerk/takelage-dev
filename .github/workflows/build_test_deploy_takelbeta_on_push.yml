@@ -1,8 +1,9 @@
+---
 name: Build, test and deploy takelbeta
 
 on:
-  push: # trigger on git push
-  workflow_dispatch: # allow manual trigger
+  push:  # trigger on git push
+  workflow_dispatch:  # allow manual trigger
 
 jobs:
   build-and-test-and-deploy-takelbeta:
