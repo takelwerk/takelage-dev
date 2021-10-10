@@ -18,6 +18,8 @@ takel_pip_packages:
   - name: molecule
     version: 3.5.1
     description: ansible testing framework
+  # remove workworund takel_pip/tasks/install.yml
+  # when upgrading molecule-docker to new version
   - name: molecule[docker,lint]
     version: 3.5.1
     description: molecule drivers
