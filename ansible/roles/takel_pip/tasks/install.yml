@@ -37,5 +37,5 @@
   lineinfile:
     # yamllint disable-line rule:line-length
     path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
-    regexp: '^docker_netname.network.Labels.owner is'
-    line: 'docker_netname.network.Labels.owner is defined'
+    regexp: '^    - docker_netname.network.Labels.owner is'
+    line: '    - docker_netname.network.Labels.owner is defined'
