@@ -4,7 +4,6 @@
   roles:
     # system
     - takel_base
-    - takel_root
     - takel_anarchism
     - takel_mutagen
     # mercurial
