@@ -13,7 +13,6 @@ platforms:
     privileged: false
     pre_build_image: true
     groups:
-      - users
       - molecule
 provisioner:
   name: ansible
