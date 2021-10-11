@@ -39,7 +39,7 @@ takel_pip_packages:
     description: terminate tests after a certain timeout
     skip_version_test: true
   - name: pytest-takeltest
-    version: 0.9.9
+    version: 0.9.10
     description: molecule pytest fixtures
     skip_version_test: true
   - name: twine
