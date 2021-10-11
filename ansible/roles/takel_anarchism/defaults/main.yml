@@ -4,4 +4,4 @@ takel_anarchism_deb_install_packages:
   - sudo
 
 takel_anarchism_bashrc_d: >-
-  {{ [anarchism] + takel_user_bashrc_d }}
+  {{ ['anarchism'] + takel_user_bashrc_d }}
