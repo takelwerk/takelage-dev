@@ -8,3 +8,6 @@ data/molecule/default/system/test_takel-gem_system.py.i
 data/molecule/default/tests/test_takel-gem_profile.py.i
 data/tasks/install.yml.i
 data/molecule/default/tests/test_takel-gem_install.py.i
+data/molecule/default/tests/test_takel_gem_install.py.i
+data/molecule/default/system/test_takel_gem_system.py.i
+data/molecule/default/tests/test_takel_gem_profile.py.i
