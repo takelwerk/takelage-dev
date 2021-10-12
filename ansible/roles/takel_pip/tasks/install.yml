@@ -33,9 +33,16 @@
 # remove with new version of molecule-docker
 # yamllint disable-line rule:line-length
 # cf. https://github.services.devops.takamol.support/ansible-community/molecule-docker/commit/009aacd0c3d03b91c4033c5b9c0a57fb8e10c99f#diff-a0d1546c9210b39d0263910adf42b804526d72cfb37e8274f1cdcd9d13151008
+- name: (install) test if workraround is applicable
+  stat:
+    # yamllint disable-line rule:line-length
+    path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
+  register: molecule_docker_network
+
 - name: (install) workaround until patch is shipped
   lineinfile:
     # yamllint disable-line rule:line-length
     path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
     regexp: '^    - docker_netname.network.Labels.owner is'
     line: '    - docker_netname.network.Labels.owner is defined'
+  when: molecule_docker_network.stat.exists
