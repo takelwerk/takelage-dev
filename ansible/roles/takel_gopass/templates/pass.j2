@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# suppress "You haven't checked for updates in a while."
+gopass version > /dev/null 2>&1
+
 # if the first parameter is "show"
 if [ "$1" == "show" ]
 then
