@@ -16,7 +16,7 @@ takel_pip_packages:
     version: 1.2.6
     description: bdd framework
   - name: molecule
-    version: 3.5.1
+    version: 3.5.2
     description: ansible testing framework
   # remove workworund takel_pip/tasks/install.yml
   # when upgrading molecule-docker to new version
