@@ -3,7 +3,7 @@ takel_mutagen_deb_install_packages:
   - bash-completion
   - ca-certificates
 
-takel_mutagen_version: 0.11.8
+takel_mutagen_version: 0.12.0
 takel_mutagen_bin_path: /usr/local/bin/
 takel_mutagen_url: >-
   https://github.com/mutagen-io/mutagen/releases/download/v{{
