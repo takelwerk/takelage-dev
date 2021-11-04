@@ -49,7 +49,6 @@ class LoginPoint(object):
     def _get_cmd_status_(self):
         command = [
             '/bin/su',
-            '--login',
             self._username,
             '--command',
             'cd /project && '
