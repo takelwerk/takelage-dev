@@ -34,6 +34,11 @@ jobs:
       - name: Pull takelage image
         run: tau update
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
       - name: Start an instance of takelage
         run: tau docker container daemon
 
