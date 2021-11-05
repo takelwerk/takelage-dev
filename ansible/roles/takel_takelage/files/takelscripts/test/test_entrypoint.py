@@ -420,14 +420,14 @@ def test_takelscripts_entrypoint_add_user(
     entrypoint.add_user()
 
     expected_log_user = 'creating user: testuser'
-    expected_log_grouos = 'adding user to groups: sudo,tty'
+    expected_log_grouos = 'adding user to groups: sudo,tty,docker'
     expected_command_begin = \
         "['useradd', " \
         "'--create-home', " \
         "'--home-dir', "
     expected_command_end = \
         "'--groups', " \
-        "'sudo,tty', " \
+        "'sudo,tty,docker', " \
         "'--shell', " \
         "'/bin/bash', " \
         "'--non-unique', " \
@@ -471,42 +471,6 @@ def test_takelscripts_entrypoint_chown_home(
         "'/home/testuser']"
 
     assert command in caplog.text
-
-
-def test_takelscripts_entrypoint_docker_sock_group_permissions(
-        monkeypatch,
-        tmp_path):
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default())
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_dockersockpath_',
-        lambda x: tmp_path / 'docker.sock')
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_dockersocketgroup_',
-        lambda x, y: 'docker')
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_add_user_to_group_',
-        log_arguments_add_user_to_group)
-
-    docker_sock = tmp_path / 'docker.sock'
-    docker_sock.touch()
-
-    entrypoint = EntryPoint()
-
-    entrypoint.docker_sock_permissions()
-
-    mode = docker_sock.stat().st_mode
-
-    assert '-rw-rw-r--' == filemode(mode)
 
 
 def test_takelscripts_entrypoint_chown_tty(
@@ -693,98 +657,6 @@ def test_takelscripts_entrypoint_create_group(
     expected_log = "creating group: {'name': 'testuser', 'gid': 1600}"
 
     assert command in caplog.text
-    assert expected_log in caplog.text
-
-
-def test_takelscripts_entrypoint_get_dockersocketgroup_exists(
-        monkeypatch,
-        tmp_path):
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default())
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_dockersockpath_',
-        lambda x: tmp_path / 'docker.sock')
-    entrypoint = EntryPoint()
-
-    docker_socket = tmp_path / 'docker.sock'
-    docker_socket.touch()
-
-    group = entrypoint._get_dockersocketgroup_(9999)
-
-    assert docker_socket.group() == group
-
-
-def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_notcreate(
-        monkeypatch,
-        caplog):
-    class dockersocketpath:
-        def group():
-            raise KeyError
-
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default())
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_dockersockpath_',
-        lambda x: dockersocketpath)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_group_exists_',
-        lambda x, y: 0)
-    entrypoint = EntryPoint()
-
-    group = entrypoint._get_dockersocketgroup_(9999)
-
-    unexpected_log = \
-        "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
-
-    assert group == 'takelage_dockersock'
-    assert unexpected_log not in caplog.text
-
-
-def test_takelscripts_entrypoint_get_dockersocketgroup_notexists_create(
-        monkeypatch,
-        caplog):
-    class dockersocketpath:
-        def group():
-            raise KeyError
-
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_parse_args_',
-        lambda x: args_default())
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_logger_init_',
-        mock_logger_init)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_get_dockersockpath_',
-        lambda x: dockersocketpath)
-    monkeypatch.setattr(
-        takelscripts.entrypoint.EntryPoint,
-        '_create_group_',
-        log_arguments_create_group)
-    entrypoint = EntryPoint()
-
-    group = entrypoint._get_dockersocketgroup_(9999)
-
-    expected_log = "create_group: {'name': 'takelage_dockersock', 'gid': 9999}"
-
-    assert group == 'takelage_dockersock'
     assert expected_log in caplog.text
 
 

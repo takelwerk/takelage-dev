@@ -76,17 +76,7 @@ class EntryPoint(object):
             self._logger.debug(
                 'creating docker config file: {file}'.format(
                     file=str(docker_config_homedir)))
-            docker_config_template = \
-                '{\n' \
-                '  "credHelpers": {\n' \
-                '    "gcr.io": "gcloud",\n' \
-                '    "us.gcr.io": "gcloud",\n' \
-                '    "eu.gcr.io": "gcloud",\n' \
-                '    "asia.gcr.io": "gcloud",\n' \
-                '    "staging-k8s.gcr.io": "gcloud",\n' \
-                '    "marketplace.gcr.io": "gcloud"\n' \
-                '  }\n' \
-                '}\n'
+            docker_config_template = '{}\n'
             docker_config_homedir.write_text(docker_config_template)
 
         self._logger.info(
@@ -226,9 +216,7 @@ class EntryPoint(object):
         if result.returncode:
             return False
 
-        groups = 'sudo,tty'
-        if self._docker:
-            groups += ',docker'
+        groups = 'sudo,tty,docker'
         self._logger.debug(
             'adding user to groups: {groups}'.format(
                 groups=groups))
@@ -293,39 +281,6 @@ class EntryPoint(object):
             'changed ownership: {home}'.format(
                 home=self._homedir))
         return True
-
-    def docker_sock_permissions(self):
-        self._logger.debug(
-            'make /var/run/docker.sock readable and writable for user')
-        docker_socket = self._get_dockersockpath_()
-        if not docker_socket.exists():
-            self._logger.debug(
-                '/var/run/docker.sock does not exist')
-            return False
-
-        # check /var/run/docker.sock
-        gid = stat(docker_socket).st_gid
-        docker_socket_group = self._get_dockersocketgroup_(gid)
-        mode = docker_socket.stat().st_mode
-        docker_socket_stat = {
-            'group': docker_socket_group,
-            'gid': gid,
-            'mode': filemode(mode)}
-        self._logger.info(
-            '{docker_socket_path}: {docker_socket_stat}'.format(
-                docker_socket_path=str(docker_socket),
-                docker_socket_stat=docker_socket_stat))
-
-        self._converge_docker_socket_group_permissions_(
-            docker_socket,
-            mode)
-
-        self._add_user_to_group_(
-            self._username,
-            docker_socket_group)
-
-        self._logger.debug(
-            'made /var/run/docker.sock readable and writable for user')
 
     def runcmd(self):
         if not self._runcmd:
@@ -649,7 +604,6 @@ def main():
     entrypoint.add_docker()
     entrypoint.chown_tty()
     entrypoint.chown_home()
-    entrypoint.docker_sock_permissions()
     entrypoint.runcmd()
 
 
