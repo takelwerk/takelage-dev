@@ -23,8 +23,17 @@ jobs:
         with:
           ruby-version: 2.7
 
+#      - name: Install tau
+#        run: gem install takeltau
+
       - name: Install tau
-        run: gem install takeltau
+        run: gem install takeltau -v 0.39.0
+
+      - name: Start mutagen daemon
+        run: mutagen daemon start
+
+#
+#
 
       - name: Configure tau
         run: |
