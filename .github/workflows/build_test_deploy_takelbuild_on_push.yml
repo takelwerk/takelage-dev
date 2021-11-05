@@ -23,21 +23,14 @@ jobs:
         with:
           ruby-version: 2.7
 
-      #      - name: Install tau
-      #        run: gem install takeltau
-
       - name: Install tau
-        run: gem install takeltau -v 0.37.1
+        run: gem install takeltau
 
       - name: Configure tau
         run: |
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
-          echo "docker_tag: '0.49.0'" >> $HOME/.takelage.yml
+          echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
           cat $HOME/.takelage.yml
-        # echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
-
-      - name: Pull docker image
-        run: docker pull takelwerk/takelage:0.49.0
 
       - name: Pull takelage image
         run: tau update
