@@ -23,20 +23,14 @@ jobs:
         with:
           ruby-version: 2.7
 
-      #      - name: Install tau
-      #        run: gem install takeltau
-
       - name: Install tau
-        run: gem install takeltau -v 0.39.0
-
-      - name: Start mutagen daemon
-        run: mutagen daemon start
+        run: gem install takeltau
 
       - name: Configure tau
         run: |
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
+          echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
           cat $HOME/.takelage.yml
-        # echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
 
       - name: Pull takelage image
         run: tau update
