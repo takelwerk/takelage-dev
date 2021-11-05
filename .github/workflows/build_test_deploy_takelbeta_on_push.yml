@@ -35,6 +35,9 @@ jobs:
           cat $HOME/.takelage.yml
         # echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
 
+      - name: Pull docker image
+        run: docker pull takelwerk/takelage:0.49.0
+
       - name: Pull takelage image
         run: tau update
 
