@@ -35,6 +35,11 @@ jobs:
       - name: Pull takelage image
         run: tau update
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
       - name: Start an instance of takelage
         run: tau docker container daemon
 
@@ -46,11 +51,6 @@ jobs:
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
 
       - name: Build takelbuild intermediate image with packer
         run: tau docker container command "rake images:takelbuild:build:to:06-ruby"
