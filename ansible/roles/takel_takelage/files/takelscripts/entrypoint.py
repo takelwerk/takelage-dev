@@ -7,10 +7,10 @@ import subprocess
 import shlex
 import sys
 from datetime import datetime
-from os import chown, stat
+from os import chown
 from pathlib import Path
 from shutil import copyfile
-from stat import filemode, S_IRGRP, S_IWGRP
+from stat import S_IRGRP, S_IWGRP
 
 
 class EntryPoint(object):
