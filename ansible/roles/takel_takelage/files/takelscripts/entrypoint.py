@@ -440,7 +440,8 @@ class EntryPoint(object):
             takelage_file = \
                 self._homedir / '.bashrc.d/takelage'
             takelage_template = \
-                "alias take='rake overview=true'\n"
+                "alias take='rake overview=true'\n" \
+                "tau status\n"
             takelage_file.write_text(takelage_template)
 
     def _mkdir_homedir_child_(self, directory):

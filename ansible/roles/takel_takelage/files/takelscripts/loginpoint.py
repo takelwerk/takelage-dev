@@ -26,10 +26,6 @@ class LoginPoint(object):
         cmd_login = self._get_cmd_login_()
         subprocess.run(cmd_login)
 
-    def print_status(self):
-        cmd_status = self._get_cmd_status_()
-        subprocess.run(cmd_status)
-
     def wait_until_container_ready(self):
         processes = self._get_processes_('start')
 
@@ -44,15 +40,6 @@ class LoginPoint(object):
         command = [
             '/bin/su',
             self._username]
-        return command
-
-    def _get_cmd_status_(self):
-        command = [
-            '/bin/su',
-            self._username,
-            '--command',
-            'cd /project && '
-            '/usr/local/rvm/wrappers/default/tau status']
         return command
 
     def _get_processes_(self, when):
@@ -90,7 +77,6 @@ def main():
     loginpoint.wait_until_container_ready()
     if not loginpoint.check_username():
         exit(1)
-    loginpoint.print_status()
     loginpoint.login_to_container()
 
 
