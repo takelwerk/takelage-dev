@@ -22,8 +22,8 @@ provisioner:
       all:
         takel_takelage_version: 0.0.1
         takel_gem_gems:
-          - name: takelage
-            version: 0.29.10
+          - name: takeltau
+            version: 0.40.0
             description: takelage cli
 verifier:
   name: testinfra
