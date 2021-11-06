@@ -9,4 +9,5 @@
         - python3-yaml
   roles:
     - takel_gem
+    - takel_docker
     - takel_takelage
