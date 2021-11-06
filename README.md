@@ -62,24 +62,16 @@ directory you will log in to the already running container.
 So you have one container for each project,
 but you can have many shells per project.
 
-takelage has been tested under macOS Catalina and Debian Bullseye hosts.
-The [takelage](https://hub.docker.com/r/takelwerk/takelage)
-docker image is based on the Debian 
-[bullseye-slim](https://hub.docker.com/_/debian)
-docker image.
-The Debian base image is used by 
-[packer](https://packer.io)
-to create the
-[takelslim](https://hub.docker.com/r/takelwerk/takelslim)
-docker image by installing 
-[python3-minimal](https://packages.debian.org/bullseye/python3-minimal) and
-[python3-apt](https://packages.debian.org/bullseye/python3-apt).
-The takelslim docker image is then used to create
-the takelage docker image.
+takelage has been tested under macOS Monterey and Debian Bullseye hosts.
 
-## Versions
+## Channels
 
-Since version 0.31 takelage is based on
+takelage comes in different flavors.
+* `takelwerk/takelage` is the interactive environment 
+* `takelwerk/takelbeta` is the development version of `takelwerk/takelage`
+* `takelwerk/takelbuild` is a smaller version for CI/CD pipelines
+
+`takelwerk/takelage` is based on
 [takelage-img-takelslim](https://github.com/takelwerk/takelage-img-takelslim)
 which is basically a 
 [debian:bullseye-slim](https://hub.docker.com/_/debian)
@@ -90,30 +82,10 @@ with a
 installed for 
 [ansible](https://docs.ansible.com/ansible/latest/).
 
-Up to version 0.30 takelage was based on
+There is also a systemd based base container
 [takelage-img-takelbase](https://github.com/takelwerk/takelage-img-takelbase)
 which has 
 [python3, sudo and systemd](https://github.com/takelwerk/takelage-img-takelbase/blob/main/packer/templates/takelbase/bin/install-debian.bash)
-installed. These takelage containers were run with the
+installed and mimics an old-fashioned debian box. 
+It is designed to be run with the docker
 `--privileged` flag with extended privileges.
-This method was developed to simulate an old-fashioned
-debian systemd server but it is generally not needed for takelage-dev.
-
-Accordingly, the takelage command line tool `tau` from the 
-[ruby gem takelage](https://github.com/takelwerk/takelage-cli)
-beginning with version 0.27 which is part of takelage 0.31
-dropped the `--privileged` flag. 
-
-For
-[takelage-cli](https://github.com/takelwerk/takelage-cli)
-for example the `--privileged` flag is still needed.
-So if you want to run privileged takelage containers you can 
-[overwrite the setting](https://github.com/takelwerk/takelage-cli#configuration)
-by adding `docker_run_options: --privileged` 
-to a 
-[project `takelage.yml`](https://github.com/takelwerk/takelage-cli/blob/main/.github/workflows/test_project_nightly.yml)
-or your `~/.takelage.yml`.
-
-Afterwards, you can check your active config with `tau config`.
-If you still run into problems, try the helpful
- `tau -l debug` flag or drop us a line.
