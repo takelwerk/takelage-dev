@@ -3,7 +3,7 @@ takel_hugo_deb_install_packages:
   - bash-completion
   - ca-certificates
 
-takel_hugo_hugo_version: 0.88.1
+takel_hugo_hugo_version: 0.89.2
 takel_hugo_hugo_url: >-
   https://github.com/gohugoio/hugo/releases/download/v{{
   takel_hugo_hugo_version }}/hugo_extended_{{

@@ -4,7 +4,7 @@ takel_packer_deb_install_packages:
   - ca-certificates
   - unzip
 
-takel_packer_version: 1.7.7
+takel_packer_version: 1.7.8
 takel_packer_bin_path: /usr/local/bin/
 takel_packer_url: >-
   https://releases.hashicorp.com/packer/{{
