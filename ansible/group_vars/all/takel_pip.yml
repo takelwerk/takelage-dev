@@ -1,11 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 5.1.0
+    version: 5.4.0
     description: it automation platform
     skip_version_test: true
   - name: ansible-lint
-    version: 5.3.1
+    version: 5.4.0
     description: ansible linter
     skip_version_test: true
   - name: argcomplete
@@ -16,26 +16,26 @@ takel_pip_packages:
     version: 1.2.6
     description: bdd framework
   - name: molecule
-    version: 3.5.2
+    version: 3.6.1
     description: ansible testing framework
   # remove workworund takel_pip/tasks/install.yml
   # when upgrading molecule-docker to new version
   - name: molecule[docker,lint]
-    version: 3.5.2
+    version: 3.6.1
     description: molecule drivers
   - name: pyOpenSSL
-    version: 21.0.0
+    version: 22.0.0
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 6.2.5
+    version: 7.0.1
     description: python testing framework
   - name: pytest-testinfra
-    version: 6.5.0
+    version: 6.6.0
     description: molecule python verifier
     skip_version_test: true
   - name: pytest-timeout
-    version: 2.0.2
+    version: 2.1.0
     description: terminate tests after a certain timeout
     skip_version_test: true
   - name: pytest-takeltest
@@ -43,7 +43,7 @@ takel_pip_packages:
     description: molecule pytest fixtures
     skip_version_test: true
   - name: twine
-    version: 3.7.1
+    version: 3.8.0
     description: utilities for pypi
   - name: wheel
     version: 0.37.1
