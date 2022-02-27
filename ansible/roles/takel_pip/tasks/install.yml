@@ -38,11 +38,11 @@
 # yamllint disable-line rule:line-length
 #     path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
 #   register: molecule_docker_network
-
-- name: (install) workaround until patch is shipped
-  lineinfile:
-    # yamllint disable-line rule:line-length
-    path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
-    regexp: '^    - docker_netname.network.Labels.owner is'
-    line: '    - docker_netname.network.Labels.owner is defined'
-  when: molecule_docker_network.stat.exists
+#
+# - name: (install) workaround until patch is shipped
+#   lineinfile:
+# yamllint disable-line rule:line-length
+#     path: /usr/local/lib/python3.9/dist-packages/molecule_docker/playbooks/tasks/delete_network.yml
+#     regexp: '^    - docker_netname.network.Labels.owner is'
+#     line: '    - docker_netname.network.Labels.owner is defined'
+#   when: molecule_docker_network.stat.exists
