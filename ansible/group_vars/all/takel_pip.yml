@@ -1,11 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 5.4.0
+    version: 5.5.0
     description: it automation platform
     skip_version_test: true
   - name: ansible-lint
-    version: 5.4.0
+    version: 6.0.1
     description: ansible linter
     skip_version_test: true
   - name: argcomplete
@@ -26,7 +26,7 @@ takel_pip_packages:
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 7.0.1
+    version: 7.1.1
     description: python testing framework
   - name: pytest-testinfra
     version: 6.6.0
