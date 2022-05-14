@@ -1,7 +1,7 @@
 ---
 takel_gem_gems:
   - name: aruba
-    version: 2.0.0
+    version: 2.0.1
     description: cli test framework
   - name: minitest
     version: 5.15.0
@@ -10,10 +10,10 @@ takel_gem_gems:
     version: 1.5.0
     description: minitest reporter plugin
   - name: rubocop
-    version: 1.26.0
+    version: 1.29.1
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.18.0
+    version: 0.19.1
     description: minitest linter
   - name: rubocop-rails
     version: 2.14.2
@@ -22,7 +22,7 @@ takel_gem_gems:
     version: 0.6.0
     description: rake linter
   - name: rubocop-rspec
-    version: 2.9.0
+    version: 2.10.0
     description: rspec linter
   - name: rspec
     version: 3.11.0

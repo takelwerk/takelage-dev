@@ -1,11 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 5.5.0
+    version: 5.7.1
     description: it automation platform
     skip_version_test: true
   - name: ansible-lint
-    version: 6.0.1
+    version: 6.1.0
     description: ansible linter
     skip_version_test: true
   - name: argcomplete
@@ -26,10 +26,10 @@ takel_pip_packages:
     description: ssl library
     skip_version_test: true
   - name: pytest
-    version: 7.1.1
+    version: 7.1.2
     description: python testing framework
   - name: pytest-testinfra
-    version: 6.6.0
+    version: 6.7.0
     description: molecule python verifier
     skip_version_test: true
   - name: pytest-timeout
@@ -41,7 +41,7 @@ takel_pip_packages:
     description: molecule pytest fixtures
     skip_version_test: true
   - name: twine
-    version: 3.8.0
+    version: 4.0.0
     description: utilities for pypi
   - name: wheel
     version: 0.37.1
