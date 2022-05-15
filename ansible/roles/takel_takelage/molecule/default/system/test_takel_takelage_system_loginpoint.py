@@ -11,4 +11,4 @@ def test_takel_takelage_system_loginpoint(host):
     output = host.run(command)
     expected = "User nonexistinguser does not exist."
 
-    assert output.stdout == expected
+    assert expected == output.stdout.rstrip("\n")
