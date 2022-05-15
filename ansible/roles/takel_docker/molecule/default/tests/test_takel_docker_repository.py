@@ -23,4 +23,4 @@ def test_takel_docker_repository_apt_repository(host, testvars):
     file = '/etc/apt/sources.list.d/' + repository_filename + '.list'
     sources_list = host.file(file)
 
-    assert docker_ce_repository == sources_list.content_string
+    assert docker_ce_repository == sources_list.content_string.rstrip("\n")
