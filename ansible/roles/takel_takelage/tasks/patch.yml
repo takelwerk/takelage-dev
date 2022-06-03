@@ -1,0 +1,6 @@
+---
+- name: (patch) patch ansible passwordstore lookup plugin
+  ansible.posix.patch:
+    remote_src: no
+    src: passwordstore.py.patch
+    dest: /usr/local/lib/python3.9/dist-packages/ansible_collections/community/general/plugins/lookup/passwordstore.py
