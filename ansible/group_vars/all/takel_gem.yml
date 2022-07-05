@@ -4,25 +4,25 @@ takel_gem_gems:
     version: 2.1.0
     description: cli test framework
   - name: minitest
-    version: 5.15.0
+    version: 5.16.2
     description: test framework
   - name: minitest-reporters
     version: 1.5.0
     description: minitest reporter plugin
   - name: rubocop
-    version: 1.30.0
+    version: 1.31.1
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.20.0
+    version: 0.20.1
     description: minitest linter
   - name: rubocop-rails
-    version: 2.14.2
+    version: 2.15.1
     description: rails linter
   - name: rubocop-rake
     version: 0.6.0
     description: rake linter
   - name: rubocop-rspec
-    version: 2.11.1
+    version: 2.12.1
     description: rspec linter
   - name: rspec
     version: 3.11.0
