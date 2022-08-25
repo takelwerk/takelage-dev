@@ -1,11 +1,11 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 6.2.0
+    version: 6.3.0
     description: it automation platform
     skip_version_test: true
   - name: ansible-lint
-    version: 6.4.0
+    version: 6.5.0
     description: ansible linter
     skip_version_test: true
   - name: argcomplete
