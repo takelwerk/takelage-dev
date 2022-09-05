@@ -10,10 +10,10 @@ takel_gem_gems:
     version: 1.5.0
     description: minitest reporter plugin
   - name: rubocop
-    version: 1.35.1
+    version: 1.36.0
     description: ruby linter
   - name: rubocop-minitest
-    version: 0.21.0
+    version: 0.21.1
     description: minitest linter
   - name: rubocop-rails
     version: 2.15.2
