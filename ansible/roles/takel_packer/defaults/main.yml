@@ -1,15 +1,25 @@
 ---
+takel_packer_deb_preinstall_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - gnupg-agent
+  - software-properties-common
+
 takel_packer_deb_install_packages:
   - bash-completion
-  - ca-certificates
-  - unzip
+  - packer
 
-takel_packer_version: 1.8.3
-takel_packer_bin_path: /usr/local/bin/
-takel_packer_url: >-
-  https://releases.hashicorp.com/packer/{{
-  takel_packer_version }}/packer_{{
-  takel_packer_version }}_linux_amd64.zip
+takel_packer_ce_repository_key: >-
+  https://apt.releases.hashicorp.com/gpg
+takel_packer_ce_repository_filename: hashicorp-packer
+takel_packer_ce_repository_codename: bullseye
+takel_packer_ce_repository_url: >-
+  https://apt.releases.hashicorp.com
+takel_packer_ce_repository: >-
+  deb [arch=amd64] {{ takel_packer_ce_repository_url }} {{
+  takel_packer_ce_repository_codename }} main
 
 takel_packer_completion_dir: /etc/bash_completion.d
 takel_packer_bash_completion: >-

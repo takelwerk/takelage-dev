@@ -1,1 +1,1 @@
-Update hg repos
+Refactore role to use hashicorp repo

@@ -1,0 +1,9 @@
+---
+- name: (repository) add packer ce key
+  ansible.builtin.apt_key:
+    url: "{{ takel_packer_ce_repository_key }}"
+
+- name: (repository) add packer ce repo
+  ansible.builtin.apt_repository:
+    repo: "{{ takel_packer_ce_repository }}"
+    filename: "{{ takel_packer_ce_repository_filename }}"
