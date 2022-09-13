@@ -11,6 +11,8 @@ takel_docker_deb_install_packages:
   - containerd.io
   - docker-ce
   - docker-ce-cli
+  - docker-compose-plugin
+
 
 takel_docker_ce_repository_key: >-
   https://download.docker.com/linux/debian/gpg
