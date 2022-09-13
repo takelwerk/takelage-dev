@@ -11,3 +11,4 @@ data/files/vimrc.i
 data/tasks/main.yml.i
 data/templates/bashrc.j2.i
 data/files/bash_aliases.i
+data/.hgignore.i
