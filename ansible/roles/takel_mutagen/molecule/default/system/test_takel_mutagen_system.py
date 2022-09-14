@@ -15,7 +15,11 @@ def test_takel_mutagen_system_mutagen_version(host, testvars):
     assert mutagen_version_search is not None, 'Unable to get mutagen version'
 
     if takel_mutagen_version == 'latest':
-        command = '/usr/bin/curl -sL https://api.github.com/repos/mutagen-io/mutagen/releases/latest | /usr/bin/jq -r ".tag_name"'
+        url = "https://api.github.com/repos/mutagen-io/mutagen/releases/latest"
+        command = \
+            '/usr/bin/curl -sL ' \
+            f"{url} | " \
+            '/usr/bin/jq -r ".tag_name"'
         processes = subprocess.run(
             command,
             shell=True,

@@ -26,4 +26,3 @@ takel_pip_packages:
     description: utilities for pypi
   - name: wheel
     description: utilities for python packaging
-    
