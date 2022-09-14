@@ -24,7 +24,6 @@ takel_gopass_repository_file: >-
   {{ takel_gopass_repository_codename }}
   main
 
-
 takel_gopass_completion_dir: /etc/bash_completion.d
 takel_gopass_bash_completion: >-
   {{ takel_gopass_completion_dir }}/gopass
