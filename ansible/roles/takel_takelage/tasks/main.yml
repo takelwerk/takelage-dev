@@ -48,9 +48,3 @@
     - takel_takelage
     - takel_takelage_version
 
-- name: (main) patch files
-  import_tasks: patch.yml
-  tags:
-    - takel
-    - takel_takelage
-    - takel_takelage_completion_patch
