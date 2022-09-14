@@ -1,1 +1,1 @@
-Update hg repos
+Fix version test for latest

@@ -36,14 +36,9 @@ def test_takel_pip_check_version(installed_pip_packages,
         installed = re.search(package['name'] + r'\s+(.*)',
                               installed_pip_packages,
                               re.IGNORECASE)
-        if installed is not None:
-            if str(package['version']) == 'latest' or (
-                    'skip_version_test' in package.keys() and
-                    package['skip_version_test']):
-                continue
+        assert installed is not None, f"{package['name']} is not installed."
+        if 'version' in package.keys() and str(package['version']) != 'latest':
             assert str(package['version']) == installed.group(1).strip(), (
                 f"Expected version for {package['name']} is "
                 f"{installed.group(1).strip()}, but {package['version']}"
                 " is installed")
-        else:
-            assert False, f"{package['name']} is not installed."

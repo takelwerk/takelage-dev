@@ -1,1 +1,1 @@
-Update hg repos
+Refactore version can be omitted

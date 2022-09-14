@@ -1,0 +1,21 @@
+---
+- name: (version) install python3-pip
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+    update_cache: true
+
+- name: (version) install github3.py
+  pip:
+    name: github3.py
+
+- name: (version) get latest release of mutagen
+  community.general.github_release:
+    user: mutagen-io
+    repo: mutagen
+    action: latest_release
+  register: latest_version
+
+- name: (version) extract version
+  ansible.builtin.set_fact:
+    takel_mutagen_version: "{{ latest_version.tag | split('v') | last }}"

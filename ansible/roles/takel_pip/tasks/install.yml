@@ -13,7 +13,7 @@
   pip:
     name: "{{ item.name }}"
     state: present
-    version: "{{ item.version }}"
+    version: "{{ item.version | default(omit) }}"
     virtualenv: "{{ takel_pip_venv_path }}"
     virtualenv_python: >-
       python{{ takel_pip_venv_python_version | default('3') }}
@@ -26,6 +26,6 @@
   pip:
     name: "{{ item.name }}"
     state: present
-    version: "{{ item.version }}"
+    version: "{{ item.version | default(omit) }}"
   when: takel_pip_venv_path is undefined
   loop: "{{ takel_pip_packages }}"

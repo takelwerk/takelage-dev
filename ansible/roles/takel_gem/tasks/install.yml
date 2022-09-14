@@ -1,8 +1,9 @@
 ---
 - name: (install) install gems
-  gem:
+  community.general.gem:
     name: "{{ item.name }}"
     state: present
-    version: "{{ item.version }}"
+    version: "{{ item.version | default('') }}"
     user_install: false
+    norc: true
   loop: "{{ takel_gem_gems }}"

@@ -17,5 +17,7 @@ def test_takel_gem_install_gem_gems_installed(gems, testvars):
 
 def test_takel_gem_install_gem_gems_version(gems, testvars):
     for gem in testvars['takel_gem_gems']:
+        if 'version' not in testvars.keys():
+            continue
         search = re.search(gem['name'] + '.*?' + str(gem['version']), gems)
         assert search is not None

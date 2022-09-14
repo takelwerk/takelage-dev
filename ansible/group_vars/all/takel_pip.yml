@@ -1,48 +1,29 @@
 ---
 takel_pip_packages:
   - name: ansible
-    version: 6.3.0
     description: it automation platform
-    skip_version_test: true
   - name: ansible-lint
-    version: 6.5.2
     description: ansible linter
-    skip_version_test: true
   - name: argcomplete
-    version: 2.0.0
     description: autocompletion for argparse
-    skip_version_test: true
   - name: behave
-    version: 1.2.6
     description: bdd framework
   - name: molecule
-    version: 4.0.1
     description: ansible testing framework
   - name: molecule[docker,lint]
-    version: 4.0.1
     description: molecule drivers
   - name: pyOpenSSL
-    version: 22.0.0
     description: ssl library
-    skip_version_test: true
   - name: pytest
-    version: 7.1.3
     description: python testing framework
   - name: pytest-testinfra
-    version: 6.8.0
     description: molecule python verifier
-    skip_version_test: true
   - name: pytest-timeout
-    version: 2.1.0
     description: terminate tests after a certain timeout
-    skip_version_test: true
   - name: pytest-takeltest
-    version: 0.10.0
     description: molecule pytest fixtures
-    skip_version_test: true
   - name: twine
-    version: 4.0.1
     description: utilities for pypi
   - name: wheel
-    version: 0.37.1
     description: utilities for python packaging
+    
