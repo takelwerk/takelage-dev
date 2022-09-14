@@ -6,6 +6,13 @@
     - takel_gopass
     - takel_gopass_preinstall
 
+- name: (main) include docker repository
+  ansible.builtin.import_tasks: repository.yml
+  tags:
+    - takel
+    - takel_gopass
+    - takel_gopass_repository
+
 - name: (main) include install
   import_tasks: install.yml
   tags:

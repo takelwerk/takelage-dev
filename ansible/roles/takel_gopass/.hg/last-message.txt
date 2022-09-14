@@ -1,1 +1,1 @@
-Update hg repos
+Refactore gopass role to use the apt repo

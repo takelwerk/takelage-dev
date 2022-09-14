@@ -1,19 +1,10 @@
 ---
-- name: (install) download gopass debian package
-  get_url:
-    url: "{{ takel_gopass_url }}"
-    dest: "{{ takel_gopass_tmp }}"
-  changed_when: false
-
-- name: (install) install gopass debian package
+- name: (install) install deb packages
   apt:
-    deb: "{{ takel_gopass_tmp }}"
+    name: "{{ takel_gopass_deb_install_packages }}"
+    state: present
+    update_cache: true
 
-- name: (install) remove gopass debian package
-  file:
-    path: "{{ takel_gopass_tmp }}"
-    state: absent
-  changed_when: false
 
 - name: (install) copy pass template
   template:
