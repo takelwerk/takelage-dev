@@ -6,3 +6,4 @@ data/molecule/default/converge.yml.i
 data/files/molecule.i
 data/molecule/default/molecule.yml.i
 data/molecule/default/tests/__pycache__/test_takel_molecule_completion.cpython-39-pytest-6.2.5.pyc.i
+data/.hgignore.i
