@@ -1,6 +1,6 @@
 ---
 name: takelage-dev
-version: 0.54.12
+version: 0.55.0
 
 local_user: packer_local
 
