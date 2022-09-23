@@ -2,7 +2,7 @@
 name: Test roles
 
 on:
-  schedule:  # run daily at 2 pm CET
+  schedule:
     - cron: '0 4 * * *'
   workflow_dispatch:  # allow manual trigger
 

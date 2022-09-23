@@ -2,7 +2,7 @@
 name: Build and test takelbuild
 
 on:
-  schedule:  # run daily at 1 pm CET
+  schedule:
     - cron: '0 3 * * *'
   workflow_dispatch:  # allow manual trigger
 

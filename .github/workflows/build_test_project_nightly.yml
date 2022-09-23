@@ -2,7 +2,7 @@
 name: Build and test project
 
 on:
-  schedule:  # run daily at 1 pm CET
+  schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:  # allow manual trigger
 

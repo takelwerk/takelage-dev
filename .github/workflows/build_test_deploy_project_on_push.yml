@@ -2,7 +2,7 @@
 name: Build, test and deploy project
 
 on:
-  push:  # trigger on git push
+  push:
   workflow_dispatch:  # allow manual trigger
 
 jobs:
