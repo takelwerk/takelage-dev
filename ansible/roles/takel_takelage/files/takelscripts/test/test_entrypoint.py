@@ -186,7 +186,7 @@ def test_takelscripts_entrypoint_add_gopass_config(
     hostdir_config_path = tmp_path / 'hostdir/.config/gopass'
     hostdir_config_path.mkdir(parents=True)
 
-    hostdir_config_file = hostdir_config_path / 'config.yml'
+    hostdir_config_file = hostdir_config_path / 'config'
     hostdir_config_file.write_text(gopass_config)
 
     entrypoint = EntryPoint()
@@ -198,7 +198,7 @@ def test_takelscripts_entrypoint_add_gopass_config(
 
     expected_config_file = 'using gopass config file: ' + \
                            str(tmp_path) + \
-                           '/hostdir/.config/gopass/config.yml'
+                           '/hostdir/.config/gopass/config'
 
     expected_log_symlink1 = 'symlink: .config/gopass'
     expected_log_symlink2 = 'symlink: .local/share/gopass/stores'
