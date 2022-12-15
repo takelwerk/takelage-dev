@@ -304,7 +304,7 @@ class EntryPoint(object):
 
     def _add_gopass_config_file_(self):
         gopass_config_file = \
-            self._hostdir / '.config/gopass/config.yml'
+            self._hostdir / '.config/gopass/config'
 
         if not gopass_config_file.exists():
             self._logger.warning(
