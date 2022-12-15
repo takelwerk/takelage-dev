@@ -124,9 +124,7 @@ class EntryPoint(object):
         if not gopass_config:
             return False
 
-        self._add_gopass_path_(gopass_config, '^path: (.*)$')
-
-        self._add_gopass_path_(gopass_config, '^mount ".*?" => "(.*)"$')
+        self._add_gopass_path_(gopass_config, '^mounts.*path = (.*)$')
 
         self._logger.info(
             'added config: gopass')

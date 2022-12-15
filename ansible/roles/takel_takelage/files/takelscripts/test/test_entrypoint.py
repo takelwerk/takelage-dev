@@ -145,17 +145,18 @@ def test_takelscripts_entrypoint_add_gopass_config(
         caplog,
         tmp_path):
     gopass_config = dedent(f"""\
-        autoclip: false
-        autoimport: true
-        cliptimeout: 45
-        exportkeys: false
-        mime: true
-        nocolor: false
-        nopager: false
-        notifications: true
-        path: {tmp_path}/home/testuser/.local/share/gopass/stores/root
-        safecontent: false
-        mount "my-passwords" => "{tmp_path}"""
+        age.usekeychain = false
+    core.autoclip = false
+    core.autoimport = true
+    core.autosync = true
+    core.cliptimeout = 45
+    core.exportkeys = true
+    core.nopager = false
+    core.notifications = true
+    core.parsing = true
+    core.showsafecontent = false
+    mounts.path = {tmp_path}/home/testuser/.local/share/gopass/stores/root
+    mounts.my-passwords = {tmp_path}"""
                            """/home/testuser/.local/share/gopass/stores/"""
                            """password-store-my-passwords"
                            """)
