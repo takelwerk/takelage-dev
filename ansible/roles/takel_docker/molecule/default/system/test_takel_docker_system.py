@@ -6,7 +6,7 @@ testinfra_hosts = takeltest.hosts()
 
 
 def test_takel_docker_system_docker_available(host):
-    docker_version_expected = version.parse('20.x.y')
+    docker_version_expected = version.parse('20.0.0')
     docker_version_output = host.check_output('docker --version')
 
     # grep the docker version
