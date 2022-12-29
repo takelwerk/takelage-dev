@@ -78,14 +78,14 @@ which is basically a
 docker 
 [official image](https://docs.docker.com/docker-hub/official_images/)
 with a
-[minimal python3](https://github.com/takelwerk/takelage-img-takelslim/blob/main/packer/templates/takelslim/build.pkr.hcl)
+[minimal python3](https://github.com/takelwerk/takelage-img-takelslim/blob/main/packer/templates/takelslim/docker/main.pkr.hcl)
 installed for 
 [ansible](https://docs.ansible.com/ansible/latest/).
 
 There is also a systemd based base container
 [takelage-img-takelbase](https://github.com/takelwerk/takelage-img-takelbase)
 which has 
-[python3, sudo and systemd](https://github.com/takelwerk/takelage-img-takelbase/blob/main/packer/templates/takelbase/bin/install-debian.bash)
+[python3, sudo and systemd](https://github.com/takelwerk/takelage-img-takelbase/blob/main/packer/templates/takelbase/docker/bin/install-debian.bash)
 installed and mimics an old-fashioned debian box. 
 It is designed to be run with the docker
 `--privileged` flag with extended privileges.
