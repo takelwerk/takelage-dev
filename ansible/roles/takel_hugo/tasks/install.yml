@@ -1,10 +1,28 @@
 ---
 - name: (install) install deb packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ takel_hugo_deb_install_packages }}"
     state: present
     update_cache: true
 
+- name: (install) get latest release
+  ansible.builtin.uri:
+    url: "{{ takel_hugo_hugo_latest_url }}"
+    body_format: json
+  register: _github_release
+  until: _github_release.status == 200
+  retries: 5
+  delegate_to: localhost
+  become: false
+
+- name: set latest version
+  ansible.builtin.set_fact:
+    takel_hugo_hugo_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
+
+- name: debug
+  debug:
+    msg: "{{ takel_hugo_hugo_url }}"
+
 - name: (install) download and install hugo deb package
-  apt:
+  ansible.builtin.apt:
     deb: "{{ takel_hugo_hugo_url }}"

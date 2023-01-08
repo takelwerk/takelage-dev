@@ -5,7 +5,6 @@
     state: present
     update_cache: true
 
-
 - name: (install) copy pass template
   template:
     src: pass.j2
