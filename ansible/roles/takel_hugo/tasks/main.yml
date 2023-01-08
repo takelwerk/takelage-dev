@@ -1,4 +1,12 @@
 ---
+- name: (main) include version
+  import_tasks: version.yml
+  when: takel_hugo_hugo_version == 'latest'
+  tags:
+    - takel
+    - takel_hugo
+    - takel_hugo_version
+
 - name: (main) include install
   import_tasks: install.yml
   tags:
