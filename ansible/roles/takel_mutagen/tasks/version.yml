@@ -18,4 +18,5 @@
 
 - name: (version) extract version
   ansible.builtin.set_fact:
-    takel_mutagen_version: "{{ latest_version.tag | split('v') | last }}"
+    # yamllint disable-line rule:line-length
+    takel_mutagen_mutagen_version: "{{ latest_version.tag | split('v') | last }}"

@@ -1,7 +1,7 @@
 ---
 - name: (main) include version
   import_tasks: version.yml
-  when: takel_mutagen_version == 'latest'
+  when: takel_mutagen_mutagen_version == 'latest'
   tags:
     - takel
     - takel_mutagen
