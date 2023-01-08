@@ -2,6 +2,7 @@ import takeltest
 
 testinfra_hosts = takeltest.hosts()
 
+
 def test_takel_k3d_install_packages_installed(host, testvars):
     takel_gpg_install_packages = \
         testvars['takel_k3d_deb_install_packages']

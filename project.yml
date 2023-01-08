@@ -35,4 +35,5 @@ images:
       - docker
       - packer
       - ruby
+      - k3d
       - takelage
