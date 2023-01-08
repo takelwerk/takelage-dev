@@ -17,11 +17,8 @@
 
 - name: set latest version
   ansible.builtin.set_fact:
-    takel_hugo_hugo_version: "{{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}"
-
-- name: debug
-  debug:
-    msg: "{{ takel_hugo_hugo_url }}"
+    takel_hugo_hugo_version: >
+      {{ _github_release.json.tag_name | regex_replace('^v?(.*)$', '\\1') }}
 
 - name: (install) download and install hugo deb package
   ansible.builtin.apt:
