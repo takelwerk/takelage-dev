@@ -15,7 +15,8 @@ def test_takel_hugo_system_hugo_version(host, testvars):
     assert hugo_version_search is not None, 'Unable to get hugo version'
 
     if takel_hugo_hugo_version == 'latest':
-        response = requests.get("https://api.github.com/repos/gohugoio/hugo/releases/latest")
+        url = "https://api.github.com/repos/gohugoio/hugo/releases/latest"
+        response = requests.get(url)
         hugo_version = response.json()["tag_name"]
     assert hugo_version_search.group(1) == hugo_version, \
         'Unable to get hugo version'
