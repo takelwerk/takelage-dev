@@ -9,7 +9,7 @@
   pip:
     name: github3.py
 
-- name: (version) get latest release of mutagen
+- name: (version) get latest release of hugo
   community.general.github_release:
     user: gohugoio
     repo: hugo
@@ -18,4 +18,4 @@
 
 - name: (version) extract version
   ansible.builtin.set_fact:
-    takel_hugo_version: "{{ latest_version.tag | split('v') | last}}"
+    takel_hugo_hugo_version: "{{ latest_version.tag | split('v') | last}}"
