@@ -8,3 +8,7 @@ takel_k3d_k3d_url: >-
   takel_k3d_k3d_version }}/k3d-linux-amd64
 
 takel_k3d_bin_path: /usr/local/bin/
+
+takel_k3d_completion_dir: /etc/bash_completion.d
+takel_k3d_bash_completion: >-
+  {{ takel_k3d_completion_dir }}/k3d

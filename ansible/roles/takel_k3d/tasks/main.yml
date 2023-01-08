@@ -13,3 +13,10 @@
     - takel
     - takel_k3d
     - takel_k3d_install
+
+- name: (main) include completion
+  import_tasks: completion.yml
+  tags:
+    - takel
+    - takel_k3d
+    - takel_k3d_completion
