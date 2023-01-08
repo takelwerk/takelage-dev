@@ -1,0 +1,15 @@
+---
+- name: (main) include version
+  import_tasks: version.yml
+  when: takel_k3d_k3d_version == 'latest'
+  tags:
+    - takel
+    - takel_k3d
+    - takel_k3d_version
+
+- name: (main) include install
+  import_tasks: install.yml
+  tags:
+    - takel
+    - takel_k3d
+    - takel_k3d_install

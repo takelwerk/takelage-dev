@@ -1,0 +1,10 @@
+---
+takel_k3d_deb_install_packages:
+  - ca-certificates
+
+takel_k3d_k3d_version: latest
+takel_k3d_k3d_url: >-
+  https://github.com/k3d-io/k3d/releases/download/v{{
+  takel_k3d_k3d_version }}/k3d-linux-amd64
+
+takel_k3d_bin_path: /usr/local/bin/
