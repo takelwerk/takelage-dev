@@ -1,6 +1,7 @@
 ---
 takel_k3d_deb_install_packages:
   - ca-certificates
+  - kubernetes-client
 
 takel_k3d_k3d_version: latest
 takel_k3d_k3d_url: >-
