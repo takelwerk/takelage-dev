@@ -1,7 +1,22 @@
 ---
 takel_k3d_deb_install_packages:
+  - apt-transport-https
   - ca-certificates
-  - kubernetes-client
+  - kubectl
+
+takel_k3d_google_cloud_repository_key:
+  https://packages.cloud.google.com/apt/doc/apt-key.gpg
+takel_k3d_google_cloud_repository_keyfile:
+  /usr/share/keyrings/kubernetes-archive-keyring.gpg
+takel_k3d_google_cloud_repository_filename: kubernetes
+takel_k3d_google_cloud_repository_codename: kubernetes-xenial
+takel_k3d_google_cloud_repository_url:
+  https://apt.kubernetes.io
+takel_k3d_google_cloud_repository: >-
+  deb [arch=amd64 signed-by={{
+  takel_k3d_google_cloud_repository_keyfile }}] {{
+  takel_k3d_google_cloud_repository_url }} {{
+  takel_k3d_google_cloud_repository_codename }} main
 
 takel_k3d_k3d_version: latest
 takel_k3d_k3d_url: >-

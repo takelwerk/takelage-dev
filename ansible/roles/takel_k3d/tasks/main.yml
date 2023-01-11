@@ -7,6 +7,13 @@
     - takel_k3d
     - takel_k3d_version
 
+- name: (main) include repository
+  import_tasks: repository.yml
+  tags:
+    - takel
+    - takel_k3d
+    - takel_k3d_repository
+
 - name: (main) include install
   import_tasks: install.yml
   tags:

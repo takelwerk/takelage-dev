@@ -20,3 +20,11 @@ def test_takel_k3d_system_k3d_version(host, testvars):
         k3d_version = response.json()["tag_name"]
     assert k3d_version_search.group(1) == k3d_version, \
         'Unable to get k3d version'
+
+
+def test_takel_k3d_system_kubectl_version(host, testvars):
+    kubectl_version_output = \
+        host.check_output('kubectl version --client')
+
+    assert 'Client Version: ' in kubectl_version_output, \
+        'Unable to run kubectl'
