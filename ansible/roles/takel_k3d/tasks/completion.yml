@@ -8,6 +8,11 @@
     mode: 0755
 
 - name: (completion) add k3d autocompletion
-  shell: "k3d completion bash > {{ takel_k3d_bash_completion }}"
+  shell: "k3d completion bash > {{ takel_k3d_k3d_bash_completion }}"
   args:
-    creates: "{{ takel_k3d_bash_completion }}"
+    creates: "{{ takel_k3d_k3d_bash_completion }}"
+
+- name: (completion) add kubectl autocompletion
+  shell: "kubectl completion bash > {{ takel_k3d_kubectl_bash_completion }}"
+  args:
+    creates: "{{ takel_k3d_kubectl_bash_completion }}"
