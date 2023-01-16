@@ -2,4 +2,4 @@
 - name: (playbook-system) install k3d
   hosts: all
   roles:
-    - takel_k3d
+    - takel_kubernetes

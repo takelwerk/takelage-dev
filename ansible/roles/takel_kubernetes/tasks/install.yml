@@ -1,0 +1,51 @@
+---
+- name: (install) install deb packages
+  ansible.builtin.apt:
+    name: "{{ takel_kubernetes_deb_install_packages }}"
+    state: present
+    update_cache: true
+
+- name: (install) download k3d
+  ansible.builtin.get_url:
+    url: "{{ takel_kubernetes_k3d_url }}"
+    dest: "{{ takel_kubernetes_k3d_bin }}"
+    owner: root
+    group: root
+    mode: 0755
+  changed_when: false
+  when: takel_kubernetes_k3d_install
+
+- name: (install) download helm
+  ansible.builtin.get_url:
+    url: "{{ takel_kubernetes_helm_url }}"
+    dest: "{{ takel_kubernetes_helm_tmp_dir }}"
+    owner: root
+    group: root
+    mode: 0755
+  changed_when: false
+  when: takel_kubernetes_helm_install
+
+- name: (install) extract helm
+  ansible.builtin.unarchive:
+    src: "{{ takel_kubernetes_helm_tmp_targz }}"
+    dest: "{{ takel_kubernetes_helm_tmp_dir }}"
+    remote_src: true
+  changed_when: false
+  when: takel_kubernetes_helm_install
+
+- name: (install) install helm
+  ansible.builtin.copy:
+    src: "{{ takel_kubernetes_helm_tmp_bin }}"
+    dest: "{{ takel_kubernetes_helm_bin }}"
+    owner: root
+    group: root
+    mode: 0755
+    remote_src: true
+  when: takel_kubernetes_helm_install
+
+- name: (install) install kubectl
+  ansible.builtin.apt:
+    name: "{{ takel_kubernetes_kubectl_deb_install_package }}"
+    state: present
+    update_cache: true
+  when: takel_kubernetes_kubectl_install

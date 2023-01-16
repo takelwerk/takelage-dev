@@ -2,4 +2,4 @@
 - name: default
   hosts: all
   roles:
-    - takel_k3d
+    - takel_kubernetes

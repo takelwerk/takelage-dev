@@ -1,29 +1,28 @@
 ---
 - name: (main) include version
   import_tasks: version.yml
-  when: takel_k3d_k3d_version == 'latest'
   tags:
     - takel
-    - takel_k3d
-    - takel_k3d_version
+    - takel_kubernetes
+    - takel_kubernetes_version
 
 - name: (main) include repository
   import_tasks: repository.yml
   tags:
     - takel
-    - takel_k3d
-    - takel_k3d_repository
+    - takel_kubernetes
+    - takel_kubernetes_repository
 
 - name: (main) include install
   import_tasks: install.yml
   tags:
     - takel
-    - takel_k3d
-    - takel_k3d_install
+    - takel_kubernetes
+    - takel_kubernetes_install
 
 - name: (main) include completion
   import_tasks: completion.yml
   tags:
     - takel
-    - takel_k3d
-    - takel_k3d_completion
+    - takel_kubernetes
+    - takel_kubernetes_completion

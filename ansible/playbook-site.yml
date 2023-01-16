@@ -21,8 +21,8 @@
     - takel_hugo
     # ruby
     - takel_gem
-    # k3d
-    - takel_k3d
+    # kubernetes
+    - takel_kubernetes
     # takelage
     - takel_takelage
     - takel_cleanup

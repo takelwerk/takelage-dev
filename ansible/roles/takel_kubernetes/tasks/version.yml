@@ -1,0 +1,46 @@
+---
+- name: (version) install python3-pip
+  ansible.builtin.apt:
+    name: python3-pip
+    state: present
+    update_cache: true
+
+- name: (version) install github3.py
+  pip:
+    name: github3.py
+
+- name: (version) get latest release of k3d
+  community.general.github_release:
+    user: k3d-io
+    repo: k3d
+    action: latest_release
+  register: k3d_latest_version
+  when:
+    - takel_kubernetes_k3d_install
+    - takel_kubernetes_k3d_version == 'latest'
+
+- name: (version) extract k3d version
+  ansible.builtin.set_fact:
+    takel_kubernetes_k3d_version: >-
+      {{ k3d_latest_version.tag | split('v') | last }}
+  when:
+    - takel_kubernetes_k3d_install
+    - takel_kubernetes_k3d_version == 'latest'
+
+- name: (version) get latest release of helm
+  community.general.github_release:
+    user: helm
+    repo: helm
+    action: latest_release
+  register: helm_latest_version
+  when:
+    - takel_kubernetes_helm_install
+    - takel_kubernetes_helm_version == 'latest'
+
+- name: (version) extract helm version
+  ansible.builtin.set_fact:
+    takel_kubernetes_helm_version: >-
+      {{ helm_latest_version.tag | split('v') | last }}
+  when:
+    - takel_kubernetes_helm_install
+    - takel_kubernetes_helm_version == 'latest'

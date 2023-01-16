@@ -8,6 +8,8 @@ takel_pip_packages:
     description: autocompletion for argparse
   - name: behave
     description: bdd framework
+  - name: kubeconfig
+    descritption: kubernetes pytest plugin
   - name: molecule
     description: ansible testing framework
   - name: molecule[docker,lint]

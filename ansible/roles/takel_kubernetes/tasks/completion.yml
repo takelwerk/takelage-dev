@@ -1,0 +1,26 @@
+---
+- name: (completion) create completion dir
+  file:
+    path: "{{ takel_kubernetes_completion_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: (completion) add k3d autocompletion
+  shell: "k3d completion bash > {{ takel_kubernetes_k3d_completion }}"
+  args:
+    creates: "{{ takel_kubernetes_k3d_completion }}"
+  when: takel_kubernetes_k3d_install
+
+- name: (completion) add helm autocompletion
+  shell: "helm completion bash > {{ takel_kubernetes_helm_completion }}"
+  args:
+    creates: "{{ takel_kubernetes_helm_completion }}"
+  when: takel_kubernetes_helm_install
+
+- name: (completion) add kubectl autocompletion
+  shell: "kubectl completion bash > {{ takel_kubernetes_kubectl_completion }}"
+  args:
+    creates: "{{ takel_kubernetes_kubectl_completion }}"
+  when: takel_kubernetes_kubectl_install
