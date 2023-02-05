@@ -18,7 +18,7 @@ takel_packer_ce_repository_codename: bullseye
 takel_packer_ce_repository_url: >-
   https://apt.releases.hashicorp.com
 takel_packer_ce_repository: >-
-  deb [arch=amd64] {{ takel_packer_ce_repository_url }} {{
+  deb [arch={{ arch }}] {{ takel_packer_ce_repository_url }} {{
   takel_packer_ce_repository_codename }} main
 
 takel_packer_completion_dir: /etc/bash_completion.d

@@ -19,7 +19,7 @@ takel_gopass_repository_url: >-
   https://packages.gopass.pw/repos/gopass
 takel_gopass_repository_file: >-
   deb
-  [arch=amd64  signed-by={{ takel_gopass_repository_keyring_file }}]
+  [arch={{ arch }} signed-by={{ takel_gopass_repository_keyring_file }}]
   {{ takel_gopass_repository_url }}
   {{ takel_gopass_repository_codename }}
   main

@@ -19,7 +19,7 @@ takel_kubernetes_completion_dir: /etc/bash_completion.d
 takel_kubernetes_k3d_version: latest
 takel_kubernetes_k3d_url: >-
   https://github.com/k3d-io/k3d/releases/download/v{{
-  takel_kubernetes_k3d_version }}/k3d-linux-amd64
+  takel_kubernetes_k3d_version }}/k3d-linux-{{ arch }}
 takel_kubernetes_k3d_bin: "{{ takel_kubernetes_bin_path }}/k3d"
 takel_kubernetes_k3d_completion: >-
   {{ takel_kubernetes_completion_dir }}/k3d
@@ -27,7 +27,7 @@ takel_kubernetes_k3d_completion: >-
 # helm
 takel_kubernetes_helm_version: latest
 takel_kubernetes_helm_download_file: >-
-  helm-v{{ takel_kubernetes_helm_version }}-linux-amd64.tar.gz
+  helm-v{{ takel_kubernetes_helm_version }}-linux-{{ arch }}.tar.gz
 takel_kubernetes_helm_url: >-
   https://get.helm.sh/{{ takel_kubernetes_helm_download_file }}
 takel_kubernetes_helm_tmp_dir: /tmp
@@ -35,7 +35,7 @@ takel_kubernetes_helm_tmp_targz: >-
   {{ takel_kubernetes_helm_tmp_dir }}/{{
   takel_kubernetes_helm_download_file }}
 takel_kubernetes_helm_tmp_bin: >-
-  {{ takel_kubernetes_helm_tmp_dir }}/linux-amd64/helm
+  {{ takel_kubernetes_helm_tmp_dir }}/linux-{{ arch }}/helm
 takel_kubernetes_helm_bin: "{{ takel_kubernetes_bin_path }}/helm"
 takel_kubernetes_helm_completion: >-
   {{ takel_kubernetes_completion_dir }}/helm
@@ -56,7 +56,7 @@ takel_kubernetes_google_cloud_repository_codename: kubernetes-xenial
 takel_kubernetes_google_cloud_repository_url:
   https://apt.kubernetes.io
 takel_kubernetes_google_cloud_repository: >-
-  deb [arch=amd64 signed-by={{
+  deb [arch={{ arch }} signed-by={{
   takel_kubernetes_google_cloud_repository_keyfile }}] {{
   takel_kubernetes_google_cloud_repository_url }} {{
   takel_kubernetes_google_cloud_repository_codename }} main

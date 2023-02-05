@@ -7,7 +7,7 @@ takel_hugo_hugo_version: latest
 takel_hugo_hugo_url: >-
   https://github.com/gohugoio/hugo/releases/download/v{{
   takel_hugo_hugo_version }}/hugo_{{
-  takel_hugo_hugo_version }}_linux-amd64.deb
+  takel_hugo_hugo_version }}_linux-{{ arch }}.deb
 
 takel_hugo_completion_dir: /etc/bash_completion.d
 takel_hugo_bash_completion: >-
