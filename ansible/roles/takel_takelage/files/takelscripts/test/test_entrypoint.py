@@ -435,7 +435,6 @@ def test_takelscripts_entrypoint_add_user(
         "'testuser']"
     expected_log_done = 'created user: testuser'
 
-
     assert (tmp_path / 'home').is_dir()
 
     assert expected_log_user in caplog.text

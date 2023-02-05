@@ -1,9 +1,7 @@
 ---
 # get docker host architecture
 # which will be the target architecture
-docker_arch: >-
-  {{ lookup('pipe', "docker info -f
-             {% raw %}'{{ .Architecture }}'{% endraw %}") }}
+docker_arch: "{{ lookup('pipe', "docker info -f {% raw %}'{{ .Architecture }}'{% endraw %}") }}"
 
 # normalise architecture string
 arch: >-
