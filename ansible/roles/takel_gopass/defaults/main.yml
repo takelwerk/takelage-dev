@@ -27,3 +27,7 @@ takel_gopass_repository_file: >-
 takel_gopass_completion_dir: /etc/bash_completion.d
 takel_gopass_bash_completion: >-
   {{ takel_gopass_completion_dir }}/gopass
+
+arch: >
+  {{ {'aarch64': 'arm64', 'arm64': 'arm64', 'x86_64': 'amd64'}
+  [ansible_facts['architecture']] | default('noarch') }}

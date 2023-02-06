@@ -1,5 +1,6 @@
 ---
 - name: default
   hosts: all
+  gather_facts: true
   roles:
     - takel_hugo

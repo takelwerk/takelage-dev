@@ -24,3 +24,8 @@ takel_packer_ce_repository: >-
 takel_packer_completion_dir: /etc/bash_completion.d
 takel_packer_bash_completion: >-
   {{ takel_packer_completion_dir }}/packer
+
+arch: >
+  {{ {'aarch64': 'arm64', 'arm64': 'arm64', 'x86_64': 'amd64'}
+  [ansible_facts['architecture']] | default('noarch') }}
+

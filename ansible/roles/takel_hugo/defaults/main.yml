@@ -12,3 +12,7 @@ takel_hugo_hugo_url: >-
 takel_hugo_completion_dir: /etc/bash_completion.d
 takel_hugo_bash_completion: >-
   {{ takel_hugo_completion_dir }}/hugo
+
+arch: >
+  {{ {'aarch64': 'arm64', 'arm64': 'arm64', 'x86_64': 'amd64'}
+  [ansible_facts['architecture']] | default('noarch') }}

@@ -1,5 +1,6 @@
 ---
 - name: (playbook-site) create project
+  gather_facts: true
   hosts: all
   roles:
     # system
