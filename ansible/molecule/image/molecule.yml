@@ -4,7 +4,7 @@ driver:
 lint: |
   set -e
   yamllint .
-  ansible-lint .
+  ansible-lint --project-dir /project
   flake8
 platforms:
   - name: molecule-takelage-dev-test-image
