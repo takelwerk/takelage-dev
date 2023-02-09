@@ -1,0 +1,5 @@
+---
+takel_cleanup_absent_files:
+  - "/tmp/{{ takel_kubernetes_helm_download_file }}"
+  - /tmp/linux-arm64
+  - /tmp/rvm-installer.sh
