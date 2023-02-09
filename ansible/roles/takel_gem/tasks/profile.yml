@@ -1,6 +1,6 @@
 ---
 - name: (profile) copy system-wide profile files
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.file }}"
     dest: "/etc/profile.d/{{ item.order }}{{ item.file }}"
     owner: root

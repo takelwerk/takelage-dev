@@ -1,27 +1,27 @@
 ---
 - name: (main) include version
-  import_tasks: version.yml
+  ansible.builtin.import_tasks: version.yml
   tags:
     - takel
     - takel_kubernetes
     - takel_kubernetes_version
 
 - name: (main) include repository
-  import_tasks: repository.yml
+  ansible.builtin.import_tasks: repository.yml
   tags:
     - takel
     - takel_kubernetes
     - takel_kubernetes_repository
 
 - name: (main) include install
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   tags:
     - takel
     - takel_kubernetes
     - takel_kubernetes_install
 
 - name: (main) include completion
-  import_tasks: completion.yml
+  ansible.builtin.import_tasks: completion.yml
   tags:
     - takel
     - takel_kubernetes

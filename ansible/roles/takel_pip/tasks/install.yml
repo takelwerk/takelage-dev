@@ -6,11 +6,11 @@
     update_cache: true
 
 - name: (install) upgrade pip3
-  command: "pip3 install --upgrade pip"
+  ansible.builtin.command: "pip3 install --upgrade pip"
   changed_when: false
 
 - name: (install) install pip packages into venv
-  pip:
+  ansible.builtin.pip:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version | default(omit) }}"
@@ -23,7 +23,7 @@
   loop: "{{ takel_pip_packages }}"
 
 - name: (install) install pip packages
-  pip:
+  ansible.builtin.pip:
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version | default(omit) }}"

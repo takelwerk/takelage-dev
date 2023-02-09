@@ -6,7 +6,7 @@
     update_cache: true
 
 - name: (install) unarchive mutagen
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ takel_mutagen_mutagen_url }}"
     dest: "{{ takel_mutagen_bin_path }}"
     remote_src: true
@@ -14,7 +14,7 @@
   changed_when: false
 
 - name: (install) make mutagen executable
-  file:
+  ansible.builtin.file:
     path: "{{ takel_mutagen_bin_path }}/mutagen"
     mode: 0755
   changed_when: false

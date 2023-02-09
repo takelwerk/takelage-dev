@@ -1,6 +1,6 @@
 ---
 - name: (main) include version
-  import_tasks: version.yml
+  ansible.builtin.import_tasks: version.yml
   when: takel_hugo_hugo_version == 'latest'
   tags:
     - takel
@@ -8,14 +8,14 @@
     - takel_hugo_version
 
 - name: (main) include install
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   tags:
     - takel
     - takel_hugo
     - takel_hugo_install
 
 - name: (main) include completion
-  import_tasks: completion.yml
+  ansible.builtin.import_tasks: completion.yml
   tags:
     - takel
     - takel_hugo

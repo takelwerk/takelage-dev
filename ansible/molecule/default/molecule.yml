@@ -9,7 +9,7 @@ lint: |
 platforms:
   - name: molecule-takelage-dev-test-project
     image: ${TAKELAGE_PROJECT_BASE_IMAGE:-takelwerk/takelruby}
-    command: /usr/bin/tail -f /dev/null
+    ansible.builtin.command: /usr/bin/tail -f /dev/null
     privileged: false
     pre_build_image: true
     groups:

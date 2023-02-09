@@ -16,5 +16,7 @@ takel_mutagen_bash_completion: >-
   {{ takel_mutagen_completion_dir }}/mutagen
 
 arch: >-
-  {{ {'aarch64': 'arm64', 'arm64': 'arm64', 'x86_64': 'amd64'}
-  [ansible_facts['architecture']] | default('noarch') }}
+  {{ {'aarch64': 'arm64',
+      'arm64': 'arm64',
+      'x86_64': 'amd64'}[ansible_facts['architecture']] |
+      default('noarch') }}

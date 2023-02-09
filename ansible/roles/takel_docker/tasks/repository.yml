@@ -1,9 +1,9 @@
 ---
 - name: (repository) add docker ce key
-  apt_key:
+  ansible.builtin.apt_key:
     url: "{{ takel_docker_ce_repository_key }}"
 
 - name: (repository) add docker ce repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ takel_docker_ce_repository }}"
     filename: "{{ takel_docker_ce_repository_filename }}"

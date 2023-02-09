@@ -6,7 +6,7 @@
     update_cache: true
 
 - name: (install) copy pass template
-  template:
+  ansible.builtin.template:
     src: pass.j2
     dest: /usr/local/bin/pass
     owner: root

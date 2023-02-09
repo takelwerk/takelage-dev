@@ -6,7 +6,7 @@
     update_cache: true
 
 - name: (version) install github3.py
-  pip:
+  ansible.builtin.pip:
     name: github3.py
 
 - name: (version) get latest release of mutagen

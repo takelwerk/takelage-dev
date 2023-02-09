@@ -10,7 +10,7 @@ platforms:
   - name: molecule-takelage-dev-test-image
     image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}
     override_command: true
-    command: >-
+    ansible.builtin.command: >-
       /entrypoint.py
       --username testuser
       --uid 1010

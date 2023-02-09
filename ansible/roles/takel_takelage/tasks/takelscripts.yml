@@ -1,12 +1,12 @@
 ---
 - name: (takelscripts) copy entry script
-  copy:
+  ansible.builtin.copy:
     src: takelscripts/entrypoint.py
     dest: "{{ takel_takelage_entrypoint_path }}entrypoint.py"
     mode: 0755
 
 - name: (takelscripts) copy login script
-  copy:
+  ansible.builtin.copy:
     src: takelscripts/loginpoint.py
     dest: "{{ takel_takelage_entrypoint_path }}loginpoint.py"
     mode: 0755

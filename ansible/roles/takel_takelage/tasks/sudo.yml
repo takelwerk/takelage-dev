@@ -1,6 +1,6 @@
 ---
 - name: (sudo) enable passwordless sudo for group sudo
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sudoers
     state: present
     regexp: '^%sudo'

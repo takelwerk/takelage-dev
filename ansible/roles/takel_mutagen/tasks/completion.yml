@@ -1,6 +1,6 @@
 ---
 - name: (completion) create completion dir
-  file:
+  ansible.builtin.file:
     path: "{{ takel_mutagen_completion_dir }}"
     state: directory
     owner: root
@@ -8,7 +8,7 @@
     mode: 0755
 
 - name: (completion) create completion file
-  command: >-
+  ansible.builtin.command: >-
     mutagen generate
     --bash-completion-script
     {{ takel_mutagen_bash_completion }}

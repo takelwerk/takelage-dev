@@ -8,8 +8,9 @@
         cache_valid_time: 3600
 
   rescue:
-    - name: (upgrade) workaround - apt-get update  # noqa 303
-      command: apt-get update
+    # noqa command-instead-of-module
+    - name: (upgrade) workaround - apt-get update
+      ansible.builtin.command: apt-get update
       args:
         warn: false
       changed_when: false

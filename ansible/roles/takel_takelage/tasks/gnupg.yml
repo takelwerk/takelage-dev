@@ -1,12 +1,12 @@
 ---
 - name: (gnupg) create config dir for gnupg
-  file:
+  ansible.builtin.file:
     path: /srv/.gnupg
     state: directory
     mode: 0644
 
 - name: (gnupg) copy gnupg config files for docker
-  copy:
+  ansible.builtin.copy:
     src: "gnupg/{{ item }}"
     dest: "/srv/.gnupg/{{ item }}"
     mode: 0644

@@ -1,48 +1,48 @@
 ---
 - name: (main) include install
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_install
 
 - name: (main) include sudo
-  import_tasks: sudo.yml
+  ansible.builtin.import_tasks: sudo.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_sudo
 
 - name: (main) include takelscripts
-  import_tasks: takelscripts.yml
+  ansible.builtin.import_tasks: takelscripts.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_takelscripts
 
 - name: (main) include gnupg
-  import_tasks: gnupg.yml
+  ansible.builtin.import_tasks: gnupg.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_gnupg
 
 - name: (main) include profile
-  import_tasks: profile.yml
+  ansible.builtin.import_tasks: profile.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_profile
 
 - name: (main) include completion
-  import_tasks: completion.yml
+  ansible.builtin.import_tasks: completion.yml
   tags:
     - takel
     - takel_takelage
     - takel_takelage_completion
 
 - name: (main) include version
-  import_tasks: version.yml
+  ansible.builtin.import_tasks: version.yml
   tags:
     - takel
     - takel_takelage

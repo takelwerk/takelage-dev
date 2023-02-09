@@ -1,8 +1,0 @@
----
-- name: (patch) patch ansible passwordstore lookup plugin
-  ansible.posix.patch:
-    remote_src: false
-    src: patch/passwordstore.py.patch
-    # yamllint disable-line rule:line-length
-    dest: /usr/local/lib/python3.9/dist-packages/ansible_collections/community/general/plugins/lookup/passwordstore.py
-  ignore_errors: true

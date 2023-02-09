@@ -2,6 +2,10 @@
 skip_list:
   - hg-latest
   - git-latest
+  - name[template]
   - no-changed-when
 exclude_paths:
-  - .hg/
+  - roles/takel_base/.hg
+  - roles/takel_gopass/.hg
+  - roles/takel_hg/.hg
+  - roles/takel_user/.hg/

@@ -1,6 +1,6 @@
 ---
 - name: (completion) create completion dir
-  file:
+  ansible.builtin.file:
     path: "{{ takel_hugo_completion_dir }}"
     state: directory
     owner: root
@@ -9,6 +9,7 @@
 
 # https://gohugo.io/commands/hugo_completion/
 - name: (completion) add hugo autocompletion
-  shell: "hugo completion bash > {{ takel_hugo_bash_completion }}"
+  ansible.builtin.shell: >-
+    hugo completion bash > {{ takel_hugo_bash_completion }}
   args:
     creates: "{{ takel_hugo_bash_completion }}"

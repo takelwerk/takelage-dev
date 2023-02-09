@@ -1,6 +1,6 @@
 ---
 - name: (version) create /etc/takelage_version file
-  copy:
+  ansible.builtin.copy:
     content: "{{ takel_takelage_version }}\n"
     dest: /etc/takelage_version
     owner: root
