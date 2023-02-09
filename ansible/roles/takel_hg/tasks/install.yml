@@ -1,24 +1,21 @@
 ---
 - name: (install) install deb packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ takel_hg_deb_install_packages }}"
     state: present
     update_cache: true
 
-- name: (install) install dulwich pip package
-  pip:
-    name: dulwich
-    state: present
+- name: (install) install pip packages
+  ansible.builtin.include_role:
+    name: takel_pip
+  vars:
+    takel_pip_packages: "{{ takel_hg_pip_packages }}"
 
-- name: (install) create hg extension dir
-  file:
-    path: "{{ takel_hg_extension_dir }}"
-    state: directory
-    owner: root
-    group: root
-    mode: 0755
-
-- name: (install) clone hg-git extension
-  hg:
-    repo: "{{ takel_hg_extension_repo_hggit }}"
-    dest: "{{ takel_hg_extension_dir }}/hg-git"
+- name: (configure) configure root user
+  ansible.builtin.include_role:
+    name: takel_user
+  vars:
+    takel_user_name: root
+    takel_user_group: root
+    takel_user_home: /root
+    takel_user_create: false
