@@ -3,4 +3,5 @@ skip_list:
   - hg-latest
   - git-latest
   - no-changed-when
-  - fqcn-builtins
+exclude_paths:
+  - .hg/

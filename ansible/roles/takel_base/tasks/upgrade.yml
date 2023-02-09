@@ -2,7 +2,7 @@
 - name: (upgrade) try apt-get update && apt-get dist-upgrade
   block:
     - name: (upgrade) apt-get update && apt-get dist-upgrade
-      apt:
+      ansible.builtin.apt:
         upgrade: dist
         update_cache: true
         cache_valid_time: 3600
@@ -15,7 +15,7 @@
       changed_when: false
 
     - name: (upgrade) apt-get update && apt-get dist-upgrade
-      apt:
+      ansible.builtin.apt:
         upgrade: dist
         update_cache: true
         cache_valid_time: 3600
