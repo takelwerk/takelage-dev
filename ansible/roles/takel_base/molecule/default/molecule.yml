@@ -9,7 +9,7 @@ lint: |
 platforms:
   - name: molecule-takel-base
     image: takelwerk/takelslim
-    ansible.builtin.command: /usr/bin/tail -f /dev/null
+    command: /usr/bin/tail -f /dev/null
     privileged: false
     pre_build_image: true
 provisioner:

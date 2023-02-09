@@ -61,6 +61,9 @@ takel_kubernetes_google_cloud_repository: >-
   takel_kubernetes_google_cloud_repository_url }} {{
   takel_kubernetes_google_cloud_repository_codename }} main
 
-arch: >-
-  {{ {'aarch64': 'arm64', 'arm64': 'arm64', 'x86_64': 'amd64'}
-  [ansible_facts['architecture']] | default('noarch') }}
+architectures:
+  aarch64: arm64
+  arm64: arm64
+  x86_64: amd64
+
+arch: "{{ architectures[ansible_facts['architecture']] | default('noarch') }}"
