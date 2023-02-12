@@ -1,0 +1,10 @@
+---
+- name: (cleanup) remove helm download file
+  ansible.builtin.file:
+    path: "{{ takel_kubernetes_helm_tmp_targz }}"
+    state: absent
+
+- name: (cleanup) remove helm download directory
+  ansible.builtin.file:
+    path: "{{ takel_kubernetes_helm_tmp_targz_dir }}"
+    state: absent

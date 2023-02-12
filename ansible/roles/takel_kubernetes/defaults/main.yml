@@ -34,8 +34,10 @@ takel_kubernetes_helm_tmp_dir: /tmp
 takel_kubernetes_helm_tmp_targz: >-
   {{ takel_kubernetes_helm_tmp_dir }}/{{
   takel_kubernetes_helm_download_file }}
+takel_kubernetes_helm_tmp_targz_dir: >-
+  {{ takel_kubernetes_helm_tmp_dir }}/linux-{{ arch }}
 takel_kubernetes_helm_tmp_bin: >-
-  {{ takel_kubernetes_helm_tmp_dir }}/linux-{{ arch }}/helm
+  {{ takel_kubernetes_helm_tmp_targz_dir }}/helm
 takel_kubernetes_helm_bin: "{{ takel_kubernetes_bin_path }}/helm"
 takel_kubernetes_helm_completion: >-
   {{ takel_kubernetes_completion_dir }}/helm
