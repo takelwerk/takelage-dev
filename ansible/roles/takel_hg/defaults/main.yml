@@ -8,6 +8,6 @@ takel_hg_hgrcd_dir: /etc/mercurial/hgrc.d
 takel_hg_pip_packages:
   - name: dulwich
     description: python git implementation
-    version: 0.21.1
+    version: 0.20.50
   - name: hg-git
     description: mercurial git plugin
