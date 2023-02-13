@@ -11,20 +11,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Create grype configuration
-        run: |
-          cat <<EOF > $HOME/.grype.yaml
-          ignore:
-            # False positive, see https://github.com/anchore/grype/issues/558
-            - vulnerability: CVE-2015-5237
-              fix-state: unknown
-              package:
-                name: google.golang.org/protobuf
-                version: v1.26.0
-                type: go-module
-                location: "/manager"
-          EOF
-
       - name: Create randmac.py
         run: |
           cat << EOF > $HOME/randmac.py
@@ -49,15 +35,6 @@ jobs:
           chpasswd: { expire: False }
           ssh_pwauth: True
           EOF
-
-      - name: Setup QEMU
-        run: |
-          cloud-localds user-data.img user-data
-          export RANDMAC=$(python3 randmac.py)
-          sudo apt-get install qemu-system-arm qemu-efi cloud-image-utils
-          cp /usr/share/AAVMF/AAVMF_CODE.fd flash1.img
-          wget http://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img
-          sudo qemu-system-aarch64 -m 1024 -cpu cortex-a57 -M virt -nographic -pflash /usr/share/AAVMF/AAVMF_CODE.fd -pflash flash1.img -drive if=none,file=jammy-server-cloudimg-arm64.img,id=hd0 -drive file=user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=tap,id=net0 -device virtio-net-device,netdev=net0,mac=$RANDMAC
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
