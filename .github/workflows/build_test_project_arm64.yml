@@ -36,7 +36,7 @@ jobs:
           ssh_pwauth: True
           EOF
 
-      - name: Create takelactions.sh
+      - name: Create takelactions
         run: |
           cat << EOF > $HOME/takelactions.sh
           # Install prerequisites
@@ -74,7 +74,7 @@ jobs:
           tau docker container command "rake dockerhub:takelbeta:push:arm64"
           EOF
 
-      - name: Setup QEMU vm
+      - name: Setup qemu vm
         run: |
           sudo apt-get --yes install cloud-image-utils qemu-system-arm qemu-efi sshpass
           cloud-localds $HOME/user-data.img $HOME/user-data
@@ -85,14 +85,13 @@ jobs:
           sudo qemu-system-aarch64 -daemonize -display none -m 1024 -cpu cortex-a57 -M virt -drive if=pflash,file=/usr/share/AAVMF/AAVMF_CODE.fd,format=raw -drive if=pflash,file=$HOME/flash1.img,format=raw -drive if=none,file=$HOME/jammy-server-cloudimg-arm64.img,id=hd0 -drive file=$HOME/user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-device,netdev=net0,mac=$RANDMAC
           until sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost true;do sleep 30; echo "Waiting for ssh..."; done
 
-      - name: Copy repository to QEMU vm
+      - name: Copy repository to qemu vm
         run: |
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new -r * ubuntu@localhost:
 
-      - name: Run takelactions.sh in QEMU vm
+      - name: Run takelactions in qemu vm
         run: |
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelactions.sh ubuntu@localhost:
-          sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/docker-secrets.sh ubuntu@localhost:
           #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
 
       - name: Setup tmate session
