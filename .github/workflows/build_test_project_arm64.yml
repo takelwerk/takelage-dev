@@ -11,10 +11,37 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
+      - name: Create randmac.py
+        run: cat << EOF > randmac.py
+             #!/usr/bin/env python3
+             import random
+             def randomMAC():
+               return [ 0x00, 0x16, 0x3e,
+               random.randint(0x00, 0x7f),
+               random.randint(0x00, 0xff),
+               random.randint(0x00, 0xff) ]
+             def MACprettyprint(mac):
+               return ':'.join(map(lambda x: "%02x" % x, mac))
+             if __name__ == '__main__':
+               print(MACprettyprint(randomMAC()))
+             EOF
+
+      - name: Create cloud init config
+        run: cat << EOF > user-data
+             #cloud-config
+             password: ubuntu
+             chpasswd: { expire: False }
+             ssh_pwauth: True
+             EOF
+
+      - name: Setup QEMU
+        run: |
+          cloud-localds user-data.img user-data
+          export RANDMAC=$(python3 randmac.py)
+          sudo apt-get install qemu-system-arm qemu-efi cloud-image-utils
+          cp /usr/share/AAVMF/AAVMF_CODE.fd flash1.img
+          wget http://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img
+          sudo qemu-system-aarch64 -m 1024 -cpu cortex-a57 -M virt -nographic -pflash /usr/share/AAVMF/AAVMF_CODE.fd -pflash flash1.img -drive if=none,file=jammy-server-cloudimg-arm64.img,id=hd0 -drive file=user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=tap,id=net0 -device virtio-net-device,netdev=net0,mac=$RANDMAC
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
