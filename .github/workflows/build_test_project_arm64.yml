@@ -48,13 +48,13 @@ jobs:
           cloud-localds $HOME/user-data.img $HOME/user-data
           export RANDMAC=$(python3 $HOME/randmac.py)
           cp /usr/share/AAVMF/AAVMF_CODE.fd $HOME/flash1.img
-          wget http://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img $HOME
-          #sudo qemu-system-aarch64 -daemonize -m 1024 -cpu cortex-a57 -M virt -nographic -pflash /usr/share/AAVMF/AAVMF_CODE.fd -pflash $HOME/flash1.img -drive if=none,file=$HOME/jammy-server-cloudimg-arm64.img,id=hd0 -drive file=$HOME/user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-device,netdev=net0,mac=$RANDMAC
+          wget http://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img -O $HOME/jammy-server-cloudimg-arm64.img
+          sudo qemu-system-aarch64 -daemonize -m 1024 -cpu cortex-a57 -M virt -nographic -pflash /usr/share/AAVMF/AAVMF_CODE.fd -pflash $HOME/flash1.img -drive if=none,file=$HOME/jammy-server-cloudimg-arm64.img,id=hd0 -drive file=$HOME/user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-device,netdev=net0,mac=$RANDMAC
 
       - name: Run takelactions.sh
         run: |
-          #sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelactions.sh ubuntu@localhost:
-          #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
+          sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelactions.sh ubuntu@localhost:
+          sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
