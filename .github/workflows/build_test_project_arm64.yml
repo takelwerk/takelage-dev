@@ -29,12 +29,21 @@ jobs:
 
       - name: Create cloud init config
         run: |
-          cat << EOF > user-data
+          cat << EOF > $HOME/user-data
           #cloud-config
           password: ubuntu
           chpasswd: { expire: False }
           ssh_pwauth: True
           EOF
+
+      - name: Setup QEMU
+        run: |
+          sudo apt-get install qemu-system-arm qemu-efi cloud-image-utils
+          cloud-localds $HOME/user-data.img $HOME/user-data
+          export RANDMAC=$(python3 randmac.py)
+          cp /usr/share/AAVMF/AAVMF_CODE.fd flash1.img
+          wget http://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-arm64.img
+          #sudo qemu-system-aarch64 -m 1024 -cpu cortex-a57 -M virt -nographic -pflash /usr/share/AAVMF/AAVMF_CODE.fd -pflash flash1.img -drive if=none,file=jammy-server-cloudimg-arm64.img,id=hd0 -drive file=$HOME/user-data.img,format=raw -device virtio-blk-device,drive=hd0 -netdev type=user,id=net0,hostfwd=tcp::2222-:22 -device virtio-net-device,netdev=net0,mac=$RANDMAC
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
