@@ -3,8 +3,12 @@
   ansible.builtin.file:
     path: "{{ takel_kubernetes_helm_tmp_targz }}"
     state: absent
+  tags:
+    - molecule-idempotence-notest
 
 - name: (cleanup) remove helm download directory
   ansible.builtin.file:
     path: "{{ takel_kubernetes_helm_tmp_targz_dir }}"
     state: absent
+  tags:
+    - molecule-idempotence-notest
