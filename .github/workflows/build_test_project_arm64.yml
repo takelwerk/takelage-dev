@@ -11,28 +11,44 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - name: Create grype configuration
+        run: |
+          cat <<EOF > $HOME/.grype.yaml
+          ignore:
+            # False positive, see https://github.com/anchore/grype/issues/558
+            - vulnerability: CVE-2015-5237
+              fix-state: unknown
+              package:
+                name: google.golang.org/protobuf
+                version: v1.26.0
+                type: go-module
+                location: "/manager"
+          EOF
+
       - name: Create randmac.py
-        run: cat << EOF > randmac.py
-             #!/usr/bin/env python3
-             import random
-             def randomMAC():
-               return [ 0x00, 0x16, 0x3e,
-               random.randint(0x00, 0x7f),
-               random.randint(0x00, 0xff),
-               random.randint(0x00, 0xff) ]
-             def MACprettyprint(mac):
-               return ':'.join(map(lambda x: "%02x" % x, mac))
-             if __name__ == '__main__':
-               print(MACprettyprint(randomMAC()))
-             EOF
+        run: |
+          cat << EOF > $HOME/randmac.py
+          #!/usr/bin/env python3
+          import random
+          def randomMAC():
+            return [ 0x00, 0x16, 0x3e,
+            random.randint(0x00, 0x7f),
+            random.randint(0x00, 0xff),
+            random.randint(0x00, 0xff) ]
+          def MACprettyprint(mac):
+            return ':'.join(map(lambda x: "%02x" % x, mac))
+          if __name__ == '__main__':
+            print(MACprettyprint(randomMAC()))
+          EOF
 
       - name: Create cloud init config
-        run: cat << EOF > user-data
-             #cloud-config
-             password: ubuntu
-             chpasswd: { expire: False }
-             ssh_pwauth: True
-             EOF
+        run: |
+          cat << EOF > user-data
+          #cloud-config
+          password: ubuntu
+          chpasswd: { expire: False }
+          ssh_pwauth: True
+          EOF
 
       - name: Setup QEMU
         run: |
