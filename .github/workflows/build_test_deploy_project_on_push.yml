@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-test-and-deploy-project:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Check out repository
