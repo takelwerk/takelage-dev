@@ -39,14 +39,39 @@ jobs:
       - name: Create takelactions.sh
         run: |
           cat << EOF > $HOME/takelactions.sh
-          # Install docker
-          sudo apt-get update
-          sudo apt-get install ca-certificates curl gnupg lsb-release
+          # Install prerequisites
           sudo mkdir -m 0755 -p /etc/apt/keyrings
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
           echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
           sudo apt-get update
-          sudo apt-get --yes install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+          sudo apt-get --yes install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin make ruby ruby-dev
+          # Install tau
+          sudo gem install takeltau
+          # Configure tau
+          echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
+          echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
+          cat $HOME/.takelage.yml
+          # Pull takelage image
+          tau update
+          # Start an instance of takelage
+          tau docker container daemon
+          # Lint ruby
+          tau docker container command "rake rubylint"
+          # Lint takelbeta
+          tau docker container command "rake images:takelbeta:molecule:lint"
+          # Test takelscripts
+          tau docker container command "rake takelscripts"
+          # Build takelage takelbeta image with packer
+          tau docker container command "rake images:takelbeta:build"
+          # Test takelage takelbeta image
+          tau docker container command "rake images:takelbeta:molecule:test"
+          # Log in to dockerhub
+          export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+          export DOCKERHUB_TOKEN=${{ secrets.DOCKERHUB_TOKEN }}
+          echo $DOCKERHUB_TOKEN | docker login --username $DOCKERHUB_USERNAME --password-stdin
+          # Tag and push image
+          tau docker container command "rake dockerhub:takelbeta:tag:arm64"
+          tau docker container command "rake dockerhub:takelbeta:push:arm64"
           EOF
 
       - name: Setup QEMU vm
@@ -67,6 +92,7 @@ jobs:
       - name: Run takelactions.sh in QEMU vm
         run: |
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelactions.sh ubuntu@localhost:
+          sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/docker-secrets.sh ubuntu@localhost:
           #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
 
       - name: Setup tmate session
