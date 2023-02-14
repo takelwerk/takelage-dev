@@ -1,14 +1,14 @@
 ---
-name: Build, test and deploy takelbeta adm64
+name: Build, test and deploy takelbeta amd64
 
 on:
   push:
-  schedule:
-    - cron: '0 0 * * *'
+  schedule: # run daily at three o'clock CET
+    - cron: '0 4 * * *'
   workflow_dispatch:  # allow manual trigger
 
 jobs:
-  build-and-test-and-deploy-takelbeta:
+  build-and-test-and-deploy-takelbeta-amd64:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -75,9 +75,3 @@ jobs:
         run: |
           tau docker container command "rake dockerhub:takelbeta:manifest:create:latest"
           tau docker container command "rake dockerhub:takelbeta:manifest:push:latest"
-
-      - name: Create and push docker version manifest if arm64 version image exists
-        run: |  
-          if tau docker container command "rake dockerhub:takelbeta:pull:version:arm64"; then do \
-          tau docker container command "rake dockerhub:takelbeta:manifest:create:version" && \
-          tau docker container command "rake dockerhub:takelbeta:manifest:push:version"; done

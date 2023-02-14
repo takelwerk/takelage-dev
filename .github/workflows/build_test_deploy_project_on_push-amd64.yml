@@ -1,17 +1,17 @@
 ---
-name: Build, test and deploy project
+name: Build, test and deploy project amd64
 
 on:
   push:
   workflow_dispatch:  # allow manual trigger
 
 jobs:
-  build-and-test-and-deploy-project:
+  build-and-test-and-deploy-project-amd64:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install mutagen
         run: |
@@ -19,9 +19,9 @@ jobs:
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1.61.1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: ruby
 
       - name: Install tau
         run: gem install takeltau
@@ -61,5 +61,22 @@ jobs:
 
       - name: Tag and push image
         run: |
-          tau docker container command "rake dockerhub:project:tag"
-          tau docker container command "rake dockerhub:project:push"
+          tau docker container command "rake dockerhub:project:tag:latest:amd64"
+          tau docker container command "rake dockerhub:project:push:latest:amd64"
+          tau docker container command "rake dockerhub:project:tag:version:amd64"
+          tau docker container command "rake dockerhub:project:push:version:amd64"
+
+      - name: Pull arm64 latest image
+        run: |
+          tau docker container command "rake dockerhub:project:pull:latest:arm64"
+
+      - name: Create and push docker latest manifest
+        run: |
+          tau docker container command "rake dockerhub:project:manifest:create:latest"
+          tau docker container command "rake dockerhub:project:manifest:push:latest"
+
+      - name: Create and push docker version manifest if arm64 version image exists
+        run: |
+          if tau docker container command "rake dockerhub:project:pull:version:arm64"; then do \
+          tau docker container command "rake dockerhub:project:manifest:create:version" && \
+          tau docker container command "rake dockerhub:project:manifest:push:version"; done
