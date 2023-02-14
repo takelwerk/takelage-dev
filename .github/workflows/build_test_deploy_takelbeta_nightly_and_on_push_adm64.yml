@@ -62,10 +62,10 @@ jobs:
 
       - name: Tag and push image
         run: |
-          tau docker container command "rake dockerhub:project:tag:latest:amd64"
-          tau docker container command "rake dockerhub:project:push:latest:amd64"
-          tau docker container command "rake dockerhub:project:tag:version:amd64"
-          tau docker container command "rake dockerhub:project:push:version:amd64"
+          tau docker container command "rake dockerhub:takelbeta:tag:latest:amd64"
+          tau docker container command "rake dockerhub:takelbeta:push:latest:amd64"
+          tau docker container command "rake dockerhub:takelbeta:tag:version:amd64"
+          tau docker container command "rake dockerhub:takelbeta:push:version:amd64"
 
       - name: Pull arm64 latest image
         run: |
@@ -73,11 +73,11 @@ jobs:
 
       - name: Create and push docker latest manifest
         run: |
-          tau docker container command "rake dockerhub:project:manifest:create:latest"
-          tau docker container command "rake dockerhub:project:manifest:push:latest"
+          tau docker container command "rake dockerhub:takelbeta:manifest:create:latest"
+          tau docker container command "rake dockerhub:takelbeta:manifest:push:latest"
 
       - name: Create and push docker version manifest if arm64 version image exists
         run: |  
-          if tau docker container command "rake dockerhub:project:pull:version:arm64"; then do \
-          tau docker container command "rake dockerhub:project:manifest:create:version" && \
-          tau docker container command "rake dockerhub:project:manifest:push:version"; done
+          if tau docker container command "rake dockerhub:takelbeta:pull:version:arm64"; then do \
+          tau docker container command "rake dockerhub:takelbeta:manifest:create:version" && \
+          tau docker container command "rake dockerhub:takelbeta:manifest:push:version"; done
