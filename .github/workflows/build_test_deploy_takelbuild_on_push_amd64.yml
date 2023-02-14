@@ -1,5 +1,5 @@
 ---
-name: Build, test and deploy takelbuild
+name: Build, test and deploy takelbuild amd64
 
 on:
   push:
@@ -11,7 +11,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install mutagen
         run: |
@@ -19,9 +19,9 @@ jobs:
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1.61.1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: ruby
 
       - name: Install tau
         run: gem install takeltau
@@ -53,7 +53,7 @@ jobs:
       - name: Build takelbuild image from intermediate image with packer
         run: tau docker container command "rake images:takelbuild:build:from:06-ruby"
 
-      - name: Test takelbuild project image
+      - name: Test takelbuild image
         run: tau docker container command "rake images:takelbuild:molecule:test"
 
       - name: Login to docker hub
@@ -64,5 +64,22 @@ jobs:
 
       - name: Tag and push image
         run: |
-          tau docker container command "rake dockerhub:takelbuild:tag"
-          tau docker container command "rake dockerhub:takelbuild:push"
+          tau docker container command "rake dockerhub:takelbuild:tag:latest:amd64"
+          tau docker container command "rake dockerhub:takelbuild:push:latest:amd64"
+          tau docker container command "rake dockerhub:takelbuild:tag:version:amd64"
+          tau docker container command "rake dockerhub:takelbuild:push:version:amd64"
+
+      - name: Pull arm64 latest image
+        run: |
+          tau docker container command "rake dockerhub:takelbuild:pull:latest:arm64"
+
+      - name: Create and push docker latest manifest
+        run: |
+          tau docker container command "rake dockerhub:takelbuild:manifest:create:latest"
+          tau docker container command "rake dockerhub:takelbuild:manifest:push:latest"
+
+      - name: Create and push docker version manifest if arm64 version image exists
+        run: |
+          if tau docker container command "rake dockerhub:takelbuild:pull:version:arm64"; then \
+          tau docker container command "rake dockerhub:takelbuild:manifest:create:version" && \
+          tau docker container command "rake dockerhub:takelbuild:manifest:push:version"; fi
