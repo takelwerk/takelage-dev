@@ -1,5 +1,5 @@
 ---
-name: Build, test and deploy takelbeta
+name: Build, test and deploy takelbeta adm64
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install mutagen
         run: |
@@ -20,9 +20,9 @@ jobs:
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
 
       - name: Set up ruby
-        uses: ruby/setup-ruby@v1.61.1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: ruby
 
       - name: Install tau
         run: gem install takeltau
@@ -62,5 +62,21 @@ jobs:
 
       - name: Tag and push image
         run: |
-          tau docker container command "rake dockerhub:takelbeta:tag:latest"
-          tau docker container command "rake dockerhub:takelbeta:push:latest"
+          tau docker container command "rake dockerhub:project:tag:latest:amd64"
+          tau docker container command "rake dockerhub:project:push:latest:amd64"
+          tau docker container command "rake dockerhub:project:tag:version:amd64"
+          tau docker container command "rake dockerhub:project:push:version:amd64"
+
+      - name: Pull arm64 latest image
+        run: |
+          tau docker container command "rake dockerhub:project:pull:latest:arm64"
+
+      - name: Create and push docker latest manifest
+        run: |
+          tau docker container command "rake dockerhub:project:manifest:create:latest"
+          tau docker container command "rake dockerhub:project:manifest:push:latest"
+
+      - name:
+          tau docker container command "rake dockerhub:project:pull:version:arm64"
+          tau docker container command "rake dockerhub:project:manifest:create:version"
+          tau docker container command "rake dockerhub:project:manifest:push:version"

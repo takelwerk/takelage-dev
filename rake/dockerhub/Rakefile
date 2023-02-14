@@ -26,12 +26,12 @@ cmd_dockerhub_push_version = \
 
 cmd_dockerhub_tag_amd64 = \
   'docker tag ' \
-  '%<local_user>s/%<local_repo>s:amd64 ' \
+  '%<local_user>s/%<local_repo>s:latest ' \
   '%<target_user>s/%<target_repo>s:amd64'
 
 cmd_dockerhub_tag_arm64 = \
   'docker tag ' \
-  '%<local_user>s/%<local_repo>s:arm64 ' \
+  '%<local_user>s/%<local_repo>s:latest ' \
   '%<target_user>s/%<target_repo>s:arm64'
 
 cmd_dockerhub_tag_custom = \
