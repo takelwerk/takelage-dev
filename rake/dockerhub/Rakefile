@@ -4,6 +4,14 @@ require 'rake'
 
 cmd_dockerhub_login = 'docker login'
 
+cmd_dockerhub_push_adm64 = \
+  'docker push ' \
+  '%<target_user>s/%<target_repo>s:amd64'
+
+cmd_dockerhub_push_arm64 = \
+  'docker push ' \
+  '%<target_user>s/%<target_repo>s:arm64'
+
 cmd_dockerhub_push_custom = \
   'docker push ' \
   '%<target_user>s/%<target_repo>s:%<target_tag>s'
@@ -15,6 +23,16 @@ cmd_dockerhub_push_latest = \
 cmd_dockerhub_push_version = \
   'docker push ' \
   '%<target_user>s/%<target_repo>s:%<version>s'
+
+cmd_dockerhub_tag_amd64 = \
+  'docker tag ' \
+  '%<local_user>s/%<local_repo>s:amd64 ' \
+  '%<target_user>s/%<target_repo>s:amd64'
+
+cmd_dockerhub_tag_arm64 = \
+  'docker tag ' \
+  '%<local_user>s/%<local_repo>s:arm64 ' \
+  '%<target_user>s/%<target_repo>s:arm64'
 
 cmd_dockerhub_tag_custom = \
   'docker tag ' \
@@ -70,6 +88,24 @@ namespace :dockerhub do
               )
             end
 
+            desc 'Push amd64 image to hub.docker.com'
+            task :amd64 do
+              @commands << format(
+                cmd_dockerhub_push_amd64,
+                target_user: target_user,
+                target_repo: target_repo
+              )
+            end
+
+            desc 'Push arm64 image to hub.docker.com'
+            task :arm64 do
+              @commands << format(
+                cmd_dockerhub_push_arm64,
+                target_user: target_user,
+                target_repo: target_repo
+              )
+            end
+
             desc 'Push version image to hub.docker.com'
             task :version do
               @commands << format(
@@ -103,6 +139,28 @@ namespace :dockerhub do
           task :latest do
             @commands << format(
               cmd_dockerhub_tag_latest,
+              local_user: local_user,
+              local_repo: local_repo,
+              target_user: target_user,
+              target_repo: target_repo
+            )
+          end
+
+          desc 'Tag amd64 image for hub.docker.com'
+          task :amd64 do
+            @commands << format(
+              cmd_dockerhub_tag_amd64,
+              local_user: local_user,
+              local_repo: local_repo,
+              target_user: target_user,
+              target_repo: target_repo
+            )
+          end
+
+          desc 'Tag arm64 image for hub.docker.com'
+          task :arm64 do
+            @commands << format(
+              cmd_dockerhub_tag_arm64,
               local_user: local_user,
               local_repo: local_repo,
               target_user: target_user,
