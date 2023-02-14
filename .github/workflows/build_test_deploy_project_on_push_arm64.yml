@@ -95,9 +95,9 @@ jobs:
           tau docker container command "rake dockerhub:project:manifest:create:latest"
           tau docker container command "rake dockerhub:project:manifest:push:latest"
           # Create and push docker version manifest if amd64 version image exists
-          if tau docker container command "rake dockerhub:project:pull:version:amd64"; then do \
+          if tau docker container command "rake dockerhub:project:pull:version:amd64"; then \
           tau docker container command "rake dockerhub:project:manifest:create:version" && \
-          tau docker container command "rake dockerhub:project:manifest:push:version"; done
+          tau docker container command "rake dockerhub:project:manifest:push:version"; fi
           EOF
 
       - name: Setup qemu vm
