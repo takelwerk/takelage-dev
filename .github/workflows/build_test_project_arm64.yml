@@ -42,6 +42,7 @@ jobs:
           cat << EOF > $HOME/takelpreps.sh
           wget -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.16.4/mutagen_linux_arm64_v0.16.4.tar.gz
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
+          mutagen daemon start
           sudo mkdir -m 0755 -p /etc/apt/keyrings
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
           echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -100,12 +101,12 @@ jobs:
       - name: Run takelpreps in qemu vm
         run: |
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelpreps.sh ubuntu@localhost:
-          #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelpreps.sh
+          sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelpreps.sh
 
       - name: Run takelactions in qemu vm
         run: |
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelactions.sh ubuntu@localhost:
-          #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
+          sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelactions.sh
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
