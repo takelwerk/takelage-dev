@@ -4,7 +4,7 @@ require 'rake'
 
 cmd_dockerhub_login = 'docker login'
 
-cmd_dockerhub_push_adm64 = \
+cmd_dockerhub_push_amd64 = \
   'docker push ' \
   '%<target_user>s/%<target_repo>s:amd64'
 
