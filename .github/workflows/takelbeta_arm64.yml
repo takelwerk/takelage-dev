@@ -1,15 +1,15 @@
 ---
-name: Build, test and deploy project arm64
+name: takelbeta arm64
 
 on:
-  push:
+  schedule: # run daily at four o'clock CET
+    - cron:  '0 5 * * *'
   workflow_dispatch: # allow manual trigger
 
 jobs:
-  build-and-test-and-deploy-project-arm64:
+  takelbeta-arm64:
     runs-on: ubuntu-latest
     timeout-minutes: 1440
-    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
         run: |
           cat << EOF > $HOME/takelprepare.sh
           #!/usr/bin/env bash
-          wget -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.16.4/mutagen_linux_arm64_v0.16.4.tar.gz
+          wget --header="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.16.4/mutagen_linux_arm64_v0.16.4.tar.gz
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
           mutagen daemon start
           sudo mkdir -m 0755 -p /etc/apt/keyrings
@@ -77,27 +77,23 @@ jobs:
           cat << EOF > $HOME/takelaction.sh
           #!/usr/bin/env bash
           # Update debian base image
-          tau docker container command "rake images:project:update"
+          tau docker container command "rake images:takelbeta:update"
           # Build image with packer
-          tau docker container command "rake images:project:build"
+          tau docker container command "rake images:takelbeta:build"
           # Test image with packer
-          tau docker container command "rake images:project:molecule:test"
+          tau docker container command "rake images:takelbeta:molecule:test"
           # Log in to dockerhub
           tau docker container command "echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin"
           # Tag and push image
-          tau docker container command "rake dockerhub:project:tag:latest:arm64"
-          tau docker container command "rake dockerhub:project:push:latest:arm64"
-          tau docker container command "rake dockerhub:project:tag:version:arm64"
-          tau docker container command "rake dockerhub:project:push:version:arm64"
+          tau docker container command "rake dockerhub:takelbeta:tag:latest:arm64"
+          tau docker container command "rake dockerhub:takelbeta:push:latest:arm64"
+          tau docker container command "rake dockerhub:takelbeta:tag:version:arm64"
+          tau docker container command "rake dockerhub:takelbeta:push:version:arm64"
           # Pull amd64 latest image
-          tau docker container command "rake dockerhub:project:pull:latest:amd64"
+          tau docker container command "rake dockerhub:takelbeta:pull:latest:amd64"
           # Create and push docker latest manifest
-          tau docker container command "rake dockerhub:project:manifest:create:latest"
-          tau docker container command "rake dockerhub:project:manifest:push:latest"
-          # Create and push docker version manifest if amd64 version image exists
-          if tau docker container command "rake dockerhub:project:pull:version:amd64"; then \
-          tau docker container command "rake dockerhub:project:manifest:create:version" && \
-          tau docker container command "rake dockerhub:project:manifest:push:version"; fi
+          tau docker container command "rake dockerhub:takelbeta:manifest:create:latest"
+          tau docker container command "rake dockerhub:takelbeta:manifest:push:latest"
           EOF
 
       - name: Setup qemu vm
