@@ -43,7 +43,7 @@ jobs:
         run: |
           cat << EOF > $HOME/takelprepare.sh
           #!/usr/bin/env bash
-          wget --header="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.16.4/mutagen_linux_arm64_v0.16.4.tar.gz
+          wget --header="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.16.5/mutagen_linux_arm64_v0.16.5.tar.gz
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
           mutagen daemon start
           sudo mkdir -m 0755 -p /etc/apt/keyrings
