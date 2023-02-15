@@ -23,7 +23,7 @@ MyCLI.start(ARGV)"""
     playbook = moleculebook.get()
     args = dict(content=thor_file_content,
                 dest=thor_file_path,
-                mode=''0755'')
+                mode='0755')
     task = dict(action=dict(module='copy',
                             args=args))
     playbook['tasks'].append(task)
