@@ -5,7 +5,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
 
 - name: (completion) download docker bash completion
   ansible.builtin.get_url:
@@ -13,4 +13,4 @@
     dest: "{{ takel_docker_bash_completion }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'

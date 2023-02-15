@@ -5,7 +5,7 @@
     dest: "{{ takel_kubernetes_google_cloud_repository_keyfile }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   when: takel_kubernetes_google_cloud_repository_install
 
 - name: (repository) add google kubernetes repo

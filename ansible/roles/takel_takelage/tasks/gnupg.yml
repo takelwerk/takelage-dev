@@ -3,11 +3,11 @@
   ansible.builtin.file:
     path: /srv/.gnupg
     state: directory
-    mode: 0644
+    mode: '0644'
 
 - name: (gnupg) copy gnupg config files for docker
   ansible.builtin.copy:
     src: "gnupg/{{ item }}"
     dest: "/srv/.gnupg/{{ item }}"
-    mode: 0644
+    mode: '0644'
   loop: "{{ takel_takelage_gpg_config_files }}"

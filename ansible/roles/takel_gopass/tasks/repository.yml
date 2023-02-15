@@ -5,7 +5,7 @@
     dest: "{{ takel_gopass_repository_keyring_path }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
 
 - name: (repository) add gopass repo
   ansible.builtin.copy:
@@ -13,4 +13,4 @@
     dest: "/etc/apt/sources.list.d/{{ takel_gopass_repository_filename }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'

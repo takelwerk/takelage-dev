@@ -5,5 +5,5 @@
     dest: /etc/takelage_version
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   when: takel_takelage_version is defined

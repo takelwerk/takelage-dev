@@ -11,7 +11,7 @@
     dest: "{{ takel_kubernetes_k3d_bin }}"
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   changed_when: false
   when: takel_kubernetes_k3d_install
 
@@ -21,7 +21,7 @@
     dest: "{{ takel_kubernetes_helm_tmp_dir }}"
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   changed_when: false
   when: takel_kubernetes_helm_install
 
@@ -39,7 +39,7 @@
     dest: "{{ takel_kubernetes_helm_bin }}"
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
     remote_src: true
   when: takel_kubernetes_helm_install
 
