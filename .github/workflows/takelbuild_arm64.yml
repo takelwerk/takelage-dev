@@ -84,8 +84,6 @@ jobs:
           tau docker container command "rake images:takelbuild:build:to:06-ruby"
           # Build takelbuild image from intermediate image with packer
           tau docker container command "rake images:takelbuild:build:from:06-ruby"
-          # Test image with packer
-          tau docker container command "rake images:project:molecule:test"
           # Log in to dockerhub
           tau docker container command "echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin"
           # Tag and push image

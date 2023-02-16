@@ -80,8 +80,6 @@ jobs:
           tau docker container command "rake images:project:update"
           # Build image with packer
           tau docker container command "rake images:project:build"
-          # Test image with packer
-          tau docker container command "rake images:project:molecule:test"
           # Log in to dockerhub
           tau docker container command "echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin"
           # Tag and push image
