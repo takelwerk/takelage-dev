@@ -124,5 +124,5 @@ jobs:
           sshpass -p ubuntu scp -P 2222 -o StrictHostKeyChecking=accept-new $HOME/takelaction.sh ubuntu@localhost:
           #sshpass -p ubuntu ssh -p 2222 -o StrictHostKeyChecking=accept-new ubuntu@localhost sh takelaction.sh
 
-      - name: Setup tmate session
+      - name: Setup tmate session for takelage
         uses: mxschmitt/action-tmate@v3
