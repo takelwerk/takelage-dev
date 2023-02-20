@@ -2,17 +2,72 @@
 
 require 'rake'
 
+# rubocop:disable Metrics/BlockLength
 namespace :project do
-  desc 'Create and deploy prod image to dockerhub'
-  task prod: %w[git:warn
-                dockerhub:login
-                rubylint
-                images:project:molecule:lint
-                takelscripts
-                images:project:update
-                images:project:build
-                images:project:molecule:test
-                git:tag
-                dockerhub:project:tag
-                dockerhub:project:push]
+  namespace :takelage do
+    desc 'Create and deploy takelage arm64 image to dockerhub'
+    task arm64: %w[git:warn
+                   dockerhub:login
+                   rubylint
+                   images:project:molecule:lint
+                   takelscripts
+                   images:project:update
+                   images:project:build
+                   images:project:molecule:test
+                   git:tag
+                   dockerhub:project:tag:latest:arm64
+                   dockerhub:project:push:latest:arm64
+                   dockerhub:project:tag:version:arm64
+                   dockerhub:project:push:version:arm64
+                   dockerhub:project:pull:latest:amd64
+                   dockerhub:project:pull:version:amd64
+                   dockerhub:project:manifest:create:latest
+                   dockerhub:project:manifest:push:latest
+                   dockerhub:project:manifest:create:version
+                   dockerhub:project:manifest:push:version]
+  end
+  namespace :takelbuild do
+    desc 'Create and deploy takelbuild arm64 image to dockerhub'
+    task arm64: %w[git:warn
+                   dockerhub:login
+                   rubylint
+                   images:takelbuild:molecule:lint
+                   takelscripts
+                   images:takelbuild:update
+                   images:takelbuild:build:to:06-ruby
+                   images:takelbuild:build:from:06-ruby
+                   images:takelbuild:molecule:test
+                   git:tag
+                   dockerhub:takelbuild:tag:latest:arm64
+                   dockerhub:takelbuild:push:latest:arm64
+                   dockerhub:takelbuild:tag:version:arm64
+                   dockerhub:takelbuild:push:version:arm64
+                   dockerhub:takelbuild:pull:latest:amd64
+                   dockerhub:takelbuild:pull:version:amd64
+                   dockerhub:takelbuild:manifest:create:latest
+                   dockerhub:takelbuild:manifest:push:latest
+                   dockerhub:takelbuild:manifest:create:version
+                   dockerhub:takelbuild:manifest:push:version]
+  end
+  namespace :takelbeta do
+    desc 'Create takelbeta arm64 image ans and deploy it to dockerhub'
+    task arm64: %w[dockerhub:login
+                   rubylint
+                   images:takelbeta:molecule:lint
+                   takelscripts
+                   images:takelbeta:update
+                   images:takelbeta:build
+                   images:takelbeta:molecule:test
+                   dockerhub:takelbeta:tag:latest:arm64
+                   dockerhub:takelbeta:push:latest:arm64
+                   dockerhub:takelbeta:tag:version:arm64
+                   dockerhub:takelbeta:push:version:arm64
+                   dockerhub:takelbeta:pull:latest:amd64
+                   dockerhub:takelbeta:pull:version:amd64
+                   dockerhub:takelbeta:manifest:create:latest
+                   dockerhub:takelbeta:manifest:push:latest
+                   dockerhub:takelbeta:manifest:create:version
+                   dockerhub:takelbeta:manifest:push:version]
+  end
 end
+# rubocop:enable Metrics/BlockLength
