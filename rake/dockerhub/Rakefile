@@ -247,90 +247,90 @@ namespace :dockerhub do
             end
           end
         end
-      end
 
-      namespace :tag do
-        namespace :latest do
-          desc 'Tag latest amd64 image for hub.docker.com'
-          task :amd64 do
-            @commands << format(
-              cmd_dockerhub_tag_latest,
-              local_user: local_user,
-              local_repo: local_repo,
-              target_user: target_user,
-              target_repo: target_repo,
-              target_arch: 'amd64'
-            )
-          end
-
-          desc 'Tag latest arm64 image for hub.docker.com'
-          task :arm64 do
-            @commands << format(
-              cmd_dockerhub_tag_latest,
-              local_user: local_user,
-              local_repo: local_repo,
-              target_user: target_user,
-              target_repo: target_repo,
-              target_arch: 'arm64'
-            )
-          end
-        end
-
-        namespace :version do
-          desc 'Tag version amd64 image for hub.docker.com'
-          task :amd64 do
-            @commands << format(
-              cmd_dockerhub_tag_version,
-              local_user: @project['local_user'],
-              local_repo: local_repo,
-              target_user: target_user,
-              target_repo: target_repo,
-              version: version,
-              target_arch: 'amd64'
-            )
-          end
-
-          desc 'Tag version arm64 image for hub.docker.com'
-          task :arm64 do
-            @commands << format(
-              cmd_dockerhub_tag_version,
-              local_user: @project['local_user'],
-              local_repo: local_repo,
-              target_user: target_user,
-              target_repo: target_repo,
-              version: version,
-              target_arch: 'arm64'
-            )
-          end
-        end
-
-        if @project['images'][image].key?('target_tag')
-          target_tag = @project['images'][image]['target_tag']
-          namespace :custom do
-            desc 'Tag custom amd64 image for hub.docker.com'
+        namespace :tag do
+          namespace :latest do
+            desc 'Tag latest amd64 image for hub.docker.com'
             task :amd64 do
               @commands << format(
-                cmd_dockerhub_tag_custom,
-                local_user: @project['local_user'],
+                cmd_dockerhub_tag_latest,
+                local_user: local_user,
                 local_repo: local_repo,
                 target_user: target_user,
                 target_repo: target_repo,
-                target_tag: target_tag,
                 target_arch: 'amd64'
               )
             end
 
-            desc 'Tag custom arm64 image for hub.docker.com'
+            desc 'Tag latest arm64 image for hub.docker.com'
             task :arm64 do
               @commands << format(
-                cmd_dockerhub_tag_custom,
-                local_user: @project['local_user'],
+                cmd_dockerhub_tag_latest,
+                local_user: local_user,
                 local_repo: local_repo,
                 target_user: target_user,
                 target_repo: target_repo,
-                target_tag: target_tag,
                 target_arch: 'arm64'
               )
+            end
+          end
+
+          namespace :version do
+            desc 'Tag version amd64 image for hub.docker.com'
+            task :amd64 do
+              @commands << format(
+                cmd_dockerhub_tag_version,
+                local_user: local_user,
+                local_repo: local_repo,
+                target_user: target_user,
+                target_repo: target_repo,
+                version: version,
+                target_arch: 'amd64'
+              )
+            end
+
+            desc 'Tag version arm64 image for hub.docker.com'
+            task :arm64 do
+              @commands << format(
+                cmd_dockerhub_tag_version,
+                local_user: local_user,
+                local_repo: local_repo,
+                target_user: target_user,
+                target_repo: target_repo,
+                version: version,
+                target_arch: 'arm64'
+              )
+            end
+          end
+
+          if @project['images'][image].key?('target_tag')
+            target_tag = @project['images'][image]['target_tag']
+            namespace :custom do
+              desc 'Tag custom amd64 image for hub.docker.com'
+              task :amd64 do
+                @commands << format(
+                  cmd_dockerhub_tag_custom,
+                  local_user: local_user,
+                  local_repo: local_repo,
+                  target_user: target_user,
+                  target_repo: target_repo,
+                  target_tag: target_tag,
+                  target_arch: 'amd64'
+                )
+              end
+
+              desc 'Tag custom arm64 image for hub.docker.com'
+              task :arm64 do
+                @commands << format(
+                  cmd_dockerhub_tag_custom,
+                  local_user: local_user,
+                  local_repo: local_repo,
+                  target_user: target_user,
+                  target_repo: target_repo,
+                  target_tag: target_tag,
+                  target_arch: 'arm64'
+                )
+              end
             end
           end
         end
