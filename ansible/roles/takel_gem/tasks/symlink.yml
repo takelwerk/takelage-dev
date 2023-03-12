@@ -1,21 +1,21 @@
 ---
 - name: (symlink) create folder
-  file:
+  ansible.builtin.file:
     path: "{{ item['src'] }}"
     state: directory
   loop: "{{ takel_gem_symlinks }}"
   tags:
-    - docker
+    - takel
     - takel_gem
     - docker_takel_gem_symlink
 
 - name: (symlink) create symlinks
-  file:
+  ansible.builtin.file:
     src: "{{ item['src'] }}"
     dest: "{{ item['dest'] }}"
     state: link
   loop: "{{ takel_gem_symlinks }}"
   tags:
-    - docker
+    - takel
     - takel_gem
     - docker_takel_gem_symlink
