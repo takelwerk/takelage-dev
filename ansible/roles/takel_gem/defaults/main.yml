@@ -4,3 +4,7 @@ takel_gem_gems: []
 takel_gem_profile:
   - file: gem.sh
     order: 20
+
+takel_gem_symlinks:
+  - dest: /usr/bin/mkdir
+    src: /bin/mkdir
