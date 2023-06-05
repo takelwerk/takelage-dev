@@ -8,15 +8,14 @@ namespace :project do
     desc 'Create and deploy takelage arm64 image to dockerhub'
     task arm64: %w[git:warn
                    rubylint
-                   images:project:molecule:lint
                    takelscripts
                    images:project:update
                    images:project:build
                    images:project:molecule:test
                    git:tag
                    dockerhub:project:tag:latest:arm64
-                   dockerhub:project:push:latest:arm64
                    dockerhub:project:tag:version:arm64
+                   dockerhub:project:push:latest:arm64
                    dockerhub:project:push:version:arm64
                    dockerhub:project:pull:latest:amd64
                    dockerhub:project:pull:version:amd64
@@ -29,7 +28,6 @@ namespace :project do
     desc 'Create and deploy takelbuild arm64 image to dockerhub'
     task arm64: %w[git:warn
                    rubylint
-                   images:takelbuild:molecule:lint
                    takelscripts
                    images:takelbuild:update
                    images:takelbuild:build:to:06-ruby
@@ -37,8 +35,8 @@ namespace :project do
                    images:takelbuild:molecule:test
                    git:tag
                    dockerhub:takelbuild:tag:latest:arm64
-                   dockerhub:takelbuild:push:latest:arm64
                    dockerhub:takelbuild:tag:version:arm64
+                   dockerhub:takelbuild:push:latest:arm64
                    dockerhub:takelbuild:push:version:arm64
                    dockerhub:takelbuild:pull:latest:amd64
                    dockerhub:takelbuild:pull:version:amd64
@@ -50,14 +48,13 @@ namespace :project do
   namespace :takelbeta do
     desc 'Create takelbeta arm64 image ans and deploy it to dockerhub'
     task arm64: %w[rubylint
-                   images:takelbeta:molecule:lint
                    takelscripts
                    images:takelbeta:update
                    images:takelbeta:build
                    images:takelbeta:molecule:test
                    dockerhub:takelbeta:tag:latest:arm64
-                   dockerhub:takelbeta:push:latest:arm64
                    dockerhub:takelbeta:tag:version:arm64
+                   dockerhub:takelbeta:push:latest:arm64
                    dockerhub:takelbeta:push:version:arm64
                    dockerhub:takelbeta:pull:latest:amd64
                    dockerhub:takelbeta:pull:version:amd64

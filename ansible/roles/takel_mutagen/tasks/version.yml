@@ -14,9 +14,9 @@
     user: mutagen-io
     repo: mutagen
     action: latest_release
-  register: latest_version
+  register: takel_mutagen_latest_version
 
 - name: (version) extract version
   ansible.builtin.set_fact:
     # yamllint disable-line rule:line-length
-    takel_mutagen_mutagen_version: "{{ latest_version.tag | split('v') | last }}"
+    takel_mutagen_mutagen_version: "{{ takel_mutagen_latest_version.tag | split('v') | last }}"

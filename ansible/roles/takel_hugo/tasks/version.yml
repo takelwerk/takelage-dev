@@ -14,8 +14,9 @@
     user: gohugoio
     repo: hugo
     action: latest_release
-  register: latest_version
+  register: takel_hugo_latest_version
 
 - name: (version) extract version
   ansible.builtin.set_fact:
-    takel_hugo_hugo_version: "{{ latest_version.tag | split('v') | last }}"
+    takel_hugo_hugo_version: >-
+      {{ takel_hugo_latest_version.tag | split('v') | last }}
