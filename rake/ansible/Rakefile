@@ -92,7 +92,7 @@ namespace :ansible do
           )
         end
       end
-      desc "Run molecule lint"
+      desc 'Run molecule lint'
       task 'lint' do
         @commands << cmd_ansible_molecule_project_lint
       end
