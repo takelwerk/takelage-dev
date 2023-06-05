@@ -12,7 +12,7 @@
 - name: (install) install pip packages into venv
   ansible.builtin.pip:
     name: "{{ item.name }}"
-    state: present
+    state: forcereinstall
     version: "{{ item.version | default(omit) }}"
     virtualenv: "{{ takel_pip_venv_path }}"
     virtualenv_python: >-

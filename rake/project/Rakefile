@@ -8,6 +8,7 @@ namespace :project do
     desc 'Create and deploy takelage arm64 image to dockerhub'
     task arm64: %w[git:warn
                    rubylint
+                   images:project:molecule:lint
                    takelscripts
                    images:project:update
                    images:project:build
@@ -28,6 +29,7 @@ namespace :project do
     desc 'Create and deploy takelbuild arm64 image to dockerhub'
     task arm64: %w[git:warn
                    rubylint
+                   images:takelbuild:molecule:lint
                    takelscripts
                    images:takelbuild:update
                    images:takelbuild:build:to:06-ruby
@@ -48,6 +50,7 @@ namespace :project do
   namespace :takelbeta do
     desc 'Create takelbeta arm64 image ans and deploy it to dockerhub'
     task arm64: %w[rubylint
+                   images:takelbeta:molecule:lint
                    takelscripts
                    images:takelbeta:update
                    images:takelbeta:build

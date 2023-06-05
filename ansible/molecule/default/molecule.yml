@@ -49,7 +49,7 @@ scenario:
   destroy_sequence:
     - destroy
   test_sequence:
-    - lint
+    # - lint
     - destroy
     - syntax
     - create
