@@ -12,6 +12,7 @@ takel_kubernetes_google_cloud_repository_install: true
 takel_kubernetes_deb_install_packages:
   - apt-transport-https
   - ca-certificates
+  - curl
 takel_kubernetes_bin_path: /usr/local/bin
 takel_kubernetes_completion_dir: /etc/bash_completion.d
 
@@ -51,6 +52,8 @@ takel_kubernetes_kubectl_completion: >-
 # google kubernetes repo
 takel_kubernetes_google_cloud_repository_key:
   https://packages.cloud.google.com/apt/doc/apt-key.gpg
+takel_kubernetes_google_cloud_repository_keyfile_tmp:
+  /tmp/kubernetes-archive-keyring.gpg.asc
 takel_kubernetes_google_cloud_repository_keyfile:
   /usr/share/keyrings/kubernetes-archive-keyring.gpg
 takel_kubernetes_google_cloud_repository_filename: kubernetes

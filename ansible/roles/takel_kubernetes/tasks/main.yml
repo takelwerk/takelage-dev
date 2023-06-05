@@ -12,6 +12,7 @@
     - takel
     - takel_kubernetes
     - takel_kubernetes_repository
+  when: takel_kubernetes_google_cloud_repository_install
 
 - name: (main) include install
   ansible.builtin.import_tasks: install.yml

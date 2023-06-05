@@ -1,15 +1,23 @@
 ---
-- name: (repository) add google cloud key
+- name: (repository) download google cloud key
   ansible.builtin.get_url:
     url: "{{ takel_kubernetes_google_cloud_repository_key }}"
-    dest: "{{ takel_kubernetes_google_cloud_repository_keyfile }}"
+    dest: "{{ takel_kubernetes_google_cloud_repository_keyfile_tmp }}"
     owner: root
     group: root
     mode: '0644'
-  when: takel_kubernetes_google_cloud_repository_install
+
+- name: (repository) dearmor google cloud key
+  ansible.builtin.command: >-
+    gpg --output {{ takel_kubernetes_google_cloud_repository_keyfile }}
+    --dearmor {{ takel_kubernetes_google_cloud_repository_keyfile_tmp }}
+
+- name: (repository) delete armored google cloud key
+  ansible.builtin.file:
+    path: "{{ takel_kubernetes_google_cloud_repository_keyfile_tmp }}"
+    state: absent
 
 - name: (repository) add google kubernetes repo
   ansible.builtin.apt_repository:
     repo: "{{ takel_kubernetes_google_cloud_repository }}"
     filename: "{{ takel_kubernetes_google_cloud_repository_filename }}"
-  when: takel_kubernetes_google_cloud_repository_install
