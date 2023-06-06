@@ -9,8 +9,9 @@
 
 - name: (repository) dearmor google cloud key
   ansible.builtin.command: >-
-    gpg --output {{ takel_kubernetes_google_cloud_repository_keyfile }}
-    --dearmor {{ takel_kubernetes_google_cloud_repository_keyfile_tmp }}
+    gpg --no-tty 
+    --output {{ takel_kubernetes_google_cloud_repository_keyfile }}
+    --dearmor {{ takel_kubernetes_google_cloud_repository_keyfile_tmp1 }}
 
 - name: (repository) delete armored google cloud key
   ansible.builtin.file:

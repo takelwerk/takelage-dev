@@ -49,13 +49,7 @@ namespace :project do
   end
   namespace :takelbeta do
     desc 'Create takelbeta arm64 image ans and deploy it to dockerhub'
-    task arm64: %w[rubylint
-                   images:takelbeta:molecule:lint
-                   takelscripts
-                   images:takelbeta:update
-                   images:takelbeta:build
-                   images:takelbeta:molecule:test
-                   dockerhub:takelbeta:tag:latest:arm64
+    task arm64: %w[dockerhub:takelbeta:tag:latest:arm64
                    dockerhub:takelbeta:tag:version:arm64
                    dockerhub:takelbeta:push:latest:arm64
                    dockerhub:takelbeta:push:version:arm64
