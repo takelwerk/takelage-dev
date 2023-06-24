@@ -26,10 +26,9 @@ jobs:
           ruby-version: ruby
 
       - name: Install tau
-        run: gem install takeltau
-
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+        run: |
+          gem install takeltau
+          wget https://raw.githubusercontent.com/stephan-devop/fylla/patch-1/lib/fylla/completion_generator.rb -O $(dirname $(gem which fylla))/fylla/completion_generator.rb
 
       - name: Configure tau
         run: |
