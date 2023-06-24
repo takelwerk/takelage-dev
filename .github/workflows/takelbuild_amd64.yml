@@ -35,7 +35,7 @@ jobs:
 
       - name: Pull takelage image
         #run: tau update
-        run: docker pull takelage/takelbeta:0.61.13-amd64
+        run: docker pull takelwerk/takelbeta:0.61.14-amd64
 
       - name: Start an instance of takelage
         run: tau docker container daemon
