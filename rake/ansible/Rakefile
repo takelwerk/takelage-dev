@@ -66,7 +66,10 @@ namespace :ansible do
     subtasks(env.scope.path) do
       image = @project['images']['project']
       env_command = ''
-      env_command = "TAKELAGE_PROJECT_COMMAND=#{image['command']} " if image.key?('command')
+      if image.key?('command')
+        img_cmd = image['command'].join(' ')
+        env_command = "TAKELAGE_PROJECT_COMMAND=\"#{img_cmd}\" "
+      end
 
       begin
         unique = ENV['HOSTNAME'][-11..]
