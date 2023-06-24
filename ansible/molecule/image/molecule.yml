@@ -1,11 +1,6 @@
 ---
 driver:
   name: docker
-lint: |
-  set -e
-  yamllint .
-  ansible-lint --project-dir /project
-  flake8
 platforms:
   - name: molecule-takelage-dev-test-image
     image: packer_local/takelage-dev-${TAKELAGE_PROJECT_IMG:-non}
@@ -57,7 +52,6 @@ scenario:
   destroy_sequence:
     - destroy
   test_sequence:
-    # - lint
     - destroy
     - create
     - verify
