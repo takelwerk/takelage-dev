@@ -33,7 +33,8 @@ jobs:
           cat $HOME/.takelage.yml
 
       - name: Pull takelage image
-        run: tau update
+        #run: tau update
+        run: docker pull takelage/takelbuild:0.61.14
 
       - name: Start an instance of takelage
         run: tau docker container daemon
