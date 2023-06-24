@@ -4,6 +4,7 @@ takel_pip_packages:
     description: it automation platform
   - name: ansible-lint
     description: ansible linter
+    version: 6.13.1
   - name: argcomplete
     description: autocompletion for argparse
   - name: behave
