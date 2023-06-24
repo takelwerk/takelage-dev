@@ -19,9 +19,6 @@ jobs:
           sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
           mutagen daemon start
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@
-
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
