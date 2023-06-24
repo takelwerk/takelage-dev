@@ -13,3 +13,12 @@
     takel_takelage_tau_bash_completion }}
   args:
     creates: "{{ takel_takelage_tau_bash_completion }}"
+
+- name: (completion) fix fylla (tau autocompletion library)
+  ansible.builtin.copy:
+    src: fylla/completion_generator.rb
+    # yamllint disable-line rule:line-length
+    dest: /usr/local/rvm/gems/ruby-3.0.0/gems/fylla-0.5.1/lib/fylla/completion_generator.rb
+    mode: '0644'
+    owner: root
+    group: rvm
