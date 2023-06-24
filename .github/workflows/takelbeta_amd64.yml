@@ -28,6 +28,9 @@ jobs:
       - name: Install tau
         run: gem install takeltau
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Configure tau
         run: |
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
