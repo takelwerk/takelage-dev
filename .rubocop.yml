@@ -1,0 +1,4 @@
+AllCops:
+  Exclude:
+    - '/project/ansible/roles/takel_takelage/files/fylla/completion_generator.rb'
+
