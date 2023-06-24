@@ -43,6 +43,10 @@ jobs:
       - name: Lint ruby
         run: tau docker container command "rake rubylint"
 
+      - name: pip list
+        run: |
+          pip list | grep ansible
+          
       - name: Lint takelbeta
         run: tau docker container command "rake images:takelbeta:molecule:lint"
 
