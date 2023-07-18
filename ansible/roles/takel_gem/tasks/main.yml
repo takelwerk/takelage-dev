@@ -1,11 +1,4 @@
 ---
-- name: (main) include symlink
-  ansible.builtin.import_tasks: symlink.yml
-  tags:
-    - takel
-    - takel_gem
-    - takel_gem_symlink
-
 - name: (main) include install
   ansible.builtin.import_tasks: install.yml
   tags:

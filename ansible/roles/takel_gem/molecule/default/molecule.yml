@@ -3,7 +3,7 @@ driver:
   name: docker
 platforms:
   - name: molecule-takel-gem
-    image: takelwerk/takelruby
+    image: takelwerk/takelslim
     command: /usr/bin/tail -f /dev/null
     privileged: false
     pre_build_image: true

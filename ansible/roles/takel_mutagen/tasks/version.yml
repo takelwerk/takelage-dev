@@ -8,6 +8,7 @@
 - name: (version) install github3.py
   ansible.builtin.pip:
     name: github3.py
+    extra_args: --break-system-packages
 
 - name: (version) get latest release of mutagen
   community.general.github_release:

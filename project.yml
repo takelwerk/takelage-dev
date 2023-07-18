@@ -1,13 +1,13 @@
 ---
 name: takelage-dev
-version: 0.62.8
+version: 0.63.0
 
 local_user: packer_local
 
 images:
   project:
     base_user: takelwerk
-    base_repo: takelruby
+    base_repo: takelslim
     base_tag: latest
     target_user: takelwerk
     target_repo: takelage
@@ -15,7 +15,7 @@ images:
       - site
   takelbeta:
     base_user: takelwerk
-    base_repo: takelruby
+    base_repo: takelslim
     base_tag: latest
     target_user: takelwerk
     target_repo: takelbeta
@@ -23,7 +23,7 @@ images:
       - site
   takelbuild:
     base_user: takelwerk
-    base_repo: takelruby
+    base_repo: takelslim
     base_tag: latest
     target_user: takelwerk
     target_repo: takelbuild

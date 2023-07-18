@@ -9,7 +9,7 @@
 
 - name: (completion) generate tau bash autocompletion
   ansible.builtin.shell: >-
-    /usr/local/rvm/wrappers/default/tau completion bash > {{
+    /usr/local/bin/tau completion bash > {{
     takel_takelage_tau_bash_completion }}
   args:
     creates: "{{ takel_takelage_tau_bash_completion }}"

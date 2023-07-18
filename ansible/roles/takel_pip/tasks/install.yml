@@ -6,7 +6,7 @@
     update_cache: true
 
 - name: (install) upgrade pip3
-  ansible.builtin.command: "pip3 install --upgrade pip"
+  ansible.builtin.command: "pip3 install --upgrade pip --break-system-packages"
   changed_when: false
 
 - name: (install) install pip packages into venv
@@ -27,5 +27,6 @@
     name: "{{ item.name }}"
     state: present
     version: "{{ item.version | default(omit) }}"
+    extra_args: --break-system-packages
   when: takel_pip_venv_path is undefined
   loop: "{{ takel_pip_packages }}"
