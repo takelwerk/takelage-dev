@@ -12,6 +12,13 @@ provisioner:
   config_options:
     defaults:
       interpreter_python: auto_silent
+  inventory:
+    group_vars:
+      all:
+        takel_pip_packages:
+          - name: ansible-lint
+            description: ansible linter
+            version: 6.13.1
 verifier:
   name: testinfra
   options:

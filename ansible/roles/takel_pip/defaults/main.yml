@@ -2,8 +2,3 @@
 takel_pip_deb_install_packages:
   - python3-pip
   - virtualenv
-
-takel_pip_packages:
-  - name: pytest
-    version: 5.4.1
-    description: python testing framework
