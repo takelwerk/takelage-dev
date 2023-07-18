@@ -24,6 +24,25 @@ namespace :project do
                    dockerhub:project:manifest:push:latest
                    dockerhub:project:manifest:create:version
                    dockerhub:project:manifest:push:version]
+    desc 'Create and deploy takelage amd64 image to dockerhub'
+    task amd64: %w[git:warn
+                   rubylint
+                   images:project:molecule:lint
+                   takelscripts
+                   images:project:update
+                   images:project:build
+                   images:project:molecule:test
+                   git:tag
+                   dockerhub:project:tag:latest:amd64
+                   dockerhub:project:tag:version:amd64
+                   dockerhub:project:push:latest:amd64
+                   dockerhub:project:push:version:amd64
+                   dockerhub:project:pull:latest:arm64
+                   dockerhub:project:pull:version:arm64
+                   dockerhub:project:manifest:create:latest
+                   dockerhub:project:manifest:push:latest
+                   dockerhub:project:manifest:create:version
+                   dockerhub:project:manifest:push:version]
   end
   namespace :takelbuild do
     desc 'Create and deploy takelbuild arm64 image to dockerhub'
@@ -46,6 +65,26 @@ namespace :project do
                    dockerhub:takelbuild:manifest:push:latest
                    dockerhub:takelbuild:manifest:create:version
                    dockerhub:takelbuild:manifest:push:version]
+    desc 'Create and deploy takelbuild amd64 image to dockerhub'
+    task amd64: %w[git:warn
+                   rubylint
+                   images:takelbuild:molecule:lint
+                   takelscripts
+                   images:takelbuild:update
+                   images:takelbuild:build:to:06-ruby
+                   images:takelbuild:build:from:06-ruby
+                   images:takelbuild:molecule:test
+                   git:tag
+                   dockerhub:takelbuild:tag:latest:amd64
+                   dockerhub:takelbuild:tag:version:amd64
+                   dockerhub:takelbuild:push:latest:amd64
+                   dockerhub:takelbuild:push:version:amd64
+                   dockerhub:takelbuild:pull:latest:arm64
+                   dockerhub:takelbuild:pull:version:arm64
+                   dockerhub:takelbuild:manifest:create:latest
+                   dockerhub:takelbuild:manifest:push:latest
+                   dockerhub:takelbuild:manifest:create:version
+                   dockerhub:takelbuild:manifest:push:version]
   end
   namespace :takelbeta do
     desc 'Create takelbeta arm64 image ans and deploy it to dockerhub'
@@ -61,6 +100,23 @@ namespace :project do
                    dockerhub:takelbeta:push:version:arm64
                    dockerhub:takelbeta:pull:latest:amd64
                    dockerhub:takelbeta:pull:version:amd64
+                   dockerhub:takelbeta:manifest:create:latest
+                   dockerhub:takelbeta:manifest:push:latest
+                   dockerhub:takelbeta:manifest:create:version
+                   dockerhub:takelbeta:manifest:push:version]
+    desc 'Create takelbeta amd64 image ans and deploy it to dockerhub'
+    task amd64: %w[rubylint
+                   images:takelbeta:molecule:lint
+                   takelscripts
+                   images:takelbeta:update
+                   images:takelbeta:build
+                   images:takelbeta:molecule:test
+                   dockerhub:takelbeta:tag:latest:amd64
+                   dockerhub:takelbeta:tag:version:amd64
+                   dockerhub:takelbeta:push:latest:amd64
+                   dockerhub:takelbeta:push:version:amd64
+                   dockerhub:takelbeta:pull:latest:arm64
+                   dockerhub:takelbeta:pull:version:arm64
                    dockerhub:takelbeta:manifest:create:latest
                    dockerhub:takelbeta:manifest:push:latest
                    dockerhub:takelbeta:manifest:create:version
