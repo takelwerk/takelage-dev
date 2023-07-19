@@ -35,9 +35,8 @@ jobs:
 
       - name: Read mutagen version
         run: |
-          MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
-          echo $MUTAGEN
-          #echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
+          # MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
+          # echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
           echo "MUTAGEN=0.17.2" >> "$GITHUB_ENV"
 
       - name: Install mutagen
