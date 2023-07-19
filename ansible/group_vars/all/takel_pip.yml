@@ -16,6 +16,8 @@ takel_pip_packages:
     description: ansible testing framework
   - name: molecule-plugins
     description: molecule drivers
+  - name: molecule-plugins[docker]
+    description: molecule docker driver dependencies
   - name: pyOpenSSL
     description: ssl library
   - name: pytest
