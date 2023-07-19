@@ -12,6 +12,8 @@ takel_pip_packages:
     description: python linter
   - name: kubeconfig
     description: kubernetes pytest plugin
+  - name: lastversion
+    description: get latest software version
   - name: molecule
     description: ansible testing framework
     version: 4.0.4
