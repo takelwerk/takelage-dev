@@ -24,10 +24,8 @@ jobs:
       - name: Configure tau
         run: |
           echo "docker_entrypoint_options: --no-git --no-gopass --no-gpg --no-ssh" >> $HOME/.takelage.yml
-          # echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
-          echo "docker_repo: takelage" >> $HOME/.takelage.yml
-          # echo "docker_tag: latest-amd64" >> $HOME/.takelage.yml
-          echo "docker_tag: 0.61.13-amd64" >> $HOME/.takelage.yml
+          echo "docker_repo: takelbuild" >> $HOME/.takelage.yml
+          echo "docker_tag: latest-amd64" >> $HOME/.takelage.yml
           cat $HOME/.takelage.yml
 
       - name: Pull takelage image
@@ -35,9 +33,8 @@ jobs:
 
       - name: Read mutagen version
         run: |
-          # MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
-          # echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
-          echo "MUTAGEN=0.17.0" >> "$GITHUB_ENV"
+          MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
+          echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
 
       - name: Install mutagen
         run: |
