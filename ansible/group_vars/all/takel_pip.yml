@@ -14,10 +14,10 @@ takel_pip_packages:
     description: kubernetes pytest plugin
   - name: molecule
     description: ansible testing framework
-  - name: molecule-plugins
-    description: molecule drivers
-  - name: molecule-plugins[docker]
-    description: molecule docker driver dependencies
+    version: 4.0.4
+  - name: molecule[docker]
+    description: molecule docker driver
+    version: 4.0.4
   - name: pyOpenSSL
     description: ssl library
   - name: pytest
