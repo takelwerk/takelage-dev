@@ -10,6 +10,7 @@ __pycache__/
 *.pyc
 .pytest_cache
 pytestdebug.log
+.rake_tasks~
 *.retry
 takelage.log
 takelage.yml
