@@ -33,12 +33,13 @@ jobs:
       - name: Pull takelage image
         run: tau update
 
-      - name: Read the mutagen version from the takelage image and store it
+      - name: Read mutagen version
         run: |
           MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
           echo $MUTAGEN
           #echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
           echo "MUTAGEN=0.17.2" >> "$GITHUB_ENV"
+
       - name: Install mutagen
         run: |
           MUTAGEN_FILE=https://github.com/mutagen-io/mutagen/releases/download/v${{ env.MUTAGEN }}/mutagen_linux_amd64_v${{ env.MUTAGEN }}.tar.gz

@@ -13,12 +13,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Install mutagen
-        run: |
-          wget --header="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -O /tmp/mutagen.tar.gz https://github.com/mutagen-io/mutagen/releases/download/v0.17.2/mutagen_linux_amd64_v0.17.2.tar.gz
-          sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
-          mutagen daemon start
-
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -37,8 +31,25 @@ jobs:
       - name: Pull takelage image
         run: tau update
 
+      - name: Read mutagen version
+        run: |
+          MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
+          echo $MUTAGEN
+          #echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
+          echo "MUTAGEN=0.17.2" >> "$GITHUB_ENV"
+
+      - name: Install mutagen
+        run: |
+          MUTAGEN_FILE=https://github.com/mutagen-io/mutagen/releases/download/v${{ env.MUTAGEN }}/mutagen_linux_amd64_v${{ env.MUTAGEN }}.tar.gz
+          wget --header="Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -O /tmp/mutagen.tar.gz $MUTAGEN_FILE
+          sudo tar xvfz /tmp/mutagen.tar.gz -C /usr/local/bin
+          mutagen daemon start
+
       - name: Start an instance of takelage
         run: tau docker container daemon
+
+      - name: Install lastversion
+        run: tau docker container command "sudo pip install lastversion --break-system-packages"
 
       - name: Lint ruby
         run: tau docker container command "rake rubylint"
