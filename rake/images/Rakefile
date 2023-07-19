@@ -27,6 +27,7 @@ cmd_images_molecule = \
   "'cd ansible && molecule %<job>s --scenario-name image'"
 
 cmd_images_packer =
+  'MUTAGEN=$(lastversion https://github.com/mutagen-io/mutagen) && ' \
   'cd packer && ' \
   'packer build ' \
   "-var='ansible_playbook=%<playbook>s' " \
@@ -35,7 +36,7 @@ cmd_images_packer =
   "-var='base_user=%<base_user>s' " \
   "-var='base_tag=%<base_tag>s' " \
   "-var='local_user=%<local_user>s' " \
-  "-var='mutagen=%<mutagen>s' " \
+  '-var="mutagen=$MUTAGEN" ' \
   "-var='target_repo=%<target_repo>s' " \
   "-var='packer_template_dir='%<packer_template_dir>s'' " \
   '%<var_privileged>s' \
@@ -55,7 +56,6 @@ jobs = \
 # rubocop:disable Metrics/BlockLength
 namespace :images do
   name = @project['name']
-  mutagen = `lastversion https://github.com/mutagen-io/mutagen`.strip
   images = @project['images']
   images.each do |project_image|
     image = project_image.first
@@ -186,7 +186,6 @@ namespace :images do
                   base_user: base_user,
                   base_tag: base_tag,
                   local_user: @project['local_user'],
-                  mutagen: mutagen,
                   packer_template_dir: packer_template_dir,
                   var_privileged: var_privileged,
                   var_packer_command: var_packer_command,
