@@ -4,10 +4,8 @@ takel_pip_packages:
     description: it automation platform
   - name: ansible-lint
     description: ansible linter
-    version: 6.15.0
   - name: ansible-compat
     description: temporary ansible compatibility package
-    version: 3.0.2
   - name: argcomplete
     description: autocompletion for argparse
   - name: behave
@@ -20,10 +18,8 @@ takel_pip_packages:
     description: get latest software version
   - name: molecule
     description: ansible testing framework
-    version: 4.0.4
-  - name: molecule[docker]
+  - name: molecule-plugins[docker]
     description: molecule docker driver
-    version: 4.0.4
   - name: pyOpenSSL
     description: ssl library
   - name: pytest
