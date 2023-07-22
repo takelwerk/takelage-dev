@@ -3,7 +3,7 @@ takel_pip_packages:
   - name: ansible
     description: it automation platform
     version: 7.7.0
-    skip_version_test: true
+    skip_version_check: true
   - name: ansible-lint
     description: ansible linter
   - name: ansible-compat
