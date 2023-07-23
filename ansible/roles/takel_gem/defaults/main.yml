@@ -1,5 +1,6 @@
 ---
 takel_gem_deb_install_packages:
+  - build-essential
   - ruby
   - ruby-dev
 
