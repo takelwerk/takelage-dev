@@ -95,7 +95,7 @@ build-takelage:
     - tau docker container command "rake rubylint"
 
     # Lint takelage
-    - tau docker container command "rake images:takelage:molecule:lint"
+    - tau docker container command "rake images:project:molecule:lint"
 
     # Test takelscripts
     - tau docker container command "rake takelscripts"
@@ -103,33 +103,30 @@ build-takelage:
     # Update debian base image
     - tau docker container command "rake images:project:update"
 
-    # Build takelbuild intermediate image with packer
-    - tau docker container command "rake images:takelbuild:build:to:06-ruby"
-
-    # Build takelbuild image from intermediate image with packer
-    - tau docker container command "rake images:takelbuild:build:from:06-ruby"
+    # Build image with packer
+    - tau docker container command "rake images:project:build"
 
     # Test takelage takelage image
-    - tau docker container command "rake images:takelage:molecule:test"
+    - tau docker container command "rake images:project:molecule:test"
 
     # Login to dockerhub
     - tau docker container command "docker login --username takelwerk --password $DOCKERHUB_TOKEN"
 
     # Tag and push image
-    - tau docker container command "rake dockerhub:takelage:tag:latest:arm64"
-    - tau docker container command "rake dockerhub:takelage:push:latest:arm64"
-    - tau docker container command "rake dockerhub:takelage:tag:version:arm64"
-    - tau docker container command "rake dockerhub:takelage:push:version:arm64"
+    - tau docker container command "rake dockerhub:project:tag:latest:arm64"
+    - tau docker container command "rake dockerhub:project:push:latest:arm64"
+    - tau docker container command "rake dockerhub:project:tag:version:arm64"
+    - tau docker container command "rake dockerhub:project:push:version:arm64"
 
     # Pull amd64 images
-    - tau docker container command "rake dockerhub:takelage:pull:latest:amd64"
-    - tau docker container command "rake dockerhub:takelage:pull:version:amd64"
+    - tau docker container command "rake dockerhub:project:pull:latest:amd64"
+    - tau docker container command "rake dockerhub:project:pull:version:amd64"
 
     # Create and push docker manifests
-    - tau docker container command "rake dockerhub:takelage:manifest:create:latest"
-    - tau docker container command "rake dockerhub:takelage:manifest:push:latest"
-    - tau docker container command "rake dockerhub:takelage:manifest:create:version"
-    - tau docker container command "rake dockerhub:takelage:manifest:push:version"
+    - tau docker container command "rake dockerhub:project:manifest:create:latest"
+    - tau docker container command "rake dockerhub:project:manifest:push:latest"
+    - tau docker container command "rake dockerhub:project:manifest:create:version"
+    - tau docker container command "rake dockerhub:project:manifest:push:version"
 
 build-takelbuild:
   stage: build
@@ -149,8 +146,11 @@ build-takelbuild:
     # Update debian base image
     - tau docker container command "rake images:project:update"
 
-    # Build image with packer
-    - tau docker container command "rake images:takelbuild:build"
+    # Build takelbuild intermediate image with packer
+    - tau docker container command "rake images:takelbuild:build:to:06-ruby"
+
+    # Build takelbuild image from intermediate image with packer
+    - tau docker container command "rake images:takelbuild:build:from:06-ruby"
 
     # Test takelbuild takelbuild image
     - tau docker container command "rake images:takelbuild:molecule:test"
