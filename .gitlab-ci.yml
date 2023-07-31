@@ -46,7 +46,7 @@ build-takelbeta:
   stage: build
   script:
     # Initialize takelage environment
-    *init
+    - *init
 
     # Lint ruby
     - tau docker container command "rake rubylint"
@@ -89,7 +89,7 @@ build-takelage:
   stage: build
   script:
     # Initialize takelage environment
-    *init
+    - *init
 
     # Lint ruby
     - tau docker container command "rake rubylint"
@@ -132,7 +132,7 @@ build-takelbuild:
   stage: build
   script:
     # Initialize takelage environment
-    *init
+    - *init
 
     # Lint ruby
     - tau docker container command "rake rubylint"
