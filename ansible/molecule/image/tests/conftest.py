@@ -9,7 +9,7 @@ image_tag = 'testing'
 @pytest.fixture(scope='module')
 def docker_client():
     if 'DOCKER_HOST' in os.environ:
-        return = docker.from_env()
+        return docker.from_env()
     else:
         docker_sock = 'unix://var/run/docker.sock'
         return docker.DockerClient(base_url=docker_sock)
