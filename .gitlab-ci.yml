@@ -103,8 +103,11 @@ build-takelage:
     # Update debian base image
     - tau docker container command "rake images:project:update"
 
-    # Build image with packer
-    - tau docker container command "rake images:takelage:build"
+    # Build takelbuild intermediate image with packer
+    - tau docker container command "rake images:takelbuild:build:to:06-ruby"
+
+    # Build takelbuild image from intermediate image with packer
+    - tau docker container command "rake images:takelbuild:build:from:06-ruby"
 
     # Test takelage takelage image
     - tau docker container command "rake images:takelage:molecule:test"
