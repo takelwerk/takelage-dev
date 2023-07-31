@@ -16,7 +16,7 @@ def docker_client():
 
 
 @pytest.fixture()
-def image_meta_data(docker_client testvars):
+def image_meta_data(docker_client, testvars):
     image_meta = docker_client.api.inspect_image(
         testvars['molecule_yml']['platforms'][0]['image'])
     return image_meta
