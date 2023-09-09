@@ -17,7 +17,7 @@ takel_docker_deb_install_packages:
 takel_docker_ce_repository_key: >-
   https://download.docker.com/linux/debian/gpg
 takel_docker_ce_repository_filename: docker-ce
-takel_docker_ce_repository_codename: bullseye
+takel_docker_ce_repository_codename: bookworm
 takel_docker_ce_repository_url: >-
   https://download.docker.com/linux/debian
 takel_docker_ce_repository: >-

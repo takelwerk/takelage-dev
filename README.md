@@ -9,7 +9,7 @@ build, test and deploy os images.
 [Docker](https://www.docker.com) image 
 [takelwerk/takelage](http://hub.docker.com/r/takelwerk/takelage)
 which based on the official [Debian](https://www.debian.org) docker image
-[bullseye-slim](https://hub.docker.com/_/debian). 
+[stable-slim](https://hub.docker.com/_/debian). 
 It builds itself.
 
 ## Framework Versions
@@ -55,7 +55,7 @@ directory you will log in to the already running container.
 So you have one container for each project,
 but you can have many shells per project.
 
-takelage has been tested under macOS Monterey and Debian Bullseye hosts.
+takelage has been tested under macOS and Debian hosts.
 
 ## Channels
 
@@ -67,7 +67,7 @@ takelage comes in different flavors.
 `takelwerk/takelage` is based on
 [takelage-img-takelslim](https://github.com/takelwerk/takelage-img-takelslim)
 which is basically a 
-[debian:bullseye-slim](https://hub.docker.com/_/debian)
+[debian:stable-slim](https://hub.docker.com/_/debian)
 docker 
 [official image](https://docs.docker.com/docker-hub/official_images/)
 with a

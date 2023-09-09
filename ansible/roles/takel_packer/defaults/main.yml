@@ -14,7 +14,7 @@ takel_packer_deb_install_packages:
 takel_packer_ce_repository_key: >-
   https://apt.releases.hashicorp.com/gpg
 takel_packer_ce_repository_filename: hashicorp-packer
-takel_packer_ce_repository_codename: bullseye
+takel_packer_ce_repository_codename: bookworm
 takel_packer_ce_repository_url: >-
   https://apt.releases.hashicorp.com
 takel_packer_ce_repository: >-
