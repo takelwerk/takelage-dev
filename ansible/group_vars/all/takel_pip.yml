@@ -20,6 +20,8 @@ takel_pip_packages:
     description: get latest software version
   - name: molecule
     description: ansible testing framework
+    version: 5.1.0
+    skip_version_check: true
   - name: molecule-plugins[docker]
     description: molecule docker driver
   - name: pyOpenSSL
