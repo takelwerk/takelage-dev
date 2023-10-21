@@ -1,0 +1,12 @@
+---
+- name: (main) copy proxy config
+  copy:
+    content: "{{ takel_apt_proxy_config }}"
+    dest: /etc/apt/apt.conf.d/01proxy
+  notify: remove proxy
+  when: takel_apt_proxy_usage
+
+- name: (main) run apt update
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600

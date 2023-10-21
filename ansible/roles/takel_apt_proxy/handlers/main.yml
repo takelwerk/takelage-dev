@@ -1,0 +1,7 @@
+---
+- name: (handler) remove proxy
+  file:
+    path: /etc/apt/apt.conf.d/01proxy
+    state: absent
+  listen: remove proxy
+  when: takel_apt_proxy_remove
