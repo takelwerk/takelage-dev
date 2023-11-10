@@ -2,6 +2,7 @@
 
 import argparse
 import logging
+import pwd
 import re
 import subprocess
 import shlex
@@ -204,31 +205,43 @@ class EntryPoint(object):
             'added config: ssh')
         return True
 
-    def add_user(self):
+    def configure_user(self):
         self._logger.debug(
-            'creating user: {user}'.format(user=self._username))
+            'configure user: {user}'.format(user=self._username))
 
         self._mkdir_parents_(self._homedir)
-
-        result = self._create_group_(self._username, self._gid)
-        if result.returncode:
-            return False
-
         groups = 'sudo,tty,docker'
         self._logger.debug(
             'adding user to groups: {groups}'.format(
                 groups=groups))
 
-        command = [
-            'useradd',
-            '--create-home',
-            '--home-dir', str(self._homedir),
-            '--gid', str(self._gid),
-            '--uid', str(self._uid),
-            '--groups', groups,
-            '--shell', '/bin/bash',
-            '--non-unique',
-            self._username]
+        try:
+            pwd.getpwnam(self._username)
+
+            command = [
+                'usermod',
+                '--append',
+                '--home', str(self._homedir),
+                '--groups', groups,
+                '--shell', '/bin/bash',
+                self._username]
+
+        except KeyError:
+            result = self._create_group_(self._username, self._gid)
+            if result.returncode:
+                return False
+
+            command = [
+                'useradd',
+                '--create-home',
+                '--home-dir', str(self._homedir),
+                '--gid', str(self._gid),
+                '--uid', str(self._uid),
+                '--groups', groups,
+                '--non-unique',
+                '--shell', '/bin/bash',
+                self._username]
+
         result = self._run_(command)
         if result.returncode:
             return False
@@ -592,7 +605,7 @@ class EntryPoint(object):
 
 def main():
     entrypoint = EntryPoint()
-    entrypoint.add_user()
+    entrypoint.configure_user()
     entrypoint.add_mutagen()
     entrypoint.add_gopass()
     entrypoint.add_gpg()
