@@ -367,7 +367,7 @@ def test_takelscripts_entrypoint_add_ssh(
     assert expected_log in caplog.text
 
 
-def test_takelscripts_entrypoint_add_user(
+def test_takelscripts_entrypoint_configure_user(
         monkeypatch,
         caplog,
         tmp_path):
@@ -418,9 +418,9 @@ def test_takelscripts_entrypoint_add_user(
 
     entrypoint = EntryPoint()
 
-    entrypoint.add_user()
+    entrypoint.configure_user()
 
-    expected_log_user = 'creating user: testuser'
+    expected_log_user = 'configure user: testuser'
     expected_log_grouos = 'adding user to groups: sudo,tty,docker'
     expected_command_begin = \
         "['useradd', " \
@@ -429,9 +429,9 @@ def test_takelscripts_entrypoint_add_user(
     expected_command_end = \
         "'--groups', " \
         "'sudo,tty,docker', " \
+        "'--non-unique', " \
         "'--shell', " \
         "'/bin/bash', " \
-        "'--non-unique', " \
         "'testuser']"
     expected_log_done = 'created user: testuser'
 
@@ -941,7 +941,7 @@ def log_argument_symlink(x, y):
     return Namespace(returncode=0)
 
 
-def log_arguments_add_user_to_group(x, user, group):
+def log_arguments_configure_user_to_group(x, user, group):
     adduser = {'user': user, 'group': group}
     x._logger.debug(adduser)
 
