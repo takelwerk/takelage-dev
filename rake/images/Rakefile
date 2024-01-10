@@ -5,7 +5,8 @@ require 'rake'
 default_packer_template_dir = 'templates/takelage/docker'
 
 cmd_images_packer_init = 'PACKER_GITHUB_API_TOKEN=' \
-  '$(gopass show --yes --password dev/takelwerk/packer/token 2>/dev/null) ' \
+  '${PACKER_GITHUB_API_TOKEN:-$(gopass ' \
+  'show --yes --password dev/takelwerk/packer/token 2>/dev/null)} ' \
   'packer init ' \
   '/project/packer/%<packer_template_dir>s'
 
