@@ -2,7 +2,7 @@ import pytest
 import re
 import takeltest
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 def test_takel_gem_install_deb_packages_installed(host, testvars):

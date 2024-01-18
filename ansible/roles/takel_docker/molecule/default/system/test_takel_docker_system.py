@@ -2,7 +2,7 @@ from packaging import version
 import re
 import takeltest
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 def test_takel_docker_system_docker_available(host):

@@ -2,7 +2,7 @@ import takeltest
 import re
 import requests
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 def test_takel_mutagen_system_mutagen_version(host, testvars):

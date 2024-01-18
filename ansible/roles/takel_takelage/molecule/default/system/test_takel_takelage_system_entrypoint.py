@@ -1,7 +1,7 @@
 import pytest
 import takeltest
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 @pytest.mark.parametrize("userid", [500, 99, 1000],

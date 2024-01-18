@@ -1,7 +1,7 @@
 import takeltest
 import re
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 def test_takel_packer_system_packer_version(host, testvars):

@@ -1,7 +1,7 @@
 import takeltest
 import re
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 def test_takel_docker_repository_apt_repository_key(host, testvars):

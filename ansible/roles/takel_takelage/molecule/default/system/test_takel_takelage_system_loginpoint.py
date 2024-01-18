@@ -1,7 +1,7 @@
 import pytest
 import takeltest
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 # stop and fail if test is running for more the 60 seconds

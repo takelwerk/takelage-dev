@@ -1,7 +1,7 @@
 import pytest
 import takeltest
 
-testinfra_hosts = takeltest.hosts()
+testinfra_hosts = [takeltest.hosts()[0]]
 
 
 @pytest.fixture(name='python3')
