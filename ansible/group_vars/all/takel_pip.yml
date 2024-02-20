@@ -24,6 +24,8 @@ takel_pip_packages:
     skip_version_check: true
   - name: molecule-plugins[docker]
     description: molecule docker driver
+    version: 23.5.0
+    skip_version_check: true
   - name: pyOpenSSL
     description: ssl library
   - name: pytest
