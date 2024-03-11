@@ -3,4 +3,3 @@
   hosts: all
   roles:
     - takel_docker
-

@@ -7,4 +7,4 @@
     mode: 0400
     owner: root
     group: root
-  when: takel_docker_daemon_config is defined and takel_docker_daemon_config is not none # yamllint disable-line rule:line-length
+  when: takel_docker_daemon_config is defined and takel_docker_daemon_config is not none  # yamllint disable-line rule:line-length
