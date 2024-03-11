@@ -1,0 +1,10 @@
+---
+# configure docker deamon json file
+- name: (configure) copy docker daemon.json
+  ansible.builtin.template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: 0400
+    owner: root
+    group: root
+  when: takel_docker_daemon_config is defined and takel_docker_daemon_config is not none

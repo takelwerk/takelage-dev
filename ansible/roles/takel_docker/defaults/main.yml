@@ -13,6 +13,7 @@ takel_docker_deb_install_packages:
   - docker-ce-cli
   - docker-compose-plugin
 
+takel_docker_daemon_config: {}
 
 takel_docker_ce_repository_key: >-
   https://download.docker.com/linux/debian/gpg
