@@ -48,23 +48,23 @@ takel_kubernetes_kubectl_deb_install_package:
   - kubectl
 takel_kubernetes_kubectl_completion: >-
   {{ takel_kubernetes_completion_dir }}/kubectl
-
+takel_kubernetes_kubectl_version: 1.29
 # google kubernetes repo
-takel_kubernetes_google_cloud_repository_key:
-  https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+takel_kubernetes_google_cloud_repository_key: >-
+  https://pkgs.k8s.io/core:/stable:/v{{ takel_kubernetes_kubectl_version }}/deb/Release.key
 takel_kubernetes_google_cloud_repository_keyfile_tmp:
   /tmp/kubernetes-archive-keyring.gpg.asc
 takel_kubernetes_google_cloud_repository_keyfile:
   /usr/share/keyrings/kubernetes-archive-keyring.gpg
 takel_kubernetes_google_cloud_repository_filename: kubernetes
-takel_kubernetes_google_cloud_repository_codename: kubernetes-xenial
-takel_kubernetes_google_cloud_repository_url:
-  https://apt.kubernetes.io
+takel_kubernetes_google_cloud_repository_url: >-
+  https://pkgs.k8s.io/core:/stable:/v{{ takel_kubernetes_kubectl_version }}/deb/
 takel_kubernetes_google_cloud_repository: >-
+
   deb [arch={{ arch }} signed-by={{
   takel_kubernetes_google_cloud_repository_keyfile }}] {{
-  takel_kubernetes_google_cloud_repository_url }} {{
-  takel_kubernetes_google_cloud_repository_codename }} main
+  takel_kubernetes_google_cloud_repository_url }} /
 
 architectures:
   aarch64: arm64
