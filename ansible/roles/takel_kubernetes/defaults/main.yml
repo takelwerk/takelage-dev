@@ -52,16 +52,17 @@ takel_kubernetes_kubectl_version: 1.29
 # google kubernetes repo
 
 takel_kubernetes_google_cloud_repository_key: >-
-  https://pkgs.k8s.io/core:/stable:/v{{ takel_kubernetes_kubectl_version }}/deb/Release.key
+  https://pkgs.k8s.io/core:/stable:/v{{
+  takel_kubernetes_kubectl_version }}/deb/Release.key
 takel_kubernetes_google_cloud_repository_keyfile_tmp:
   /tmp/kubernetes-archive-keyring.gpg.asc
 takel_kubernetes_google_cloud_repository_keyfile:
   /usr/share/keyrings/kubernetes-archive-keyring.gpg
 takel_kubernetes_google_cloud_repository_filename: kubernetes
 takel_kubernetes_google_cloud_repository_url: >-
-  https://pkgs.k8s.io/core:/stable:/v{{ takel_kubernetes_kubectl_version }}/deb/
+  https://pkgs.k8s.io/core:/stable:/v{{
+  takel_kubernetes_kubectl_version }}/deb/
 takel_kubernetes_google_cloud_repository: >-
-
   deb [arch={{ arch }} signed-by={{
   takel_kubernetes_google_cloud_repository_keyfile }}] {{
   takel_kubernetes_google_cloud_repository_url }} /

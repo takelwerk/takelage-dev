@@ -1,6 +1,7 @@
 ---
-takel_apt_proxy_url: 
-takel_apt_proxy_usage: "{{ lookup('pipe', 'tau config') | from_yaml }}[apt_cacher_usage]"
+takel_apt_proxy_url: ''
+takel_apt_proxy_usage: >-
+  {{ lookup('pipe', 'tau config') | from_yaml }}[apt_cacher_usage]
 takel_apt_proxy_remove: true
 takel_apt_proxy_config: |
   Acquire::http { Proxy "http://{{ takel_apt_proxy_url }}"; };
