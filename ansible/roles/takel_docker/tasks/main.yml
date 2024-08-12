@@ -20,8 +20,8 @@
     - takel_docker
     - takel_docker_install
 
-- name: (main) include docker coniguration
-  ansible.builtin.import_tasks: coniguration.yml
+- name: (main) include docker configuration
+  ansible.builtin.import_tasks: configuration.yml
   tags:
     - takel
     - takel_docker

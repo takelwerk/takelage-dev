@@ -1,23 +1,10 @@
 ---
-- name: (version) install python3-pip
-  ansible.builtin.apt:
-    name: python3-pip
-    state: present
-    update_cache: true
-
-- name: (version) install github3.py
-  ansible.builtin.pip:
-    name: github3.py
-    extra_args: --break-system-packages
-
-- name: (version) get latest release of mutagen
-  community.general.github_release:
-    user: mutagen-io
-    repo: mutagen
-    action: latest_release
+- name: (version) get version
+  ansible.builtin.shell:
+    cmd: curl -s https://github.com/mutagen-io/mutagen/releases | grep mutagen_linux_ | head -1 | sed -E 's#.*/mutagen-io/mutagen/releases/download/v(.*)/mutagen_linux_.*#\1#'
   register: takel_mutagen_latest_version
+  delegate_to: localhost
 
-- name: (version) extract version
+- name: (version) set version
   ansible.builtin.set_fact:
-    # yamllint disable-line rule:line-length
-    takel_mutagen_mutagen_version: "{{ takel_mutagen_latest_version.tag | split('v') | last }}"
+    takel_mutagen_mutagen_version: "{{ takel_mutagen_latest_version.stdout }}"
