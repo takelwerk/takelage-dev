@@ -1,7 +1,7 @@
 ---
 - name: (version) get version
   ansible.builtin.shell:
-    cmd: curl -s https://github.com/mutagen-io/mutagen/releases | grep mutagen_linux_ | head -1 | sed -E 's#.*/mutagen-io/mutagen/releases/download/v(.*)/mutagen_linux_.*#\1#'
+    cmd: curl -s https://github.com/mutagen-io/mutagen/releases | grep mutagen_linux_ | head -1 | sed -E 's#.*/mutagen-io/mutagen/releases/download/v(.*)/mutagen_linux_.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_mutagen_latest_version
   delegate_to: localhost
 

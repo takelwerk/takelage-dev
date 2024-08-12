@@ -1,26 +1,25 @@
 ---
 - name: (version) get k3d version
   ansible.builtin.shell:
-    cmd: curl -s https://github.com/k3d-io/k3d/releases | grep '/k3d-io/k3d/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'
+    cmd: curl -s https://github.com/k3d-io/k3d/releases | grep '/k3d-io/k3d/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_kubernetes_k3d_latest_version
   delegate_to: localhost
 
 - name: (version) set k3d version
   ansible.builtin.set_fact:
-    takel_kubernetes_k3d_version: "{{ takel_kubernetes_k3d_latest_version.stdout }}"
+    takel_kubernetes_k3d_version: >-
+      {{ takel_kubernetes_k3d_latest_version.stdout }}
 
 - name: (version) get helm version
   ansible.builtin.shell:
-    cmd: curl -s https://github.com/k3d-io/k3d/releases | grep '/k3d-io/k3d/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'
+    cmd: curl -s https://github.com/k3d-io/k3d/releases | grep '/k3d-io/k3d/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_kubernetes_k3d_latest_version
   delegate_to: localhost
 
 - name: (version) set helm version
   ansible.builtin.set_fact:
-    takel_kubernetes_k3d_version: "{{ takel_kubernetes_k3d_latest_version.stdout }}"
-
-
-
+    takel_kubernetes_k3d_version: >-
+      {{ takel_kubernetes_k3d_latest_version.stdout }}
 
 - name: (version) install python3-pip
   ansible.builtin.apt:
