@@ -4,6 +4,8 @@
     cmd: curl -s https://github.com/k3d-io/k3d/releases | grep '/k3d-io/k3d/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_kubernetes_k3d_latest_version
   delegate_to: localhost
+  tags:
+    - molecule-idempotence-notest
 
 - name: (version) set k3d version
   ansible.builtin.set_fact:
@@ -15,6 +17,8 @@
     cmd: curl -s https://github.com/helm/helm/releases | grep '/helm/helm/releases/tag/' | head -1 | sed -E 's#.*">Helm v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_kubernetes_helm_latest_version
   delegate_to: localhost
+  tags:
+    - molecule-idempotence-notest
 
 - name: (version) set helm version
   ansible.builtin.set_fact:
