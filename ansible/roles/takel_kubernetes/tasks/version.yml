@@ -13,7 +13,7 @@
 
 - name: (version) get helm version
   ansible.builtin.shell:
-    cmd: curl -s https://github.com/helm/helm/releases | grep '/helm/helm/releases/tag/' | head -1 | sed -E 's#.*">Helm v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
+    cmd: curl -s https://github.com/helm/helm/releases | grep '/helm/helm/releases/tag/' | grep -v "\-rc" | head -1 | sed -E 's#.*">Helm v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
   register: takel_kubernetes_helm_latest_version
   delegate_to: localhost
   changed_when: false
@@ -28,44 +28,3 @@
     name: python3-pip
     state: present
     update_cache: true
-
-- name: (version) install github3.py
-  ansible.builtin.pip:
-    name: github3.py
-    extra_args: --break-system-packages
-
-- name: (version) get latest release of k3d
-  community.general.github_release:
-    user: k3d-io
-    repo: k3d
-    action: latest_release
-  register: takel_kubernetes_k3d_latest_version
-  when:
-    - takel_kubernetes_k3d_install
-    - takel_kubernetes_k3d_version == 'latest'
-
-- name: (version) extract k3d version
-  ansible.builtin.set_fact:
-    takel_kubernetes_k3d_version: >-
-      {{ takel_kubernetes_k3d_latest_version.tag | split('v') | last }}
-  when:
-    - takel_kubernetes_k3d_install
-    - takel_kubernetes_k3d_version == 'latest'
-
-- name: (version) get latest release of helm
-  community.general.github_release:
-    user: helm
-    repo: helm
-    action: latest_release
-  register: takel_kubernetes_helm_latest_version
-  when:
-    - takel_kubernetes_helm_install
-    - takel_kubernetes_helm_version == 'latest'
-
-- name: (version) extract helm version
-  ansible.builtin.set_fact:
-    takel_kubernetes_helm_version: >-
-      {{ takel_kubernetes_helm_latest_version.tag | split('v') | last }}
-  when:
-    - takel_kubernetes_helm_install
-    - takel_kubernetes_helm_version == 'latest'
