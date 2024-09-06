@@ -21,14 +21,15 @@ end
 MyCLI.start(ARGV)"""
 
     playbook = moleculebook.get()
-    args = dict(content=thor_file_content,
-                dest=thor_file_path,
-                mode='0755')
-    task = dict(action=dict(module='copy',
-                            args=args))
-    playbook['tasks'].append(task)
-    moleculebook.set(playbook)
-    moleculebook.run()
+    play = playbook[0]
+    task = {
+        'ansible.builtin.copy': {
+            'content': thor_file_content,
+            'dest': thor_file_path,
+            'mode': '0755'
+    }}
+    play['tasks'].append(task)
+    moleculebook.run([play])
 
     thor_file = host.file(thor_file_path)
 
