@@ -5,8 +5,6 @@ takel_pip_packages:
     skip_version_check: true
   - name: ansible-lint
     description: ansible linter
-  - name: ansible-compat
-    description: temporary ansible compatibility package
   - name: ansible-runner
     description: ansible python api
   - name: argcomplete
