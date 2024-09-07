@@ -27,7 +27,8 @@ MyCLI.start(ARGV)"""
             'content': thor_file_content,
             'dest': thor_file_path,
             'mode': '0755'
-    }}
+        }
+    }
     play['tasks'].append(task)
     moleculebook.run([play])
 
