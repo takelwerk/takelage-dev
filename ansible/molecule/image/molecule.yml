@@ -44,6 +44,7 @@ verifier:
     TESTVARS_ROLES_PLAYBOOKS: >-
       ${TAKELAGE_MOLECULE_VERIFIER_PLAYS:-../../playbook-site.yml}
     TESTVARS_ROLES_INCLUDE: takel_user
+    PYTEST_ADDOPTS: '--color=yes'
 scenario:
   create_sequence:
     - create
