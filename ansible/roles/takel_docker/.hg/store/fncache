@@ -19,3 +19,4 @@ data/molecule/default/tests/__pycache__/test_takel_docker_completion.cpython-39-
 data/.hgignore.i
 data/tasks/coniguration.yml.i
 data/templates/daemon.json.j2.i
+data/tasks/configuration.yml.i

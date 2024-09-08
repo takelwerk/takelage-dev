@@ -14,3 +14,8 @@ data/molecule/default/system/__pycache__/test_takel_anarchism_system.cpython-39-
 data/molecule/default/tests/__pycache__/test_takel_anarchism_install.cpython-39-pytest-6.2.5.pyc.i
 data/tasks/configure.yml.i
 data/.hgignore.i
+data/.pytest_cache/v/cache/stepwise.i
+data/.pytest_cache/.gitignore.i
+data/.pytest_cache/CACHEDIR.TAG.i
+data/.pytest_cache/v/cache/lastfailed.i
+data/.pytest_cache/README.md.i
