@@ -1,23 +1,12 @@
 ---
-- name: (version) install python3-pip
-  ansible.builtin.apt:
-    name: python3-pip
-    state: present
-    update_cache: true
+- name: (version) get hugo version
+  ansible.builtin.shell:
+    cmd: curl -s https://github.com/gohugoio/hugo/releases | grep 'gohugoio/hugo/releases/tag/' | head -1 | sed -E 's#.*">v(.*)</a>.*#\1#'  # yamllint disable-line rule:line-length
+  register: takel_hugo_hugo_latest_version
+  delegate_to: localhost
+  changed_when: false
 
-- name: (version) install github3.py
-  ansible.builtin.pip:
-    name: github3.py
-    extra_args: --break-system-packages
-
-- name: (version) get latest release of hugo
-  community.general.github_release:
-    user: gohugoio
-    repo: hugo
-    action: latest_release
-  register: takel_hugo_latest_version
-
-- name: (version) extract version
+- name: (version) set hugo version
   ansible.builtin.set_fact:
     takel_hugo_hugo_version: >-
-      {{ takel_hugo_latest_version.tag | split('v') | last }}
+      {{ takel_hugo_hugo_latest_version.stdout }}
