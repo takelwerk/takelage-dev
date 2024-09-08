@@ -10,10 +10,12 @@ variables:
   DOCKER_TLS_CERTDIR: ''  # unset means: "unencrypted"
 
 stages:
-  - build
+  - build-takelbeta
+  - build-takelage
+  - build-takelbuild
 
 build-takelbeta:
-  stage: build
+  stage: build-takelbeta
   script:
     # Link project directory
     - ln -fs $CI_PROJECT_DIR /project
@@ -56,7 +58,7 @@ build-takelbeta:
     - rake dockerhub:takelbeta:manifest:push:version
 
 build-takelage:
-  stage: build
+  stage: build-takelage
   script:
     # Link project directory
     - ln -fs $CI_PROJECT_DIR /project
@@ -99,7 +101,7 @@ build-takelage:
     - rake dockerhub:project:manifest:push:version
 
 build-takelbuild:
-  stage: build
+  stage: build-takelbuild
   script:
     # Link project directory
     - ln -fs $CI_PROJECT_DIR /project
