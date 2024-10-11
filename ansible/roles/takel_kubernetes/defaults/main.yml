@@ -28,7 +28,7 @@ takel_kubernetes_k3d_completion: >-
 # helm
 takel_kubernetes_helm_version: latest
 takel_kubernetes_helm_download_file: >-
-  helm-v{{ takel_kubernetes_helm_version }}-linux-{{ arch }}.tar.gz
+  helm-{{ takel_kubernetes_helm_version }}-linux-{{ arch }}.tar.gz
 takel_kubernetes_helm_url: >-
   https://get.helm.sh/{{ takel_kubernetes_helm_download_file }}
 takel_kubernetes_helm_tmp_dir: /tmp
