@@ -14,9 +14,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - name: Set up ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -39,6 +36,7 @@ jobs:
       - name: Read mutagen version
         run: |
           MUTAGEN=$(docker inspect --format '{{ index .Config.Labels "mutagen" }}' takelwerk/takelbuild:latest-amd64)
+          MUTAGEN="0.18.1"
           echo "MUTAGEN=$MUTAGEN" >> "$GITHUB_ENV"
 
       - name: Install mutagen
@@ -59,6 +57,9 @@ jobs:
 
       - name: Test takelscripts
         run: tau docker container command "rake takelscripts"
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Build takelage takelbeta image with packer
         run: tau docker container command "rake images:takelbeta:build"
