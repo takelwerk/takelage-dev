@@ -11,3 +11,6 @@ takel_hg_pip_packages:
     version: 0.20.50
   - name: hg-git
     description: mercurial git plugin
+    # this restriction is necessary as debian bookworm
+    # contains mercurial version 6.3.2 only
+    version: 1.1.4
