@@ -19,6 +19,7 @@
       python{{ takel_pip_venv_python_version | default('3') }}
     virtualenv_site_packages: >-
       {{ takel_pip_venv_global_site_packages | default(false) }}
+    extra_args: "--break-system-packages {{ item.extra_args | default('') }}"
   when: takel_pip_venv_path is defined
   loop: "{{ takel_pip_packages }}"
 
@@ -26,7 +27,7 @@
   ansible.builtin.pip:
     name: "{{ item.name }}"
     state: present
-    version: "{{ item.version | default(omit) }}"
-    extra_args: --break-system-packages
+    version: "{{ item.version if item.version is defined | default(omit) }}"
+    extra_args: "--break-system-packages {{ item.extra_args | default('') }}"
   when: takel_pip_venv_path is undefined
   loop: "{{ takel_pip_packages }}"

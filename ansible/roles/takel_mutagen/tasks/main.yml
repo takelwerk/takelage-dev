@@ -1,22 +1,8 @@
 ---
-- name: (main) include version
-  ansible.builtin.import_tasks: version.yml
-  when: takel_mutagen_mutagen_version == 'latest'
-  tags:
-    - takel
-    - takel_mutagen
-    - takel_mutagen_version
-
 - name: (main) include install
   ansible.builtin.import_tasks: install.yml
-  tags:
-    - takel
-    - takel_mutagen
-    - takel_mutagen_install
+  tags: always
 
 - name: (main) include completion
   ansible.builtin.import_tasks: completion.yml
-  tags:
-    - takel
-    - takel_mutagen
-    - takel_mutagen_completion
+  tags: always

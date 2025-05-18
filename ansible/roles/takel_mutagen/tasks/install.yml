@@ -5,6 +5,20 @@
     state: present
     update_cache: true
 
+- name: (install) get download url of latest mutagen version
+  ansible.builtin.shell:
+    cmd: "{{ takel_mutagen_curl_download_url }}"
+  register: takel_mutagen_download_url_curled
+  changed_when: false
+
+- name: (install) set download url
+  ansible.builtin.set_fact:
+    takel_mutagen_mutagen_url: "{{ takel_mutagen_download_url_curled.stdout }}"
+
+- name: (install) print download url
+  ansible.builtin.debug:
+    msg: "download url: {{ takel_mutagen_mutagen_url }}"
+
 - name: (install) unarchive mutagen
   ansible.builtin.unarchive:
     src: "{{ takel_mutagen_mutagen_url }}"
