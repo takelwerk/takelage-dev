@@ -7,7 +7,7 @@ takel_mutagen_deb_install_packages:
 
 takel_mutagen_mutagen_version: latest
 
-takel_mutagen_curl_download_url:
+takel_mutagen_curl_download_url: >-
   /usr/bin/curl -s https://api.github.com/repos/mutagen-io/mutagen/releases | /usr/bin/jq -r '[.[]["assets"][]] | sort_by(.name) | last(.[] | select(.name|test(".*mutagen_linux_.*arm64.*[0-9]+[.][0-9]+.[0-9]+.tar.gz$"))) | .browser_download_url'
 
 takel_mutagen_bin_path: /usr/local/bin/
