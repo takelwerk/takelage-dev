@@ -8,7 +8,7 @@
     mode: '0755'
 
 - name: (completion) create completion file
-  ansible.builtin.shell: >-
+  ansible.builtin.command: >-
     mutagen generate
     --bash-completion-script
     {{ takel_mutagen_bash_completion }}
